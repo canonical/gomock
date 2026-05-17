@@ -64,7 +64,6 @@ var (
 	writeGenerateDirective = flag.Bool("write_generate_directive", false, "Add //go:generate directive to regenerate the mock")
 	copyrightFile          = flag.String("copyright_file", "", "Copyright file used to add copyright header")
 	buildConstraint        = flag.String("build_constraint", "", "If non-empty, added as //go:build <constraint>")
-	modelGob               = flag.String("model_gob", "", "Skip package/source loading entirely and use the gob encoded model.Package at the given path")
 	excludeInterfaces      = flag.String("exclude_interfaces", "", "Comma-separated names of interfaces to be excluded")
 	debugParser            = flag.Bool("debug_parser", false, "Print out parser results only.")
 	showVersion            = flag.Bool("version", false, "Print version.")
@@ -85,29 +84,23 @@ func main() {
 	var err error
 	var packageName string
 
-	// Switch between modes
-	switch {
-	case *modelGob != "": // gob mode
-		pkg, err = gobMode(*modelGob)
-	default: // package mode
-		checkArgsPackage()
-		packageName = flag.Arg(0)
-		interfaces := strings.Split(flag.Arg(1), ",")
+	checkArgsPackage()
+	packageName = flag.Arg(0)
+	interfaces := strings.Split(flag.Arg(1), ",")
 
-		if packageName == "." {
-			dir, err := os.Getwd()
-			if err != nil {
-				log.Fatalf("Get current directory failed: %v", err)
-			}
-			packageName, err = packageNameOfDir(dir)
-			if err != nil {
-				log.Fatalf("Parse package name failed: %v", err)
-			}
-
+	if packageName == "." {
+		dir, err := os.Getwd()
+		if err != nil {
+			log.Fatalf("Get current directory failed: %v", err)
 		}
-		parser := packageModeParser{}
-		pkg, err = parser.parsePackage(packageName, interfaces)
+		packageName, err = packageNameOfDir(dir)
+		if err != nil {
+			log.Fatalf("Parse package name failed: %v", err)
+		}
+
 	}
+	parser := packageModeParser{}
+	pkg, err = parser.parsePackage(packageName, interfaces)
 
 	if err != nil {
 		log.Fatalf("Loading input failed: %v", err)
