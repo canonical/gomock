@@ -65,7 +65,6 @@ var (
 	writeGenerateDirective = flag.Bool("write_generate_directive", false, "Add //go:generate directive to regenerate the mock")
 	copyrightFile          = flag.String("copyright_file", "", "Copyright file used to add copyright header")
 	buildConstraint        = flag.String("build_constraint", "", "If non-empty, added as //go:build <constraint>")
-	typed                  = flag.Bool("typed", false, "Generate Type-safe 'Return', 'Do', 'DoAndReturn' function")
 	modelGob               = flag.String("model_gob", "", "Skip package/source loading entirely and use the gob encoded model.Package at the given path")
 	excludeInterfaces      = flag.String("exclude_interfaces", "", "Comma-separated names of interfaces to be excluded")
 	debugParser            = flag.Bool("debug_parser", false, "Print out parser results only.")
@@ -535,7 +534,7 @@ func (g *generator) GenerateMockInterface(intf *model.Interface, outputPackagePa
 	g.out()
 	g.p("}")
 
-	g.GenerateMockMethods(mockType, intf, outputPackagePath, longTp, shortTp, *typed)
+	g.GenerateMockMethods(mockType, intf, outputPackagePath, longTp, shortTp)
 
 	return nil
 }
@@ -546,17 +545,15 @@ func (b byMethodName) Len() int           { return len(b) }
 func (b byMethodName) Swap(i, j int)      { b[i], b[j] = b[j], b[i] }
 func (b byMethodName) Less(i, j int) bool { return b[i].Name < b[j].Name }
 
-func (g *generator) GenerateMockMethods(mockType string, intf *model.Interface, pkgOverride, longTp, shortTp string, typed bool) {
+func (g *generator) GenerateMockMethods(mockType string, intf *model.Interface, pkgOverride, longTp, shortTp string) {
 	sort.Sort(byMethodName(intf.Methods))
 	for _, m := range intf.Methods {
 		g.p("")
 		_ = g.GenerateMockMethod(mockType, m, pkgOverride, shortTp)
 		g.p("")
-		_ = g.GenerateMockRecorderMethod(intf, m, shortTp, typed)
-		if typed {
-			g.p("")
-			_ = g.GenerateMockReturnCallMethod(intf, m, pkgOverride, longTp, shortTp)
-		}
+		_ = g.GenerateMockRecorderMethod(intf, m, shortTp)
+		g.p("")
+		_ = g.GenerateMockReturnCallMethod(intf, m, pkgOverride, longTp, shortTp)
 	}
 }
 
@@ -640,7 +637,7 @@ func (g *generator) GenerateMockMethod(mockType string, m *model.Method, pkgOver
 	return nil
 }
 
-func (g *generator) GenerateMockRecorderMethod(intf *model.Interface, m *model.Method, shortTp string, typed bool) error {
+func (g *generator) GenerateMockRecorderMethod(intf *model.Interface, m *model.Method, shortTp string) error {
 	mockType := g.mockName(intf.Name)
 	argNames := g.getArgNames(m, true)
 
@@ -665,11 +662,7 @@ func (g *generator) GenerateMockRecorderMethod(intf *model.Interface, m *model.M
 	idRecv := ia.allocateIdentifier("mr")
 
 	g.p("// %v indicates an expected call of %v.", m.Name, m.Name)
-	if typed {
-		g.p("func (%s *%vMockRecorder%v) %v(%v) *%s%sCall%s {", idRecv, mockType, shortTp, m.Name, argString, mockType, m.Name, shortTp)
-	} else {
-		g.p("func (%s *%vMockRecorder%v) %v(%v) *gomock.Call {", idRecv, mockType, shortTp, m.Name, argString)
-	}
+	g.p("func (%s *%vMockRecorder%v) %v(%v) *%s%sCall%s {", idRecv, mockType, shortTp, m.Name, argString, mockType, m.Name, shortTp)
 
 	g.in()
 	g.p("%s.mock.ctrl.T.Helper()", idRecv)
@@ -693,12 +686,8 @@ func (g *generator) GenerateMockRecorderMethod(intf *model.Interface, m *model.M
 			callArgs = ", " + idVarArgs + "..."
 		}
 	}
-	if typed {
-		g.p(`call := %s.mock.ctrl.RecordCallWithMethodType(%s.mock, "%s", reflect.TypeOf((*%s%s)(nil).%s)%s)`, idRecv, idRecv, m.Name, mockType, shortTp, m.Name, callArgs)
-		g.p(`return &%s%sCall%s{Call: call}`, mockType, m.Name, shortTp)
-	} else {
-		g.p(`return %s.mock.ctrl.RecordCallWithMethodType(%s.mock, "%s", reflect.TypeOf((*%s%s)(nil).%s)%s)`, idRecv, idRecv, m.Name, mockType, shortTp, m.Name, callArgs)
-	}
+	g.p(`call := %s.mock.ctrl.RecordCallWithMethodType(%s.mock, "%s", reflect.TypeOf((*%s%s)(nil).%s)%s)`, idRecv, idRecv, m.Name, mockType, shortTp, m.Name, callArgs)
+	g.p(`return &%s%sCall%s{Call: call}`, mockType, m.Name, shortTp)
 
 	g.out()
 	g.p("}")
