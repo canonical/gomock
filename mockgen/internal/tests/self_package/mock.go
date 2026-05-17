@@ -42,13 +42,15 @@ func (m *MockMethods) EXPECT() *MockMethodsMockRecorder {
 // getInfo mocks base method.
 func (m *MockMethods) getInfo() Info {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "getInfo")
-	ret0, _ := ret[0].(Info)
-	return ret0
+	return gomock.Invoke1[Info](m.ctrl.Call(m, "getInfo"))
 }
 
 // getInfo indicates an expected call of getInfo.
-func (mr *MockMethodsMockRecorder) getInfo() *gomock.Call {
+func (mr *MockMethodsMockRecorder) getInfo() *MockMethodsgetInfoCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "getInfo", reflect.TypeOf((*MockMethods)(nil).getInfo))
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "getInfo", reflect.TypeOf((*MockMethods)(nil).getInfo))
+	return &MockMethodsgetInfoCall{Call: call}
 }
+
+// MockMethodsgetInfoCall is the typed call wrapper for getInfo.
+type MockMethodsgetInfoCall = gomock.Call0_1[Info]

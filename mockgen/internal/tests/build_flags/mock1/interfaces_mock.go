@@ -42,13 +42,15 @@ func (m *MockInterface) EXPECT() *MockInterfaceMockRecorder {
 // HelloWorld mocks base method.
 func (m *MockInterface) HelloWorld() string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "HelloWorld")
-	ret0, _ := ret[0].(string)
-	return ret0
+	return gomock.Invoke1[string](m.ctrl.Call(m, "HelloWorld"))
 }
 
 // HelloWorld indicates an expected call of HelloWorld.
-func (mr *MockInterfaceMockRecorder) HelloWorld() *gomock.Call {
+func (mr *MockInterfaceMockRecorder) HelloWorld() *MockInterfaceHelloWorldCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HelloWorld", reflect.TypeOf((*MockInterface)(nil).HelloWorld))
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HelloWorld", reflect.TypeOf((*MockInterface)(nil).HelloWorld))
+	return &MockInterfaceHelloWorldCall{Call: call}
 }
+
+// MockInterfaceHelloWorldCall is the typed call wrapper for HelloWorld.
+type MockInterfaceHelloWorldCall = gomock.Call0_1[string]

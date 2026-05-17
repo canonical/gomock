@@ -1,6 +1,6 @@
 package package_mode
 
-//go:generate mockgen -typed -package=mock -destination=mock/interfaces.go . Food,Eater,Animal,Human,Primate,Car,Driver,UrbanResident,Farmer,Earth
+//go:generate mockgen -package=mock -destination=mock/interfaces.go . Food,Eater,Animal,Human,Primate,Car,Driver,UrbanResident,Farmer,Earth
 
 import (
 	"time"

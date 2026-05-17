@@ -1,5 +1,5 @@
 package empty_interface
 
-//go:generate mockgen -package empty_interface -destination mock.go -source input.go
+//go:generate mockgen -package empty_interface -destination mock.go go.uber.org/mock/mockgen/internal/tests/empty_interface Empty
 
 type Empty interface{} // migrating interface{} -> any does not resolve to an interface type.

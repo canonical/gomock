@@ -1,6 +1,6 @@
 package greeter
 
-//go:generate mockgen -source greeter.go -destination greeter_mock_test.go -package greeter
+//go:generate mockgen -destination greeter_mock_test.go -package greeter go.uber.org/mock/mockgen/internal/tests/custom_package_name/greeter InputMaker
 
 import (
 	// stdlib import

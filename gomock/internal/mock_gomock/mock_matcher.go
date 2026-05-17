@@ -42,27 +42,31 @@ func (m *MockMatcher) EXPECT() *MockMatcherMockRecorder {
 // Matches mocks base method.
 func (m *MockMatcher) Matches(x any) bool {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Matches", x)
-	ret0, _ := ret[0].(bool)
-	return ret0
+	return gomock.Invoke1[bool](m.ctrl.Call(m, "Matches", x))
 }
 
 // Matches indicates an expected call of Matches.
-func (mr *MockMatcherMockRecorder) Matches(x any) *gomock.Call {
+func (mr *MockMatcherMockRecorder) Matches(x any) *MockMatcherMatchesCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Matches", reflect.TypeOf((*MockMatcher)(nil).Matches), x)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Matches", reflect.TypeOf((*MockMatcher)(nil).Matches), x)
+	return &MockMatcherMatchesCall{Call: call}
 }
+
+// MockMatcherMatchesCall is the typed call wrapper for Matches.
+type MockMatcherMatchesCall = gomock.Call1_1[any, bool]
 
 // String mocks base method.
 func (m *MockMatcher) String() string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "String")
-	ret0, _ := ret[0].(string)
-	return ret0
+	return gomock.Invoke1[string](m.ctrl.Call(m, "String"))
 }
 
 // String indicates an expected call of String.
-func (mr *MockMatcherMockRecorder) String() *gomock.Call {
+func (mr *MockMatcherMockRecorder) String() *MockMatcherStringCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "String", reflect.TypeOf((*MockMatcher)(nil).String))
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "String", reflect.TypeOf((*MockMatcher)(nil).String))
+	return &MockMatcherStringCall{Call: call}
 }
+
+// MockMatcherStringCall is the typed call wrapper for String.
+type MockMatcherStringCall = gomock.Call0_1[string]

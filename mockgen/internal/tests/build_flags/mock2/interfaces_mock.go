@@ -46,7 +46,11 @@ func (m *MockInterface) Foo() {
 }
 
 // Foo indicates an expected call of Foo.
-func (mr *MockInterfaceMockRecorder) Foo() *gomock.Call {
+func (mr *MockInterfaceMockRecorder) Foo() *MockInterfaceFooCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Foo", reflect.TypeOf((*MockInterface)(nil).Foo))
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Foo", reflect.TypeOf((*MockInterface)(nil).Foo))
+	return &MockInterfaceFooCall{Call: call}
 }
+
+// MockInterfaceFooCall is the typed call wrapper for Foo.
+type MockInterfaceFooCall = gomock.Call0_0

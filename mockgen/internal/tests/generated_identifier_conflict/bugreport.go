@@ -1,6 +1,6 @@
 package bugreport
 
-//go:generate mockgen -destination bugreport_mock.go -package bugreport -source=bugreport.go
+//go:generate mockgen -destination bugreport_mock.go -package bugreport go.uber.org/mock/mockgen/internal/tests/generated_identifier_conflict Example
 
 type Example interface {
 	// _m and _mr were used by the buggy code: the '_' prefix was there hoping

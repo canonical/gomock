@@ -45,6 +45,11 @@ import (
 
 const (
 	gomockImportPath = "go.uber.org/mock/gomock"
+
+	// maxTypedArgs and maxTypedReturns are the bounds of the pre-generated
+	// generic Call wrappers in the gomock package (see typed_calls.go).
+	maxTypedArgs    = 8
+	maxTypedReturns = 5
 )
 
 var (
@@ -263,6 +268,16 @@ func (g *generator) out() {
 	if len(g.indent) > 0 {
 		g.indent = g.indent[0 : len(g.indent)-1]
 	}
+}
+
+// gomockPkg returns the package qualifier for the gomock package
+// (e.g. "gomock."), or an empty string when generating code inside
+// the gomock package itself.
+func (g *generator) gomockPkg() string {
+	if pkg, ok := g.packageMap[gomockImportPath]; ok {
+		return pkg + "."
+	}
+	return ""
 }
 
 // sanitize cleans up a string to make a suitable package name.
@@ -573,15 +588,22 @@ func (g *generator) GenerateMockMethod(mockType string, m *model.Method, pkgOver
 		g.p("}")
 		callArgs = ", " + idVarArgs + "..."
 	}
+
 	if len(m.Out) == 0 {
 		g.p(`%v.ctrl.Call(%v, %q%v)`, idRecv, idRecv, m.Name, callArgs)
+	} else if m.Variadic == nil && len(m.Out) <= maxTypedReturns {
+		// Use the typed Invoke helper to unpack return values cleanly.
+		gomockPkg := g.gomockPkg()
+		g.p(`return %sInvoke%d[%s](%v.ctrl.Call(%v, %q%v))`,
+			gomockPkg, len(rets), strings.Join(rets, ", "),
+			idRecv, idRecv, m.Name, callArgs)
 	} else {
 		idRet := ia.allocateIdentifier("ret")
 		g.p(`%v := %v.ctrl.Call(%v, %q%v)`, idRet, idRecv, idRecv, m.Name, callArgs)
 
-		// Go does not allow "naked" type assertions on nil values, so we use the two-value form here.
-		// The value of that is either (x.(T), true) or (Z, false), where Z is the zero value for T.
-		// Happily, this coincides with the semantics we want here.
+		// Go does not allow "naked" type assertions on nil values, so we
+		// use the two-value form: (x.(T), true) or (Z, false) where Z is
+		// the zero value for T.
 		retNames := make([]string, len(rets))
 		for i, t := range rets {
 			retNames[i] = ia.allocateIdentifier(fmt.Sprintf("ret%d", i))
@@ -652,7 +674,67 @@ func (g *generator) GenerateMockRecorderMethod(intf *model.Interface, m *model.M
 	return nil
 }
 
-func (g *generator) GenerateMockReturnCallMethod(intf *model.Interface, m *model.Method, pkgOverride, longTp, shortTp string) error {
+func (g *generator) GenerateMockReturnCallMethod(
+	intf *model.Interface,
+	m *model.Method,
+	pkgOverride, longTp, shortTp string,
+) error {
+	mockType := g.mockName(intf.Name)
+
+	// For non-variadic methods within the supported bounds, emit a single
+	// type alias that points at the pre-generated generic CallN_M wrapper.
+	if m.Variadic == nil &&
+		len(m.In) <= maxTypedArgs &&
+		len(m.Out) <= maxTypedReturns {
+		return g.generateTypedCallAlias(
+			mockType, m, pkgOverride, longTp,
+		)
+	}
+
+	// Fall back to the old per-method struct + Return/Do/DoAndReturn approach.
+	return g.generateLegacyReturnCallMethod(
+		intf, m, pkgOverride, longTp, shortTp,
+	)
+}
+
+// generateTypedCallAlias emits a single-line type alias, e.g.:
+//
+//	type MockFooBarCall = gomock.Call1_1[string, error]
+func (g *generator) generateTypedCallAlias(
+	mockType string,
+	m *model.Method,
+	pkgOverride, longTp string,
+) error {
+	gomockPkg := g.gomockPkg()
+
+	var typeArgs []string
+	for _, p := range m.In {
+		typeArgs = append(
+			typeArgs, p.Type.String(g.packageMap, pkgOverride),
+		)
+	}
+	for _, p := range m.Out {
+		typeArgs = append(
+			typeArgs, p.Type.String(g.packageMap, pkgOverride),
+		)
+	}
+
+	callTypeName := fmt.Sprintf("Call%d_%d", len(m.In), len(m.Out))
+	var typeArgStr string
+	if len(typeArgs) > 0 {
+		typeArgStr = "[" + strings.Join(typeArgs, ", ") + "]"
+	}
+
+	g.p("// %s%sCall is the typed call wrapper for %s.", mockType, m.Name, m.Name)
+	g.p("type %s%sCall%s = %s%s%s",
+		mockType, m.Name, longTp, gomockPkg, callTypeName, typeArgStr)
+	return nil
+}
+
+// generateLegacyReturnCallMethod emits the old-style per-method struct with
+// explicitly typed Return, Do, and DoAndReturn methods. Used for variadic
+// methods and methods whose arity exceeds the pre-generated generic bounds.
+func (g *generator) generateLegacyReturnCallMethod(intf *model.Interface, m *model.Method, pkgOverride, longTp, shortTp string) error {
 	mockType := g.mockName(intf.Name)
 	argNames := g.getArgNames(m, true /* in */)
 	retNames := g.getArgNames(m, false /* out */)
@@ -833,6 +915,30 @@ func printVersion() {
 	} else {
 		printModuleVersion()
 	}
+}
+
+var errOutsideGoPath = errors.New(
+	"source directory is outside GOPATH",
+)
+
+// packageNameOfDir returns the import path of the package in srcDir.
+func packageNameOfDir(srcDir string) (string, error) {
+	files, err := os.ReadDir(srcDir)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var goFilePath string
+	for _, file := range files {
+		if !file.IsDir() && strings.HasSuffix(file.Name(), ".go") {
+			goFilePath = file.Name()
+			break
+		}
+	}
+	if goFilePath == "" {
+		return "", fmt.Errorf("go source file not found %s", srcDir)
+	}
+	return parsePackageImport(srcDir)
 }
 
 // parseImportPackage get package import path via source file

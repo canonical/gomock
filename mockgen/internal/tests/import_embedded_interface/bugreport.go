@@ -14,7 +14,7 @@
 
 package bugreport
 
-//go:generate mockgen -destination bugreport_mock.go -package bugreport -source=bugreport.go
+//go:generate mockgen -destination bugreport_mock.go -package bugreport go.uber.org/mock/mockgen/internal/tests/import_embedded_interface Source
 
 import (
 	"log"

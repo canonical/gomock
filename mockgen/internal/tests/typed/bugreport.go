@@ -1,6 +1,6 @@
 package typed
 
-//go:generate mockgen -typed -aux_files faux=faux/faux.go -destination bugreport_mock.go -package typed -source=bugreport.go Source
+//go:generate mockgen -destination bugreport_mock.go -package typed go.uber.org/mock/mockgen/internal/tests/typed Source
 
 import (
 	"log"

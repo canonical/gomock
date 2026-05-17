@@ -1,6 +1,6 @@
 package typed_inorder
 
-//go:generate mockgen -package typed_inorder -source=input.go -destination=mock.go -typed
+//go:generate mockgen -package typed_inorder -destination=mock.go go.uber.org/mock/mockgen/internal/tests/typed_inorder Animal
 type Animal interface {
 	GetSound() string
 	Feed(string) error

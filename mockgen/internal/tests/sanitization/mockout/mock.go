@@ -47,7 +47,11 @@ func (m *MockAnyMock) Do(a *any0.Any, b int) {
 }
 
 // Do indicates an expected call of Do.
-func (mr *MockAnyMockMockRecorder) Do(a, b any) *gomock.Call {
+func (mr *MockAnyMockMockRecorder) Do(a, b any) *MockAnyMockDoCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Do", reflect.TypeOf((*MockAnyMock)(nil).Do), a, b)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Do", reflect.TypeOf((*MockAnyMock)(nil).Do), a, b)
+	return &MockAnyMockDoCall{Call: call}
 }
+
+// MockAnyMockDoCall is the typed call wrapper for Do.
+type MockAnyMockDoCall = gomock.Call2_0[*any0.Any, int]

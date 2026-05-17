@@ -43,13 +43,15 @@ func (m *MockMything) EXPECT() *MockMythingMockRecorder {
 // DoThat mocks base method.
 func (m *MockMything) DoThat(arg0 int) internalpackage.FooExported {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DoThat", arg0)
-	ret0, _ := ret[0].(internalpackage.FooExported)
-	return ret0
+	return gomock.Invoke1[internalpackage.FooExported](m.ctrl.Call(m, "DoThat", arg0))
 }
 
 // DoThat indicates an expected call of DoThat.
-func (mr *MockMythingMockRecorder) DoThat(arg0 any) *gomock.Call {
+func (mr *MockMythingMockRecorder) DoThat(arg0 any) *MockMythingDoThatCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DoThat", reflect.TypeOf((*MockMything)(nil).DoThat), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DoThat", reflect.TypeOf((*MockMything)(nil).DoThat), arg0)
+	return &MockMythingDoThatCall{Call: call}
 }
+
+// MockMythingDoThatCall is the typed call wrapper for DoThat.
+type MockMythingDoThatCall = gomock.Call1_1[int, internalpackage.FooExported]

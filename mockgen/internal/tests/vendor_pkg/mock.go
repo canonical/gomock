@@ -42,13 +42,15 @@ func (m *MockElem) EXPECT() *MockElemMockRecorder {
 // TemplateName mocks base method.
 func (m *MockElem) TemplateName() string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "TemplateName")
-	ret0, _ := ret[0].(string)
-	return ret0
+	return gomock.Invoke1[string](m.ctrl.Call(m, "TemplateName"))
 }
 
 // TemplateName indicates an expected call of TemplateName.
-func (mr *MockElemMockRecorder) TemplateName() *gomock.Call {
+func (mr *MockElemMockRecorder) TemplateName() *MockElemTemplateNameCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TemplateName", reflect.TypeOf((*MockElem)(nil).TemplateName))
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TemplateName", reflect.TypeOf((*MockElem)(nil).TemplateName))
+	return &MockElemTemplateNameCall{Call: call}
 }
+
+// MockElemTemplateNameCall is the typed call wrapper for TemplateName.
+type MockElemTemplateNameCall = gomock.Call0_1[string]

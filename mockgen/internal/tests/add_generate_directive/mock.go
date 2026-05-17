@@ -48,7 +48,11 @@ func (m *MockFoo) Bar(channels []string, message chan<- Message) {
 }
 
 // Bar indicates an expected call of Bar.
-func (mr *MockFooMockRecorder) Bar(channels, message any) *gomock.Call {
+func (mr *MockFooMockRecorder) Bar(channels, message any) *MockFooBarCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Bar", reflect.TypeOf((*MockFoo)(nil).Bar), channels, message)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Bar", reflect.TypeOf((*MockFoo)(nil).Bar), channels, message)
+	return &MockFooBarCall{Call: call}
 }
+
+// MockFooBarCall is the typed call wrapper for Bar.
+type MockFooBarCall = gomock.Call2_0[[]string, chan<- Message]

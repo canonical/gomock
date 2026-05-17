@@ -1,6 +1,6 @@
 package users
 
-//go:generate mockgen --source=user.go --destination=mock_test.go --package=users_test
+//go:generate mockgen --destination=mock_test.go --package=users_test go.uber.org/mock/mockgen/internal/tests/mock_in_test_package Finder
 
 type User struct {
 	Name string
