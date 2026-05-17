@@ -40,7 +40,7 @@ export PATH=$PATH:$(go env GOPATH)/bin
 
 ## Running mockgen
 
-`mockgen` has three modes of operation: archive, source and package.
+`mockgen` has two modes of operation: archive and package.
 
 ### Archive mode
 
@@ -56,18 +56,6 @@ Example:
 go build -o pkg.a database/sql/driver
 
 mockgen -archive=pkg.a database/sql/driver Conn,Driver
-```
-
-### Source mode
-
-Source mode generates mock interfaces from a source file.
-It is enabled by using the -source flag. Other flags that
-may be useful in this mode are -imports and -aux_files.
-
-Example:
-
-```bash
-mockgen -source=foo.go [other options]
 ```
 
 ### Package mode
@@ -95,25 +83,12 @@ It supports the following flags:
 
 - `-archive`: A package archive file containing interfaces to be mocked.
 
-- `-source`: A file containing interfaces to be mocked.
-
 - `-destination`: A file to which to write the resulting source code. If you
   don't set this, the code is printed to standard output.
 
 - `-package`: The package to use for the resulting mock class
   source code. If you don't set this, the package name is `mock_` concatenated
   with the package of the input file.
-
-- `-imports`: A list of explicit imports that should be used in the resulting
-  source code, specified as a comma-separated list of elements of the form
-  `foo=bar/baz`, where `bar/baz` is the package being imported and `foo` is
-  the identifier to use for the package in the generated source code.
-
-- `-aux_files`: A list of additional files that should be consulted to
-  resolve e.g. embedded interfaces defined in a different file. This is
-  specified as a comma-separated list of elements of the form
-  `foo=bar/baz.go`, where `bar/baz.go` is the source file and `foo` is the
-  package name of that file used by the -source file.
 
 - `-build_flags`: (package mode only) Flags passed verbatim to `go list`.
 
@@ -140,14 +115,11 @@ It supports the following flags:
 
 - `-write_generate_directive`: Add //go:generate directive to regenerate the mock. (default false)
 
-- `-write_source_comment`: Writes original file (source mode) or interface names (package mode) comment if true. (default true)
-
-- `-typed`: Generate Type-safe 'Return', 'Do', 'DoAndReturn' function. (default false)
+- `-write_source_comment`: Writes interface names (package mode) comment if true. (default true)
 
 - `-exclude_interfaces`: Comma-separated names of interfaces to be excluded
 
-For an example of the use of `mockgen`, see the `sample/` directory. In simple
-cases, you will need only the `-source` flag.
+For an example of the use of `mockgen`, see the `sample/` directory.
 
 ## Building Mocks
 
