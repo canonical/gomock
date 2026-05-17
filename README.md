@@ -6,24 +6,16 @@ gomock is a mocking framework for the [Go programming language][golang]. It
 integrates well with Go's built-in `testing` package, but can be used in other
 contexts too.
 
-This project originates from Google's `golang/mock` repo. Unfortunately, Google
-no longer maintains this project, and given the heavy usage of gomock project
-within Uber, we've decided to fork and maintain this going forward at Uber.
-
-[Contributions](./CONTRIBUTING.md) are welcome in the form of GitHub issue or PR!
-
-## Supported Go Versions
-
-go.uber.org/mock supports all Go versions supported by the official
-[Go Release Policy](https://go.dev/doc/devel/release#policy). That is,
-the two most recent releases of Go.
+This is a Canonical fork of [Uber's gomock][uber-mock], which was itself a fork
+of [Google's golang/mock][google-mock]. This fork moves forward with a
+simplified approach to mock generation, using and supporting generics.
 
 ## Installation
 
 Install the `mockgen` tool.
 
 ```
-go install go.uber.org/mock/mockgen@latest
+go install github.com/canonical/gomock/mockgen@latest
 ```
 
 To ensure it was installed correctly, use:
@@ -223,7 +215,9 @@ gomock.GotFormatterAdapter(
 If the received value is `3`, then it will be printed as `03`.
 
 [golang]:              http://go.dev/
-[ci-badge]:            https://github.com/uber-go/mock/actions/workflows/test.yaml/badge.svg
-[ci-runs]:             https://github.com/uber-go/mock/actions
-[reference-badge]:     https://pkg.go.dev/badge/go.uber.org/mock.svg
-[reference]:           https://pkg.go.dev/go.uber.org/mock
+[ci-badge]:            https://github.com/canonical/gomock/actions/workflows/test.yaml/badge.svg
+[ci-runs]:             https://github.com/canonical/gomock/actions
+[reference-badge]:     https://pkg.go.dev/badge/github.com/canonical/gomock.svg
+[reference]:           https://pkg.go.dev/github.com/canonical/gomock
+[uber-mock]:           https://github.com/uber-go/mock
+[google-mock]:         https://github.com/golang/mock

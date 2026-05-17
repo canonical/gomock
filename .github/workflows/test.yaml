@@ -32,7 +32,7 @@ jobs:
 
       - name: Install mockgen
         run: |
-          go install go.uber.org/mock/mockgen
+          go install github.com/canonical/gomock/mockgen
 
       - name: Check go.mod is tidy
         run: |

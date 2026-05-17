@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	gomock "go.uber.org/mock/gomock"
+	gomock "github.com/canonical/gomock/gomock"
 )
 
 // TestValidInterface assesses whether or not the generated mock is valid

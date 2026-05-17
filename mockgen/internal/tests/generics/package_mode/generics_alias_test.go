@@ -5,8 +5,8 @@ package package_mode
 import (
 	"testing"
 
-	"go.uber.org/mock/gomock"
-	"go.uber.org/mock/mockgen/internal/tests/generics"
+	"github.com/canonical/gomock/gomock"
+	"github.com/canonical/gomock/mockgen/internal/tests/generics"
 )
 
 func TestMockGenericAliasOfGeneric(t *testing.T) {

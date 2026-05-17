@@ -13,7 +13,7 @@
 
 package bugreport
 
-//go:generate mockgen -destination net_mock.go -package bugreport go.uber.org/mock/mockgen/internal/tests/import_embedded_interface Net
+//go:generate mockgen -destination net_mock.go -package bugreport github.com/canonical/gomock/mockgen/internal/tests/import_embedded_interface Net
 
 import "net/http"
 

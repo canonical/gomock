@@ -1,6 +1,6 @@
 package dot_imports
 
-//go:generate mockgen -package dot_imports -destination mock.go go.uber.org/mock/mockgen/internal/tests/dot_imports WithDotImports
+//go:generate mockgen -package dot_imports -destination mock.go github.com/canonical/gomock/mockgen/internal/tests/dot_imports WithDotImports
 
 import (
 	"bytes"

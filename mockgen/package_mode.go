@@ -9,7 +9,7 @@ import (
 	"os"
 	"strings"
 
-	"go.uber.org/mock/mockgen/model"
+	"github.com/canonical/gomock/mockgen/model"
 	"golang.org/x/tools/go/gcexportdata"
 	"golang.org/x/tools/go/packages"
 )

@@ -1,6 +1,6 @@
 package exclude
 
-//go:generate mockgen -destination=mock.go -package=exclude -exclude_interfaces=IgnoreMe,IgnoreMe2 go.uber.org/mock/mockgen/internal/tests/exclude GenerateMockForMe
+//go:generate mockgen -destination=mock.go -package=exclude -exclude_interfaces=IgnoreMe,IgnoreMe2 github.com/canonical/gomock/mockgen/internal/tests/exclude GenerateMockForMe
 
 type IgnoreMe interface {
 	A() bool

@@ -4,10 +4,10 @@ package user_test
 import (
 	"testing"
 
-	"go.uber.org/mock/gomock"
-	user "go.uber.org/mock/sample"
-	"go.uber.org/mock/sample/imp1"
-	imp_four "go.uber.org/mock/sample/imp4"
+	"github.com/canonical/gomock/gomock"
+	user "github.com/canonical/gomock/sample"
+	"github.com/canonical/gomock/sample/imp1"
+	imp_four "github.com/canonical/gomock/sample/imp4"
 )
 
 func TestRemember(t *testing.T) {

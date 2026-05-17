@@ -3,10 +3,10 @@ package mock
 import (
 	"testing"
 
-	"go.uber.org/mock/gomock"
-	"go.uber.org/mock/mockgen/internal/tests/package_mode"
-	"go.uber.org/mock/mockgen/internal/tests/package_mode/cars"
-	"go.uber.org/mock/mockgen/internal/tests/package_mode/fuel"
+	"github.com/canonical/gomock/gomock"
+	"github.com/canonical/gomock/mockgen/internal/tests/package_mode"
+	"github.com/canonical/gomock/mockgen/internal/tests/package_mode/cars"
+	"github.com/canonical/gomock/mockgen/internal/tests/package_mode/fuel"
 )
 
 // checks, that mocks implement interfaces in compile-time.

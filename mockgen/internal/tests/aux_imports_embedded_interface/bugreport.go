@@ -1,12 +1,12 @@
 package bugreport
 
 // Reproduce the issue described in the README.md with
-//go:generate mockgen -destination bugreport_mock.go -package bugreport go.uber.org/mock/mockgen/internal/tests/aux_imports_embedded_interface Source
+//go:generate mockgen -destination bugreport_mock.go -package bugreport github.com/canonical/gomock/mockgen/internal/tests/aux_imports_embedded_interface Source
 
 import (
 	"log"
 
-	"go.uber.org/mock/mockgen/internal/tests/aux_imports_embedded_interface/faux"
+	"github.com/canonical/gomock/mockgen/internal/tests/aux_imports_embedded_interface/faux"
 )
 
 // Source is an interface w/ an embedded foreign interface

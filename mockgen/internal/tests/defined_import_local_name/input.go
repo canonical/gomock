@@ -5,7 +5,7 @@ import (
 	"context"
 )
 
-//go:generate mockgen -package defined_import_local_name -destination mock.go go.uber.org/mock/mockgen/internal/tests/defined_import_local_name WithImports
+//go:generate mockgen -package defined_import_local_name -destination mock.go github.com/canonical/gomock/mockgen/internal/tests/defined_import_local_name WithImports
 
 type WithImports interface {
 	Method1() bytes.Buffer

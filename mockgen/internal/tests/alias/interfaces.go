@@ -2,7 +2,7 @@ package alias
 
 //go:generate mockgen -package=mock -destination=mock/interfaces.go . Fooer,FooerAlias,Barer,BarerAlias,Bazer,QuxerConsumer,QuuxerConsumer
 
-import "go.uber.org/mock/mockgen/internal/tests/alias/subpkg"
+import "github.com/canonical/gomock/mockgen/internal/tests/alias/subpkg"
 
 // Case 1: A interface that has alias references in this package
 //

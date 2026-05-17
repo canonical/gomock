@@ -3,9 +3,9 @@ package sanitization
 import (
 	"testing"
 
-	"go.uber.org/mock/gomock"
-	any0 "go.uber.org/mock/mockgen/internal/tests/sanitization/any"
-	"go.uber.org/mock/mockgen/internal/tests/sanitization/mockout"
+	"github.com/canonical/gomock/gomock"
+	any0 "github.com/canonical/gomock/mockgen/internal/tests/sanitization/any"
+	"github.com/canonical/gomock/mockgen/internal/tests/sanitization/mockout"
 )
 
 func TestSanitization(t *testing.T) {

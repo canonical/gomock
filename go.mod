@@ -1,4 +1,4 @@
-module go.uber.org/mock
+module github.com/canonical/gomock
 
 go 1.26.2
 

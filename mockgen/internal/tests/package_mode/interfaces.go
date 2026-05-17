@@ -5,8 +5,8 @@ package package_mode
 import (
 	"time"
 
-	"go.uber.org/mock/mockgen/internal/tests/package_mode/cars"
-	"go.uber.org/mock/mockgen/internal/tests/package_mode/fuel"
+	"github.com/canonical/gomock/mockgen/internal/tests/package_mode/cars"
+	"github.com/canonical/gomock/mockgen/internal/tests/package_mode/fuel"
 )
 
 type Food interface {

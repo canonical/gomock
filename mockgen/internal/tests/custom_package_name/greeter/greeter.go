@@ -1,16 +1,16 @@
 package greeter
 
-//go:generate mockgen -destination greeter_mock_test.go -package greeter go.uber.org/mock/mockgen/internal/tests/custom_package_name/greeter InputMaker
+//go:generate mockgen -destination greeter_mock_test.go -package greeter github.com/canonical/gomock/mockgen/internal/tests/custom_package_name/greeter InputMaker
 
 import (
 	// stdlib import
 	"fmt"
 
 	// non-matching import suffix and package name
-	"go.uber.org/mock/mockgen/internal/tests/custom_package_name/client/v1"
+	"github.com/canonical/gomock/mockgen/internal/tests/custom_package_name/client/v1"
 
 	//  matching import suffix and package name
-	"go.uber.org/mock/mockgen/internal/tests/custom_package_name/validator"
+	"github.com/canonical/gomock/mockgen/internal/tests/custom_package_name/validator"
 )
 
 type InputMaker interface {

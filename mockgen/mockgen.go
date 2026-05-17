@@ -40,11 +40,11 @@ import (
 	"golang.org/x/mod/modfile"
 	toolsimports "golang.org/x/tools/imports"
 
-	"go.uber.org/mock/mockgen/model"
+	"github.com/canonical/gomock/mockgen/model"
 )
 
 const (
-	gomockImportPath = "go.uber.org/mock/gomock"
+	gomockImportPath = "github.com/canonical/gomock/gomock"
 
 	// maxTypedArgs and maxTypedReturns are the bounds of the pre-generated
 	// generic Call wrappers in the gomock package (see typed_calls.go).

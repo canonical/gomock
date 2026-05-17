@@ -2,7 +2,7 @@ package const_length
 
 import "math"
 
-//go:generate mockgen -package const_length -destination mock.go go.uber.org/mock/mockgen/internal/tests/const_array_length I
+//go:generate mockgen -package const_length -destination mock.go github.com/canonical/gomock/mockgen/internal/tests/const_array_length I
 
 const C = 2
 

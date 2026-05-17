@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"go.uber.org/mock/gomock"
+	"github.com/canonical/gomock/gomock"
 )
 
 func TestInteract(t *testing.T) {

@@ -1,10 +1,10 @@
-module go.uber.org/mock/mockgen/internal/tests/generics
+module github.com/canonical/gomock/mockgen/internal/tests/generics
 
 go 1.26.2
 
-replace go.uber.org/mock => ../../../..
+replace github.com/canonical/gomock => ../../../..
 
 require (
-	go.uber.org/mock v0.0.0-00010101000000-000000000000
+	github.com/canonical/gomock v0.0.0-00010101000000-000000000000
 	golang.org/x/exp v0.0.0-20240613232115-7f521ea00fb8
 )

@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"go.uber.org/mock/gomock"
-	"go.uber.org/mock/mockgen/internal/tests/generics"
+	"github.com/canonical/gomock/gomock"
+	"github.com/canonical/gomock/mockgen/internal/tests/generics"
 )
 
 func TestMockEmbeddingIface_One(t *testing.T) {
