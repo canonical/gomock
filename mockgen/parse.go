@@ -18,7 +18,6 @@ package main
 
 import (
 	"errors"
-	"flag"
 	"fmt"
 	"go/ast"
 	"go/build"
@@ -29,85 +28,11 @@ import (
 	"log"
 	"os"
 	"path"
-	"path/filepath"
 	"strconv"
 	"strings"
 
 	"go.uber.org/mock/mockgen/model"
 )
-
-// sourceMode generates mocks via source file.
-func sourceMode(source string) (*model.Package, error) {
-	srcDir, err := filepath.Abs(filepath.Dir(source))
-	if err != nil {
-		return nil, fmt.Errorf("failed getting source directory: %v", err)
-	}
-
-	packageImport, err := parsePackageImport(srcDir)
-	if err != nil {
-		return nil, err
-	}
-
-	fs := token.NewFileSet()
-	file, err := parser.ParseFile(fs, source, nil, 0)
-	if err != nil {
-		return nil, fmt.Errorf("failed parsing source file %v: %v", source, err)
-	}
-
-	p := &fileParser{
-		fileSet:            fs,
-		imports:            make(map[string]importedPackage),
-		importedInterfaces: newInterfaceCache(),
-		auxInterfaces:      newInterfaceCache(),
-		srcDir:             srcDir,
-	}
-
-	// positional interface names -> include set
-	if flag.NArg() > 1 {
-		return nil, errors.New("-source mode accepts at most one argument")
-	}
-	if flag.NArg() == 1 {
-		ifaces := strings.Split(flag.Arg(0), ",")
-		p.includeNamesSet = make(map[string]struct{}, len(ifaces))
-		for _, name := range ifaces {
-			p.includeNamesSet[name] = struct{}{}
-		}
-	}
-
-	// Handle -imports.
-	dotImports := make(map[string]bool)
-	if *imports != "" {
-		for _, kv := range strings.Split(*imports, ",") {
-			eq := strings.Index(kv, "=")
-			k, v := kv[:eq], kv[eq+1:]
-			if k == "." {
-				dotImports[v] = true
-			} else {
-				p.imports[k] = importedPkg{path: v}
-			}
-		}
-	}
-
-	if *excludeInterfaces != "" {
-		p.excludeNamesSet = parseExcludeInterfaces(*excludeInterfaces)
-	}
-
-	// Handle -aux_files.
-	if err := p.parseAuxFiles(*auxFiles); err != nil {
-		return nil, err
-	}
-	p.addAuxInterfacesFromFile(packageImport, file) // this file
-
-	pkg, err := p.parseFile(packageImport, file)
-	if err != nil {
-		return nil, err
-	}
-	for pkgPath := range dotImports {
-		pkg.DotImports = append(pkg.DotImports, pkgPath)
-	}
-
-	return pkg, nil
-}
 
 type importedPackage interface {
 	Path() string
@@ -178,7 +103,6 @@ type fileParser struct {
 	fileSet            *token.FileSet
 	imports            map[string]importedPackage // package name => imported package
 	importedInterfaces *interfaceCache
-	auxFiles           []*ast.File
 	auxInterfaces      *interfaceCache
 	srcDir             string
 	excludeNamesSet    map[string]struct{}
@@ -192,52 +116,14 @@ func (p *fileParser) errorf(pos token.Pos, format string, args ...any) error {
 	return fmt.Errorf(format, args...)
 }
 
-func (p *fileParser) parseAuxFiles(auxFiles string) error {
-	auxFiles = strings.TrimSpace(auxFiles)
-	if auxFiles == "" {
-		return nil
-	}
-	for _, kv := range strings.Split(auxFiles, ",") {
-		parts := strings.SplitN(kv, "=", 2)
-		if len(parts) != 2 {
-			return fmt.Errorf("bad aux file spec: %v", kv)
-		}
-		pkg, fpath := parts[0], parts[1]
-
-		file, err := parser.ParseFile(p.fileSet, fpath, nil, 0)
-		if err != nil {
-			return err
-		}
-		p.auxFiles = append(p.auxFiles, file)
-		p.addAuxInterfacesFromFile(pkg, file)
-	}
-	return nil
-}
-
-func (p *fileParser) addAuxInterfacesFromFile(pkg string, file *ast.File) {
-	for ni := range iterInterfaces(file) {
-		p.auxInterfaces.Set(pkg, ni.name.Name, ni)
-	}
-}
-
 // parseFile loads all file imports and auxiliary files import into the
 // fileParser, parses all file interfaces and returns package model.
 func (p *fileParser) parseFile(importPath string, file *ast.File) (*model.Package, error) {
 	allImports, dotImports := importsOfFile(file)
-	// Don't stomp imports provided by -imports. Those should take precedence.
+	// Don't stomp imports provided by the caller.
 	for pkg, pkgI := range allImports {
 		if _, ok := p.imports[pkg]; !ok {
 			p.imports[pkg] = pkgI
-		}
-	}
-	// Add imports from auxiliary files, which might be needed for embedded interfaces.
-	// Don't stomp any other imports.
-	for _, f := range p.auxFiles {
-		auxImports, _ := importsOfFile(f)
-		for pkg, pkgI := range auxImports {
-			if _, ok := p.imports[pkg]; !ok {
-				p.imports[pkg] = pkgI
-			}
 		}
 	}
 

@@ -107,13 +107,6 @@ func checkGreeterImports(t *testing.T, imports map[string]importedPackage) {
 	}
 }
 
-func Benchmark_parseFile(b *testing.B) {
-	source := "internal/tests/performance/big_interface/big_interface.go"
-	for n := 0; n < b.N; n++ {
-		sourceMode(source)
-	}
-}
-
 func TestParseArrayWithConstLength(t *testing.T) {
 	fs := token.NewFileSet()
 	srcDir := "internal/tests/const_array_length/input.go"
@@ -201,8 +194,8 @@ func TestParseFile_IncludeWithDuplicates_Dedupes(t *testing.T) {
 		t.Fatalf("Unexpected error: %v", err)
 	}
 
-	// Эмулируем «случайно указали дубликаты» как это делает sourceMode (через позиционные аргументы)
-	args := []string{"InputMaker", "InputMaker"} // дубликаты
+	// Emulate accidentally specifying duplicates via positional arguments.
+	args := []string{"InputMaker", "InputMaker"}
 	include := make(map[string]struct{})
 	for _, a := range args {
 		for _, name := range strings.Split(a, ",") {

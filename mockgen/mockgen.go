@@ -55,20 +55,17 @@ var (
 
 var (
 	archive                = flag.String("archive", "", "(archive mode) Input Go archive file; enables archive mode.")
-	source                 = flag.String("source", "", "(source mode) Input Go source file; enables source mode.")
 	destination            = flag.String("destination", "", "Output file; defaults to stdout.")
 	mockNames              = flag.String("mock_names", "", "Comma-separated interfaceName=mockName pairs of explicit mock names to use. Mock names default to 'Mock'+ interfaceName suffix.")
 	packageOut             = flag.String("package", "", "Package of the generated code; defaults to the package of the input with a 'mock_' prefix.")
 	selfPackage            = flag.String("self_package", "", "The full package import path for the generated code. The purpose of this flag is to prevent import cycles in the generated code by trying to include its own package. This can happen if the mock's package is set to one of its inputs (usually the main one) and the output is stdio so mockgen cannot detect the final output package. Setting this flag will then tell mockgen which import to exclude.")
 	writeCmdComment        = flag.Bool("write_command_comment", true, "Writes the command used as a comment if true.")
 	writePkgComment        = flag.Bool("write_package_comment", true, "Writes package documentation comment (godoc) if true.")
-	writeSourceComment     = flag.Bool("write_source_comment", true, "Writes original file (source mode) or interface names (package mode) comment if true.")
+	writeSourceComment     = flag.Bool("write_source_comment", true, "Writes interface names (package mode) comment if true.")
 	writeGenerateDirective = flag.Bool("write_generate_directive", false, "Add //go:generate directive to regenerate the mock")
 	copyrightFile          = flag.String("copyright_file", "", "Copyright file used to add copyright header")
 	buildConstraint        = flag.String("build_constraint", "", "If non-empty, added as //go:build <constraint>")
 	typed                  = flag.Bool("typed", false, "Generate Type-safe 'Return', 'Do', 'DoAndReturn' function")
-	imports                = flag.String("imports", "", "(source mode) Comma-separated name=path pairs of explicit imports to use.")
-	auxFiles               = flag.String("aux_files", "", "(source mode) Comma-separated pkg=path pairs of auxiliary Go source files.")
 	modelGob               = flag.String("model_gob", "", "Skip package/source loading entirely and use the gob encoded model.Package at the given path")
 	excludeInterfaces      = flag.String("exclude_interfaces", "", "Comma-separated names of interfaces to be excluded")
 	debugParser            = flag.Bool("debug_parser", false, "Print out parser results only.")
@@ -94,8 +91,6 @@ func main() {
 	switch {
 	case *modelGob != "": // gob mode
 		pkg, err = gobMode(*modelGob)
-	case *source != "": // source mode
-		pkg, err = sourceMode(*source)
 	case *archive != "": // archive mode
 		checkArgsArchive()
 		packageName = flag.Arg(0)
@@ -166,9 +161,7 @@ func main() {
 	g := &generator{
 		buildConstraint: *buildConstraint,
 	}
-	if *source != "" {
-		g.filename = *source
-	} else if *archive != "" {
+	if *archive != "" {
 		g.filename = *archive
 	} else {
 		g.srcPackage = packageName
@@ -264,13 +257,7 @@ func usage() {
 	flag.PrintDefaults()
 }
 
-const usageText = `mockgen has three modes of operation: archive, source and package.
-
-Source mode generates mock interfaces from a source file.
-It is enabled by using the -source flag. Other flags that
-may be useful in this mode are -imports, -aux_files and -exclude_interfaces.
-Example:
-	mockgen -source=foo.go [other options]
+const usageText = `mockgen has two modes of operation: archive and package.
 
 Package mode works by specifying the package and interface names.
 It is enabled by passing two non-flag arguments: an import path, and a
@@ -405,16 +392,6 @@ func (g *generator) Generate(pkg *model.Package, outputPkgName string, outputPac
 
 	packagesName := createPackageMap(sortedPaths)
 
-	definedImports := make(map[string]string, len(im))
-	if *imports != "" {
-		for _, kv := range strings.Split(*imports, ",") {
-			eq := strings.Index(kv, "=")
-			if k, v := kv[:eq], kv[eq+1:]; k != "." {
-				definedImports[v] = k
-			}
-		}
-	}
-
 	g.packageMap = make(map[string]string, len(im))
 	localNames := make(map[string]bool, len(im))
 	for _, pth := range sortedPaths {
@@ -423,16 +400,12 @@ func (g *generator) Generate(pkg *model.Package, outputPkgName string, outputPac
 			base = sanitize(path.Base(pth))
 		}
 
-		// Local names for an imported package can usually be the basename of the import path.
-		// A couple of situations don't permit that, such as duplicate local names
-		// (e.g. importing "html/template" and "text/template"), or where the basename is
-		// a keyword (e.g. "foo/case") or when defining a name for that by using the -imports flag.
-		// try base0, base1, ...
+		// Local names for an imported package can usually be the basename of
+		// the import path. A couple of situations don't permit that, such as
+		// duplicate local names (e.g. importing "html/template" and
+		// "text/template"), or where the basename is a keyword
+		// (e.g. "foo/case"). try base0, base1, ...
 		pkgName := base
-
-		if _, ok := definedImports[pth]; ok {
-			pkgName = definedImports[pth]
-		}
 
 		i := 0
 		for localNames[pkgName] || token.Lookup(pkgName).IsKeyword() || pkgName == "any" {
