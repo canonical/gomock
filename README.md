@@ -40,23 +40,8 @@ export PATH=$PATH:$(go env GOPATH)/bin
 
 ## Running mockgen
 
-`mockgen` has two modes of operation: archive and package.
-
-### Archive mode
-
-Archive mode generates mock interfaces from a package archive
-file (.a). It is enabled by using the -archive flag. An import
-path and a comma-separated list of symbols should be provided
-as a non-flag argument to the command.
-
-Example:
-
-```bash
-# Build the package to a archive.
-go build -o pkg.a database/sql/driver
-
-mockgen -archive=pkg.a database/sql/driver Conn,Driver
-```
+`mockgen` generates mock implementations of Go interfaces by specifying
+the package and interface names.
 
 ### Package mode
 
@@ -80,8 +65,6 @@ mockgen . Conn,Driver
 The `mockgen` command is used to generate source code for a mock
 class given a Go source file containing interfaces to be mocked.
 It supports the following flags:
-
-- `-archive`: A package archive file containing interfaces to be mocked.
 
 - `-destination`: A file to which to write the resulting source code. If you
   don't set this, the code is printed to standard output.
