@@ -1,9 +1,9 @@
 name: Run tests
 on:
   push:
-    branches: ['*']
+    branches: ["*"]
   pull_request:
-    branches: ['*']
+    branches: ["*"]
 
 permissions:
   contents: read
@@ -16,59 +16,68 @@ jobs:
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
-
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Install Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: ${{ matrix.go-version }}
-        cache-dependency-path: '**/go.sum'
-
-    - name: Vet and build
-      run: |
-        go vet ./...
-        go build ./...
-
-    - name: Install mockgen
-      run: |
-        go install go.uber.org/mock/mockgen
-
-    - name: Run test script
-      run: |
-        ./ci/test.sh
-        ./ci/check_panic_handling.sh
-
-    - name: Run Go Tests
-      run: |
-        for i in $(find $PWD -name go.mod ! -path "$PWD/bazel/go.mod"); do
-          pushd $(dirname $i)
-          go test ./...
-          popd
-        done 
-
-  bazel:
-    strategy:
-      matrix:
-        os:
-          - macos
-          - ubuntu
-    runs-on: ${{ matrix.os }}-latest
-    steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      - name: Setup Bazel
-        uses: bazel-contrib/setup-bazel@0.10.0
+      - name: Install Go
+        uses: actions/setup-go@v4
         with:
-          # Avoid downloading Bazel every time.
-          bazelisk-cache: true
-          # Store build cache per workflow.
-          disk-cache: ${{ github.workflow }}
-          # Share repository cache between workflows.
-          repository-cache: true
+          go-version: ${{ matrix.go-version }}
+          cache-dependency-path: "**/go.sum"
 
-      - name: Run Bazel tests
+      - name: Vet and build
         run: |
-          cd bazel && bazel test //...
+          go vet ./...
+          go build ./...
+
+      - name: Install mockgen
+        run: |
+          go install github.com/canonical/gomock/mockgen
+
+      - name: Check go.mod is tidy
+        run: |
+          for i in $(find $PWD -name go.mod); do
+            pushd $(dirname $i)
+            go mod tidy
+            popd
+          done
+          if [ -n "$(git status --porcelain)" ]; then
+            git status
+            git diff
+            echo
+            echo "The go.mod is not up to date."
+            exit 1
+          fi
+
+      - name: Check generated files are up to date
+        run: |
+          BASE_DIR="$PWD"
+          TEMP_DIR=$(mktemp -d)
+          trap "rm -rf ${TEMP_DIR}" EXIT
+          cp -r . "${TEMP_DIR}/"
+          cd "${TEMP_DIR}"
+          for i in $(find . -name go.mod); do
+            pushd $(dirname $i)
+            go generate ./...
+            popd
+          done
+          if ! diff -r . "${BASE_DIR}"; then
+            echo
+            echo "The generated files aren't up to date."
+            echo "Update them with the 'go generate ./...' command."
+            exit 1
+          fi
+
+      - name: Check panic handling
+        run: |
+          cd mockgen/internal/tests/panicing_test
+          go test -v -tags=panictest -run TestDanger_Panics_Explicit | grep "Danger, Will Robinson!"
+          go test -v -tags=panictest -run TestDanger_Panics_Implicit | grep "Danger, Will Robinson!"
+
+      - name: Run Go Tests
+        run: |
+          for i in $(find $PWD -name go.mod); do
+            pushd $(dirname $i)
+            go test ./...
+            popd
+          done

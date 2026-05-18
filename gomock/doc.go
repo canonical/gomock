@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+//go:generate go run ./internal/gencall
+
 // Package gomock is a mock framework for Go.
 //
 // Standard usage:

@@ -1,11 +1,11 @@
 package typed
 
-//go:generate mockgen -typed -aux_files faux=faux/faux.go -destination bugreport_mock.go -package typed -source=bugreport.go Source
+//go:generate mockgen -destination bugreport_mock.go -package typed github.com/canonical/gomock/mockgen/internal/tests/typed Source
 
 import (
 	"log"
 
-	"go.uber.org/mock/mockgen/internal/tests/typed/faux"
+	"github.com/canonical/gomock/mockgen/internal/tests/typed/faux"
 )
 
 // Source is an interface w/ an embedded foreign interface

@@ -1,13 +1,11 @@
 package gomock_test
 
-//go:generate mockgen -destination mock_test.go -package gomock_test -source example_test.go
-
 import (
 	"fmt"
 	"testing"
 	"time"
 
-	"go.uber.org/mock/gomock"
+	"github.com/canonical/gomock/gomock"
 )
 
 type Foo interface {
@@ -39,7 +37,7 @@ func ExampleCall_DoAndReturn_captureArguments() {
 	var s string
 
 	mockIndex.EXPECT().Bar(gomock.AssignableToTypeOf(s)).DoAndReturn(
-		func(arg string) any {
+		func(arg string) string {
 			s = arg
 			return "I'm sleepy"
 		},
@@ -57,7 +55,7 @@ func ExampleCall_DoAndReturn_withOverridableExpectations() {
 	var s string
 
 	mockIndex.EXPECT().Bar(gomock.AssignableToTypeOf(s)).DoAndReturn(
-		func(arg string) any {
+		func(arg string) string {
 			s = arg
 			return "I'm sleepy"
 		},

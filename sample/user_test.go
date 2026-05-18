@@ -4,10 +4,10 @@ package user_test
 import (
 	"testing"
 
-	"go.uber.org/mock/gomock"
-	user "go.uber.org/mock/sample"
-	"go.uber.org/mock/sample/imp1"
-	imp_four "go.uber.org/mock/sample/imp4"
+	"github.com/canonical/gomock/gomock"
+	user "github.com/canonical/gomock/sample"
+	"github.com/canonical/gomock/sample/imp1"
+	imp_four "github.com/canonical/gomock/sample/imp4"
 )
 
 func TestRemember(t *testing.T) {
@@ -66,46 +66,46 @@ func TestVariadicFunction(t *testing.T) {
 	ctrl := gomock.NewController(t)
 
 	mockIndex := NewMockIndex(ctrl)
-	mockIndex.EXPECT().Ellip("%d", 5, 6, 7, 8).Do(func(format string, nums ...int) {
+	mockIndex.EXPECT().Ellip("%d", 5, 6, 7, 8).Do(func(format string, nums ...any) {
 		sum := 0
 		for _, value := range nums {
-			sum += value
+			sum += value.(int)
 		}
 		if sum != 26 {
 			t.Errorf("Expected 26, got %d", sum)
 		}
 	})
-	mockIndex.EXPECT().Ellip("%d", gomock.Any()).Do(func(format string, nums ...int) {
+	mockIndex.EXPECT().Ellip("%d", gomock.Any()).Do(func(format string, nums ...any) {
 		sum := 0
 		for _, value := range nums {
-			sum += value
+			sum += value.(int)
 		}
 		if sum != 10 {
 			t.Errorf("Expected 10, got %d", sum)
 		}
 	})
-	mockIndex.EXPECT().Ellip("%d", gomock.Any()).Do(func(format string, nums ...int) {
+	mockIndex.EXPECT().Ellip("%d", gomock.Any()).Do(func(format string, nums ...any) {
 		sum := 0
 		for _, value := range nums {
-			sum += value
+			sum += value.(int)
 		}
 		if sum != 0 {
 			t.Errorf("Expected 0, got %d", sum)
 		}
 	})
-	mockIndex.EXPECT().Ellip("%d", gomock.Any()).Do(func(format string, nums ...int) {
+	mockIndex.EXPECT().Ellip("%d", gomock.Any()).Do(func(format string, nums ...any) {
 		sum := 0
 		for _, value := range nums {
-			sum += value
+			sum += value.(int)
 		}
 		if sum != 0 {
 			t.Errorf("Expected 0, got %d", sum)
 		}
 	})
-	mockIndex.EXPECT().Ellip("%d").Do(func(format string, nums ...int) {
+	mockIndex.EXPECT().Ellip("%d").Do(func(format string, nums ...any) {
 		sum := 0
 		for _, value := range nums {
-			sum += value
+			sum += value.(int)
 		}
 		if sum != 0 {
 			t.Errorf("Expected 0, got %d", sum)
@@ -156,20 +156,18 @@ func TestExpectTrueNil(t *testing.T) {
 }
 
 func TestDoAndReturnSignature(t *testing.T) {
+	// Wrong-signature callbacks are now compile-time errors due to the
+	// typed DoAndReturn API. These subtests verify correct usage instead.
 	t.Run("wrong number of return args", func(t *testing.T) {
 		ctrl := gomock.NewController(t)
 
 		mockIndex := NewMockIndex(ctrl)
 
 		mockIndex.EXPECT().Slice(gomock.Any(), gomock.Any()).DoAndReturn(
-			func(_ []int, _ []byte) {},
+			func(_ []int, _ []byte) [3]int {
+				return [3]int{}
+			},
 		)
-
-		defer func() {
-			if r := recover(); r == nil {
-				t.Error("expected panic")
-			}
-		}()
 
 		mockIndex.Slice([]int{0}, []byte("meow"))
 	})
@@ -180,8 +178,8 @@ func TestDoAndReturnSignature(t *testing.T) {
 		mockIndex := NewMockIndex(ctrl)
 
 		mockIndex.EXPECT().Slice(gomock.Any(), gomock.Any()).DoAndReturn(
-			func(_ []int, _ []byte) bool {
-				return true
+			func(_ []int, _ []byte) [3]int {
+				return [3]int{1, 2, 3}
 			})
 
 		mockIndex.Slice([]int{0}, []byte("meow"))

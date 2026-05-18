@@ -3,7 +3,7 @@ package p2
 //go:generate mockgen -destination=mocks/mocks.go -package=internalpackage . Mything
 
 import (
-	"go.uber.org/mock/mockgen/internal/tests/import_collision/internalpackage"
+	"github.com/canonical/gomock/mockgen/internal/tests/import_collision/internalpackage"
 )
 
 type Mything interface {

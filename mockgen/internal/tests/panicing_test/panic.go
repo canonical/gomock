@@ -14,7 +14,7 @@
 
 package paniccode
 
-//go:generate mockgen --source=panic.go --destination=mock_test.go --package=paniccode
+//go:generate mockgen --destination=mock_test.go --package=paniccode github.com/canonical/gomock/mockgen/internal/tests/panicing_test Foo
 
 type Foo interface {
 	Bar() string

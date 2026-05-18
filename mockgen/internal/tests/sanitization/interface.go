@@ -1,7 +1,7 @@
 package sanitization
 
 import (
-	"go.uber.org/mock/mockgen/internal/tests/sanitization/any"
+	"github.com/canonical/gomock/mockgen/internal/tests/sanitization/any"
 )
 
 //go:generate mockgen -destination mockout/mock.go -package mockout . AnyMock

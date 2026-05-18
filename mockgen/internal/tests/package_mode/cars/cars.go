@@ -1,7 +1,7 @@
 package cars
 
 import (
-	"go.uber.org/mock/mockgen/internal/tests/package_mode/fuel"
+	"github.com/canonical/gomock/mockgen/internal/tests/package_mode/fuel"
 )
 
 type FuelTank[FuelType fuel.Fuel] struct {

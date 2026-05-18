@@ -1,11 +1,11 @@
 package typed
 
 import (
-	"go.uber.org/mock/mockgen/internal/tests/typed/other"
+	"github.com/canonical/gomock/mockgen/internal/tests/typed/other"
 	"golang.org/x/exp/constraints"
 )
 
-//go:generate mockgen --source=external.go --destination=source/mock_external_test.go --package source -typed
+//go:generate mockgen --destination=source/mock_external_test.go --package source github.com/canonical/gomock/mockgen/internal/tests/typed ExternalConstraint
 
 type ExternalConstraint[I constraints.Integer, F constraints.Float] interface {
 	One(string) string

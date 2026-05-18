@@ -12,8 +12,8 @@ package typed
 import (
 	reflect "reflect"
 
-	gomock "go.uber.org/mock/gomock"
-	faux "go.uber.org/mock/mockgen/internal/tests/typed/faux"
+	gomock "github.com/canonical/gomock/gomock"
+	faux "github.com/canonical/gomock/mockgen/internal/tests/typed/faux"
 )
 
 // MockSource is a mock of Source interface.

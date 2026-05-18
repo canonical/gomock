@@ -5,7 +5,7 @@
 package parenthesized_parameter_type
 
 import (
-	gomock "go.uber.org/mock/gomock"
+	gomock "github.com/canonical/gomock/gomock"
 	reflect "reflect"
 )
 

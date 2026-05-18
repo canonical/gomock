@@ -14,13 +14,13 @@
 
 package bugreport
 
-//go:generate mockgen -destination bugreport_mock.go -package bugreport -source=bugreport.go
+//go:generate mockgen -destination bugreport_mock.go -package bugreport github.com/canonical/gomock/mockgen/internal/tests/import_embedded_interface Source
 
 import (
 	"log"
 
-	"go.uber.org/mock/mockgen/internal/tests/import_embedded_interface/ersatz"
-	"go.uber.org/mock/mockgen/internal/tests/import_embedded_interface/faux"
+	"github.com/canonical/gomock/mockgen/internal/tests/import_embedded_interface/ersatz"
+	"github.com/canonical/gomock/mockgen/internal/tests/import_embedded_interface/faux"
 )
 
 // Source is an interface w/ an embedded foreign interface

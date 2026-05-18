@@ -1,7 +1,7 @@
 package mock
 
 import (
-	"go.uber.org/mock/mockgen/internal/tests/alias"
+	"github.com/canonical/gomock/mockgen/internal/tests/alias"
 )
 
 // This checks for type-checking equivalent of mock types.

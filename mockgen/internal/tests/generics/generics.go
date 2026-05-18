@@ -1,11 +1,10 @@
 package generics
 
 import (
-	"go.uber.org/mock/mockgen/internal/tests/generics/other"
+	"github.com/canonical/gomock/mockgen/internal/tests/generics/other"
 	"golang.org/x/exp/constraints"
 )
 
-//go:generate mockgen --source=generics.go --destination=source/mock_generics_mock.go --package source
 //go:generate mockgen --destination=package_mode/mock_test.go --package=package_mode . Bar,BarAliasIntString,Universe,MilkyWay,SolarSystem,Earth,Water
 
 type Bar[T any, R any] interface {

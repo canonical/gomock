@@ -4,11 +4,10 @@ import (
 	"context"
 	"io"
 
-	"go.uber.org/mock/mockgen/internal/tests/generics/other"
+	"github.com/canonical/gomock/mockgen/internal/tests/generics/other"
 	"golang.org/x/exp/constraints"
 )
 
-//go:generate mockgen --source=external.go --destination=source/mock_external_mock.go --package source
 //go:generate mockgen --destination=package_mode/mock_external_mock.go -package=package_mode . ExternalConstraint,EmbeddingIface,Generator,Group
 
 type ExternalConstraint[I constraints.Integer, F any] interface {

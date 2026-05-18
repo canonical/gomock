@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"go.uber.org/mock/mockgen/model"
+	"github.com/canonical/gomock/mockgen/model"
 )
 
 func Test_packageModeParser_parsePackage(t *testing.T) {
@@ -30,7 +30,7 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 		{
 			name: "error: interface does not exist",
 			args: args{
-				packageName: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+				packageName: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 				ifaces:      []string{"Alien"},
 			},
 			expectedErr: "extract interfaces from package: interface Alien does not exist",
@@ -38,7 +38,7 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 		{
 			name: "error: search for struct instead of interface",
 			args: args{
-				packageName: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+				packageName: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 				ifaces:      []string{"Work"},
 			},
 			expectedErr: "extract interfaces from package: parse interface: " +
@@ -48,7 +48,7 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 		{
 			name: "error: search for constraint instead of interface",
 			args: args{
-				packageName: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+				packageName: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 				ifaces:      []string{"Counter"},
 			},
 			expectedErr: "extract interfaces from package: parse interface: " +
@@ -58,12 +58,12 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 		{
 			name: "success: simple interface",
 			args: args{
-				packageName: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+				packageName: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 				ifaces:      []string{"Food"},
 			},
 			expected: &model.Package{
 				Name:    "package_mode",
-				PkgPath: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+				PkgPath: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 				Interfaces: []*model.Interface{
 					{
 						Name: "Food",
@@ -82,12 +82,12 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 		{
 			name: "success: interface with variadic args",
 			args: args{
-				packageName: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+				packageName: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 				ifaces:      []string{"Eater"},
 			},
 			expected: &model.Package{
 				Name:    "package_mode",
-				PkgPath: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+				PkgPath: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 				Interfaces: []*model.Interface{
 					{
 						Name: "Eater",
@@ -97,7 +97,7 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 								Variadic: &model.Parameter{
 									Name: "foods",
 									Type: &model.NamedType{
-										Package: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+										Package: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 										Type:    "Food",
 									},
 								},
@@ -110,12 +110,12 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 		{
 			name: "success: interface with generic",
 			args: args{
-				packageName: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+				packageName: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 				ifaces:      []string{"Car"},
 			},
 			expected: &model.Package{
 				Name:    "package_mode",
-				PkgPath: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+				PkgPath: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 				Interfaces: []*model.Interface{
 					{
 						Name: "Car",
@@ -131,7 +131,7 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 								Out: []*model.Parameter{
 									{
 										Type: &model.NamedType{
-											Package: "go.uber.org/mock/mockgen/internal/tests/package_mode/cars",
+											Package: "github.com/canonical/gomock/mockgen/internal/tests/package_mode/cars",
 											Type:    "FuelTank",
 											TypeParams: &model.TypeParametersType{
 												TypeParameters: []model.Type{
@@ -165,7 +165,7 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 							{
 								Name: "FuelType",
 								Type: &model.NamedType{
-									Package: "go.uber.org/mock/mockgen/internal/tests/package_mode/fuel",
+									Package: "github.com/canonical/gomock/mockgen/internal/tests/package_mode/fuel",
 									Type:    "Fuel",
 								},
 							},
@@ -177,12 +177,12 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 		{
 			name: "success: interface with embedded interfaces",
 			args: args{
-				packageName: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+				packageName: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 				ifaces:      []string{"Animal"},
 			},
 			expected: &model.Package{
 				Name:    "package_mode",
-				PkgPath: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+				PkgPath: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 				Interfaces: []*model.Interface{
 					{
 						Name: "Animal",
@@ -193,7 +193,7 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 								Variadic: &model.Parameter{
 									Name: "foods",
 									Type: &model.NamedType{
-										Package: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+										Package: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 										Type:    "Food",
 									},
 								},
@@ -218,12 +218,12 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 		{
 			name: "success: subtype of interface",
 			args: args{
-				packageName: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+				packageName: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 				ifaces:      []string{"Primate"},
 			},
 			expected: &model.Package{
 				Name:    "package_mode",
-				PkgPath: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+				PkgPath: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 				Interfaces: []*model.Interface{
 					{
 						Name: "Primate",
@@ -234,7 +234,7 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 								Variadic: &model.Parameter{
 									Name: "foods",
 									Type: &model.NamedType{
-										Package: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+										Package: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 										Type:    "Food",
 									},
 								},
@@ -259,12 +259,12 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 		{
 			name: "success: alias to interface",
 			args: args{
-				packageName: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+				packageName: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 				ifaces:      []string{"Human"},
 			},
 			expected: &model.Package{
 				Name:    "package_mode",
-				PkgPath: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+				PkgPath: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 				Interfaces: []*model.Interface{
 					{
 						Name: "Human",
@@ -275,7 +275,7 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 								Variadic: &model.Parameter{
 									Name: "foods",
 									Type: &model.NamedType{
-										Package: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+										Package: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 										Type:    "Food",
 									},
 								},
@@ -300,12 +300,12 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 		{
 			name: "success: interfaces with aliases in params and returns",
 			args: args{
-				packageName: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+				packageName: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 				ifaces:      []string{"Earth"},
 			},
 			expected: &model.Package{
 				Name:    "package_mode",
-				PkgPath: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+				PkgPath: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 				Interfaces: []*model.Interface{
 					{
 						Name: "Earth",
@@ -315,7 +315,7 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 								In: []*model.Parameter{
 									{
 										Type: &model.NamedType{
-											Package: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+											Package: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 											Type: "HumansCount",
 										},
 									},
@@ -325,7 +325,7 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 										Type: &model.ArrayType{
 											Len: -1, // slice
 											Type: &model.NamedType{
-												Package: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+												Package: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 												Type:    "Human",
 											},
 										},
@@ -337,7 +337,7 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 								Out: []*model.Parameter{
 									{
 										Type: &model.NamedType{
-											Package: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+											Package: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 											Type: "HumansCount",
 										},
 									},
@@ -351,10 +351,10 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 		{
 			name: "error: no interfaces found when discovering all interfaces",
 			args: args{
-				packageName: "go.uber.org/mock/mockgen/internal/tests/no_interfaces",
+				packageName: "github.com/canonical/gomock/mockgen/internal/tests/no_interfaces",
 				ifaces:      []string{},
 			},
-			expectedErr: "no interfaces found in package go.uber.org/mock/mockgen/internal/tests/no_interfaces",
+			expectedErr: "no interfaces found in package github.com/canonical/gomock/mockgen/internal/tests/no_interfaces",
 		},
 	}
 	for _, tt := range tests {
@@ -373,7 +373,7 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 	t.Run("success: discover all interfaces when no interfaces specified", func(t *testing.T) {
 		expected := &model.Package{
 			Name:    "package_mode",
-			PkgPath: "go.uber.org/mock/mockgen/internal/tests/package_mode",
+			PkgPath: "github.com/canonical/gomock/mockgen/internal/tests/package_mode",
 			Interfaces: []*model.Interface{
 				{Name: "Animal"},
 				{Name: "Car"},
@@ -405,7 +405,7 @@ func Test_packageModeParser_parsePackage(t *testing.T) {
 // TODO(joaks): Update this once we remove the replacement logic
 // when we bump go.mod to 1.23.
 func TestAliases(t *testing.T) {
-	packageName := "go.uber.org/mock/mockgen/internal/tests/alias"
+	packageName := "github.com/canonical/gomock/mockgen/internal/tests/alias"
 	for _, tt := range []struct {
 		desc     string
 		iface    string
@@ -440,13 +440,13 @@ func TestAliases(t *testing.T) {
 					Name: "Bar",
 					In: []*model.Parameter{{
 						Type: &model.NamedType{
-							Package: "go.uber.org/mock/mockgen/internal/tests/alias",
+							Package: "github.com/canonical/gomock/mockgen/internal/tests/alias",
 							Type:    "FooerAlias",
 						},
 					}},
 					Out: []*model.Parameter{{
 						Type: &model.NamedType{
-							Package: "go.uber.org/mock/mockgen/internal/tests/alias",
+							Package: "github.com/canonical/gomock/mockgen/internal/tests/alias",
 							Type:    "FooerAlias",
 						},
 					}},
@@ -462,13 +462,13 @@ func TestAliases(t *testing.T) {
 					Name: "Bar",
 					In: []*model.Parameter{{
 						Type: &model.NamedType{
-							Package: "go.uber.org/mock/mockgen/internal/tests/alias",
+							Package: "github.com/canonical/gomock/mockgen/internal/tests/alias",
 							Type:    "FooerAlias",
 						},
 					}},
 					Out: []*model.Parameter{{
 						Type: &model.NamedType{
-							Package: "go.uber.org/mock/mockgen/internal/tests/alias",
+							Package: "github.com/canonical/gomock/mockgen/internal/tests/alias",
 							Type:    "FooerAlias",
 						},
 					}},
@@ -484,13 +484,13 @@ func TestAliases(t *testing.T) {
 					Name: "Baz",
 					In: []*model.Parameter{{
 						Type: &model.NamedType{
-							Package: "go.uber.org/mock/mockgen/internal/tests/alias",
+							Package: "github.com/canonical/gomock/mockgen/internal/tests/alias",
 							Type:    "Fooer",
 						},
 					}},
 					Out: []*model.Parameter{{
 						Type: &model.NamedType{
-							Package: "go.uber.org/mock/mockgen/internal/tests/alias",
+							Package: "github.com/canonical/gomock/mockgen/internal/tests/alias",
 							Type:    "Fooer",
 						},
 					}},
@@ -506,13 +506,13 @@ func TestAliases(t *testing.T) {
 					Name: "Consume",
 					In: []*model.Parameter{{
 						Type: &model.NamedType{
-							Package: "go.uber.org/mock/mockgen/internal/tests/alias",
+							Package: "github.com/canonical/gomock/mockgen/internal/tests/alias",
 							Type:    "QuxerAlias",
 						},
 					}},
 					Out: []*model.Parameter{{
 						Type: &model.NamedType{
-							Package: "go.uber.org/mock/mockgen/internal/tests/alias",
+							Package: "github.com/canonical/gomock/mockgen/internal/tests/alias",
 							Type:    "QuxerAlias",
 						},
 					}},
@@ -528,13 +528,13 @@ func TestAliases(t *testing.T) {
 					Name: "Consume",
 					In: []*model.Parameter{{
 						Type: &model.NamedType{
-							Package: "go.uber.org/mock/mockgen/internal/tests/alias/subpkg",
+							Package: "github.com/canonical/gomock/mockgen/internal/tests/alias/subpkg",
 							Type:    "Quuxer",
 						},
 					}},
 					Out: []*model.Parameter{{
 						Type: &model.NamedType{
-							Package: "go.uber.org/mock/mockgen/internal/tests/alias/subpkg",
+							Package: "github.com/canonical/gomock/mockgen/internal/tests/alias/subpkg",
 							Type:    "Quuxer",
 						},
 					}},
@@ -549,7 +549,7 @@ func TestAliases(t *testing.T) {
 			require.NotNil(t, actual)
 			require.Len(t, actual.Interfaces, 1)
 			assert.Equal(t, "alias", actual.Name)
-			assert.Equal(t, "go.uber.org/mock/mockgen/internal/tests/alias", actual.PkgPath)
+			assert.Equal(t, "github.com/canonical/gomock/mockgen/internal/tests/alias", actual.PkgPath)
 			assert.Equal(t, tt.expected, actual.Interfaces[0])
 		})
 	}
