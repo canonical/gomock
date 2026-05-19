@@ -13,7 +13,7 @@ type Foo interface {
 	String() string
 }
 
-func ExampleCall_DoAndReturn_latency() {
+func ExampleMockFoo_Bar_latency() {
 	t := &testing.T{} // provided by test
 	ctrl := gomock.NewController(t)
 	mockIndex := NewMockFoo(ctrl)
@@ -30,7 +30,7 @@ func ExampleCall_DoAndReturn_latency() {
 	// Output: I'm sleepy
 }
 
-func ExampleCall_DoAndReturn_captureArguments() {
+func ExampleMockFoo_Bar_captureArguments() {
 	t := &testing.T{} // provided by test
 	ctrl := gomock.NewController(t)
 	mockIndex := NewMockFoo(ctrl)
@@ -48,7 +48,7 @@ func ExampleCall_DoAndReturn_captureArguments() {
 	// Output: I'm sleepy foo
 }
 
-func ExampleCall_DoAndReturn_withOverridableExpectations() {
+func ExampleMockFoo_Bar_withOverridableExpectations() {
 	t := &testing.T{} // provided by test
 	ctrl := gomock.NewController(t, gomock.WithOverridableExpectations())
 	mockIndex := NewMockFoo(ctrl)

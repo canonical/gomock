@@ -10,8 +10,6 @@
 package mock_gomock
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 )
 
@@ -48,7 +46,12 @@ func (m *MockMatcher) Matches(x any) bool {
 // Matches indicates an expected call of Matches.
 func (mr *MockMatcherMockRecorder) Matches(x any) *MockMatcherMatchesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Matches", reflect.TypeOf((*MockMatcher)(nil).Matches), x)
+	call := mr.mock.ctrl.RecordCallTyped(
+		mr.mock, "Matches", 1, 1, false,
+		func() []any {
+			var r1 bool
+			return []any{r1}
+		}, x)
 	return &MockMatcherMatchesCall{Call: call}
 }
 
@@ -64,7 +67,12 @@ func (m *MockMatcher) String() string {
 // String indicates an expected call of String.
 func (mr *MockMatcherMockRecorder) String() *MockMatcherStringCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "String", reflect.TypeOf((*MockMatcher)(nil).String))
+	call := mr.mock.ctrl.RecordCallTyped(
+		mr.mock, "String", 0, 1, false,
+		func() []any {
+			var r1 string
+			return []any{r1}
+		})
 	return &MockMatcherStringCall{Call: call}
 }
 

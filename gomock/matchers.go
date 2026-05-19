@@ -445,3 +445,125 @@ func AssignableToTypeOf(x any) Matcher {
 func InAnyOrder(x any) Matcher {
 	return inAnyOrderMatcher{x}
 }
+
+// UntypedMatcher is an alias for the existing Matcher interface.
+// Matchers like Any(), Nil(), Len() etc. satisfy UntypedMatcher.
+type UntypedMatcher = Matcher
+
+// TypedMatcher is a Matcher that operates on a concrete type T,
+// avoiding any boxing into any for the hot matching path.
+type TypedMatcher[T any] interface {
+	Matches(x T) bool
+	String() string
+}
+
+type untypedAdaptor[T any] struct{ m UntypedMatcher }
+
+func (a untypedAdaptor[T]) Matches(x T) bool { return a.m.Matches(x) }
+func (a untypedAdaptor[T]) String() string   { return a.m.String() }
+
+type eqTypedMatcher[T comparable] struct{ x T }
+
+func (e eqTypedMatcher[T]) Matches(x T) bool { return e.x == x }
+func (e eqTypedMatcher[T]) String() string {
+	return fmt.Sprintf("is equal to %v (%T)", e.x, e.x)
+}
+
+type anyTypedMatcher[T any] struct{}
+
+func (anyTypedMatcher[T]) Matches(T) bool { return true }
+func (anyTypedMatcher[T]) String() string { return "is anything" }
+
+// EqTyped returns a TypedMatcher that uses == for comparison.
+// T must be comparable.
+func EqTyped[T comparable](x T) TypedMatcher[T] {
+	return eqTypedMatcher[T]{x}
+}
+
+// AnyTyped returns a TypedMatcher that always matches.
+func AnyTyped[T any]() TypedMatcher[T] {
+	return anyTypedMatcher[T]{}
+}
+
+// ToMatcher converts v into a TypedMatcher[T].
+//
+//   - If v is already a TypedMatcher[T], it is returned as-is.
+//   - If v is a UntypedMatcher (e.g. Any(), Nil(), Regex(...)),
+//     it is wrapped in an untypedAdaptor.
+//   - If v is nil, EqTyped of the zero value of T is returned.
+//   - Otherwise v is asserted to T and wrapped with EqTyped.
+//     This panics at expectation-setup time if v is the wrong type.
+func ToMatcher[T comparable](v any) TypedMatcher[T] {
+	switch m := v.(type) {
+	case TypedMatcher[T]:
+		return m
+	case UntypedMatcher:
+		return untypedAdaptor[T]{m}
+	case nil:
+		var zero T
+		return eqTypedMatcher[T]{zero}
+	default:
+		return eqTypedMatcher[T]{v.(T)}
+	}
+}
+
+// EnsureMatcher converts v to a Matcher. If v already implements
+// Matcher it is returned unchanged. nil becomes Nil(). Anything
+// else becomes Eq(v).
+// Used by generated mock recorder code.
+func EnsureMatcher(v any) Matcher {
+	if m, ok := v.(Matcher); ok {
+		return m
+	}
+	if v == nil {
+		return Nil()
+	}
+	return Eq(v)
+}
+
+// MatchVariadicArgs matches args against fixed and variadic Matchers.
+// Used by generated mock code for variadic methods.
+//
+//   - fixedMs: one Matcher per non-variadic parameter.
+//   - varMs: matchers for the variadic elements.
+//     If empty, any number of variadic args is accepted.
+//     If one matcher, it is first tried against each individual
+//     variadic element; if counts differ it is tried against the
+//     whole variadic tail as []any.
+//     If multiple matchers, each must match the corresponding
+//     variadic element (counts must be equal).
+func MatchVariadicArgs(
+	args []any,
+	fixedMs []Matcher,
+	varMs []Matcher,
+) bool {
+	if len(args) < len(fixedMs) {
+		return false
+	}
+	for i, m := range fixedMs {
+		if !m.Matches(args[i]) {
+			return false
+		}
+	}
+	varArgs := args[len(fixedMs):]
+	if len(varMs) == 0 {
+		return true
+	}
+	if len(varMs) == 1 {
+		// Try individual element matching first.
+		if len(varArgs) == 1 && varMs[0].Matches(varArgs[0]) {
+			return true
+		}
+		// Try matching the whole tail as []any.
+		return varMs[0].Matches(varArgs)
+	}
+	if len(varArgs) != len(varMs) {
+		return false
+	}
+	for i, m := range varMs {
+		if !m.Matches(varArgs[i]) {
+			return false
+		}
+	}
+	return true
+}
