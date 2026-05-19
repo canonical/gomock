@@ -10,8 +10,6 @@
 package mocks
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 	user "github.com/canonical/gomock/mockgen/internal/tests/mock_name/user"
 )
@@ -25,13 +23,14 @@ type UserServiceMock struct {
 
 // UserServiceMockMockRecorder is the mock recorder for UserServiceMock.
 type UserServiceMockMockRecorder struct {
-	mock *UserServiceMock
+	mock          *UserServiceMock
+	createExpects []*gomock.Call1_2[string, *user.User, error]
 }
 
 // NewUserServiceMock creates a new mock instance.
 func NewUserServiceMock(ctrl *gomock.Controller) *UserServiceMock {
 	mock := &UserServiceMock{ctrl: ctrl}
-	mock.recorder = &UserServiceMockMockRecorder{mock}
+	mock.recorder = &UserServiceMockMockRecorder{mock: mock}
 	return mock
 }
 
@@ -43,14 +42,16 @@ func (m *UserServiceMock) EXPECT() *UserServiceMockMockRecorder {
 // Create mocks base method.
 func (m *UserServiceMock) Create(name string) (*user.User, error) {
 	m.ctrl.T.Helper()
-	return gomock.Invoke2[*user.User, error](m.ctrl.Call(m, "Create", name))
+	return gomock.Dispatch1_2(&m.recorder.createExpects, m.ctrl, m, "Create", name)
 }
 
 // Create indicates an expected call of Create.
 func (mr *UserServiceMockMockRecorder) Create(name any) *UserServiceMockCreateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*UserServiceMock)(nil).Create), name)
-	return &UserServiceMockCreateCall{Call: call}
+	call := gomock.NewCall1_2[string, *user.User, error](mr.mock.ctrl.T, mr.mock, "Create", gomock.EnsureMatcher(name))
+	mr.createExpects = append(mr.createExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // UserServiceMockCreateCall is the typed call wrapper for Create.

@@ -12,8 +12,6 @@
 package package_mode
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 	generics "github.com/canonical/gomock/mockgen/internal/tests/generics"
 	other "github.com/canonical/gomock/mockgen/internal/tests/generics/other"
@@ -28,13 +26,32 @@ type MockBarAliasTString[T any] struct {
 
 // MockBarAliasTStringMockRecorder is the mock recorder for MockBarAliasTString.
 type MockBarAliasTStringMockRecorder[T any] struct {
-	mock *MockBarAliasTString[T]
+	mock             *MockBarAliasTString[T]
+	eightExpects     []*gomock.Call1_1[T, other.Two[T, string]]
+	eighteenExpects  []*gomock.Call0_2[generics.Iface[*other.Five], error]
+	elevenExpects    []*gomock.Call0_2[*other.One[T], error]
+	fifteenExpects   []*gomock.Call0_2[generics.Iface[generics.StructType], error]
+	fiveExpects      []*gomock.Call1_1[T, generics.Baz[T]]
+	fourExpects      []*gomock.Call1_1[T, generics.Foo[T, string]]
+	fourteenExpects  []*gomock.Call0_2[*generics.Foo[generics.StructType, generics.StructType2], error]
+	nineExpects      []*gomock.Call1_0[generics.Iface[T]]
+	nineteenExpects  []*gomock.Call0_1[generics.AliasType]
+	oneExpects       []*gomock.Call1_1[string, string]
+	sevenExpects     []*gomock.Call1_1[T, other.One[T]]
+	seventeenExpects []*gomock.Call0_2[*generics.Foo[other.Three, other.Four], error]
+	sixExpects       []*gomock.Call1_1[T, *generics.Baz[T]]
+	sixteenExpects   []*gomock.Call0_2[generics.Baz[other.Three], error]
+	tenExpects       []*gomock.Call1_0[*T]
+	thirteenExpects  []*gomock.Call0_2[generics.Baz[generics.StructType], error]
+	threeExpects     []*gomock.Call1_1[T, string]
+	twelveExpects    []*gomock.Call0_2[*other.Two[T, string], error]
+	twoExpects       []*gomock.Call1_1[T, string]
 }
 
 // NewMockBarAliasTString creates a new mock instance.
 func NewMockBarAliasTString[T any](ctrl *gomock.Controller) *MockBarAliasTString[T] {
 	mock := &MockBarAliasTString[T]{ctrl: ctrl}
-	mock.recorder = &MockBarAliasTStringMockRecorder[T]{mock}
+	mock.recorder = &MockBarAliasTStringMockRecorder[T]{mock: mock}
 	return mock
 }
 
@@ -46,272 +63,344 @@ func (m *MockBarAliasTString[T]) EXPECT() *MockBarAliasTStringMockRecorder[T] {
 // Eight mocks base method.
 func (m *MockBarAliasTString[T]) Eight(arg0 T) other.Two[T, string] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Eight", arg0)
-	ret0, _ := ret[0].(other.Two[T, string])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.eightExpects, m.ctrl, m, "Eight", arg0)
 }
 
 // Eight indicates an expected call of Eight.
-func (mr *MockBarAliasTStringMockRecorder[T]) Eight(arg0 any) *gomock.Call {
+func (mr *MockBarAliasTStringMockRecorder[T]) Eight(arg0 any) *MockBarAliasTStringEightCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eight", reflect.TypeOf((*MockBarAliasTString[T])(nil).Eight), arg0)
+	call := gomock.NewCall1_1[T, other.Two[T, string]](mr.mock.ctrl.T, mr.mock, "Eight", gomock.EnsureMatcher(arg0))
+	mr.eightExpects = append(mr.eightExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasTStringEightCall is the typed call wrapper for Eight.
+type MockBarAliasTStringEightCall[T any] = gomock.Call1_1[T, other.Two[T, string]]
 
 // Eighteen mocks base method.
 func (m *MockBarAliasTString[T]) Eighteen() (generics.Iface[*other.Five], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Eighteen")
-	ret0, _ := ret[0].(generics.Iface[*other.Five])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.eighteenExpects, m.ctrl, m, "Eighteen")
 }
 
 // Eighteen indicates an expected call of Eighteen.
-func (mr *MockBarAliasTStringMockRecorder[T]) Eighteen() *gomock.Call {
+func (mr *MockBarAliasTStringMockRecorder[T]) Eighteen() *MockBarAliasTStringEighteenCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eighteen", reflect.TypeOf((*MockBarAliasTString[T])(nil).Eighteen))
+	call := gomock.NewCall0_2[generics.Iface[*other.Five], error](mr.mock.ctrl.T, mr.mock, "Eighteen")
+	mr.eighteenExpects = append(mr.eighteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasTStringEighteenCall is the typed call wrapper for Eighteen.
+type MockBarAliasTStringEighteenCall[T any] = gomock.Call0_2[generics.Iface[*other.Five], error]
 
 // Eleven mocks base method.
 func (m *MockBarAliasTString[T]) Eleven() (*other.One[T], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Eleven")
-	ret0, _ := ret[0].(*other.One[T])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.elevenExpects, m.ctrl, m, "Eleven")
 }
 
 // Eleven indicates an expected call of Eleven.
-func (mr *MockBarAliasTStringMockRecorder[T]) Eleven() *gomock.Call {
+func (mr *MockBarAliasTStringMockRecorder[T]) Eleven() *MockBarAliasTStringElevenCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eleven", reflect.TypeOf((*MockBarAliasTString[T])(nil).Eleven))
+	call := gomock.NewCall0_2[*other.One[T], error](mr.mock.ctrl.T, mr.mock, "Eleven")
+	mr.elevenExpects = append(mr.elevenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasTStringElevenCall is the typed call wrapper for Eleven.
+type MockBarAliasTStringElevenCall[T any] = gomock.Call0_2[*other.One[T], error]
 
 // Fifteen mocks base method.
 func (m *MockBarAliasTString[T]) Fifteen() (generics.Iface[generics.StructType], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Fifteen")
-	ret0, _ := ret[0].(generics.Iface[generics.StructType])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.fifteenExpects, m.ctrl, m, "Fifteen")
 }
 
 // Fifteen indicates an expected call of Fifteen.
-func (mr *MockBarAliasTStringMockRecorder[T]) Fifteen() *gomock.Call {
+func (mr *MockBarAliasTStringMockRecorder[T]) Fifteen() *MockBarAliasTStringFifteenCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Fifteen", reflect.TypeOf((*MockBarAliasTString[T])(nil).Fifteen))
+	call := gomock.NewCall0_2[generics.Iface[generics.StructType], error](mr.mock.ctrl.T, mr.mock, "Fifteen")
+	mr.fifteenExpects = append(mr.fifteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasTStringFifteenCall is the typed call wrapper for Fifteen.
+type MockBarAliasTStringFifteenCall[T any] = gomock.Call0_2[generics.Iface[generics.StructType], error]
 
 // Five mocks base method.
 func (m *MockBarAliasTString[T]) Five(arg0 T) generics.Baz[T] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Five", arg0)
-	ret0, _ := ret[0].(generics.Baz[T])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.fiveExpects, m.ctrl, m, "Five", arg0)
 }
 
 // Five indicates an expected call of Five.
-func (mr *MockBarAliasTStringMockRecorder[T]) Five(arg0 any) *gomock.Call {
+func (mr *MockBarAliasTStringMockRecorder[T]) Five(arg0 any) *MockBarAliasTStringFiveCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Five", reflect.TypeOf((*MockBarAliasTString[T])(nil).Five), arg0)
+	call := gomock.NewCall1_1[T, generics.Baz[T]](mr.mock.ctrl.T, mr.mock, "Five", gomock.EnsureMatcher(arg0))
+	mr.fiveExpects = append(mr.fiveExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasTStringFiveCall is the typed call wrapper for Five.
+type MockBarAliasTStringFiveCall[T any] = gomock.Call1_1[T, generics.Baz[T]]
 
 // Four mocks base method.
 func (m *MockBarAliasTString[T]) Four(arg0 T) generics.Foo[T, string] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Four", arg0)
-	ret0, _ := ret[0].(generics.Foo[T, string])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.fourExpects, m.ctrl, m, "Four", arg0)
 }
 
 // Four indicates an expected call of Four.
-func (mr *MockBarAliasTStringMockRecorder[T]) Four(arg0 any) *gomock.Call {
+func (mr *MockBarAliasTStringMockRecorder[T]) Four(arg0 any) *MockBarAliasTStringFourCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Four", reflect.TypeOf((*MockBarAliasTString[T])(nil).Four), arg0)
+	call := gomock.NewCall1_1[T, generics.Foo[T, string]](mr.mock.ctrl.T, mr.mock, "Four", gomock.EnsureMatcher(arg0))
+	mr.fourExpects = append(mr.fourExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasTStringFourCall is the typed call wrapper for Four.
+type MockBarAliasTStringFourCall[T any] = gomock.Call1_1[T, generics.Foo[T, string]]
 
 // Fourteen mocks base method.
 func (m *MockBarAliasTString[T]) Fourteen() (*generics.Foo[generics.StructType, generics.StructType2], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Fourteen")
-	ret0, _ := ret[0].(*generics.Foo[generics.StructType, generics.StructType2])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.fourteenExpects, m.ctrl, m, "Fourteen")
 }
 
 // Fourteen indicates an expected call of Fourteen.
-func (mr *MockBarAliasTStringMockRecorder[T]) Fourteen() *gomock.Call {
+func (mr *MockBarAliasTStringMockRecorder[T]) Fourteen() *MockBarAliasTStringFourteenCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Fourteen", reflect.TypeOf((*MockBarAliasTString[T])(nil).Fourteen))
+	call := gomock.NewCall0_2[*generics.Foo[generics.StructType, generics.StructType2], error](mr.mock.ctrl.T, mr.mock, "Fourteen")
+	mr.fourteenExpects = append(mr.fourteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasTStringFourteenCall is the typed call wrapper for Fourteen.
+type MockBarAliasTStringFourteenCall[T any] = gomock.Call0_2[*generics.Foo[generics.StructType, generics.StructType2], error]
 
 // Nine mocks base method.
 func (m *MockBarAliasTString[T]) Nine(arg0 generics.Iface[T]) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Nine", arg0)
+	gomock.Dispatch1_0(&m.recorder.nineExpects, m.ctrl, m, "Nine", arg0)
 }
 
 // Nine indicates an expected call of Nine.
-func (mr *MockBarAliasTStringMockRecorder[T]) Nine(arg0 any) *gomock.Call {
+func (mr *MockBarAliasTStringMockRecorder[T]) Nine(arg0 any) *MockBarAliasTStringNineCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Nine", reflect.TypeOf((*MockBarAliasTString[T])(nil).Nine), arg0)
+	call := gomock.NewCall1_0[generics.Iface[T]](mr.mock.ctrl.T, mr.mock, "Nine", gomock.EnsureMatcher(arg0))
+	mr.nineExpects = append(mr.nineExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasTStringNineCall is the typed call wrapper for Nine.
+type MockBarAliasTStringNineCall[T any] = gomock.Call1_0[generics.Iface[T]]
 
 // Nineteen mocks base method.
 func (m *MockBarAliasTString[T]) Nineteen() generics.AliasType {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Nineteen")
-	ret0, _ := ret[0].(generics.AliasType)
-	return ret0
+	return gomock.Dispatch0_1(&m.recorder.nineteenExpects, m.ctrl, m, "Nineteen")
 }
 
 // Nineteen indicates an expected call of Nineteen.
-func (mr *MockBarAliasTStringMockRecorder[T]) Nineteen() *gomock.Call {
+func (mr *MockBarAliasTStringMockRecorder[T]) Nineteen() *MockBarAliasTStringNineteenCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Nineteen", reflect.TypeOf((*MockBarAliasTString[T])(nil).Nineteen))
+	call := gomock.NewCall0_1[generics.AliasType](mr.mock.ctrl.T, mr.mock, "Nineteen")
+	mr.nineteenExpects = append(mr.nineteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasTStringNineteenCall is the typed call wrapper for Nineteen.
+type MockBarAliasTStringNineteenCall[T any] = gomock.Call0_1[generics.AliasType]
 
 // One mocks base method.
 func (m *MockBarAliasTString[T]) One(arg0 string) string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "One", arg0)
-	ret0, _ := ret[0].(string)
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.oneExpects, m.ctrl, m, "One", arg0)
 }
 
 // One indicates an expected call of One.
-func (mr *MockBarAliasTStringMockRecorder[T]) One(arg0 any) *gomock.Call {
+func (mr *MockBarAliasTStringMockRecorder[T]) One(arg0 any) *MockBarAliasTStringOneCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "One", reflect.TypeOf((*MockBarAliasTString[T])(nil).One), arg0)
+	call := gomock.NewCall1_1[string, string](mr.mock.ctrl.T, mr.mock, "One", gomock.EnsureMatcher(arg0))
+	mr.oneExpects = append(mr.oneExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasTStringOneCall is the typed call wrapper for One.
+type MockBarAliasTStringOneCall[T any] = gomock.Call1_1[string, string]
 
 // Seven mocks base method.
 func (m *MockBarAliasTString[T]) Seven(arg0 T) other.One[T] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Seven", arg0)
-	ret0, _ := ret[0].(other.One[T])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.sevenExpects, m.ctrl, m, "Seven", arg0)
 }
 
 // Seven indicates an expected call of Seven.
-func (mr *MockBarAliasTStringMockRecorder[T]) Seven(arg0 any) *gomock.Call {
+func (mr *MockBarAliasTStringMockRecorder[T]) Seven(arg0 any) *MockBarAliasTStringSevenCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Seven", reflect.TypeOf((*MockBarAliasTString[T])(nil).Seven), arg0)
+	call := gomock.NewCall1_1[T, other.One[T]](mr.mock.ctrl.T, mr.mock, "Seven", gomock.EnsureMatcher(arg0))
+	mr.sevenExpects = append(mr.sevenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasTStringSevenCall is the typed call wrapper for Seven.
+type MockBarAliasTStringSevenCall[T any] = gomock.Call1_1[T, other.One[T]]
 
 // Seventeen mocks base method.
 func (m *MockBarAliasTString[T]) Seventeen() (*generics.Foo[other.Three, other.Four], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Seventeen")
-	ret0, _ := ret[0].(*generics.Foo[other.Three, other.Four])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.seventeenExpects, m.ctrl, m, "Seventeen")
 }
 
 // Seventeen indicates an expected call of Seventeen.
-func (mr *MockBarAliasTStringMockRecorder[T]) Seventeen() *gomock.Call {
+func (mr *MockBarAliasTStringMockRecorder[T]) Seventeen() *MockBarAliasTStringSeventeenCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Seventeen", reflect.TypeOf((*MockBarAliasTString[T])(nil).Seventeen))
+	call := gomock.NewCall0_2[*generics.Foo[other.Three, other.Four], error](mr.mock.ctrl.T, mr.mock, "Seventeen")
+	mr.seventeenExpects = append(mr.seventeenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasTStringSeventeenCall is the typed call wrapper for Seventeen.
+type MockBarAliasTStringSeventeenCall[T any] = gomock.Call0_2[*generics.Foo[other.Three, other.Four], error]
 
 // Six mocks base method.
 func (m *MockBarAliasTString[T]) Six(arg0 T) *generics.Baz[T] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Six", arg0)
-	ret0, _ := ret[0].(*generics.Baz[T])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.sixExpects, m.ctrl, m, "Six", arg0)
 }
 
 // Six indicates an expected call of Six.
-func (mr *MockBarAliasTStringMockRecorder[T]) Six(arg0 any) *gomock.Call {
+func (mr *MockBarAliasTStringMockRecorder[T]) Six(arg0 any) *MockBarAliasTStringSixCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Six", reflect.TypeOf((*MockBarAliasTString[T])(nil).Six), arg0)
+	call := gomock.NewCall1_1[T, *generics.Baz[T]](mr.mock.ctrl.T, mr.mock, "Six", gomock.EnsureMatcher(arg0))
+	mr.sixExpects = append(mr.sixExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasTStringSixCall is the typed call wrapper for Six.
+type MockBarAliasTStringSixCall[T any] = gomock.Call1_1[T, *generics.Baz[T]]
 
 // Sixteen mocks base method.
 func (m *MockBarAliasTString[T]) Sixteen() (generics.Baz[other.Three], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Sixteen")
-	ret0, _ := ret[0].(generics.Baz[other.Three])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.sixteenExpects, m.ctrl, m, "Sixteen")
 }
 
 // Sixteen indicates an expected call of Sixteen.
-func (mr *MockBarAliasTStringMockRecorder[T]) Sixteen() *gomock.Call {
+func (mr *MockBarAliasTStringMockRecorder[T]) Sixteen() *MockBarAliasTStringSixteenCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Sixteen", reflect.TypeOf((*MockBarAliasTString[T])(nil).Sixteen))
+	call := gomock.NewCall0_2[generics.Baz[other.Three], error](mr.mock.ctrl.T, mr.mock, "Sixteen")
+	mr.sixteenExpects = append(mr.sixteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasTStringSixteenCall is the typed call wrapper for Sixteen.
+type MockBarAliasTStringSixteenCall[T any] = gomock.Call0_2[generics.Baz[other.Three], error]
 
 // Ten mocks base method.
 func (m *MockBarAliasTString[T]) Ten(arg0 *T) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Ten", arg0)
+	gomock.Dispatch1_0(&m.recorder.tenExpects, m.ctrl, m, "Ten", arg0)
 }
 
 // Ten indicates an expected call of Ten.
-func (mr *MockBarAliasTStringMockRecorder[T]) Ten(arg0 any) *gomock.Call {
+func (mr *MockBarAliasTStringMockRecorder[T]) Ten(arg0 any) *MockBarAliasTStringTenCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Ten", reflect.TypeOf((*MockBarAliasTString[T])(nil).Ten), arg0)
+	call := gomock.NewCall1_0[*T](mr.mock.ctrl.T, mr.mock, "Ten", gomock.EnsureMatcher(arg0))
+	mr.tenExpects = append(mr.tenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasTStringTenCall is the typed call wrapper for Ten.
+type MockBarAliasTStringTenCall[T any] = gomock.Call1_0[*T]
 
 // Thirteen mocks base method.
 func (m *MockBarAliasTString[T]) Thirteen() (generics.Baz[generics.StructType], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Thirteen")
-	ret0, _ := ret[0].(generics.Baz[generics.StructType])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.thirteenExpects, m.ctrl, m, "Thirteen")
 }
 
 // Thirteen indicates an expected call of Thirteen.
-func (mr *MockBarAliasTStringMockRecorder[T]) Thirteen() *gomock.Call {
+func (mr *MockBarAliasTStringMockRecorder[T]) Thirteen() *MockBarAliasTStringThirteenCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Thirteen", reflect.TypeOf((*MockBarAliasTString[T])(nil).Thirteen))
+	call := gomock.NewCall0_2[generics.Baz[generics.StructType], error](mr.mock.ctrl.T, mr.mock, "Thirteen")
+	mr.thirteenExpects = append(mr.thirteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasTStringThirteenCall is the typed call wrapper for Thirteen.
+type MockBarAliasTStringThirteenCall[T any] = gomock.Call0_2[generics.Baz[generics.StructType], error]
 
 // Three mocks base method.
 func (m *MockBarAliasTString[T]) Three(arg0 T) string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Three", arg0)
-	ret0, _ := ret[0].(string)
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.threeExpects, m.ctrl, m, "Three", arg0)
 }
 
 // Three indicates an expected call of Three.
-func (mr *MockBarAliasTStringMockRecorder[T]) Three(arg0 any) *gomock.Call {
+func (mr *MockBarAliasTStringMockRecorder[T]) Three(arg0 any) *MockBarAliasTStringThreeCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Three", reflect.TypeOf((*MockBarAliasTString[T])(nil).Three), arg0)
+	call := gomock.NewCall1_1[T, string](mr.mock.ctrl.T, mr.mock, "Three", gomock.EnsureMatcher(arg0))
+	mr.threeExpects = append(mr.threeExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasTStringThreeCall is the typed call wrapper for Three.
+type MockBarAliasTStringThreeCall[T any] = gomock.Call1_1[T, string]
 
 // Twelve mocks base method.
 func (m *MockBarAliasTString[T]) Twelve() (*other.Two[T, string], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Twelve")
-	ret0, _ := ret[0].(*other.Two[T, string])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.twelveExpects, m.ctrl, m, "Twelve")
 }
 
 // Twelve indicates an expected call of Twelve.
-func (mr *MockBarAliasTStringMockRecorder[T]) Twelve() *gomock.Call {
+func (mr *MockBarAliasTStringMockRecorder[T]) Twelve() *MockBarAliasTStringTwelveCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Twelve", reflect.TypeOf((*MockBarAliasTString[T])(nil).Twelve))
+	call := gomock.NewCall0_2[*other.Two[T, string], error](mr.mock.ctrl.T, mr.mock, "Twelve")
+	mr.twelveExpects = append(mr.twelveExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasTStringTwelveCall is the typed call wrapper for Twelve.
+type MockBarAliasTStringTwelveCall[T any] = gomock.Call0_2[*other.Two[T, string], error]
 
 // Two mocks base method.
 func (m *MockBarAliasTString[T]) Two(arg0 T) string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Two", arg0)
-	ret0, _ := ret[0].(string)
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.twoExpects, m.ctrl, m, "Two", arg0)
 }
 
 // Two indicates an expected call of Two.
-func (mr *MockBarAliasTStringMockRecorder[T]) Two(arg0 any) *gomock.Call {
+func (mr *MockBarAliasTStringMockRecorder[T]) Two(arg0 any) *MockBarAliasTStringTwoCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Two", reflect.TypeOf((*MockBarAliasTString[T])(nil).Two), arg0)
+	call := gomock.NewCall1_1[T, string](mr.mock.ctrl.T, mr.mock, "Two", gomock.EnsureMatcher(arg0))
+	mr.twoExpects = append(mr.twoExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasTStringTwoCall is the typed call wrapper for Two.
+type MockBarAliasTStringTwoCall[T any] = gomock.Call1_1[T, string]
 
 // MockBarAliasIntR is a mock of BarAliasIntR interface.
 type MockBarAliasIntR[Q any] struct {
@@ -322,13 +411,32 @@ type MockBarAliasIntR[Q any] struct {
 
 // MockBarAliasIntRMockRecorder is the mock recorder for MockBarAliasIntR.
 type MockBarAliasIntRMockRecorder[Q any] struct {
-	mock *MockBarAliasIntR[Q]
+	mock             *MockBarAliasIntR[Q]
+	eightExpects     []*gomock.Call1_1[int, other.Two[int, Q]]
+	eighteenExpects  []*gomock.Call0_2[generics.Iface[*other.Five], error]
+	elevenExpects    []*gomock.Call0_2[*other.One[int], error]
+	fifteenExpects   []*gomock.Call0_2[generics.Iface[generics.StructType], error]
+	fiveExpects      []*gomock.Call1_1[int, generics.Baz[int]]
+	fourExpects      []*gomock.Call1_1[int, generics.Foo[int, Q]]
+	fourteenExpects  []*gomock.Call0_2[*generics.Foo[generics.StructType, generics.StructType2], error]
+	nineExpects      []*gomock.Call1_0[generics.Iface[int]]
+	nineteenExpects  []*gomock.Call0_1[generics.AliasType]
+	oneExpects       []*gomock.Call1_1[string, string]
+	sevenExpects     []*gomock.Call1_1[int, other.One[int]]
+	seventeenExpects []*gomock.Call0_2[*generics.Foo[other.Three, other.Four], error]
+	sixExpects       []*gomock.Call1_1[int, *generics.Baz[int]]
+	sixteenExpects   []*gomock.Call0_2[generics.Baz[other.Three], error]
+	tenExpects       []*gomock.Call1_0[*int]
+	thirteenExpects  []*gomock.Call0_2[generics.Baz[generics.StructType], error]
+	threeExpects     []*gomock.Call1_1[int, Q]
+	twelveExpects    []*gomock.Call0_2[*other.Two[int, Q], error]
+	twoExpects       []*gomock.Call1_1[int, string]
 }
 
 // NewMockBarAliasIntR creates a new mock instance.
 func NewMockBarAliasIntR[Q any](ctrl *gomock.Controller) *MockBarAliasIntR[Q] {
 	mock := &MockBarAliasIntR[Q]{ctrl: ctrl}
-	mock.recorder = &MockBarAliasIntRMockRecorder[Q]{mock}
+	mock.recorder = &MockBarAliasIntRMockRecorder[Q]{mock: mock}
 	return mock
 }
 
@@ -340,272 +448,344 @@ func (m *MockBarAliasIntR[Q]) EXPECT() *MockBarAliasIntRMockRecorder[Q] {
 // Eight mocks base method.
 func (m *MockBarAliasIntR[Q]) Eight(arg0 int) other.Two[int, Q] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Eight", arg0)
-	ret0, _ := ret[0].(other.Two[int, Q])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.eightExpects, m.ctrl, m, "Eight", arg0)
 }
 
 // Eight indicates an expected call of Eight.
-func (mr *MockBarAliasIntRMockRecorder[Q]) Eight(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntRMockRecorder[Q]) Eight(arg0 any) *MockBarAliasIntREightCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eight", reflect.TypeOf((*MockBarAliasIntR[Q])(nil).Eight), arg0)
+	call := gomock.NewCall1_1[int, other.Two[int, Q]](mr.mock.ctrl.T, mr.mock, "Eight", gomock.EnsureMatcher(arg0))
+	mr.eightExpects = append(mr.eightExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntREightCall is the typed call wrapper for Eight.
+type MockBarAliasIntREightCall[Q any] = gomock.Call1_1[int, other.Two[int, Q]]
 
 // Eighteen mocks base method.
 func (m *MockBarAliasIntR[Q]) Eighteen() (generics.Iface[*other.Five], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Eighteen")
-	ret0, _ := ret[0].(generics.Iface[*other.Five])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.eighteenExpects, m.ctrl, m, "Eighteen")
 }
 
 // Eighteen indicates an expected call of Eighteen.
-func (mr *MockBarAliasIntRMockRecorder[Q]) Eighteen() *gomock.Call {
+func (mr *MockBarAliasIntRMockRecorder[Q]) Eighteen() *MockBarAliasIntREighteenCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eighteen", reflect.TypeOf((*MockBarAliasIntR[Q])(nil).Eighteen))
+	call := gomock.NewCall0_2[generics.Iface[*other.Five], error](mr.mock.ctrl.T, mr.mock, "Eighteen")
+	mr.eighteenExpects = append(mr.eighteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntREighteenCall is the typed call wrapper for Eighteen.
+type MockBarAliasIntREighteenCall[Q any] = gomock.Call0_2[generics.Iface[*other.Five], error]
 
 // Eleven mocks base method.
 func (m *MockBarAliasIntR[Q]) Eleven() (*other.One[int], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Eleven")
-	ret0, _ := ret[0].(*other.One[int])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.elevenExpects, m.ctrl, m, "Eleven")
 }
 
 // Eleven indicates an expected call of Eleven.
-func (mr *MockBarAliasIntRMockRecorder[Q]) Eleven() *gomock.Call {
+func (mr *MockBarAliasIntRMockRecorder[Q]) Eleven() *MockBarAliasIntRElevenCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eleven", reflect.TypeOf((*MockBarAliasIntR[Q])(nil).Eleven))
+	call := gomock.NewCall0_2[*other.One[int], error](mr.mock.ctrl.T, mr.mock, "Eleven")
+	mr.elevenExpects = append(mr.elevenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntRElevenCall is the typed call wrapper for Eleven.
+type MockBarAliasIntRElevenCall[Q any] = gomock.Call0_2[*other.One[int], error]
 
 // Fifteen mocks base method.
 func (m *MockBarAliasIntR[Q]) Fifteen() (generics.Iface[generics.StructType], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Fifteen")
-	ret0, _ := ret[0].(generics.Iface[generics.StructType])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.fifteenExpects, m.ctrl, m, "Fifteen")
 }
 
 // Fifteen indicates an expected call of Fifteen.
-func (mr *MockBarAliasIntRMockRecorder[Q]) Fifteen() *gomock.Call {
+func (mr *MockBarAliasIntRMockRecorder[Q]) Fifteen() *MockBarAliasIntRFifteenCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Fifteen", reflect.TypeOf((*MockBarAliasIntR[Q])(nil).Fifteen))
+	call := gomock.NewCall0_2[generics.Iface[generics.StructType], error](mr.mock.ctrl.T, mr.mock, "Fifteen")
+	mr.fifteenExpects = append(mr.fifteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntRFifteenCall is the typed call wrapper for Fifteen.
+type MockBarAliasIntRFifteenCall[Q any] = gomock.Call0_2[generics.Iface[generics.StructType], error]
 
 // Five mocks base method.
 func (m *MockBarAliasIntR[Q]) Five(arg0 int) generics.Baz[int] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Five", arg0)
-	ret0, _ := ret[0].(generics.Baz[int])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.fiveExpects, m.ctrl, m, "Five", arg0)
 }
 
 // Five indicates an expected call of Five.
-func (mr *MockBarAliasIntRMockRecorder[Q]) Five(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntRMockRecorder[Q]) Five(arg0 any) *MockBarAliasIntRFiveCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Five", reflect.TypeOf((*MockBarAliasIntR[Q])(nil).Five), arg0)
+	call := gomock.NewCall1_1[int, generics.Baz[int]](mr.mock.ctrl.T, mr.mock, "Five", gomock.EnsureMatcher(arg0))
+	mr.fiveExpects = append(mr.fiveExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntRFiveCall is the typed call wrapper for Five.
+type MockBarAliasIntRFiveCall[Q any] = gomock.Call1_1[int, generics.Baz[int]]
 
 // Four mocks base method.
 func (m *MockBarAliasIntR[Q]) Four(arg0 int) generics.Foo[int, Q] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Four", arg0)
-	ret0, _ := ret[0].(generics.Foo[int, Q])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.fourExpects, m.ctrl, m, "Four", arg0)
 }
 
 // Four indicates an expected call of Four.
-func (mr *MockBarAliasIntRMockRecorder[Q]) Four(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntRMockRecorder[Q]) Four(arg0 any) *MockBarAliasIntRFourCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Four", reflect.TypeOf((*MockBarAliasIntR[Q])(nil).Four), arg0)
+	call := gomock.NewCall1_1[int, generics.Foo[int, Q]](mr.mock.ctrl.T, mr.mock, "Four", gomock.EnsureMatcher(arg0))
+	mr.fourExpects = append(mr.fourExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntRFourCall is the typed call wrapper for Four.
+type MockBarAliasIntRFourCall[Q any] = gomock.Call1_1[int, generics.Foo[int, Q]]
 
 // Fourteen mocks base method.
 func (m *MockBarAliasIntR[Q]) Fourteen() (*generics.Foo[generics.StructType, generics.StructType2], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Fourteen")
-	ret0, _ := ret[0].(*generics.Foo[generics.StructType, generics.StructType2])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.fourteenExpects, m.ctrl, m, "Fourteen")
 }
 
 // Fourteen indicates an expected call of Fourteen.
-func (mr *MockBarAliasIntRMockRecorder[Q]) Fourteen() *gomock.Call {
+func (mr *MockBarAliasIntRMockRecorder[Q]) Fourteen() *MockBarAliasIntRFourteenCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Fourteen", reflect.TypeOf((*MockBarAliasIntR[Q])(nil).Fourteen))
+	call := gomock.NewCall0_2[*generics.Foo[generics.StructType, generics.StructType2], error](mr.mock.ctrl.T, mr.mock, "Fourteen")
+	mr.fourteenExpects = append(mr.fourteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntRFourteenCall is the typed call wrapper for Fourteen.
+type MockBarAliasIntRFourteenCall[Q any] = gomock.Call0_2[*generics.Foo[generics.StructType, generics.StructType2], error]
 
 // Nine mocks base method.
 func (m *MockBarAliasIntR[Q]) Nine(arg0 generics.Iface[int]) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Nine", arg0)
+	gomock.Dispatch1_0(&m.recorder.nineExpects, m.ctrl, m, "Nine", arg0)
 }
 
 // Nine indicates an expected call of Nine.
-func (mr *MockBarAliasIntRMockRecorder[Q]) Nine(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntRMockRecorder[Q]) Nine(arg0 any) *MockBarAliasIntRNineCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Nine", reflect.TypeOf((*MockBarAliasIntR[Q])(nil).Nine), arg0)
+	call := gomock.NewCall1_0[generics.Iface[int]](mr.mock.ctrl.T, mr.mock, "Nine", gomock.EnsureMatcher(arg0))
+	mr.nineExpects = append(mr.nineExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntRNineCall is the typed call wrapper for Nine.
+type MockBarAliasIntRNineCall[Q any] = gomock.Call1_0[generics.Iface[int]]
 
 // Nineteen mocks base method.
 func (m *MockBarAliasIntR[Q]) Nineteen() generics.AliasType {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Nineteen")
-	ret0, _ := ret[0].(generics.AliasType)
-	return ret0
+	return gomock.Dispatch0_1(&m.recorder.nineteenExpects, m.ctrl, m, "Nineteen")
 }
 
 // Nineteen indicates an expected call of Nineteen.
-func (mr *MockBarAliasIntRMockRecorder[Q]) Nineteen() *gomock.Call {
+func (mr *MockBarAliasIntRMockRecorder[Q]) Nineteen() *MockBarAliasIntRNineteenCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Nineteen", reflect.TypeOf((*MockBarAliasIntR[Q])(nil).Nineteen))
+	call := gomock.NewCall0_1[generics.AliasType](mr.mock.ctrl.T, mr.mock, "Nineteen")
+	mr.nineteenExpects = append(mr.nineteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntRNineteenCall is the typed call wrapper for Nineteen.
+type MockBarAliasIntRNineteenCall[Q any] = gomock.Call0_1[generics.AliasType]
 
 // One mocks base method.
 func (m *MockBarAliasIntR[Q]) One(arg0 string) string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "One", arg0)
-	ret0, _ := ret[0].(string)
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.oneExpects, m.ctrl, m, "One", arg0)
 }
 
 // One indicates an expected call of One.
-func (mr *MockBarAliasIntRMockRecorder[Q]) One(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntRMockRecorder[Q]) One(arg0 any) *MockBarAliasIntROneCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "One", reflect.TypeOf((*MockBarAliasIntR[Q])(nil).One), arg0)
+	call := gomock.NewCall1_1[string, string](mr.mock.ctrl.T, mr.mock, "One", gomock.EnsureMatcher(arg0))
+	mr.oneExpects = append(mr.oneExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntROneCall is the typed call wrapper for One.
+type MockBarAliasIntROneCall[Q any] = gomock.Call1_1[string, string]
 
 // Seven mocks base method.
 func (m *MockBarAliasIntR[Q]) Seven(arg0 int) other.One[int] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Seven", arg0)
-	ret0, _ := ret[0].(other.One[int])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.sevenExpects, m.ctrl, m, "Seven", arg0)
 }
 
 // Seven indicates an expected call of Seven.
-func (mr *MockBarAliasIntRMockRecorder[Q]) Seven(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntRMockRecorder[Q]) Seven(arg0 any) *MockBarAliasIntRSevenCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Seven", reflect.TypeOf((*MockBarAliasIntR[Q])(nil).Seven), arg0)
+	call := gomock.NewCall1_1[int, other.One[int]](mr.mock.ctrl.T, mr.mock, "Seven", gomock.EnsureMatcher(arg0))
+	mr.sevenExpects = append(mr.sevenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntRSevenCall is the typed call wrapper for Seven.
+type MockBarAliasIntRSevenCall[Q any] = gomock.Call1_1[int, other.One[int]]
 
 // Seventeen mocks base method.
 func (m *MockBarAliasIntR[Q]) Seventeen() (*generics.Foo[other.Three, other.Four], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Seventeen")
-	ret0, _ := ret[0].(*generics.Foo[other.Three, other.Four])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.seventeenExpects, m.ctrl, m, "Seventeen")
 }
 
 // Seventeen indicates an expected call of Seventeen.
-func (mr *MockBarAliasIntRMockRecorder[Q]) Seventeen() *gomock.Call {
+func (mr *MockBarAliasIntRMockRecorder[Q]) Seventeen() *MockBarAliasIntRSeventeenCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Seventeen", reflect.TypeOf((*MockBarAliasIntR[Q])(nil).Seventeen))
+	call := gomock.NewCall0_2[*generics.Foo[other.Three, other.Four], error](mr.mock.ctrl.T, mr.mock, "Seventeen")
+	mr.seventeenExpects = append(mr.seventeenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntRSeventeenCall is the typed call wrapper for Seventeen.
+type MockBarAliasIntRSeventeenCall[Q any] = gomock.Call0_2[*generics.Foo[other.Three, other.Four], error]
 
 // Six mocks base method.
 func (m *MockBarAliasIntR[Q]) Six(arg0 int) *generics.Baz[int] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Six", arg0)
-	ret0, _ := ret[0].(*generics.Baz[int])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.sixExpects, m.ctrl, m, "Six", arg0)
 }
 
 // Six indicates an expected call of Six.
-func (mr *MockBarAliasIntRMockRecorder[Q]) Six(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntRMockRecorder[Q]) Six(arg0 any) *MockBarAliasIntRSixCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Six", reflect.TypeOf((*MockBarAliasIntR[Q])(nil).Six), arg0)
+	call := gomock.NewCall1_1[int, *generics.Baz[int]](mr.mock.ctrl.T, mr.mock, "Six", gomock.EnsureMatcher(arg0))
+	mr.sixExpects = append(mr.sixExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntRSixCall is the typed call wrapper for Six.
+type MockBarAliasIntRSixCall[Q any] = gomock.Call1_1[int, *generics.Baz[int]]
 
 // Sixteen mocks base method.
 func (m *MockBarAliasIntR[Q]) Sixteen() (generics.Baz[other.Three], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Sixteen")
-	ret0, _ := ret[0].(generics.Baz[other.Three])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.sixteenExpects, m.ctrl, m, "Sixteen")
 }
 
 // Sixteen indicates an expected call of Sixteen.
-func (mr *MockBarAliasIntRMockRecorder[Q]) Sixteen() *gomock.Call {
+func (mr *MockBarAliasIntRMockRecorder[Q]) Sixteen() *MockBarAliasIntRSixteenCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Sixteen", reflect.TypeOf((*MockBarAliasIntR[Q])(nil).Sixteen))
+	call := gomock.NewCall0_2[generics.Baz[other.Three], error](mr.mock.ctrl.T, mr.mock, "Sixteen")
+	mr.sixteenExpects = append(mr.sixteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntRSixteenCall is the typed call wrapper for Sixteen.
+type MockBarAliasIntRSixteenCall[Q any] = gomock.Call0_2[generics.Baz[other.Three], error]
 
 // Ten mocks base method.
 func (m *MockBarAliasIntR[Q]) Ten(arg0 *int) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Ten", arg0)
+	gomock.Dispatch1_0(&m.recorder.tenExpects, m.ctrl, m, "Ten", arg0)
 }
 
 // Ten indicates an expected call of Ten.
-func (mr *MockBarAliasIntRMockRecorder[Q]) Ten(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntRMockRecorder[Q]) Ten(arg0 any) *MockBarAliasIntRTenCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Ten", reflect.TypeOf((*MockBarAliasIntR[Q])(nil).Ten), arg0)
+	call := gomock.NewCall1_0[*int](mr.mock.ctrl.T, mr.mock, "Ten", gomock.EnsureMatcher(arg0))
+	mr.tenExpects = append(mr.tenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntRTenCall is the typed call wrapper for Ten.
+type MockBarAliasIntRTenCall[Q any] = gomock.Call1_0[*int]
 
 // Thirteen mocks base method.
 func (m *MockBarAliasIntR[Q]) Thirteen() (generics.Baz[generics.StructType], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Thirteen")
-	ret0, _ := ret[0].(generics.Baz[generics.StructType])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.thirteenExpects, m.ctrl, m, "Thirteen")
 }
 
 // Thirteen indicates an expected call of Thirteen.
-func (mr *MockBarAliasIntRMockRecorder[Q]) Thirteen() *gomock.Call {
+func (mr *MockBarAliasIntRMockRecorder[Q]) Thirteen() *MockBarAliasIntRThirteenCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Thirteen", reflect.TypeOf((*MockBarAliasIntR[Q])(nil).Thirteen))
+	call := gomock.NewCall0_2[generics.Baz[generics.StructType], error](mr.mock.ctrl.T, mr.mock, "Thirteen")
+	mr.thirteenExpects = append(mr.thirteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntRThirteenCall is the typed call wrapper for Thirteen.
+type MockBarAliasIntRThirteenCall[Q any] = gomock.Call0_2[generics.Baz[generics.StructType], error]
 
 // Three mocks base method.
 func (m *MockBarAliasIntR[Q]) Three(arg0 int) Q {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Three", arg0)
-	ret0, _ := ret[0].(Q)
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.threeExpects, m.ctrl, m, "Three", arg0)
 }
 
 // Three indicates an expected call of Three.
-func (mr *MockBarAliasIntRMockRecorder[Q]) Three(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntRMockRecorder[Q]) Three(arg0 any) *MockBarAliasIntRThreeCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Three", reflect.TypeOf((*MockBarAliasIntR[Q])(nil).Three), arg0)
+	call := gomock.NewCall1_1[int, Q](mr.mock.ctrl.T, mr.mock, "Three", gomock.EnsureMatcher(arg0))
+	mr.threeExpects = append(mr.threeExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntRThreeCall is the typed call wrapper for Three.
+type MockBarAliasIntRThreeCall[Q any] = gomock.Call1_1[int, Q]
 
 // Twelve mocks base method.
 func (m *MockBarAliasIntR[Q]) Twelve() (*other.Two[int, Q], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Twelve")
-	ret0, _ := ret[0].(*other.Two[int, Q])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.twelveExpects, m.ctrl, m, "Twelve")
 }
 
 // Twelve indicates an expected call of Twelve.
-func (mr *MockBarAliasIntRMockRecorder[Q]) Twelve() *gomock.Call {
+func (mr *MockBarAliasIntRMockRecorder[Q]) Twelve() *MockBarAliasIntRTwelveCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Twelve", reflect.TypeOf((*MockBarAliasIntR[Q])(nil).Twelve))
+	call := gomock.NewCall0_2[*other.Two[int, Q], error](mr.mock.ctrl.T, mr.mock, "Twelve")
+	mr.twelveExpects = append(mr.twelveExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntRTwelveCall is the typed call wrapper for Twelve.
+type MockBarAliasIntRTwelveCall[Q any] = gomock.Call0_2[*other.Two[int, Q], error]
 
 // Two mocks base method.
 func (m *MockBarAliasIntR[Q]) Two(arg0 int) string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Two", arg0)
-	ret0, _ := ret[0].(string)
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.twoExpects, m.ctrl, m, "Two", arg0)
 }
 
 // Two indicates an expected call of Two.
-func (mr *MockBarAliasIntRMockRecorder[Q]) Two(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntRMockRecorder[Q]) Two(arg0 any) *MockBarAliasIntRTwoCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Two", reflect.TypeOf((*MockBarAliasIntR[Q])(nil).Two), arg0)
+	call := gomock.NewCall1_1[int, string](mr.mock.ctrl.T, mr.mock, "Two", gomock.EnsureMatcher(arg0))
+	mr.twoExpects = append(mr.twoExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntRTwoCall is the typed call wrapper for Two.
+type MockBarAliasIntRTwoCall[Q any] = gomock.Call1_1[int, string]
 
 // MockBarAliasIntBazR is a mock of BarAliasIntBazR interface.
 type MockBarAliasIntBazR[Q any] struct {
@@ -616,13 +796,32 @@ type MockBarAliasIntBazR[Q any] struct {
 
 // MockBarAliasIntBazRMockRecorder is the mock recorder for MockBarAliasIntBazR.
 type MockBarAliasIntBazRMockRecorder[Q any] struct {
-	mock *MockBarAliasIntBazR[Q]
+	mock             *MockBarAliasIntBazR[Q]
+	eightExpects     []*gomock.Call1_1[int, other.Two[int, generics.Baz[Q]]]
+	eighteenExpects  []*gomock.Call0_2[generics.Iface[*other.Five], error]
+	elevenExpects    []*gomock.Call0_2[*other.One[int], error]
+	fifteenExpects   []*gomock.Call0_2[generics.Iface[generics.StructType], error]
+	fiveExpects      []*gomock.Call1_1[int, generics.Baz[int]]
+	fourExpects      []*gomock.Call1_1[int, generics.Foo[int, generics.Baz[Q]]]
+	fourteenExpects  []*gomock.Call0_2[*generics.Foo[generics.StructType, generics.StructType2], error]
+	nineExpects      []*gomock.Call1_0[generics.Iface[int]]
+	nineteenExpects  []*gomock.Call0_1[generics.AliasType]
+	oneExpects       []*gomock.Call1_1[string, string]
+	sevenExpects     []*gomock.Call1_1[int, other.One[int]]
+	seventeenExpects []*gomock.Call0_2[*generics.Foo[other.Three, other.Four], error]
+	sixExpects       []*gomock.Call1_1[int, *generics.Baz[int]]
+	sixteenExpects   []*gomock.Call0_2[generics.Baz[other.Three], error]
+	tenExpects       []*gomock.Call1_0[*int]
+	thirteenExpects  []*gomock.Call0_2[generics.Baz[generics.StructType], error]
+	threeExpects     []*gomock.Call1_1[int, generics.Baz[Q]]
+	twelveExpects    []*gomock.Call0_2[*other.Two[int, generics.Baz[Q]], error]
+	twoExpects       []*gomock.Call1_1[int, string]
 }
 
 // NewMockBarAliasIntBazR creates a new mock instance.
 func NewMockBarAliasIntBazR[Q any](ctrl *gomock.Controller) *MockBarAliasIntBazR[Q] {
 	mock := &MockBarAliasIntBazR[Q]{ctrl: ctrl}
-	mock.recorder = &MockBarAliasIntBazRMockRecorder[Q]{mock}
+	mock.recorder = &MockBarAliasIntBazRMockRecorder[Q]{mock: mock}
 	return mock
 }
 
@@ -634,272 +833,344 @@ func (m *MockBarAliasIntBazR[Q]) EXPECT() *MockBarAliasIntBazRMockRecorder[Q] {
 // Eight mocks base method.
 func (m *MockBarAliasIntBazR[Q]) Eight(arg0 int) other.Two[int, generics.Baz[Q]] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Eight", arg0)
-	ret0, _ := ret[0].(other.Two[int, generics.Baz[Q]])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.eightExpects, m.ctrl, m, "Eight", arg0)
 }
 
 // Eight indicates an expected call of Eight.
-func (mr *MockBarAliasIntBazRMockRecorder[Q]) Eight(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntBazRMockRecorder[Q]) Eight(arg0 any) *MockBarAliasIntBazREightCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eight", reflect.TypeOf((*MockBarAliasIntBazR[Q])(nil).Eight), arg0)
+	call := gomock.NewCall1_1[int, other.Two[int, generics.Baz[Q]]](mr.mock.ctrl.T, mr.mock, "Eight", gomock.EnsureMatcher(arg0))
+	mr.eightExpects = append(mr.eightExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazREightCall is the typed call wrapper for Eight.
+type MockBarAliasIntBazREightCall[Q any] = gomock.Call1_1[int, other.Two[int, generics.Baz[Q]]]
 
 // Eighteen mocks base method.
 func (m *MockBarAliasIntBazR[Q]) Eighteen() (generics.Iface[*other.Five], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Eighteen")
-	ret0, _ := ret[0].(generics.Iface[*other.Five])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.eighteenExpects, m.ctrl, m, "Eighteen")
 }
 
 // Eighteen indicates an expected call of Eighteen.
-func (mr *MockBarAliasIntBazRMockRecorder[Q]) Eighteen() *gomock.Call {
+func (mr *MockBarAliasIntBazRMockRecorder[Q]) Eighteen() *MockBarAliasIntBazREighteenCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eighteen", reflect.TypeOf((*MockBarAliasIntBazR[Q])(nil).Eighteen))
+	call := gomock.NewCall0_2[generics.Iface[*other.Five], error](mr.mock.ctrl.T, mr.mock, "Eighteen")
+	mr.eighteenExpects = append(mr.eighteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazREighteenCall is the typed call wrapper for Eighteen.
+type MockBarAliasIntBazREighteenCall[Q any] = gomock.Call0_2[generics.Iface[*other.Five], error]
 
 // Eleven mocks base method.
 func (m *MockBarAliasIntBazR[Q]) Eleven() (*other.One[int], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Eleven")
-	ret0, _ := ret[0].(*other.One[int])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.elevenExpects, m.ctrl, m, "Eleven")
 }
 
 // Eleven indicates an expected call of Eleven.
-func (mr *MockBarAliasIntBazRMockRecorder[Q]) Eleven() *gomock.Call {
+func (mr *MockBarAliasIntBazRMockRecorder[Q]) Eleven() *MockBarAliasIntBazRElevenCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eleven", reflect.TypeOf((*MockBarAliasIntBazR[Q])(nil).Eleven))
+	call := gomock.NewCall0_2[*other.One[int], error](mr.mock.ctrl.T, mr.mock, "Eleven")
+	mr.elevenExpects = append(mr.elevenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazRElevenCall is the typed call wrapper for Eleven.
+type MockBarAliasIntBazRElevenCall[Q any] = gomock.Call0_2[*other.One[int], error]
 
 // Fifteen mocks base method.
 func (m *MockBarAliasIntBazR[Q]) Fifteen() (generics.Iface[generics.StructType], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Fifteen")
-	ret0, _ := ret[0].(generics.Iface[generics.StructType])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.fifteenExpects, m.ctrl, m, "Fifteen")
 }
 
 // Fifteen indicates an expected call of Fifteen.
-func (mr *MockBarAliasIntBazRMockRecorder[Q]) Fifteen() *gomock.Call {
+func (mr *MockBarAliasIntBazRMockRecorder[Q]) Fifteen() *MockBarAliasIntBazRFifteenCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Fifteen", reflect.TypeOf((*MockBarAliasIntBazR[Q])(nil).Fifteen))
+	call := gomock.NewCall0_2[generics.Iface[generics.StructType], error](mr.mock.ctrl.T, mr.mock, "Fifteen")
+	mr.fifteenExpects = append(mr.fifteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazRFifteenCall is the typed call wrapper for Fifteen.
+type MockBarAliasIntBazRFifteenCall[Q any] = gomock.Call0_2[generics.Iface[generics.StructType], error]
 
 // Five mocks base method.
 func (m *MockBarAliasIntBazR[Q]) Five(arg0 int) generics.Baz[int] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Five", arg0)
-	ret0, _ := ret[0].(generics.Baz[int])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.fiveExpects, m.ctrl, m, "Five", arg0)
 }
 
 // Five indicates an expected call of Five.
-func (mr *MockBarAliasIntBazRMockRecorder[Q]) Five(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntBazRMockRecorder[Q]) Five(arg0 any) *MockBarAliasIntBazRFiveCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Five", reflect.TypeOf((*MockBarAliasIntBazR[Q])(nil).Five), arg0)
+	call := gomock.NewCall1_1[int, generics.Baz[int]](mr.mock.ctrl.T, mr.mock, "Five", gomock.EnsureMatcher(arg0))
+	mr.fiveExpects = append(mr.fiveExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazRFiveCall is the typed call wrapper for Five.
+type MockBarAliasIntBazRFiveCall[Q any] = gomock.Call1_1[int, generics.Baz[int]]
 
 // Four mocks base method.
 func (m *MockBarAliasIntBazR[Q]) Four(arg0 int) generics.Foo[int, generics.Baz[Q]] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Four", arg0)
-	ret0, _ := ret[0].(generics.Foo[int, generics.Baz[Q]])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.fourExpects, m.ctrl, m, "Four", arg0)
 }
 
 // Four indicates an expected call of Four.
-func (mr *MockBarAliasIntBazRMockRecorder[Q]) Four(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntBazRMockRecorder[Q]) Four(arg0 any) *MockBarAliasIntBazRFourCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Four", reflect.TypeOf((*MockBarAliasIntBazR[Q])(nil).Four), arg0)
+	call := gomock.NewCall1_1[int, generics.Foo[int, generics.Baz[Q]]](mr.mock.ctrl.T, mr.mock, "Four", gomock.EnsureMatcher(arg0))
+	mr.fourExpects = append(mr.fourExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazRFourCall is the typed call wrapper for Four.
+type MockBarAliasIntBazRFourCall[Q any] = gomock.Call1_1[int, generics.Foo[int, generics.Baz[Q]]]
 
 // Fourteen mocks base method.
 func (m *MockBarAliasIntBazR[Q]) Fourteen() (*generics.Foo[generics.StructType, generics.StructType2], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Fourteen")
-	ret0, _ := ret[0].(*generics.Foo[generics.StructType, generics.StructType2])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.fourteenExpects, m.ctrl, m, "Fourteen")
 }
 
 // Fourteen indicates an expected call of Fourteen.
-func (mr *MockBarAliasIntBazRMockRecorder[Q]) Fourteen() *gomock.Call {
+func (mr *MockBarAliasIntBazRMockRecorder[Q]) Fourteen() *MockBarAliasIntBazRFourteenCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Fourteen", reflect.TypeOf((*MockBarAliasIntBazR[Q])(nil).Fourteen))
+	call := gomock.NewCall0_2[*generics.Foo[generics.StructType, generics.StructType2], error](mr.mock.ctrl.T, mr.mock, "Fourteen")
+	mr.fourteenExpects = append(mr.fourteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazRFourteenCall is the typed call wrapper for Fourteen.
+type MockBarAliasIntBazRFourteenCall[Q any] = gomock.Call0_2[*generics.Foo[generics.StructType, generics.StructType2], error]
 
 // Nine mocks base method.
 func (m *MockBarAliasIntBazR[Q]) Nine(arg0 generics.Iface[int]) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Nine", arg0)
+	gomock.Dispatch1_0(&m.recorder.nineExpects, m.ctrl, m, "Nine", arg0)
 }
 
 // Nine indicates an expected call of Nine.
-func (mr *MockBarAliasIntBazRMockRecorder[Q]) Nine(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntBazRMockRecorder[Q]) Nine(arg0 any) *MockBarAliasIntBazRNineCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Nine", reflect.TypeOf((*MockBarAliasIntBazR[Q])(nil).Nine), arg0)
+	call := gomock.NewCall1_0[generics.Iface[int]](mr.mock.ctrl.T, mr.mock, "Nine", gomock.EnsureMatcher(arg0))
+	mr.nineExpects = append(mr.nineExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazRNineCall is the typed call wrapper for Nine.
+type MockBarAliasIntBazRNineCall[Q any] = gomock.Call1_0[generics.Iface[int]]
 
 // Nineteen mocks base method.
 func (m *MockBarAliasIntBazR[Q]) Nineteen() generics.AliasType {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Nineteen")
-	ret0, _ := ret[0].(generics.AliasType)
-	return ret0
+	return gomock.Dispatch0_1(&m.recorder.nineteenExpects, m.ctrl, m, "Nineteen")
 }
 
 // Nineteen indicates an expected call of Nineteen.
-func (mr *MockBarAliasIntBazRMockRecorder[Q]) Nineteen() *gomock.Call {
+func (mr *MockBarAliasIntBazRMockRecorder[Q]) Nineteen() *MockBarAliasIntBazRNineteenCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Nineteen", reflect.TypeOf((*MockBarAliasIntBazR[Q])(nil).Nineteen))
+	call := gomock.NewCall0_1[generics.AliasType](mr.mock.ctrl.T, mr.mock, "Nineteen")
+	mr.nineteenExpects = append(mr.nineteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazRNineteenCall is the typed call wrapper for Nineteen.
+type MockBarAliasIntBazRNineteenCall[Q any] = gomock.Call0_1[generics.AliasType]
 
 // One mocks base method.
 func (m *MockBarAliasIntBazR[Q]) One(arg0 string) string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "One", arg0)
-	ret0, _ := ret[0].(string)
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.oneExpects, m.ctrl, m, "One", arg0)
 }
 
 // One indicates an expected call of One.
-func (mr *MockBarAliasIntBazRMockRecorder[Q]) One(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntBazRMockRecorder[Q]) One(arg0 any) *MockBarAliasIntBazROneCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "One", reflect.TypeOf((*MockBarAliasIntBazR[Q])(nil).One), arg0)
+	call := gomock.NewCall1_1[string, string](mr.mock.ctrl.T, mr.mock, "One", gomock.EnsureMatcher(arg0))
+	mr.oneExpects = append(mr.oneExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazROneCall is the typed call wrapper for One.
+type MockBarAliasIntBazROneCall[Q any] = gomock.Call1_1[string, string]
 
 // Seven mocks base method.
 func (m *MockBarAliasIntBazR[Q]) Seven(arg0 int) other.One[int] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Seven", arg0)
-	ret0, _ := ret[0].(other.One[int])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.sevenExpects, m.ctrl, m, "Seven", arg0)
 }
 
 // Seven indicates an expected call of Seven.
-func (mr *MockBarAliasIntBazRMockRecorder[Q]) Seven(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntBazRMockRecorder[Q]) Seven(arg0 any) *MockBarAliasIntBazRSevenCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Seven", reflect.TypeOf((*MockBarAliasIntBazR[Q])(nil).Seven), arg0)
+	call := gomock.NewCall1_1[int, other.One[int]](mr.mock.ctrl.T, mr.mock, "Seven", gomock.EnsureMatcher(arg0))
+	mr.sevenExpects = append(mr.sevenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazRSevenCall is the typed call wrapper for Seven.
+type MockBarAliasIntBazRSevenCall[Q any] = gomock.Call1_1[int, other.One[int]]
 
 // Seventeen mocks base method.
 func (m *MockBarAliasIntBazR[Q]) Seventeen() (*generics.Foo[other.Three, other.Four], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Seventeen")
-	ret0, _ := ret[0].(*generics.Foo[other.Three, other.Four])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.seventeenExpects, m.ctrl, m, "Seventeen")
 }
 
 // Seventeen indicates an expected call of Seventeen.
-func (mr *MockBarAliasIntBazRMockRecorder[Q]) Seventeen() *gomock.Call {
+func (mr *MockBarAliasIntBazRMockRecorder[Q]) Seventeen() *MockBarAliasIntBazRSeventeenCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Seventeen", reflect.TypeOf((*MockBarAliasIntBazR[Q])(nil).Seventeen))
+	call := gomock.NewCall0_2[*generics.Foo[other.Three, other.Four], error](mr.mock.ctrl.T, mr.mock, "Seventeen")
+	mr.seventeenExpects = append(mr.seventeenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazRSeventeenCall is the typed call wrapper for Seventeen.
+type MockBarAliasIntBazRSeventeenCall[Q any] = gomock.Call0_2[*generics.Foo[other.Three, other.Four], error]
 
 // Six mocks base method.
 func (m *MockBarAliasIntBazR[Q]) Six(arg0 int) *generics.Baz[int] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Six", arg0)
-	ret0, _ := ret[0].(*generics.Baz[int])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.sixExpects, m.ctrl, m, "Six", arg0)
 }
 
 // Six indicates an expected call of Six.
-func (mr *MockBarAliasIntBazRMockRecorder[Q]) Six(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntBazRMockRecorder[Q]) Six(arg0 any) *MockBarAliasIntBazRSixCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Six", reflect.TypeOf((*MockBarAliasIntBazR[Q])(nil).Six), arg0)
+	call := gomock.NewCall1_1[int, *generics.Baz[int]](mr.mock.ctrl.T, mr.mock, "Six", gomock.EnsureMatcher(arg0))
+	mr.sixExpects = append(mr.sixExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazRSixCall is the typed call wrapper for Six.
+type MockBarAliasIntBazRSixCall[Q any] = gomock.Call1_1[int, *generics.Baz[int]]
 
 // Sixteen mocks base method.
 func (m *MockBarAliasIntBazR[Q]) Sixteen() (generics.Baz[other.Three], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Sixteen")
-	ret0, _ := ret[0].(generics.Baz[other.Three])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.sixteenExpects, m.ctrl, m, "Sixteen")
 }
 
 // Sixteen indicates an expected call of Sixteen.
-func (mr *MockBarAliasIntBazRMockRecorder[Q]) Sixteen() *gomock.Call {
+func (mr *MockBarAliasIntBazRMockRecorder[Q]) Sixteen() *MockBarAliasIntBazRSixteenCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Sixteen", reflect.TypeOf((*MockBarAliasIntBazR[Q])(nil).Sixteen))
+	call := gomock.NewCall0_2[generics.Baz[other.Three], error](mr.mock.ctrl.T, mr.mock, "Sixteen")
+	mr.sixteenExpects = append(mr.sixteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazRSixteenCall is the typed call wrapper for Sixteen.
+type MockBarAliasIntBazRSixteenCall[Q any] = gomock.Call0_2[generics.Baz[other.Three], error]
 
 // Ten mocks base method.
 func (m *MockBarAliasIntBazR[Q]) Ten(arg0 *int) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Ten", arg0)
+	gomock.Dispatch1_0(&m.recorder.tenExpects, m.ctrl, m, "Ten", arg0)
 }
 
 // Ten indicates an expected call of Ten.
-func (mr *MockBarAliasIntBazRMockRecorder[Q]) Ten(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntBazRMockRecorder[Q]) Ten(arg0 any) *MockBarAliasIntBazRTenCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Ten", reflect.TypeOf((*MockBarAliasIntBazR[Q])(nil).Ten), arg0)
+	call := gomock.NewCall1_0[*int](mr.mock.ctrl.T, mr.mock, "Ten", gomock.EnsureMatcher(arg0))
+	mr.tenExpects = append(mr.tenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazRTenCall is the typed call wrapper for Ten.
+type MockBarAliasIntBazRTenCall[Q any] = gomock.Call1_0[*int]
 
 // Thirteen mocks base method.
 func (m *MockBarAliasIntBazR[Q]) Thirteen() (generics.Baz[generics.StructType], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Thirteen")
-	ret0, _ := ret[0].(generics.Baz[generics.StructType])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.thirteenExpects, m.ctrl, m, "Thirteen")
 }
 
 // Thirteen indicates an expected call of Thirteen.
-func (mr *MockBarAliasIntBazRMockRecorder[Q]) Thirteen() *gomock.Call {
+func (mr *MockBarAliasIntBazRMockRecorder[Q]) Thirteen() *MockBarAliasIntBazRThirteenCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Thirteen", reflect.TypeOf((*MockBarAliasIntBazR[Q])(nil).Thirteen))
+	call := gomock.NewCall0_2[generics.Baz[generics.StructType], error](mr.mock.ctrl.T, mr.mock, "Thirteen")
+	mr.thirteenExpects = append(mr.thirteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazRThirteenCall is the typed call wrapper for Thirteen.
+type MockBarAliasIntBazRThirteenCall[Q any] = gomock.Call0_2[generics.Baz[generics.StructType], error]
 
 // Three mocks base method.
 func (m *MockBarAliasIntBazR[Q]) Three(arg0 int) generics.Baz[Q] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Three", arg0)
-	ret0, _ := ret[0].(generics.Baz[Q])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.threeExpects, m.ctrl, m, "Three", arg0)
 }
 
 // Three indicates an expected call of Three.
-func (mr *MockBarAliasIntBazRMockRecorder[Q]) Three(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntBazRMockRecorder[Q]) Three(arg0 any) *MockBarAliasIntBazRThreeCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Three", reflect.TypeOf((*MockBarAliasIntBazR[Q])(nil).Three), arg0)
+	call := gomock.NewCall1_1[int, generics.Baz[Q]](mr.mock.ctrl.T, mr.mock, "Three", gomock.EnsureMatcher(arg0))
+	mr.threeExpects = append(mr.threeExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazRThreeCall is the typed call wrapper for Three.
+type MockBarAliasIntBazRThreeCall[Q any] = gomock.Call1_1[int, generics.Baz[Q]]
 
 // Twelve mocks base method.
 func (m *MockBarAliasIntBazR[Q]) Twelve() (*other.Two[int, generics.Baz[Q]], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Twelve")
-	ret0, _ := ret[0].(*other.Two[int, generics.Baz[Q]])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.twelveExpects, m.ctrl, m, "Twelve")
 }
 
 // Twelve indicates an expected call of Twelve.
-func (mr *MockBarAliasIntBazRMockRecorder[Q]) Twelve() *gomock.Call {
+func (mr *MockBarAliasIntBazRMockRecorder[Q]) Twelve() *MockBarAliasIntBazRTwelveCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Twelve", reflect.TypeOf((*MockBarAliasIntBazR[Q])(nil).Twelve))
+	call := gomock.NewCall0_2[*other.Two[int, generics.Baz[Q]], error](mr.mock.ctrl.T, mr.mock, "Twelve")
+	mr.twelveExpects = append(mr.twelveExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazRTwelveCall is the typed call wrapper for Twelve.
+type MockBarAliasIntBazRTwelveCall[Q any] = gomock.Call0_2[*other.Two[int, generics.Baz[Q]], error]
 
 // Two mocks base method.
 func (m *MockBarAliasIntBazR[Q]) Two(arg0 int) string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Two", arg0)
-	ret0, _ := ret[0].(string)
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.twoExpects, m.ctrl, m, "Two", arg0)
 }
 
 // Two indicates an expected call of Two.
-func (mr *MockBarAliasIntBazRMockRecorder[Q]) Two(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntBazRMockRecorder[Q]) Two(arg0 any) *MockBarAliasIntBazRTwoCall[Q] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Two", reflect.TypeOf((*MockBarAliasIntBazR[Q])(nil).Two), arg0)
+	call := gomock.NewCall1_1[int, string](mr.mock.ctrl.T, mr.mock, "Two", gomock.EnsureMatcher(arg0))
+	mr.twoExpects = append(mr.twoExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazRTwoCall is the typed call wrapper for Two.
+type MockBarAliasIntBazRTwoCall[Q any] = gomock.Call1_1[int, string]
 
 // MockBarAliasIntBazString is a mock of BarAliasIntBazString interface.
 type MockBarAliasIntBazString struct {
@@ -910,13 +1181,32 @@ type MockBarAliasIntBazString struct {
 
 // MockBarAliasIntBazStringMockRecorder is the mock recorder for MockBarAliasIntBazString.
 type MockBarAliasIntBazStringMockRecorder struct {
-	mock *MockBarAliasIntBazString
+	mock             *MockBarAliasIntBazString
+	eightExpects     []*gomock.Call1_1[int, other.Two[int, generics.Baz[string]]]
+	eighteenExpects  []*gomock.Call0_2[generics.Iface[*other.Five], error]
+	elevenExpects    []*gomock.Call0_2[*other.One[int], error]
+	fifteenExpects   []*gomock.Call0_2[generics.Iface[generics.StructType], error]
+	fiveExpects      []*gomock.Call1_1[int, generics.Baz[int]]
+	fourExpects      []*gomock.Call1_1[int, generics.Foo[int, generics.Baz[string]]]
+	fourteenExpects  []*gomock.Call0_2[*generics.Foo[generics.StructType, generics.StructType2], error]
+	nineExpects      []*gomock.Call1_0[generics.Iface[int]]
+	nineteenExpects  []*gomock.Call0_1[generics.AliasType]
+	oneExpects       []*gomock.Call1_1[string, string]
+	sevenExpects     []*gomock.Call1_1[int, other.One[int]]
+	seventeenExpects []*gomock.Call0_2[*generics.Foo[other.Three, other.Four], error]
+	sixExpects       []*gomock.Call1_1[int, *generics.Baz[int]]
+	sixteenExpects   []*gomock.Call0_2[generics.Baz[other.Three], error]
+	tenExpects       []*gomock.Call1_0[*int]
+	thirteenExpects  []*gomock.Call0_2[generics.Baz[generics.StructType], error]
+	threeExpects     []*gomock.Call1_1[int, generics.Baz[string]]
+	twelveExpects    []*gomock.Call0_2[*other.Two[int, generics.Baz[string]], error]
+	twoExpects       []*gomock.Call1_1[int, string]
 }
 
 // NewMockBarAliasIntBazString creates a new mock instance.
 func NewMockBarAliasIntBazString(ctrl *gomock.Controller) *MockBarAliasIntBazString {
 	mock := &MockBarAliasIntBazString{ctrl: ctrl}
-	mock.recorder = &MockBarAliasIntBazStringMockRecorder{mock}
+	mock.recorder = &MockBarAliasIntBazStringMockRecorder{mock: mock}
 	return mock
 }
 
@@ -928,269 +1218,341 @@ func (m *MockBarAliasIntBazString) EXPECT() *MockBarAliasIntBazStringMockRecorde
 // Eight mocks base method.
 func (m *MockBarAliasIntBazString) Eight(arg0 int) other.Two[int, generics.Baz[string]] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Eight", arg0)
-	ret0, _ := ret[0].(other.Two[int, generics.Baz[string]])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.eightExpects, m.ctrl, m, "Eight", arg0)
 }
 
 // Eight indicates an expected call of Eight.
-func (mr *MockBarAliasIntBazStringMockRecorder) Eight(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntBazStringMockRecorder) Eight(arg0 any) *MockBarAliasIntBazStringEightCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eight", reflect.TypeOf((*MockBarAliasIntBazString)(nil).Eight), arg0)
+	call := gomock.NewCall1_1[int, other.Two[int, generics.Baz[string]]](mr.mock.ctrl.T, mr.mock, "Eight", gomock.EnsureMatcher(arg0))
+	mr.eightExpects = append(mr.eightExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazStringEightCall is the typed call wrapper for Eight.
+type MockBarAliasIntBazStringEightCall = gomock.Call1_1[int, other.Two[int, generics.Baz[string]]]
 
 // Eighteen mocks base method.
 func (m *MockBarAliasIntBazString) Eighteen() (generics.Iface[*other.Five], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Eighteen")
-	ret0, _ := ret[0].(generics.Iface[*other.Five])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.eighteenExpects, m.ctrl, m, "Eighteen")
 }
 
 // Eighteen indicates an expected call of Eighteen.
-func (mr *MockBarAliasIntBazStringMockRecorder) Eighteen() *gomock.Call {
+func (mr *MockBarAliasIntBazStringMockRecorder) Eighteen() *MockBarAliasIntBazStringEighteenCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eighteen", reflect.TypeOf((*MockBarAliasIntBazString)(nil).Eighteen))
+	call := gomock.NewCall0_2[generics.Iface[*other.Five], error](mr.mock.ctrl.T, mr.mock, "Eighteen")
+	mr.eighteenExpects = append(mr.eighteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazStringEighteenCall is the typed call wrapper for Eighteen.
+type MockBarAliasIntBazStringEighteenCall = gomock.Call0_2[generics.Iface[*other.Five], error]
 
 // Eleven mocks base method.
 func (m *MockBarAliasIntBazString) Eleven() (*other.One[int], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Eleven")
-	ret0, _ := ret[0].(*other.One[int])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.elevenExpects, m.ctrl, m, "Eleven")
 }
 
 // Eleven indicates an expected call of Eleven.
-func (mr *MockBarAliasIntBazStringMockRecorder) Eleven() *gomock.Call {
+func (mr *MockBarAliasIntBazStringMockRecorder) Eleven() *MockBarAliasIntBazStringElevenCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eleven", reflect.TypeOf((*MockBarAliasIntBazString)(nil).Eleven))
+	call := gomock.NewCall0_2[*other.One[int], error](mr.mock.ctrl.T, mr.mock, "Eleven")
+	mr.elevenExpects = append(mr.elevenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazStringElevenCall is the typed call wrapper for Eleven.
+type MockBarAliasIntBazStringElevenCall = gomock.Call0_2[*other.One[int], error]
 
 // Fifteen mocks base method.
 func (m *MockBarAliasIntBazString) Fifteen() (generics.Iface[generics.StructType], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Fifteen")
-	ret0, _ := ret[0].(generics.Iface[generics.StructType])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.fifteenExpects, m.ctrl, m, "Fifteen")
 }
 
 // Fifteen indicates an expected call of Fifteen.
-func (mr *MockBarAliasIntBazStringMockRecorder) Fifteen() *gomock.Call {
+func (mr *MockBarAliasIntBazStringMockRecorder) Fifteen() *MockBarAliasIntBazStringFifteenCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Fifteen", reflect.TypeOf((*MockBarAliasIntBazString)(nil).Fifteen))
+	call := gomock.NewCall0_2[generics.Iface[generics.StructType], error](mr.mock.ctrl.T, mr.mock, "Fifteen")
+	mr.fifteenExpects = append(mr.fifteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazStringFifteenCall is the typed call wrapper for Fifteen.
+type MockBarAliasIntBazStringFifteenCall = gomock.Call0_2[generics.Iface[generics.StructType], error]
 
 // Five mocks base method.
 func (m *MockBarAliasIntBazString) Five(arg0 int) generics.Baz[int] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Five", arg0)
-	ret0, _ := ret[0].(generics.Baz[int])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.fiveExpects, m.ctrl, m, "Five", arg0)
 }
 
 // Five indicates an expected call of Five.
-func (mr *MockBarAliasIntBazStringMockRecorder) Five(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntBazStringMockRecorder) Five(arg0 any) *MockBarAliasIntBazStringFiveCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Five", reflect.TypeOf((*MockBarAliasIntBazString)(nil).Five), arg0)
+	call := gomock.NewCall1_1[int, generics.Baz[int]](mr.mock.ctrl.T, mr.mock, "Five", gomock.EnsureMatcher(arg0))
+	mr.fiveExpects = append(mr.fiveExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazStringFiveCall is the typed call wrapper for Five.
+type MockBarAliasIntBazStringFiveCall = gomock.Call1_1[int, generics.Baz[int]]
 
 // Four mocks base method.
 func (m *MockBarAliasIntBazString) Four(arg0 int) generics.Foo[int, generics.Baz[string]] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Four", arg0)
-	ret0, _ := ret[0].(generics.Foo[int, generics.Baz[string]])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.fourExpects, m.ctrl, m, "Four", arg0)
 }
 
 // Four indicates an expected call of Four.
-func (mr *MockBarAliasIntBazStringMockRecorder) Four(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntBazStringMockRecorder) Four(arg0 any) *MockBarAliasIntBazStringFourCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Four", reflect.TypeOf((*MockBarAliasIntBazString)(nil).Four), arg0)
+	call := gomock.NewCall1_1[int, generics.Foo[int, generics.Baz[string]]](mr.mock.ctrl.T, mr.mock, "Four", gomock.EnsureMatcher(arg0))
+	mr.fourExpects = append(mr.fourExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazStringFourCall is the typed call wrapper for Four.
+type MockBarAliasIntBazStringFourCall = gomock.Call1_1[int, generics.Foo[int, generics.Baz[string]]]
 
 // Fourteen mocks base method.
 func (m *MockBarAliasIntBazString) Fourteen() (*generics.Foo[generics.StructType, generics.StructType2], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Fourteen")
-	ret0, _ := ret[0].(*generics.Foo[generics.StructType, generics.StructType2])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.fourteenExpects, m.ctrl, m, "Fourteen")
 }
 
 // Fourteen indicates an expected call of Fourteen.
-func (mr *MockBarAliasIntBazStringMockRecorder) Fourteen() *gomock.Call {
+func (mr *MockBarAliasIntBazStringMockRecorder) Fourteen() *MockBarAliasIntBazStringFourteenCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Fourteen", reflect.TypeOf((*MockBarAliasIntBazString)(nil).Fourteen))
+	call := gomock.NewCall0_2[*generics.Foo[generics.StructType, generics.StructType2], error](mr.mock.ctrl.T, mr.mock, "Fourteen")
+	mr.fourteenExpects = append(mr.fourteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazStringFourteenCall is the typed call wrapper for Fourteen.
+type MockBarAliasIntBazStringFourteenCall = gomock.Call0_2[*generics.Foo[generics.StructType, generics.StructType2], error]
 
 // Nine mocks base method.
 func (m *MockBarAliasIntBazString) Nine(arg0 generics.Iface[int]) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Nine", arg0)
+	gomock.Dispatch1_0(&m.recorder.nineExpects, m.ctrl, m, "Nine", arg0)
 }
 
 // Nine indicates an expected call of Nine.
-func (mr *MockBarAliasIntBazStringMockRecorder) Nine(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntBazStringMockRecorder) Nine(arg0 any) *MockBarAliasIntBazStringNineCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Nine", reflect.TypeOf((*MockBarAliasIntBazString)(nil).Nine), arg0)
+	call := gomock.NewCall1_0[generics.Iface[int]](mr.mock.ctrl.T, mr.mock, "Nine", gomock.EnsureMatcher(arg0))
+	mr.nineExpects = append(mr.nineExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazStringNineCall is the typed call wrapper for Nine.
+type MockBarAliasIntBazStringNineCall = gomock.Call1_0[generics.Iface[int]]
 
 // Nineteen mocks base method.
 func (m *MockBarAliasIntBazString) Nineteen() generics.AliasType {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Nineteen")
-	ret0, _ := ret[0].(generics.AliasType)
-	return ret0
+	return gomock.Dispatch0_1(&m.recorder.nineteenExpects, m.ctrl, m, "Nineteen")
 }
 
 // Nineteen indicates an expected call of Nineteen.
-func (mr *MockBarAliasIntBazStringMockRecorder) Nineteen() *gomock.Call {
+func (mr *MockBarAliasIntBazStringMockRecorder) Nineteen() *MockBarAliasIntBazStringNineteenCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Nineteen", reflect.TypeOf((*MockBarAliasIntBazString)(nil).Nineteen))
+	call := gomock.NewCall0_1[generics.AliasType](mr.mock.ctrl.T, mr.mock, "Nineteen")
+	mr.nineteenExpects = append(mr.nineteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazStringNineteenCall is the typed call wrapper for Nineteen.
+type MockBarAliasIntBazStringNineteenCall = gomock.Call0_1[generics.AliasType]
 
 // One mocks base method.
 func (m *MockBarAliasIntBazString) One(arg0 string) string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "One", arg0)
-	ret0, _ := ret[0].(string)
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.oneExpects, m.ctrl, m, "One", arg0)
 }
 
 // One indicates an expected call of One.
-func (mr *MockBarAliasIntBazStringMockRecorder) One(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntBazStringMockRecorder) One(arg0 any) *MockBarAliasIntBazStringOneCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "One", reflect.TypeOf((*MockBarAliasIntBazString)(nil).One), arg0)
+	call := gomock.NewCall1_1[string, string](mr.mock.ctrl.T, mr.mock, "One", gomock.EnsureMatcher(arg0))
+	mr.oneExpects = append(mr.oneExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazStringOneCall is the typed call wrapper for One.
+type MockBarAliasIntBazStringOneCall = gomock.Call1_1[string, string]
 
 // Seven mocks base method.
 func (m *MockBarAliasIntBazString) Seven(arg0 int) other.One[int] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Seven", arg0)
-	ret0, _ := ret[0].(other.One[int])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.sevenExpects, m.ctrl, m, "Seven", arg0)
 }
 
 // Seven indicates an expected call of Seven.
-func (mr *MockBarAliasIntBazStringMockRecorder) Seven(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntBazStringMockRecorder) Seven(arg0 any) *MockBarAliasIntBazStringSevenCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Seven", reflect.TypeOf((*MockBarAliasIntBazString)(nil).Seven), arg0)
+	call := gomock.NewCall1_1[int, other.One[int]](mr.mock.ctrl.T, mr.mock, "Seven", gomock.EnsureMatcher(arg0))
+	mr.sevenExpects = append(mr.sevenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazStringSevenCall is the typed call wrapper for Seven.
+type MockBarAliasIntBazStringSevenCall = gomock.Call1_1[int, other.One[int]]
 
 // Seventeen mocks base method.
 func (m *MockBarAliasIntBazString) Seventeen() (*generics.Foo[other.Three, other.Four], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Seventeen")
-	ret0, _ := ret[0].(*generics.Foo[other.Three, other.Four])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.seventeenExpects, m.ctrl, m, "Seventeen")
 }
 
 // Seventeen indicates an expected call of Seventeen.
-func (mr *MockBarAliasIntBazStringMockRecorder) Seventeen() *gomock.Call {
+func (mr *MockBarAliasIntBazStringMockRecorder) Seventeen() *MockBarAliasIntBazStringSeventeenCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Seventeen", reflect.TypeOf((*MockBarAliasIntBazString)(nil).Seventeen))
+	call := gomock.NewCall0_2[*generics.Foo[other.Three, other.Four], error](mr.mock.ctrl.T, mr.mock, "Seventeen")
+	mr.seventeenExpects = append(mr.seventeenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazStringSeventeenCall is the typed call wrapper for Seventeen.
+type MockBarAliasIntBazStringSeventeenCall = gomock.Call0_2[*generics.Foo[other.Three, other.Four], error]
 
 // Six mocks base method.
 func (m *MockBarAliasIntBazString) Six(arg0 int) *generics.Baz[int] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Six", arg0)
-	ret0, _ := ret[0].(*generics.Baz[int])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.sixExpects, m.ctrl, m, "Six", arg0)
 }
 
 // Six indicates an expected call of Six.
-func (mr *MockBarAliasIntBazStringMockRecorder) Six(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntBazStringMockRecorder) Six(arg0 any) *MockBarAliasIntBazStringSixCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Six", reflect.TypeOf((*MockBarAliasIntBazString)(nil).Six), arg0)
+	call := gomock.NewCall1_1[int, *generics.Baz[int]](mr.mock.ctrl.T, mr.mock, "Six", gomock.EnsureMatcher(arg0))
+	mr.sixExpects = append(mr.sixExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazStringSixCall is the typed call wrapper for Six.
+type MockBarAliasIntBazStringSixCall = gomock.Call1_1[int, *generics.Baz[int]]
 
 // Sixteen mocks base method.
 func (m *MockBarAliasIntBazString) Sixteen() (generics.Baz[other.Three], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Sixteen")
-	ret0, _ := ret[0].(generics.Baz[other.Three])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.sixteenExpects, m.ctrl, m, "Sixteen")
 }
 
 // Sixteen indicates an expected call of Sixteen.
-func (mr *MockBarAliasIntBazStringMockRecorder) Sixteen() *gomock.Call {
+func (mr *MockBarAliasIntBazStringMockRecorder) Sixteen() *MockBarAliasIntBazStringSixteenCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Sixteen", reflect.TypeOf((*MockBarAliasIntBazString)(nil).Sixteen))
+	call := gomock.NewCall0_2[generics.Baz[other.Three], error](mr.mock.ctrl.T, mr.mock, "Sixteen")
+	mr.sixteenExpects = append(mr.sixteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazStringSixteenCall is the typed call wrapper for Sixteen.
+type MockBarAliasIntBazStringSixteenCall = gomock.Call0_2[generics.Baz[other.Three], error]
 
 // Ten mocks base method.
 func (m *MockBarAliasIntBazString) Ten(arg0 *int) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Ten", arg0)
+	gomock.Dispatch1_0(&m.recorder.tenExpects, m.ctrl, m, "Ten", arg0)
 }
 
 // Ten indicates an expected call of Ten.
-func (mr *MockBarAliasIntBazStringMockRecorder) Ten(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntBazStringMockRecorder) Ten(arg0 any) *MockBarAliasIntBazStringTenCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Ten", reflect.TypeOf((*MockBarAliasIntBazString)(nil).Ten), arg0)
+	call := gomock.NewCall1_0[*int](mr.mock.ctrl.T, mr.mock, "Ten", gomock.EnsureMatcher(arg0))
+	mr.tenExpects = append(mr.tenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazStringTenCall is the typed call wrapper for Ten.
+type MockBarAliasIntBazStringTenCall = gomock.Call1_0[*int]
 
 // Thirteen mocks base method.
 func (m *MockBarAliasIntBazString) Thirteen() (generics.Baz[generics.StructType], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Thirteen")
-	ret0, _ := ret[0].(generics.Baz[generics.StructType])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.thirteenExpects, m.ctrl, m, "Thirteen")
 }
 
 // Thirteen indicates an expected call of Thirteen.
-func (mr *MockBarAliasIntBazStringMockRecorder) Thirteen() *gomock.Call {
+func (mr *MockBarAliasIntBazStringMockRecorder) Thirteen() *MockBarAliasIntBazStringThirteenCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Thirteen", reflect.TypeOf((*MockBarAliasIntBazString)(nil).Thirteen))
+	call := gomock.NewCall0_2[generics.Baz[generics.StructType], error](mr.mock.ctrl.T, mr.mock, "Thirteen")
+	mr.thirteenExpects = append(mr.thirteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazStringThirteenCall is the typed call wrapper for Thirteen.
+type MockBarAliasIntBazStringThirteenCall = gomock.Call0_2[generics.Baz[generics.StructType], error]
 
 // Three mocks base method.
 func (m *MockBarAliasIntBazString) Three(arg0 int) generics.Baz[string] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Three", arg0)
-	ret0, _ := ret[0].(generics.Baz[string])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.threeExpects, m.ctrl, m, "Three", arg0)
 }
 
 // Three indicates an expected call of Three.
-func (mr *MockBarAliasIntBazStringMockRecorder) Three(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntBazStringMockRecorder) Three(arg0 any) *MockBarAliasIntBazStringThreeCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Three", reflect.TypeOf((*MockBarAliasIntBazString)(nil).Three), arg0)
+	call := gomock.NewCall1_1[int, generics.Baz[string]](mr.mock.ctrl.T, mr.mock, "Three", gomock.EnsureMatcher(arg0))
+	mr.threeExpects = append(mr.threeExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazStringThreeCall is the typed call wrapper for Three.
+type MockBarAliasIntBazStringThreeCall = gomock.Call1_1[int, generics.Baz[string]]
 
 // Twelve mocks base method.
 func (m *MockBarAliasIntBazString) Twelve() (*other.Two[int, generics.Baz[string]], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Twelve")
-	ret0, _ := ret[0].(*other.Two[int, generics.Baz[string]])
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch0_2(&m.recorder.twelveExpects, m.ctrl, m, "Twelve")
 }
 
 // Twelve indicates an expected call of Twelve.
-func (mr *MockBarAliasIntBazStringMockRecorder) Twelve() *gomock.Call {
+func (mr *MockBarAliasIntBazStringMockRecorder) Twelve() *MockBarAliasIntBazStringTwelveCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Twelve", reflect.TypeOf((*MockBarAliasIntBazString)(nil).Twelve))
+	call := gomock.NewCall0_2[*other.Two[int, generics.Baz[string]], error](mr.mock.ctrl.T, mr.mock, "Twelve")
+	mr.twelveExpects = append(mr.twelveExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazStringTwelveCall is the typed call wrapper for Twelve.
+type MockBarAliasIntBazStringTwelveCall = gomock.Call0_2[*other.Two[int, generics.Baz[string]], error]
 
 // Two mocks base method.
 func (m *MockBarAliasIntBazString) Two(arg0 int) string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Two", arg0)
-	ret0, _ := ret[0].(string)
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.twoExpects, m.ctrl, m, "Two", arg0)
 }
 
 // Two indicates an expected call of Two.
-func (mr *MockBarAliasIntBazStringMockRecorder) Two(arg0 any) *gomock.Call {
+func (mr *MockBarAliasIntBazStringMockRecorder) Two(arg0 any) *MockBarAliasIntBazStringTwoCall {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Two", reflect.TypeOf((*MockBarAliasIntBazString)(nil).Two), arg0)
+	call := gomock.NewCall1_1[int, string](mr.mock.ctrl.T, mr.mock, "Two", gomock.EnsureMatcher(arg0))
+	mr.twoExpects = append(mr.twoExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockBarAliasIntBazStringTwoCall is the typed call wrapper for Two.
+type MockBarAliasIntBazStringTwoCall = gomock.Call1_1[int, string]

@@ -9,6 +9,7 @@ import (
 )
 
 //go:generate mockgen --destination=package_mode/mock_external_mock.go -package=package_mode . ExternalConstraint,EmbeddingIface,Generator,Group
+//go:generate mockgen --destination=source/mock_external.go --package=source . ExternalConstraint,EmbeddingIface,Generator,Group
 
 type ExternalConstraint[I constraints.Integer, F any] interface {
 	One(string) string

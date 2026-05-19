@@ -10,8 +10,6 @@
 package source
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 	source "github.com/canonical/gomock/mockgen/internal/tests/missing_import/source"
 )
@@ -25,13 +23,14 @@ type MockBar struct {
 
 // MockBarMockRecorder is the mock recorder for MockBar.
 type MockBarMockRecorder struct {
-	mock *MockBar
+	mock       *MockBar
+	bazExpects []*gomock.Call1_0[source.Foo]
 }
 
 // NewMockBar creates a new mock instance.
 func NewMockBar(ctrl *gomock.Controller) *MockBar {
 	mock := &MockBar{ctrl: ctrl}
-	mock.recorder = &MockBarMockRecorder{mock}
+	mock.recorder = &MockBarMockRecorder{mock: mock}
 	return mock
 }
 
@@ -43,14 +42,16 @@ func (m *MockBar) EXPECT() *MockBarMockRecorder {
 // Baz mocks base method.
 func (m *MockBar) Baz(arg0 source.Foo) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Baz", arg0)
+	gomock.Dispatch1_0(&m.recorder.bazExpects, m.ctrl, m, "Baz", arg0)
 }
 
 // Baz indicates an expected call of Baz.
 func (mr *MockBarMockRecorder) Baz(arg0 any) *MockBarBazCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Baz", reflect.TypeOf((*MockBar)(nil).Baz), arg0)
-	return &MockBarBazCall{Call: call}
+	call := gomock.NewCall1_0[source.Foo](mr.mock.ctrl.T, mr.mock, "Baz", gomock.EnsureMatcher(arg0))
+	mr.bazExpects = append(mr.bazExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockBarBazCall is the typed call wrapper for Baz.

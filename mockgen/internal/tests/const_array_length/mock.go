@@ -10,8 +10,6 @@
 package const_length
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 )
 
@@ -24,13 +22,19 @@ type MockI struct {
 
 // MockIMockRecorder is the mock recorder for MockI.
 type MockIMockRecorder struct {
-	mock *MockI
+	mock         *MockI
+	barExpects   []*gomock.Call0_1[[2]int]
+	bazExpects   []*gomock.Call0_1[[127]int]
+	corgeExpects []*gomock.Call0_1[[7]int]
+	fooExpects   []*gomock.Call0_1[[2]int]
+	quuxExpects  []*gomock.Call0_1[[3]int]
+	quxExpects   []*gomock.Call0_1[[3]int]
 }
 
 // NewMockI creates a new mock instance.
 func NewMockI(ctrl *gomock.Controller) *MockI {
 	mock := &MockI{ctrl: ctrl}
-	mock.recorder = &MockIMockRecorder{mock}
+	mock.recorder = &MockIMockRecorder{mock: mock}
 	return mock
 }
 
@@ -42,14 +46,16 @@ func (m *MockI) EXPECT() *MockIMockRecorder {
 // Bar mocks base method.
 func (m *MockI) Bar() [2]int {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[[2]int](m.ctrl.Call(m, "Bar"))
+	return gomock.Dispatch0_1(&m.recorder.barExpects, m.ctrl, m, "Bar")
 }
 
 // Bar indicates an expected call of Bar.
 func (mr *MockIMockRecorder) Bar() *MockIBarCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Bar", reflect.TypeOf((*MockI)(nil).Bar))
-	return &MockIBarCall{Call: call}
+	call := gomock.NewCall0_1[[2]int](mr.mock.ctrl.T, mr.mock, "Bar")
+	mr.barExpects = append(mr.barExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockIBarCall is the typed call wrapper for Bar.
@@ -58,14 +64,16 @@ type MockIBarCall = gomock.Call0_1[[2]int]
 // Baz mocks base method.
 func (m *MockI) Baz() [127]int {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[[127]int](m.ctrl.Call(m, "Baz"))
+	return gomock.Dispatch0_1(&m.recorder.bazExpects, m.ctrl, m, "Baz")
 }
 
 // Baz indicates an expected call of Baz.
 func (mr *MockIMockRecorder) Baz() *MockIBazCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Baz", reflect.TypeOf((*MockI)(nil).Baz))
-	return &MockIBazCall{Call: call}
+	call := gomock.NewCall0_1[[127]int](mr.mock.ctrl.T, mr.mock, "Baz")
+	mr.bazExpects = append(mr.bazExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockIBazCall is the typed call wrapper for Baz.
@@ -74,14 +82,16 @@ type MockIBazCall = gomock.Call0_1[[127]int]
 // Corge mocks base method.
 func (m *MockI) Corge() [7]int {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[[7]int](m.ctrl.Call(m, "Corge"))
+	return gomock.Dispatch0_1(&m.recorder.corgeExpects, m.ctrl, m, "Corge")
 }
 
 // Corge indicates an expected call of Corge.
 func (mr *MockIMockRecorder) Corge() *MockICorgeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Corge", reflect.TypeOf((*MockI)(nil).Corge))
-	return &MockICorgeCall{Call: call}
+	call := gomock.NewCall0_1[[7]int](mr.mock.ctrl.T, mr.mock, "Corge")
+	mr.corgeExpects = append(mr.corgeExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockICorgeCall is the typed call wrapper for Corge.
@@ -90,14 +100,16 @@ type MockICorgeCall = gomock.Call0_1[[7]int]
 // Foo mocks base method.
 func (m *MockI) Foo() [2]int {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[[2]int](m.ctrl.Call(m, "Foo"))
+	return gomock.Dispatch0_1(&m.recorder.fooExpects, m.ctrl, m, "Foo")
 }
 
 // Foo indicates an expected call of Foo.
 func (mr *MockIMockRecorder) Foo() *MockIFooCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Foo", reflect.TypeOf((*MockI)(nil).Foo))
-	return &MockIFooCall{Call: call}
+	call := gomock.NewCall0_1[[2]int](mr.mock.ctrl.T, mr.mock, "Foo")
+	mr.fooExpects = append(mr.fooExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockIFooCall is the typed call wrapper for Foo.
@@ -106,14 +118,16 @@ type MockIFooCall = gomock.Call0_1[[2]int]
 // Quux mocks base method.
 func (m *MockI) Quux() [3]int {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[[3]int](m.ctrl.Call(m, "Quux"))
+	return gomock.Dispatch0_1(&m.recorder.quuxExpects, m.ctrl, m, "Quux")
 }
 
 // Quux indicates an expected call of Quux.
 func (mr *MockIMockRecorder) Quux() *MockIQuuxCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Quux", reflect.TypeOf((*MockI)(nil).Quux))
-	return &MockIQuuxCall{Call: call}
+	call := gomock.NewCall0_1[[3]int](mr.mock.ctrl.T, mr.mock, "Quux")
+	mr.quuxExpects = append(mr.quuxExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockIQuuxCall is the typed call wrapper for Quux.
@@ -122,14 +136,16 @@ type MockIQuuxCall = gomock.Call0_1[[3]int]
 // Qux mocks base method.
 func (m *MockI) Qux() [3]int {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[[3]int](m.ctrl.Call(m, "Qux"))
+	return gomock.Dispatch0_1(&m.recorder.quxExpects, m.ctrl, m, "Qux")
 }
 
 // Qux indicates an expected call of Qux.
 func (mr *MockIMockRecorder) Qux() *MockIQuxCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Qux", reflect.TypeOf((*MockI)(nil).Qux))
-	return &MockIQuxCall{Call: call}
+	call := gomock.NewCall0_1[[3]int](mr.mock.ctrl.T, mr.mock, "Qux")
+	mr.quxExpects = append(mr.quxExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockIQuxCall is the typed call wrapper for Qux.

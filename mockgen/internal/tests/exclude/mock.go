@@ -10,8 +10,6 @@
 package exclude
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 )
 
@@ -24,13 +22,14 @@ type MockGenerateMockForMe struct {
 
 // MockGenerateMockForMeMockRecorder is the mock recorder for MockGenerateMockForMe.
 type MockGenerateMockForMeMockRecorder struct {
-	mock *MockGenerateMockForMe
+	mock     *MockGenerateMockForMe
+	bExpects []*gomock.Call0_1[int]
 }
 
 // NewMockGenerateMockForMe creates a new mock instance.
 func NewMockGenerateMockForMe(ctrl *gomock.Controller) *MockGenerateMockForMe {
 	mock := &MockGenerateMockForMe{ctrl: ctrl}
-	mock.recorder = &MockGenerateMockForMeMockRecorder{mock}
+	mock.recorder = &MockGenerateMockForMeMockRecorder{mock: mock}
 	return mock
 }
 
@@ -42,14 +41,16 @@ func (m *MockGenerateMockForMe) EXPECT() *MockGenerateMockForMeMockRecorder {
 // B mocks base method.
 func (m *MockGenerateMockForMe) B() int {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[int](m.ctrl.Call(m, "B"))
+	return gomock.Dispatch0_1(&m.recorder.bExpects, m.ctrl, m, "B")
 }
 
 // B indicates an expected call of B.
 func (mr *MockGenerateMockForMeMockRecorder) B() *MockGenerateMockForMeBCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "B", reflect.TypeOf((*MockGenerateMockForMe)(nil).B))
-	return &MockGenerateMockForMeBCall{Call: call}
+	call := gomock.NewCall0_1[int](mr.mock.ctrl.T, mr.mock, "B")
+	mr.bExpects = append(mr.bExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockGenerateMockForMeBCall is the typed call wrapper for B.

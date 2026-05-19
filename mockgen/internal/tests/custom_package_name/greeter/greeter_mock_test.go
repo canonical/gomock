@@ -10,8 +10,6 @@
 package greeter
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 	client "github.com/canonical/gomock/mockgen/internal/tests/custom_package_name/client/v1"
 )
@@ -25,13 +23,14 @@ type MockInputMaker struct {
 
 // MockInputMakerMockRecorder is the mock recorder for MockInputMaker.
 type MockInputMakerMockRecorder struct {
-	mock *MockInputMaker
+	mock             *MockInputMaker
+	makeInputExpects []*gomock.Call0_1[client.GreetInput]
 }
 
 // NewMockInputMaker creates a new mock instance.
 func NewMockInputMaker(ctrl *gomock.Controller) *MockInputMaker {
 	mock := &MockInputMaker{ctrl: ctrl}
-	mock.recorder = &MockInputMakerMockRecorder{mock}
+	mock.recorder = &MockInputMakerMockRecorder{mock: mock}
 	return mock
 }
 
@@ -43,14 +42,16 @@ func (m *MockInputMaker) EXPECT() *MockInputMakerMockRecorder {
 // MakeInput mocks base method.
 func (m *MockInputMaker) MakeInput() client.GreetInput {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[client.GreetInput](m.ctrl.Call(m, "MakeInput"))
+	return gomock.Dispatch0_1(&m.recorder.makeInputExpects, m.ctrl, m, "MakeInput")
 }
 
 // MakeInput indicates an expected call of MakeInput.
 func (mr *MockInputMakerMockRecorder) MakeInput() *MockInputMakerMakeInputCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MakeInput", reflect.TypeOf((*MockInputMaker)(nil).MakeInput))
-	return &MockInputMakerMakeInputCall{Call: call}
+	call := gomock.NewCall0_1[client.GreetInput](mr.mock.ctrl.T, mr.mock, "MakeInput")
+	mr.makeInputExpects = append(mr.makeInputExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockInputMakerMakeInputCall is the typed call wrapper for MakeInput.

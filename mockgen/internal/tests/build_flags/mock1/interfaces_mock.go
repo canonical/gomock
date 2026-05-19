@@ -10,8 +10,6 @@
 package mock_build_flags
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 )
 
@@ -24,13 +22,14 @@ type MockInterface struct {
 
 // MockInterfaceMockRecorder is the mock recorder for MockInterface.
 type MockInterfaceMockRecorder struct {
-	mock *MockInterface
+	mock              *MockInterface
+	helloWorldExpects []*gomock.Call0_1[string]
 }
 
 // NewMockInterface creates a new mock instance.
 func NewMockInterface(ctrl *gomock.Controller) *MockInterface {
 	mock := &MockInterface{ctrl: ctrl}
-	mock.recorder = &MockInterfaceMockRecorder{mock}
+	mock.recorder = &MockInterfaceMockRecorder{mock: mock}
 	return mock
 }
 
@@ -42,14 +41,16 @@ func (m *MockInterface) EXPECT() *MockInterfaceMockRecorder {
 // HelloWorld mocks base method.
 func (m *MockInterface) HelloWorld() string {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[string](m.ctrl.Call(m, "HelloWorld"))
+	return gomock.Dispatch0_1(&m.recorder.helloWorldExpects, m.ctrl, m, "HelloWorld")
 }
 
 // HelloWorld indicates an expected call of HelloWorld.
 func (mr *MockInterfaceMockRecorder) HelloWorld() *MockInterfaceHelloWorldCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HelloWorld", reflect.TypeOf((*MockInterface)(nil).HelloWorld))
-	return &MockInterfaceHelloWorldCall{Call: call}
+	call := gomock.NewCall0_1[string](mr.mock.ctrl.T, mr.mock, "HelloWorld")
+	mr.helloWorldExpects = append(mr.helloWorldExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockInterfaceHelloWorldCall is the typed call wrapper for HelloWorld.

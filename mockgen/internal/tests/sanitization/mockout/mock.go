@@ -10,8 +10,6 @@
 package mockout
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 	any0 "github.com/canonical/gomock/mockgen/internal/tests/sanitization/any"
 )
@@ -25,13 +23,14 @@ type MockAnyMock struct {
 
 // MockAnyMockMockRecorder is the mock recorder for MockAnyMock.
 type MockAnyMockMockRecorder struct {
-	mock *MockAnyMock
+	mock      *MockAnyMock
+	doExpects []*gomock.Call2_0[*any0.Any, int]
 }
 
 // NewMockAnyMock creates a new mock instance.
 func NewMockAnyMock(ctrl *gomock.Controller) *MockAnyMock {
 	mock := &MockAnyMock{ctrl: ctrl}
-	mock.recorder = &MockAnyMockMockRecorder{mock}
+	mock.recorder = &MockAnyMockMockRecorder{mock: mock}
 	return mock
 }
 
@@ -43,14 +42,16 @@ func (m *MockAnyMock) EXPECT() *MockAnyMockMockRecorder {
 // Do mocks base method.
 func (m *MockAnyMock) Do(a *any0.Any, b int) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Do", a, b)
+	gomock.Dispatch2_0(&m.recorder.doExpects, m.ctrl, m, "Do", a, b)
 }
 
 // Do indicates an expected call of Do.
 func (mr *MockAnyMockMockRecorder) Do(a, b any) *MockAnyMockDoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Do", reflect.TypeOf((*MockAnyMock)(nil).Do), a, b)
-	return &MockAnyMockDoCall{Call: call}
+	call := gomock.NewCall2_0[*any0.Any, int](mr.mock.ctrl.T, mr.mock, "Do", gomock.EnsureMatcher(a), gomock.EnsureMatcher(b))
+	mr.doExpects = append(mr.doExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockAnyMockDoCall is the typed call wrapper for Do.

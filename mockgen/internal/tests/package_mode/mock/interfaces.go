@@ -10,7 +10,6 @@
 package mock
 
 import (
-	reflect "reflect"
 	time "time"
 
 	gomock "github.com/canonical/gomock/gomock"
@@ -28,13 +27,14 @@ type MockFood struct {
 
 // MockFoodMockRecorder is the mock recorder for MockFood.
 type MockFoodMockRecorder struct {
-	mock *MockFood
+	mock            *MockFood
+	caloriesExpects []*gomock.Call0_1[int]
 }
 
 // NewMockFood creates a new mock instance.
 func NewMockFood(ctrl *gomock.Controller) *MockFood {
 	mock := &MockFood{ctrl: ctrl}
-	mock.recorder = &MockFoodMockRecorder{mock}
+	mock.recorder = &MockFoodMockRecorder{mock: mock}
 	return mock
 }
 
@@ -46,14 +46,16 @@ func (m *MockFood) EXPECT() *MockFoodMockRecorder {
 // Calories mocks base method.
 func (m *MockFood) Calories() int {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[int](m.ctrl.Call(m, "Calories"))
+	return gomock.Dispatch0_1(&m.recorder.caloriesExpects, m.ctrl, m, "Calories")
 }
 
 // Calories indicates an expected call of Calories.
 func (mr *MockFoodMockRecorder) Calories() *MockFoodCaloriesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Calories", reflect.TypeOf((*MockFood)(nil).Calories))
-	return &MockFoodCaloriesCall{Call: call}
+	call := gomock.NewCall0_1[int](mr.mock.ctrl.T, mr.mock, "Calories")
+	mr.caloriesExpects = append(mr.caloriesExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockFoodCaloriesCall is the typed call wrapper for Calories.
@@ -68,13 +70,14 @@ type MockEater struct {
 
 // MockEaterMockRecorder is the mock recorder for MockEater.
 type MockEaterMockRecorder struct {
-	mock *MockEater
+	mock       *MockEater
+	eatExpects []*gomock.Call0V_0[package_mode.Food]
 }
 
 // NewMockEater creates a new mock instance.
 func NewMockEater(ctrl *gomock.Controller) *MockEater {
 	mock := &MockEater{ctrl: ctrl}
-	mock.recorder = &MockEaterMockRecorder{mock}
+	mock.recorder = &MockEaterMockRecorder{mock: mock}
 	return mock
 }
 
@@ -86,42 +89,24 @@ func (m *MockEater) EXPECT() *MockEaterMockRecorder {
 // Eat mocks base method.
 func (m *MockEater) Eat(foods ...package_mode.Food) {
 	m.ctrl.T.Helper()
-	varargs := []any{}
-	for _, a := range foods {
-		varargs = append(varargs, a)
-	}
-	m.ctrl.Call(m, "Eat", varargs...)
+	gomock.Dispatch0V_0(&m.recorder.eatExpects, m.ctrl, m, "Eat", foods...)
 }
 
 // Eat indicates an expected call of Eat.
 func (mr *MockEaterMockRecorder) Eat(foods ...any) *MockEaterEatCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eat", reflect.TypeOf((*MockEater)(nil).Eat), foods...)
-	return &MockEaterEatCall{Call: call}
+	varArgs := make([]gomock.Matcher, len(foods))
+	for i, a := range foods {
+		varArgs[i] = gomock.EnsureMatcher(a)
+	}
+	call := gomock.NewCall0V_0[package_mode.Food](mr.mock.ctrl.T, mr.mock, "Eat", varArgs)
+	mr.eatExpects = append(mr.eatExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
-// MockEaterEatCall wrap *gomock.Call
-type MockEaterEatCall struct {
-	*gomock.Call
-}
-
-// Return rewrite *gomock.Call.Return
-func (c *MockEaterEatCall) Return() *MockEaterEatCall {
-	c.Call = c.Call.Return()
-	return c
-}
-
-// Do rewrite *gomock.Call.Do
-func (c *MockEaterEatCall) Do(f func(...package_mode.Food)) *MockEaterEatCall {
-	c.Call = c.Call.Do(f)
-	return c
-}
-
-// DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockEaterEatCall) DoAndReturn(f func(...package_mode.Food)) *MockEaterEatCall {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
-}
+// MockEaterEatCall is the typed call wrapper for Eat.
+type MockEaterEatCall = gomock.Call0V_0[package_mode.Food]
 
 // MockAnimal is a mock of Animal interface.
 type MockAnimal struct {
@@ -132,13 +117,16 @@ type MockAnimal struct {
 
 // MockAnimalMockRecorder is the mock recorder for MockAnimal.
 type MockAnimalMockRecorder struct {
-	mock *MockAnimal
+	mock           *MockAnimal
+	breatheExpects []*gomock.Call0_0
+	eatExpects     []*gomock.Call0V_0[package_mode.Food]
+	sleepExpects   []*gomock.Call1_0[time.Duration]
 }
 
 // NewMockAnimal creates a new mock instance.
 func NewMockAnimal(ctrl *gomock.Controller) *MockAnimal {
 	mock := &MockAnimal{ctrl: ctrl}
-	mock.recorder = &MockAnimalMockRecorder{mock}
+	mock.recorder = &MockAnimalMockRecorder{mock: mock}
 	return mock
 }
 
@@ -150,14 +138,16 @@ func (m *MockAnimal) EXPECT() *MockAnimalMockRecorder {
 // Breathe mocks base method.
 func (m *MockAnimal) Breathe() {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Breathe")
+	gomock.Dispatch0_0(&m.recorder.breatheExpects, m.ctrl, m, "Breathe")
 }
 
 // Breathe indicates an expected call of Breathe.
 func (mr *MockAnimalMockRecorder) Breathe() *MockAnimalBreatheCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Breathe", reflect.TypeOf((*MockAnimal)(nil).Breathe))
-	return &MockAnimalBreatheCall{Call: call}
+	call := gomock.NewCall0_0(mr.mock.ctrl.T, mr.mock, "Breathe")
+	mr.breatheExpects = append(mr.breatheExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockAnimalBreatheCall is the typed call wrapper for Breathe.
@@ -166,54 +156,38 @@ type MockAnimalBreatheCall = gomock.Call0_0
 // Eat mocks base method.
 func (m *MockAnimal) Eat(foods ...package_mode.Food) {
 	m.ctrl.T.Helper()
-	varargs := []any{}
-	for _, a := range foods {
-		varargs = append(varargs, a)
-	}
-	m.ctrl.Call(m, "Eat", varargs...)
+	gomock.Dispatch0V_0(&m.recorder.eatExpects, m.ctrl, m, "Eat", foods...)
 }
 
 // Eat indicates an expected call of Eat.
 func (mr *MockAnimalMockRecorder) Eat(foods ...any) *MockAnimalEatCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eat", reflect.TypeOf((*MockAnimal)(nil).Eat), foods...)
-	return &MockAnimalEatCall{Call: call}
+	varArgs := make([]gomock.Matcher, len(foods))
+	for i, a := range foods {
+		varArgs[i] = gomock.EnsureMatcher(a)
+	}
+	call := gomock.NewCall0V_0[package_mode.Food](mr.mock.ctrl.T, mr.mock, "Eat", varArgs)
+	mr.eatExpects = append(mr.eatExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
-// MockAnimalEatCall wrap *gomock.Call
-type MockAnimalEatCall struct {
-	*gomock.Call
-}
-
-// Return rewrite *gomock.Call.Return
-func (c *MockAnimalEatCall) Return() *MockAnimalEatCall {
-	c.Call = c.Call.Return()
-	return c
-}
-
-// Do rewrite *gomock.Call.Do
-func (c *MockAnimalEatCall) Do(f func(...package_mode.Food)) *MockAnimalEatCall {
-	c.Call = c.Call.Do(f)
-	return c
-}
-
-// DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockAnimalEatCall) DoAndReturn(f func(...package_mode.Food)) *MockAnimalEatCall {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
-}
+// MockAnimalEatCall is the typed call wrapper for Eat.
+type MockAnimalEatCall = gomock.Call0V_0[package_mode.Food]
 
 // Sleep mocks base method.
 func (m *MockAnimal) Sleep(duration time.Duration) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Sleep", duration)
+	gomock.Dispatch1_0(&m.recorder.sleepExpects, m.ctrl, m, "Sleep", duration)
 }
 
 // Sleep indicates an expected call of Sleep.
 func (mr *MockAnimalMockRecorder) Sleep(duration any) *MockAnimalSleepCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Sleep", reflect.TypeOf((*MockAnimal)(nil).Sleep), duration)
-	return &MockAnimalSleepCall{Call: call}
+	call := gomock.NewCall1_0[time.Duration](mr.mock.ctrl.T, mr.mock, "Sleep", gomock.EnsureMatcher(duration))
+	mr.sleepExpects = append(mr.sleepExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockAnimalSleepCall is the typed call wrapper for Sleep.
@@ -228,13 +202,16 @@ type MockHuman struct {
 
 // MockHumanMockRecorder is the mock recorder for MockHuman.
 type MockHumanMockRecorder struct {
-	mock *MockHuman
+	mock           *MockHuman
+	breatheExpects []*gomock.Call0_0
+	eatExpects     []*gomock.Call0V_0[package_mode.Food]
+	sleepExpects   []*gomock.Call1_0[time.Duration]
 }
 
 // NewMockHuman creates a new mock instance.
 func NewMockHuman(ctrl *gomock.Controller) *MockHuman {
 	mock := &MockHuman{ctrl: ctrl}
-	mock.recorder = &MockHumanMockRecorder{mock}
+	mock.recorder = &MockHumanMockRecorder{mock: mock}
 	return mock
 }
 
@@ -246,14 +223,16 @@ func (m *MockHuman) EXPECT() *MockHumanMockRecorder {
 // Breathe mocks base method.
 func (m *MockHuman) Breathe() {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Breathe")
+	gomock.Dispatch0_0(&m.recorder.breatheExpects, m.ctrl, m, "Breathe")
 }
 
 // Breathe indicates an expected call of Breathe.
 func (mr *MockHumanMockRecorder) Breathe() *MockHumanBreatheCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Breathe", reflect.TypeOf((*MockHuman)(nil).Breathe))
-	return &MockHumanBreatheCall{Call: call}
+	call := gomock.NewCall0_0(mr.mock.ctrl.T, mr.mock, "Breathe")
+	mr.breatheExpects = append(mr.breatheExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockHumanBreatheCall is the typed call wrapper for Breathe.
@@ -262,54 +241,38 @@ type MockHumanBreatheCall = gomock.Call0_0
 // Eat mocks base method.
 func (m *MockHuman) Eat(foods ...package_mode.Food) {
 	m.ctrl.T.Helper()
-	varargs := []any{}
-	for _, a := range foods {
-		varargs = append(varargs, a)
-	}
-	m.ctrl.Call(m, "Eat", varargs...)
+	gomock.Dispatch0V_0(&m.recorder.eatExpects, m.ctrl, m, "Eat", foods...)
 }
 
 // Eat indicates an expected call of Eat.
 func (mr *MockHumanMockRecorder) Eat(foods ...any) *MockHumanEatCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eat", reflect.TypeOf((*MockHuman)(nil).Eat), foods...)
-	return &MockHumanEatCall{Call: call}
+	varArgs := make([]gomock.Matcher, len(foods))
+	for i, a := range foods {
+		varArgs[i] = gomock.EnsureMatcher(a)
+	}
+	call := gomock.NewCall0V_0[package_mode.Food](mr.mock.ctrl.T, mr.mock, "Eat", varArgs)
+	mr.eatExpects = append(mr.eatExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
-// MockHumanEatCall wrap *gomock.Call
-type MockHumanEatCall struct {
-	*gomock.Call
-}
-
-// Return rewrite *gomock.Call.Return
-func (c *MockHumanEatCall) Return() *MockHumanEatCall {
-	c.Call = c.Call.Return()
-	return c
-}
-
-// Do rewrite *gomock.Call.Do
-func (c *MockHumanEatCall) Do(f func(...package_mode.Food)) *MockHumanEatCall {
-	c.Call = c.Call.Do(f)
-	return c
-}
-
-// DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockHumanEatCall) DoAndReturn(f func(...package_mode.Food)) *MockHumanEatCall {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
-}
+// MockHumanEatCall is the typed call wrapper for Eat.
+type MockHumanEatCall = gomock.Call0V_0[package_mode.Food]
 
 // Sleep mocks base method.
 func (m *MockHuman) Sleep(duration time.Duration) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Sleep", duration)
+	gomock.Dispatch1_0(&m.recorder.sleepExpects, m.ctrl, m, "Sleep", duration)
 }
 
 // Sleep indicates an expected call of Sleep.
 func (mr *MockHumanMockRecorder) Sleep(duration any) *MockHumanSleepCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Sleep", reflect.TypeOf((*MockHuman)(nil).Sleep), duration)
-	return &MockHumanSleepCall{Call: call}
+	call := gomock.NewCall1_0[time.Duration](mr.mock.ctrl.T, mr.mock, "Sleep", gomock.EnsureMatcher(duration))
+	mr.sleepExpects = append(mr.sleepExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockHumanSleepCall is the typed call wrapper for Sleep.
@@ -324,13 +287,16 @@ type MockPrimate struct {
 
 // MockPrimateMockRecorder is the mock recorder for MockPrimate.
 type MockPrimateMockRecorder struct {
-	mock *MockPrimate
+	mock           *MockPrimate
+	breatheExpects []*gomock.Call0_0
+	eatExpects     []*gomock.Call0V_0[package_mode.Food]
+	sleepExpects   []*gomock.Call1_0[time.Duration]
 }
 
 // NewMockPrimate creates a new mock instance.
 func NewMockPrimate(ctrl *gomock.Controller) *MockPrimate {
 	mock := &MockPrimate{ctrl: ctrl}
-	mock.recorder = &MockPrimateMockRecorder{mock}
+	mock.recorder = &MockPrimateMockRecorder{mock: mock}
 	return mock
 }
 
@@ -342,14 +308,16 @@ func (m *MockPrimate) EXPECT() *MockPrimateMockRecorder {
 // Breathe mocks base method.
 func (m *MockPrimate) Breathe() {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Breathe")
+	gomock.Dispatch0_0(&m.recorder.breatheExpects, m.ctrl, m, "Breathe")
 }
 
 // Breathe indicates an expected call of Breathe.
 func (mr *MockPrimateMockRecorder) Breathe() *MockPrimateBreatheCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Breathe", reflect.TypeOf((*MockPrimate)(nil).Breathe))
-	return &MockPrimateBreatheCall{Call: call}
+	call := gomock.NewCall0_0(mr.mock.ctrl.T, mr.mock, "Breathe")
+	mr.breatheExpects = append(mr.breatheExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockPrimateBreatheCall is the typed call wrapper for Breathe.
@@ -358,54 +326,38 @@ type MockPrimateBreatheCall = gomock.Call0_0
 // Eat mocks base method.
 func (m *MockPrimate) Eat(foods ...package_mode.Food) {
 	m.ctrl.T.Helper()
-	varargs := []any{}
-	for _, a := range foods {
-		varargs = append(varargs, a)
-	}
-	m.ctrl.Call(m, "Eat", varargs...)
+	gomock.Dispatch0V_0(&m.recorder.eatExpects, m.ctrl, m, "Eat", foods...)
 }
 
 // Eat indicates an expected call of Eat.
 func (mr *MockPrimateMockRecorder) Eat(foods ...any) *MockPrimateEatCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eat", reflect.TypeOf((*MockPrimate)(nil).Eat), foods...)
-	return &MockPrimateEatCall{Call: call}
+	varArgs := make([]gomock.Matcher, len(foods))
+	for i, a := range foods {
+		varArgs[i] = gomock.EnsureMatcher(a)
+	}
+	call := gomock.NewCall0V_0[package_mode.Food](mr.mock.ctrl.T, mr.mock, "Eat", varArgs)
+	mr.eatExpects = append(mr.eatExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
-// MockPrimateEatCall wrap *gomock.Call
-type MockPrimateEatCall struct {
-	*gomock.Call
-}
-
-// Return rewrite *gomock.Call.Return
-func (c *MockPrimateEatCall) Return() *MockPrimateEatCall {
-	c.Call = c.Call.Return()
-	return c
-}
-
-// Do rewrite *gomock.Call.Do
-func (c *MockPrimateEatCall) Do(f func(...package_mode.Food)) *MockPrimateEatCall {
-	c.Call = c.Call.Do(f)
-	return c
-}
-
-// DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockPrimateEatCall) DoAndReturn(f func(...package_mode.Food)) *MockPrimateEatCall {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
-}
+// MockPrimateEatCall is the typed call wrapper for Eat.
+type MockPrimateEatCall = gomock.Call0V_0[package_mode.Food]
 
 // Sleep mocks base method.
 func (m *MockPrimate) Sleep(duration time.Duration) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Sleep", duration)
+	gomock.Dispatch1_0(&m.recorder.sleepExpects, m.ctrl, m, "Sleep", duration)
 }
 
 // Sleep indicates an expected call of Sleep.
 func (mr *MockPrimateMockRecorder) Sleep(duration any) *MockPrimateSleepCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Sleep", reflect.TypeOf((*MockPrimate)(nil).Sleep), duration)
-	return &MockPrimateSleepCall{Call: call}
+	call := gomock.NewCall1_0[time.Duration](mr.mock.ctrl.T, mr.mock, "Sleep", gomock.EnsureMatcher(duration))
+	mr.sleepExpects = append(mr.sleepExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockPrimateSleepCall is the typed call wrapper for Sleep.
@@ -420,13 +372,16 @@ type MockCar[FuelType fuel.Fuel] struct {
 
 // MockCarMockRecorder is the mock recorder for MockCar.
 type MockCarMockRecorder[FuelType fuel.Fuel] struct {
-	mock *MockCar[FuelType]
+	mock            *MockCar[FuelType]
+	brandExpects    []*gomock.Call0_1[string]
+	fuelTankExpects []*gomock.Call0_1[cars.FuelTank[FuelType]]
+	refuelExpects   []*gomock.Call2_1[FuelType, int, error]
 }
 
 // NewMockCar creates a new mock instance.
 func NewMockCar[FuelType fuel.Fuel](ctrl *gomock.Controller) *MockCar[FuelType] {
 	mock := &MockCar[FuelType]{ctrl: ctrl}
-	mock.recorder = &MockCarMockRecorder[FuelType]{mock}
+	mock.recorder = &MockCarMockRecorder[FuelType]{mock: mock}
 	return mock
 }
 
@@ -438,14 +393,16 @@ func (m *MockCar[FuelType]) EXPECT() *MockCarMockRecorder[FuelType] {
 // Brand mocks base method.
 func (m *MockCar[FuelType]) Brand() string {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[string](m.ctrl.Call(m, "Brand"))
+	return gomock.Dispatch0_1(&m.recorder.brandExpects, m.ctrl, m, "Brand")
 }
 
 // Brand indicates an expected call of Brand.
 func (mr *MockCarMockRecorder[FuelType]) Brand() *MockCarBrandCall[FuelType] {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Brand", reflect.TypeOf((*MockCar[FuelType])(nil).Brand))
-	return &MockCarBrandCall[FuelType]{Call: call}
+	call := gomock.NewCall0_1[string](mr.mock.ctrl.T, mr.mock, "Brand")
+	mr.brandExpects = append(mr.brandExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockCarBrandCall is the typed call wrapper for Brand.
@@ -454,14 +411,16 @@ type MockCarBrandCall[FuelType fuel.Fuel] = gomock.Call0_1[string]
 // FuelTank mocks base method.
 func (m *MockCar[FuelType]) FuelTank() cars.FuelTank[FuelType] {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[cars.FuelTank[FuelType]](m.ctrl.Call(m, "FuelTank"))
+	return gomock.Dispatch0_1(&m.recorder.fuelTankExpects, m.ctrl, m, "FuelTank")
 }
 
 // FuelTank indicates an expected call of FuelTank.
 func (mr *MockCarMockRecorder[FuelType]) FuelTank() *MockCarFuelTankCall[FuelType] {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FuelTank", reflect.TypeOf((*MockCar[FuelType])(nil).FuelTank))
-	return &MockCarFuelTankCall[FuelType]{Call: call}
+	call := gomock.NewCall0_1[cars.FuelTank[FuelType]](mr.mock.ctrl.T, mr.mock, "FuelTank")
+	mr.fuelTankExpects = append(mr.fuelTankExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockCarFuelTankCall is the typed call wrapper for FuelTank.
@@ -470,14 +429,16 @@ type MockCarFuelTankCall[FuelType fuel.Fuel] = gomock.Call0_1[cars.FuelTank[Fuel
 // Refuel mocks base method.
 func (m *MockCar[FuelType]) Refuel(arg0 FuelType, volume int) error {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[error](m.ctrl.Call(m, "Refuel", arg0, volume))
+	return gomock.Dispatch2_1(&m.recorder.refuelExpects, m.ctrl, m, "Refuel", arg0, volume)
 }
 
 // Refuel indicates an expected call of Refuel.
 func (mr *MockCarMockRecorder[FuelType]) Refuel(arg0, volume any) *MockCarRefuelCall[FuelType] {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Refuel", reflect.TypeOf((*MockCar[FuelType])(nil).Refuel), arg0, volume)
-	return &MockCarRefuelCall[FuelType]{Call: call}
+	call := gomock.NewCall2_1[FuelType, int, error](mr.mock.ctrl.T, mr.mock, "Refuel", gomock.EnsureMatcher(arg0), gomock.EnsureMatcher(volume))
+	mr.refuelExpects = append(mr.refuelExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockCarRefuelCall is the typed call wrapper for Refuel.
@@ -492,13 +453,15 @@ type MockDriver[FuelType fuel.Fuel, CarType package_mode.Car[FuelType]] struct {
 
 // MockDriverMockRecorder is the mock recorder for MockDriver.
 type MockDriverMockRecorder[FuelType fuel.Fuel, CarType package_mode.Car[FuelType]] struct {
-	mock *MockDriver[FuelType, CarType]
+	mock         *MockDriver[FuelType, CarType]
+	driveExpects []*gomock.Call1_0[CarType]
+	wroomExpects []*gomock.Call0_1[error]
 }
 
 // NewMockDriver creates a new mock instance.
 func NewMockDriver[FuelType fuel.Fuel, CarType package_mode.Car[FuelType]](ctrl *gomock.Controller) *MockDriver[FuelType, CarType] {
 	mock := &MockDriver[FuelType, CarType]{ctrl: ctrl}
-	mock.recorder = &MockDriverMockRecorder[FuelType, CarType]{mock}
+	mock.recorder = &MockDriverMockRecorder[FuelType, CarType]{mock: mock}
 	return mock
 }
 
@@ -510,14 +473,16 @@ func (m *MockDriver[FuelType, CarType]) EXPECT() *MockDriverMockRecorder[FuelTyp
 // Drive mocks base method.
 func (m *MockDriver[FuelType, CarType]) Drive(car CarType) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Drive", car)
+	gomock.Dispatch1_0(&m.recorder.driveExpects, m.ctrl, m, "Drive", car)
 }
 
 // Drive indicates an expected call of Drive.
 func (mr *MockDriverMockRecorder[FuelType, CarType]) Drive(car any) *MockDriverDriveCall[FuelType, CarType] {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Drive", reflect.TypeOf((*MockDriver[FuelType, CarType])(nil).Drive), car)
-	return &MockDriverDriveCall[FuelType, CarType]{Call: call}
+	call := gomock.NewCall1_0[CarType](mr.mock.ctrl.T, mr.mock, "Drive", gomock.EnsureMatcher(car))
+	mr.driveExpects = append(mr.driveExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockDriverDriveCall is the typed call wrapper for Drive.
@@ -526,14 +491,16 @@ type MockDriverDriveCall[FuelType fuel.Fuel, CarType package_mode.Car[FuelType]]
 // Wroom mocks base method.
 func (m *MockDriver[FuelType, CarType]) Wroom() error {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[error](m.ctrl.Call(m, "Wroom"))
+	return gomock.Dispatch0_1(&m.recorder.wroomExpects, m.ctrl, m, "Wroom")
 }
 
 // Wroom indicates an expected call of Wroom.
 func (mr *MockDriverMockRecorder[FuelType, CarType]) Wroom() *MockDriverWroomCall[FuelType, CarType] {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Wroom", reflect.TypeOf((*MockDriver[FuelType, CarType])(nil).Wroom))
-	return &MockDriverWroomCall[FuelType, CarType]{Call: call}
+	call := gomock.NewCall0_1[error](mr.mock.ctrl.T, mr.mock, "Wroom")
+	mr.wroomExpects = append(mr.wroomExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockDriverWroomCall is the typed call wrapper for Wroom.
@@ -548,13 +515,20 @@ type MockUrbanResident struct {
 
 // MockUrbanResidentMockRecorder is the mock recorder for MockUrbanResident.
 type MockUrbanResidentMockRecorder struct {
-	mock *MockUrbanResident
+	mock                *MockUrbanResident
+	breatheExpects      []*gomock.Call0_0
+	doExpects           []*gomock.Call1_1[*package_mode.Work, error]
+	driveExpects        []*gomock.Call1_0[cars.HyundaiSolaris]
+	eatExpects          []*gomock.Call0V_0[package_mode.Food]
+	livesInACityExpects []*gomock.Call0_0
+	sleepExpects        []*gomock.Call1_0[time.Duration]
+	wroomExpects        []*gomock.Call0_1[error]
 }
 
 // NewMockUrbanResident creates a new mock instance.
 func NewMockUrbanResident(ctrl *gomock.Controller) *MockUrbanResident {
 	mock := &MockUrbanResident{ctrl: ctrl}
-	mock.recorder = &MockUrbanResidentMockRecorder{mock}
+	mock.recorder = &MockUrbanResidentMockRecorder{mock: mock}
 	return mock
 }
 
@@ -566,14 +540,16 @@ func (m *MockUrbanResident) EXPECT() *MockUrbanResidentMockRecorder {
 // Breathe mocks base method.
 func (m *MockUrbanResident) Breathe() {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Breathe")
+	gomock.Dispatch0_0(&m.recorder.breatheExpects, m.ctrl, m, "Breathe")
 }
 
 // Breathe indicates an expected call of Breathe.
 func (mr *MockUrbanResidentMockRecorder) Breathe() *MockUrbanResidentBreatheCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Breathe", reflect.TypeOf((*MockUrbanResident)(nil).Breathe))
-	return &MockUrbanResidentBreatheCall{Call: call}
+	call := gomock.NewCall0_0(mr.mock.ctrl.T, mr.mock, "Breathe")
+	mr.breatheExpects = append(mr.breatheExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockUrbanResidentBreatheCall is the typed call wrapper for Breathe.
@@ -582,14 +558,16 @@ type MockUrbanResidentBreatheCall = gomock.Call0_0
 // Do mocks base method.
 func (m *MockUrbanResident) Do(work *package_mode.Work) error {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[error](m.ctrl.Call(m, "Do", work))
+	return gomock.Dispatch1_1(&m.recorder.doExpects, m.ctrl, m, "Do", work)
 }
 
 // Do indicates an expected call of Do.
 func (mr *MockUrbanResidentMockRecorder) Do(work any) *MockUrbanResidentDoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Do", reflect.TypeOf((*MockUrbanResident)(nil).Do), work)
-	return &MockUrbanResidentDoCall{Call: call}
+	call := gomock.NewCall1_1[*package_mode.Work, error](mr.mock.ctrl.T, mr.mock, "Do", gomock.EnsureMatcher(work))
+	mr.doExpects = append(mr.doExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockUrbanResidentDoCall is the typed call wrapper for Do.
@@ -598,14 +576,16 @@ type MockUrbanResidentDoCall = gomock.Call1_1[*package_mode.Work, error]
 // Drive mocks base method.
 func (m *MockUrbanResident) Drive(car cars.HyundaiSolaris) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Drive", car)
+	gomock.Dispatch1_0(&m.recorder.driveExpects, m.ctrl, m, "Drive", car)
 }
 
 // Drive indicates an expected call of Drive.
 func (mr *MockUrbanResidentMockRecorder) Drive(car any) *MockUrbanResidentDriveCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Drive", reflect.TypeOf((*MockUrbanResident)(nil).Drive), car)
-	return &MockUrbanResidentDriveCall{Call: call}
+	call := gomock.NewCall1_0[cars.HyundaiSolaris](mr.mock.ctrl.T, mr.mock, "Drive", gomock.EnsureMatcher(car))
+	mr.driveExpects = append(mr.driveExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockUrbanResidentDriveCall is the typed call wrapper for Drive.
@@ -614,54 +594,38 @@ type MockUrbanResidentDriveCall = gomock.Call1_0[cars.HyundaiSolaris]
 // Eat mocks base method.
 func (m *MockUrbanResident) Eat(foods ...package_mode.Food) {
 	m.ctrl.T.Helper()
-	varargs := []any{}
-	for _, a := range foods {
-		varargs = append(varargs, a)
-	}
-	m.ctrl.Call(m, "Eat", varargs...)
+	gomock.Dispatch0V_0(&m.recorder.eatExpects, m.ctrl, m, "Eat", foods...)
 }
 
 // Eat indicates an expected call of Eat.
 func (mr *MockUrbanResidentMockRecorder) Eat(foods ...any) *MockUrbanResidentEatCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eat", reflect.TypeOf((*MockUrbanResident)(nil).Eat), foods...)
-	return &MockUrbanResidentEatCall{Call: call}
+	varArgs := make([]gomock.Matcher, len(foods))
+	for i, a := range foods {
+		varArgs[i] = gomock.EnsureMatcher(a)
+	}
+	call := gomock.NewCall0V_0[package_mode.Food](mr.mock.ctrl.T, mr.mock, "Eat", varArgs)
+	mr.eatExpects = append(mr.eatExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
-// MockUrbanResidentEatCall wrap *gomock.Call
-type MockUrbanResidentEatCall struct {
-	*gomock.Call
-}
-
-// Return rewrite *gomock.Call.Return
-func (c *MockUrbanResidentEatCall) Return() *MockUrbanResidentEatCall {
-	c.Call = c.Call.Return()
-	return c
-}
-
-// Do rewrite *gomock.Call.Do
-func (c *MockUrbanResidentEatCall) Do(f func(...package_mode.Food)) *MockUrbanResidentEatCall {
-	c.Call = c.Call.Do(f)
-	return c
-}
-
-// DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockUrbanResidentEatCall) DoAndReturn(f func(...package_mode.Food)) *MockUrbanResidentEatCall {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
-}
+// MockUrbanResidentEatCall is the typed call wrapper for Eat.
+type MockUrbanResidentEatCall = gomock.Call0V_0[package_mode.Food]
 
 // LivesInACity mocks base method.
 func (m *MockUrbanResident) LivesInACity() {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "LivesInACity")
+	gomock.Dispatch0_0(&m.recorder.livesInACityExpects, m.ctrl, m, "LivesInACity")
 }
 
 // LivesInACity indicates an expected call of LivesInACity.
 func (mr *MockUrbanResidentMockRecorder) LivesInACity() *MockUrbanResidentLivesInACityCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LivesInACity", reflect.TypeOf((*MockUrbanResident)(nil).LivesInACity))
-	return &MockUrbanResidentLivesInACityCall{Call: call}
+	call := gomock.NewCall0_0(mr.mock.ctrl.T, mr.mock, "LivesInACity")
+	mr.livesInACityExpects = append(mr.livesInACityExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockUrbanResidentLivesInACityCall is the typed call wrapper for LivesInACity.
@@ -670,14 +634,16 @@ type MockUrbanResidentLivesInACityCall = gomock.Call0_0
 // Sleep mocks base method.
 func (m *MockUrbanResident) Sleep(duration time.Duration) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Sleep", duration)
+	gomock.Dispatch1_0(&m.recorder.sleepExpects, m.ctrl, m, "Sleep", duration)
 }
 
 // Sleep indicates an expected call of Sleep.
 func (mr *MockUrbanResidentMockRecorder) Sleep(duration any) *MockUrbanResidentSleepCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Sleep", reflect.TypeOf((*MockUrbanResident)(nil).Sleep), duration)
-	return &MockUrbanResidentSleepCall{Call: call}
+	call := gomock.NewCall1_0[time.Duration](mr.mock.ctrl.T, mr.mock, "Sleep", gomock.EnsureMatcher(duration))
+	mr.sleepExpects = append(mr.sleepExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockUrbanResidentSleepCall is the typed call wrapper for Sleep.
@@ -686,14 +652,16 @@ type MockUrbanResidentSleepCall = gomock.Call1_0[time.Duration]
 // Wroom mocks base method.
 func (m *MockUrbanResident) Wroom() error {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[error](m.ctrl.Call(m, "Wroom"))
+	return gomock.Dispatch0_1(&m.recorder.wroomExpects, m.ctrl, m, "Wroom")
 }
 
 // Wroom indicates an expected call of Wroom.
 func (mr *MockUrbanResidentMockRecorder) Wroom() *MockUrbanResidentWroomCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Wroom", reflect.TypeOf((*MockUrbanResident)(nil).Wroom))
-	return &MockUrbanResidentWroomCall{Call: call}
+	call := gomock.NewCall0_1[error](mr.mock.ctrl.T, mr.mock, "Wroom")
+	mr.wroomExpects = append(mr.wroomExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockUrbanResidentWroomCall is the typed call wrapper for Wroom.
@@ -708,13 +676,20 @@ type MockFarmer struct {
 
 // MockFarmerMockRecorder is the mock recorder for MockFarmer.
 type MockFarmerMockRecorder struct {
-	mock *MockFarmer
+	mock                   *MockFarmer
+	breatheExpects         []*gomock.Call0_0
+	doExpects              []*gomock.Call1_1[*package_mode.Work, error]
+	driveExpects           []*gomock.Call1_0[cars.FordF150]
+	eatExpects             []*gomock.Call0V_0[package_mode.Food]
+	livesInAVillageExpects []*gomock.Call0_0
+	sleepExpects           []*gomock.Call1_0[time.Duration]
+	wroomExpects           []*gomock.Call0_1[error]
 }
 
 // NewMockFarmer creates a new mock instance.
 func NewMockFarmer(ctrl *gomock.Controller) *MockFarmer {
 	mock := &MockFarmer{ctrl: ctrl}
-	mock.recorder = &MockFarmerMockRecorder{mock}
+	mock.recorder = &MockFarmerMockRecorder{mock: mock}
 	return mock
 }
 
@@ -726,14 +701,16 @@ func (m *MockFarmer) EXPECT() *MockFarmerMockRecorder {
 // Breathe mocks base method.
 func (m *MockFarmer) Breathe() {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Breathe")
+	gomock.Dispatch0_0(&m.recorder.breatheExpects, m.ctrl, m, "Breathe")
 }
 
 // Breathe indicates an expected call of Breathe.
 func (mr *MockFarmerMockRecorder) Breathe() *MockFarmerBreatheCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Breathe", reflect.TypeOf((*MockFarmer)(nil).Breathe))
-	return &MockFarmerBreatheCall{Call: call}
+	call := gomock.NewCall0_0(mr.mock.ctrl.T, mr.mock, "Breathe")
+	mr.breatheExpects = append(mr.breatheExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockFarmerBreatheCall is the typed call wrapper for Breathe.
@@ -742,14 +719,16 @@ type MockFarmerBreatheCall = gomock.Call0_0
 // Do mocks base method.
 func (m *MockFarmer) Do(work *package_mode.Work) error {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[error](m.ctrl.Call(m, "Do", work))
+	return gomock.Dispatch1_1(&m.recorder.doExpects, m.ctrl, m, "Do", work)
 }
 
 // Do indicates an expected call of Do.
 func (mr *MockFarmerMockRecorder) Do(work any) *MockFarmerDoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Do", reflect.TypeOf((*MockFarmer)(nil).Do), work)
-	return &MockFarmerDoCall{Call: call}
+	call := gomock.NewCall1_1[*package_mode.Work, error](mr.mock.ctrl.T, mr.mock, "Do", gomock.EnsureMatcher(work))
+	mr.doExpects = append(mr.doExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockFarmerDoCall is the typed call wrapper for Do.
@@ -758,14 +737,16 @@ type MockFarmerDoCall = gomock.Call1_1[*package_mode.Work, error]
 // Drive mocks base method.
 func (m *MockFarmer) Drive(car cars.FordF150) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Drive", car)
+	gomock.Dispatch1_0(&m.recorder.driveExpects, m.ctrl, m, "Drive", car)
 }
 
 // Drive indicates an expected call of Drive.
 func (mr *MockFarmerMockRecorder) Drive(car any) *MockFarmerDriveCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Drive", reflect.TypeOf((*MockFarmer)(nil).Drive), car)
-	return &MockFarmerDriveCall{Call: call}
+	call := gomock.NewCall1_0[cars.FordF150](mr.mock.ctrl.T, mr.mock, "Drive", gomock.EnsureMatcher(car))
+	mr.driveExpects = append(mr.driveExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockFarmerDriveCall is the typed call wrapper for Drive.
@@ -774,54 +755,38 @@ type MockFarmerDriveCall = gomock.Call1_0[cars.FordF150]
 // Eat mocks base method.
 func (m *MockFarmer) Eat(foods ...package_mode.Food) {
 	m.ctrl.T.Helper()
-	varargs := []any{}
-	for _, a := range foods {
-		varargs = append(varargs, a)
-	}
-	m.ctrl.Call(m, "Eat", varargs...)
+	gomock.Dispatch0V_0(&m.recorder.eatExpects, m.ctrl, m, "Eat", foods...)
 }
 
 // Eat indicates an expected call of Eat.
 func (mr *MockFarmerMockRecorder) Eat(foods ...any) *MockFarmerEatCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eat", reflect.TypeOf((*MockFarmer)(nil).Eat), foods...)
-	return &MockFarmerEatCall{Call: call}
+	varArgs := make([]gomock.Matcher, len(foods))
+	for i, a := range foods {
+		varArgs[i] = gomock.EnsureMatcher(a)
+	}
+	call := gomock.NewCall0V_0[package_mode.Food](mr.mock.ctrl.T, mr.mock, "Eat", varArgs)
+	mr.eatExpects = append(mr.eatExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
-// MockFarmerEatCall wrap *gomock.Call
-type MockFarmerEatCall struct {
-	*gomock.Call
-}
-
-// Return rewrite *gomock.Call.Return
-func (c *MockFarmerEatCall) Return() *MockFarmerEatCall {
-	c.Call = c.Call.Return()
-	return c
-}
-
-// Do rewrite *gomock.Call.Do
-func (c *MockFarmerEatCall) Do(f func(...package_mode.Food)) *MockFarmerEatCall {
-	c.Call = c.Call.Do(f)
-	return c
-}
-
-// DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockFarmerEatCall) DoAndReturn(f func(...package_mode.Food)) *MockFarmerEatCall {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
-}
+// MockFarmerEatCall is the typed call wrapper for Eat.
+type MockFarmerEatCall = gomock.Call0V_0[package_mode.Food]
 
 // LivesInAVillage mocks base method.
 func (m *MockFarmer) LivesInAVillage() {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "LivesInAVillage")
+	gomock.Dispatch0_0(&m.recorder.livesInAVillageExpects, m.ctrl, m, "LivesInAVillage")
 }
 
 // LivesInAVillage indicates an expected call of LivesInAVillage.
 func (mr *MockFarmerMockRecorder) LivesInAVillage() *MockFarmerLivesInAVillageCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LivesInAVillage", reflect.TypeOf((*MockFarmer)(nil).LivesInAVillage))
-	return &MockFarmerLivesInAVillageCall{Call: call}
+	call := gomock.NewCall0_0(mr.mock.ctrl.T, mr.mock, "LivesInAVillage")
+	mr.livesInAVillageExpects = append(mr.livesInAVillageExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockFarmerLivesInAVillageCall is the typed call wrapper for LivesInAVillage.
@@ -830,14 +795,16 @@ type MockFarmerLivesInAVillageCall = gomock.Call0_0
 // Sleep mocks base method.
 func (m *MockFarmer) Sleep(duration time.Duration) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Sleep", duration)
+	gomock.Dispatch1_0(&m.recorder.sleepExpects, m.ctrl, m, "Sleep", duration)
 }
 
 // Sleep indicates an expected call of Sleep.
 func (mr *MockFarmerMockRecorder) Sleep(duration any) *MockFarmerSleepCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Sleep", reflect.TypeOf((*MockFarmer)(nil).Sleep), duration)
-	return &MockFarmerSleepCall{Call: call}
+	call := gomock.NewCall1_0[time.Duration](mr.mock.ctrl.T, mr.mock, "Sleep", gomock.EnsureMatcher(duration))
+	mr.sleepExpects = append(mr.sleepExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockFarmerSleepCall is the typed call wrapper for Sleep.
@@ -846,14 +813,16 @@ type MockFarmerSleepCall = gomock.Call1_0[time.Duration]
 // Wroom mocks base method.
 func (m *MockFarmer) Wroom() error {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[error](m.ctrl.Call(m, "Wroom"))
+	return gomock.Dispatch0_1(&m.recorder.wroomExpects, m.ctrl, m, "Wroom")
 }
 
 // Wroom indicates an expected call of Wroom.
 func (mr *MockFarmerMockRecorder) Wroom() *MockFarmerWroomCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Wroom", reflect.TypeOf((*MockFarmer)(nil).Wroom))
-	return &MockFarmerWroomCall{Call: call}
+	call := gomock.NewCall0_1[error](mr.mock.ctrl.T, mr.mock, "Wroom")
+	mr.wroomExpects = append(mr.wroomExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockFarmerWroomCall is the typed call wrapper for Wroom.
@@ -868,13 +837,15 @@ type MockEarth struct {
 
 // MockEarthMockRecorder is the mock recorder for MockEarth.
 type MockEarthMockRecorder struct {
-	mock *MockEarth
+	mock                   *MockEarth
+	addHumansExpects       []*gomock.Call1_1[package_mode.HumansCount, []package_mode.Human]
+	humanPopulationExpects []*gomock.Call0_1[package_mode.HumansCount]
 }
 
 // NewMockEarth creates a new mock instance.
 func NewMockEarth(ctrl *gomock.Controller) *MockEarth {
 	mock := &MockEarth{ctrl: ctrl}
-	mock.recorder = &MockEarthMockRecorder{mock}
+	mock.recorder = &MockEarthMockRecorder{mock: mock}
 	return mock
 }
 
@@ -886,14 +857,16 @@ func (m *MockEarth) EXPECT() *MockEarthMockRecorder {
 // AddHumans mocks base method.
 func (m *MockEarth) AddHumans(arg0 package_mode.HumansCount) []package_mode.Human {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[[]package_mode.Human](m.ctrl.Call(m, "AddHumans", arg0))
+	return gomock.Dispatch1_1(&m.recorder.addHumansExpects, m.ctrl, m, "AddHumans", arg0)
 }
 
 // AddHumans indicates an expected call of AddHumans.
 func (mr *MockEarthMockRecorder) AddHumans(arg0 any) *MockEarthAddHumansCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddHumans", reflect.TypeOf((*MockEarth)(nil).AddHumans), arg0)
-	return &MockEarthAddHumansCall{Call: call}
+	call := gomock.NewCall1_1[package_mode.HumansCount, []package_mode.Human](mr.mock.ctrl.T, mr.mock, "AddHumans", gomock.EnsureMatcher(arg0))
+	mr.addHumansExpects = append(mr.addHumansExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockEarthAddHumansCall is the typed call wrapper for AddHumans.
@@ -902,14 +875,16 @@ type MockEarthAddHumansCall = gomock.Call1_1[package_mode.HumansCount, []package
 // HumanPopulation mocks base method.
 func (m *MockEarth) HumanPopulation() package_mode.HumansCount {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[package_mode.HumansCount](m.ctrl.Call(m, "HumanPopulation"))
+	return gomock.Dispatch0_1(&m.recorder.humanPopulationExpects, m.ctrl, m, "HumanPopulation")
 }
 
 // HumanPopulation indicates an expected call of HumanPopulation.
 func (mr *MockEarthMockRecorder) HumanPopulation() *MockEarthHumanPopulationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HumanPopulation", reflect.TypeOf((*MockEarth)(nil).HumanPopulation))
-	return &MockEarthHumanPopulationCall{Call: call}
+	call := gomock.NewCall0_1[package_mode.HumansCount](mr.mock.ctrl.T, mr.mock, "HumanPopulation")
+	mr.humanPopulationExpects = append(mr.humanPopulationExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockEarthHumanPopulationCall is the typed call wrapper for HumanPopulation.

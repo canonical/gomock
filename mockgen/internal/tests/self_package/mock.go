@@ -10,8 +10,6 @@
 package core
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 )
 
@@ -24,13 +22,14 @@ type MockMethods struct {
 
 // MockMethodsMockRecorder is the mock recorder for MockMethods.
 type MockMethodsMockRecorder struct {
-	mock *MockMethods
+	mock           *MockMethods
+	getInfoExpects []*gomock.Call0_1[Info]
 }
 
 // NewMockMethods creates a new mock instance.
 func NewMockMethods(ctrl *gomock.Controller) *MockMethods {
 	mock := &MockMethods{ctrl: ctrl}
-	mock.recorder = &MockMethodsMockRecorder{mock}
+	mock.recorder = &MockMethodsMockRecorder{mock: mock}
 	return mock
 }
 
@@ -42,14 +41,16 @@ func (m *MockMethods) EXPECT() *MockMethodsMockRecorder {
 // getInfo mocks base method.
 func (m *MockMethods) getInfo() Info {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[Info](m.ctrl.Call(m, "getInfo"))
+	return gomock.Dispatch0_1(&m.recorder.getInfoExpects, m.ctrl, m, "getInfo")
 }
 
 // getInfo indicates an expected call of getInfo.
 func (mr *MockMethodsMockRecorder) getInfo() *MockMethodsgetInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "getInfo", reflect.TypeOf((*MockMethods)(nil).getInfo))
-	return &MockMethodsgetInfoCall{Call: call}
+	call := gomock.NewCall0_1[Info](mr.mock.ctrl.T, mr.mock, "getInfo")
+	mr.getInfoExpects = append(mr.getInfoExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockMethodsgetInfoCall is the typed call wrapper for getInfo.

@@ -11,6 +11,7 @@ package add_generate_directive
 
 import (
 	gomock "github.com/canonical/gomock/gomock"
+	add_generate_directive "github.com/canonical/gomock/mockgen/internal/tests/add_generate_directive"
 )
 
 //go:generate mockgen -write_generate_directive -destination mockgen/internal/tests/add_generate_directive/mock.go -package add_generate_directive github.com/canonical/gomock/mockgen/internal/tests/add_generate_directive Foo
@@ -25,7 +26,7 @@ type MockFoo struct {
 // MockFooMockRecorder is the mock recorder for MockFoo.
 type MockFooMockRecorder struct {
 	mock       *MockFoo
-	barExpects []*gomock.Call2_0[[]string, chan<- Message]
+	barExpects []*gomock.Call2_0[[]string, chan<- add_generate_directive.Message]
 }
 
 // NewMockFoo creates a new mock instance.
@@ -41,7 +42,7 @@ func (m *MockFoo) EXPECT() *MockFooMockRecorder {
 }
 
 // Bar mocks base method.
-func (m *MockFoo) Bar(channels []string, message chan<- Message) {
+func (m *MockFoo) Bar(channels []string, message chan<- add_generate_directive.Message) {
 	m.ctrl.T.Helper()
 	gomock.Dispatch2_0(&m.recorder.barExpects, m.ctrl, m, "Bar", channels, message)
 }
@@ -49,11 +50,11 @@ func (m *MockFoo) Bar(channels []string, message chan<- Message) {
 // Bar indicates an expected call of Bar.
 func (mr *MockFooMockRecorder) Bar(channels, message any) *MockFooBarCall {
 	mr.mock.ctrl.T.Helper()
-	call := gomock.NewCall2_0[[]string, chan<- Message](mr.mock.ctrl.T, mr.mock, "Bar", gomock.EnsureMatcher(channels), gomock.EnsureMatcher(message))
+	call := gomock.NewCall2_0[[]string, chan<- add_generate_directive.Message](mr.mock.ctrl.T, mr.mock, "Bar", gomock.EnsureMatcher(channels), gomock.EnsureMatcher(message))
 	mr.barExpects = append(mr.barExpects, call)
 	mr.mock.ctrl.Track(call.Call)
 	return call
 }
 
 // MockFooBarCall is the typed call wrapper for Bar.
-type MockFooBarCall = gomock.Call2_0[[]string, chan<- Message]
+type MockFooBarCall = gomock.Call2_0[[]string, chan<- add_generate_directive.Message]

@@ -12,7 +12,6 @@ package defined_import_local_name
 import (
 	bytes "bytes"
 	context "context"
-	reflect "reflect"
 
 	gomock "github.com/canonical/gomock/gomock"
 )
@@ -26,13 +25,15 @@ type MockWithImports struct {
 
 // MockWithImportsMockRecorder is the mock recorder for MockWithImports.
 type MockWithImportsMockRecorder struct {
-	mock *MockWithImports
+	mock           *MockWithImports
+	method1Expects []*gomock.Call0_1[bytes.Buffer]
+	method2Expects []*gomock.Call0_1[context.Context]
 }
 
 // NewMockWithImports creates a new mock instance.
 func NewMockWithImports(ctrl *gomock.Controller) *MockWithImports {
 	mock := &MockWithImports{ctrl: ctrl}
-	mock.recorder = &MockWithImportsMockRecorder{mock}
+	mock.recorder = &MockWithImportsMockRecorder{mock: mock}
 	return mock
 }
 
@@ -44,14 +45,16 @@ func (m *MockWithImports) EXPECT() *MockWithImportsMockRecorder {
 // Method1 mocks base method.
 func (m *MockWithImports) Method1() bytes.Buffer {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[bytes.Buffer](m.ctrl.Call(m, "Method1"))
+	return gomock.Dispatch0_1(&m.recorder.method1Expects, m.ctrl, m, "Method1")
 }
 
 // Method1 indicates an expected call of Method1.
 func (mr *MockWithImportsMockRecorder) Method1() *MockWithImportsMethod1Call {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Method1", reflect.TypeOf((*MockWithImports)(nil).Method1))
-	return &MockWithImportsMethod1Call{Call: call}
+	call := gomock.NewCall0_1[bytes.Buffer](mr.mock.ctrl.T, mr.mock, "Method1")
+	mr.method1Expects = append(mr.method1Expects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockWithImportsMethod1Call is the typed call wrapper for Method1.
@@ -60,14 +63,16 @@ type MockWithImportsMethod1Call = gomock.Call0_1[bytes.Buffer]
 // Method2 mocks base method.
 func (m *MockWithImports) Method2() context.Context {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[context.Context](m.ctrl.Call(m, "Method2"))
+	return gomock.Dispatch0_1(&m.recorder.method2Expects, m.ctrl, m, "Method2")
 }
 
 // Method2 indicates an expected call of Method2.
 func (mr *MockWithImportsMockRecorder) Method2() *MockWithImportsMethod2Call {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Method2", reflect.TypeOf((*MockWithImports)(nil).Method2))
-	return &MockWithImportsMethod2Call{Call: call}
+	call := gomock.NewCall0_1[context.Context](mr.mock.ctrl.T, mr.mock, "Method2")
+	mr.method2Expects = append(mr.method2Expects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockWithImportsMethod2Call is the typed call wrapper for Method2.

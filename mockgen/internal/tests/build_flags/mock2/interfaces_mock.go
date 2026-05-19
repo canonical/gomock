@@ -10,8 +10,6 @@
 package mock_build_flags
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 )
 
@@ -24,13 +22,14 @@ type MockInterface struct {
 
 // MockInterfaceMockRecorder is the mock recorder for MockInterface.
 type MockInterfaceMockRecorder struct {
-	mock *MockInterface
+	mock       *MockInterface
+	fooExpects []*gomock.Call0_0
 }
 
 // NewMockInterface creates a new mock instance.
 func NewMockInterface(ctrl *gomock.Controller) *MockInterface {
 	mock := &MockInterface{ctrl: ctrl}
-	mock.recorder = &MockInterfaceMockRecorder{mock}
+	mock.recorder = &MockInterfaceMockRecorder{mock: mock}
 	return mock
 }
 
@@ -42,14 +41,16 @@ func (m *MockInterface) EXPECT() *MockInterfaceMockRecorder {
 // Foo mocks base method.
 func (m *MockInterface) Foo() {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Foo")
+	gomock.Dispatch0_0(&m.recorder.fooExpects, m.ctrl, m, "Foo")
 }
 
 // Foo indicates an expected call of Foo.
 func (mr *MockInterfaceMockRecorder) Foo() *MockInterfaceFooCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Foo", reflect.TypeOf((*MockInterface)(nil).Foo))
-	return &MockInterfaceFooCall{Call: call}
+	call := gomock.NewCall0_0(mr.mock.ctrl.T, mr.mock, "Foo")
+	mr.fooExpects = append(mr.fooExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockInterfaceFooCall is the typed call wrapper for Foo.

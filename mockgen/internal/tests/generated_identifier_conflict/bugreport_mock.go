@@ -10,8 +10,6 @@
 package bugreport
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 )
 
@@ -24,13 +22,15 @@ type MockExample struct {
 
 // MockExampleMockRecorder is the mock recorder for MockExample.
 type MockExampleMockRecorder struct {
-	mock *MockExample
+	mock                *MockExample
+	methodExpects       []*gomock.Call4_0[int, int, int, int]
+	varargMethodExpects []*gomock.Call4V_0[int, int, int, int, int]
 }
 
 // NewMockExample creates a new mock instance.
 func NewMockExample(ctrl *gomock.Controller) *MockExample {
 	mock := &MockExample{ctrl: ctrl}
-	mock.recorder = &MockExampleMockRecorder{mock}
+	mock.recorder = &MockExampleMockRecorder{mock: mock}
 	return mock
 }
 
@@ -42,14 +42,16 @@ func (m *MockExample) EXPECT() *MockExampleMockRecorder {
 // Method mocks base method.
 func (m_2 *MockExample) Method(_m, _mr, m, mr int) {
 	m_2.ctrl.T.Helper()
-	m_2.ctrl.Call(m_2, "Method", _m, _mr, m, mr)
+	gomock.Dispatch4_0(&m_2.recorder.methodExpects, m_2.ctrl, m_2, "Method", _m, _mr, m, mr)
 }
 
 // Method indicates an expected call of Method.
 func (mr_2 *MockExampleMockRecorder) Method(_m, _mr, m, mr any) *MockExampleMethodCall {
 	mr_2.mock.ctrl.T.Helper()
-	call := mr_2.mock.ctrl.RecordCallWithMethodType(mr_2.mock, "Method", reflect.TypeOf((*MockExample)(nil).Method), _m, _mr, m, mr)
-	return &MockExampleMethodCall{Call: call}
+	call := gomock.NewCall4_0[int, int, int, int](mr_2.mock.ctrl.T, mr_2.mock, "Method", gomock.EnsureMatcher(_m), gomock.EnsureMatcher(_mr), gomock.EnsureMatcher(m), gomock.EnsureMatcher(mr))
+	mr_2.methodExpects = append(mr_2.methodExpects, call)
+	mr_2.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockExampleMethodCall is the typed call wrapper for Method.
@@ -58,40 +60,21 @@ type MockExampleMethodCall = gomock.Call4_0[int, int, int, int]
 // VarargMethod mocks base method.
 func (m *MockExample) VarargMethod(_s, _x, a, ret int, varargs ...int) {
 	m.ctrl.T.Helper()
-	varargs_2 := []any{_s, _x, a, ret}
-	for _, a_2 := range varargs {
-		varargs_2 = append(varargs_2, a_2)
-	}
-	m.ctrl.Call(m, "VarargMethod", varargs_2...)
+	gomock.Dispatch4V_0(&m.recorder.varargMethodExpects, m.ctrl, m, "VarargMethod", _s, _x, a, ret, varargs...)
 }
 
 // VarargMethod indicates an expected call of VarargMethod.
 func (mr *MockExampleMockRecorder) VarargMethod(_s, _x, a, ret any, varargs ...any) *MockExampleVarargMethodCall {
 	mr.mock.ctrl.T.Helper()
-	varargs_2 := append([]any{_s, _x, a, ret}, varargs...)
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "VarargMethod", reflect.TypeOf((*MockExample)(nil).VarargMethod), varargs_2...)
-	return &MockExampleVarargMethodCall{Call: call}
+	varArgs := make([]gomock.Matcher, len(varargs))
+	for i, a_2 := range varargs {
+		varArgs[i] = gomock.EnsureMatcher(a_2)
+	}
+	call := gomock.NewCall4V_0[int, int, int, int, int](mr.mock.ctrl.T, mr.mock, "VarargMethod", gomock.EnsureMatcher(_s), gomock.EnsureMatcher(_x), gomock.EnsureMatcher(a), gomock.EnsureMatcher(ret), varArgs)
+	mr.varargMethodExpects = append(mr.varargMethodExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
-// MockExampleVarargMethodCall wrap *gomock.Call
-type MockExampleVarargMethodCall struct {
-	*gomock.Call
-}
-
-// Return rewrite *gomock.Call.Return
-func (c *MockExampleVarargMethodCall) Return() *MockExampleVarargMethodCall {
-	c.Call = c.Call.Return()
-	return c
-}
-
-// Do rewrite *gomock.Call.Do
-func (c *MockExampleVarargMethodCall) Do(f func(int, int, int, int, ...int)) *MockExampleVarargMethodCall {
-	c.Call = c.Call.Do(f)
-	return c
-}
-
-// DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockExampleVarargMethodCall) DoAndReturn(f func(int, int, int, int, ...int)) *MockExampleVarargMethodCall {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
-}
+// MockExampleVarargMethodCall is the typed call wrapper for VarargMethod.
+type MockExampleVarargMethodCall = gomock.Call4V_0[int, int, int, int, int]

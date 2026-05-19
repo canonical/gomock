@@ -10,8 +10,6 @@
 package extra_import
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 )
 
@@ -24,13 +22,14 @@ type MockFoo struct {
 
 // MockFooMockRecorder is the mock recorder for MockFoo.
 type MockFooMockRecorder struct {
-	mock *MockFoo
+	mock       *MockFoo
+	barExpects []*gomock.Call2_0[[]string, chan<- Message]
 }
 
 // NewMockFoo creates a new mock instance.
 func NewMockFoo(ctrl *gomock.Controller) *MockFoo {
 	mock := &MockFoo{ctrl: ctrl}
-	mock.recorder = &MockFooMockRecorder{mock}
+	mock.recorder = &MockFooMockRecorder{mock: mock}
 	return mock
 }
 
@@ -42,14 +41,16 @@ func (m *MockFoo) EXPECT() *MockFooMockRecorder {
 // Bar mocks base method.
 func (m *MockFoo) Bar(channels []string, message chan<- Message) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Bar", channels, message)
+	gomock.Dispatch2_0(&m.recorder.barExpects, m.ctrl, m, "Bar", channels, message)
 }
 
 // Bar indicates an expected call of Bar.
 func (mr *MockFooMockRecorder) Bar(channels, message any) *MockFooBarCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Bar", reflect.TypeOf((*MockFoo)(nil).Bar), channels, message)
-	return &MockFooBarCall{Call: call}
+	call := gomock.NewCall2_0[[]string, chan<- Message](mr.mock.ctrl.T, mr.mock, "Bar", gomock.EnsureMatcher(channels), gomock.EnsureMatcher(message))
+	mr.barExpects = append(mr.barExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockFooBarCall is the typed call wrapper for Bar.

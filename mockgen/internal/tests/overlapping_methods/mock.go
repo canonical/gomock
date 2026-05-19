@@ -10,8 +10,6 @@
 package overlap
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 )
 
@@ -24,13 +22,16 @@ type MockReadWriteCloser struct {
 
 // MockReadWriteCloserMockRecorder is the mock recorder for MockReadWriteCloser.
 type MockReadWriteCloserMockRecorder struct {
-	mock *MockReadWriteCloser
+	mock         *MockReadWriteCloser
+	closeExpects []*gomock.Call0_1[error]
+	readExpects  []*gomock.Call1_2[[]byte, int, error]
+	writeExpects []*gomock.Call1_2[[]byte, int, error]
 }
 
 // NewMockReadWriteCloser creates a new mock instance.
 func NewMockReadWriteCloser(ctrl *gomock.Controller) *MockReadWriteCloser {
 	mock := &MockReadWriteCloser{ctrl: ctrl}
-	mock.recorder = &MockReadWriteCloserMockRecorder{mock}
+	mock.recorder = &MockReadWriteCloserMockRecorder{mock: mock}
 	return mock
 }
 
@@ -42,14 +43,16 @@ func (m *MockReadWriteCloser) EXPECT() *MockReadWriteCloserMockRecorder {
 // Close mocks base method.
 func (m *MockReadWriteCloser) Close() error {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[error](m.ctrl.Call(m, "Close"))
+	return gomock.Dispatch0_1(&m.recorder.closeExpects, m.ctrl, m, "Close")
 }
 
 // Close indicates an expected call of Close.
 func (mr *MockReadWriteCloserMockRecorder) Close() *MockReadWriteCloserCloseCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Close", reflect.TypeOf((*MockReadWriteCloser)(nil).Close))
-	return &MockReadWriteCloserCloseCall{Call: call}
+	call := gomock.NewCall0_1[error](mr.mock.ctrl.T, mr.mock, "Close")
+	mr.closeExpects = append(mr.closeExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockReadWriteCloserCloseCall is the typed call wrapper for Close.
@@ -58,14 +61,16 @@ type MockReadWriteCloserCloseCall = gomock.Call0_1[error]
 // Read mocks base method.
 func (m *MockReadWriteCloser) Read(arg0 []byte) (int, error) {
 	m.ctrl.T.Helper()
-	return gomock.Invoke2[int, error](m.ctrl.Call(m, "Read", arg0))
+	return gomock.Dispatch1_2(&m.recorder.readExpects, m.ctrl, m, "Read", arg0)
 }
 
 // Read indicates an expected call of Read.
 func (mr *MockReadWriteCloserMockRecorder) Read(arg0 any) *MockReadWriteCloserReadCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Read", reflect.TypeOf((*MockReadWriteCloser)(nil).Read), arg0)
-	return &MockReadWriteCloserReadCall{Call: call}
+	call := gomock.NewCall1_2[[]byte, int, error](mr.mock.ctrl.T, mr.mock, "Read", gomock.EnsureMatcher(arg0))
+	mr.readExpects = append(mr.readExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockReadWriteCloserReadCall is the typed call wrapper for Read.
@@ -74,14 +79,16 @@ type MockReadWriteCloserReadCall = gomock.Call1_2[[]byte, int, error]
 // Write mocks base method.
 func (m *MockReadWriteCloser) Write(arg0 []byte) (int, error) {
 	m.ctrl.T.Helper()
-	return gomock.Invoke2[int, error](m.ctrl.Call(m, "Write", arg0))
+	return gomock.Dispatch1_2(&m.recorder.writeExpects, m.ctrl, m, "Write", arg0)
 }
 
 // Write indicates an expected call of Write.
 func (mr *MockReadWriteCloserMockRecorder) Write(arg0 any) *MockReadWriteCloserWriteCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Write", reflect.TypeOf((*MockReadWriteCloser)(nil).Write), arg0)
-	return &MockReadWriteCloserWriteCall{Call: call}
+	call := gomock.NewCall1_2[[]byte, int, error](mr.mock.ctrl.T, mr.mock, "Write", gomock.EnsureMatcher(arg0))
+	mr.writeExpects = append(mr.writeExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockReadWriteCloserWriteCall is the typed call wrapper for Write.

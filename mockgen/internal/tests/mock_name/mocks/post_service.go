@@ -10,8 +10,6 @@
 package mocks
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 	post "github.com/canonical/gomock/mockgen/internal/tests/mock_name/post"
 	user "github.com/canonical/gomock/mockgen/internal/tests/mock_name/user"
@@ -26,13 +24,14 @@ type PostServiceMock struct {
 
 // PostServiceMockMockRecorder is the mock recorder for PostServiceMock.
 type PostServiceMockMockRecorder struct {
-	mock *PostServiceMock
+	mock          *PostServiceMock
+	createExpects []*gomock.Call3_2[string, string, *user.User, *post.Post, error]
 }
 
 // NewPostServiceMock creates a new mock instance.
 func NewPostServiceMock(ctrl *gomock.Controller) *PostServiceMock {
 	mock := &PostServiceMock{ctrl: ctrl}
-	mock.recorder = &PostServiceMockMockRecorder{mock}
+	mock.recorder = &PostServiceMockMockRecorder{mock: mock}
 	return mock
 }
 
@@ -44,14 +43,16 @@ func (m *PostServiceMock) EXPECT() *PostServiceMockMockRecorder {
 // Create mocks base method.
 func (m *PostServiceMock) Create(title, body string, author *user.User) (*post.Post, error) {
 	m.ctrl.T.Helper()
-	return gomock.Invoke2[*post.Post, error](m.ctrl.Call(m, "Create", title, body, author))
+	return gomock.Dispatch3_2(&m.recorder.createExpects, m.ctrl, m, "Create", title, body, author)
 }
 
 // Create indicates an expected call of Create.
 func (mr *PostServiceMockMockRecorder) Create(title, body, author any) *PostServiceMockCreateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*PostServiceMock)(nil).Create), title, body, author)
-	return &PostServiceMockCreateCall{Call: call}
+	call := gomock.NewCall3_2[string, string, *user.User, *post.Post, error](mr.mock.ctrl.T, mr.mock, "Create", gomock.EnsureMatcher(title), gomock.EnsureMatcher(body), gomock.EnsureMatcher(author))
+	mr.createExpects = append(mr.createExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // PostServiceMockCreateCall is the typed call wrapper for Create.

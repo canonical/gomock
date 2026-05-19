@@ -11,7 +11,6 @@ package import_aliased
 
 import (
 	context "context"
-	reflect "reflect"
 
 	gomock "github.com/canonical/gomock/gomock"
 )
@@ -25,13 +24,14 @@ type MockS struct {
 
 // MockSMockRecorder is the mock recorder for MockS.
 type MockSMockRecorder struct {
-	mock *MockS
+	mock     *MockS
+	mExpects []*gomock.Call1_0[context.Context]
 }
 
 // NewMockS creates a new mock instance.
 func NewMockS(ctrl *gomock.Controller) *MockS {
 	mock := &MockS{ctrl: ctrl}
-	mock.recorder = &MockSMockRecorder{mock}
+	mock.recorder = &MockSMockRecorder{mock: mock}
 	return mock
 }
 
@@ -43,14 +43,16 @@ func (m *MockS) EXPECT() *MockSMockRecorder {
 // M mocks base method.
 func (m *MockS) M(ctx context.Context) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "M", ctx)
+	gomock.Dispatch1_0(&m.recorder.mExpects, m.ctrl, m, "M", ctx)
 }
 
 // M indicates an expected call of M.
 func (mr *MockSMockRecorder) M(ctx any) *MockSMCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "M", reflect.TypeOf((*MockS)(nil).M), ctx)
-	return &MockSMCall{Call: call}
+	call := gomock.NewCall1_0[context.Context](mr.mock.ctrl.T, mr.mock, "M", gomock.EnsureMatcher(ctx))
+	mr.mExpects = append(mr.mExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockSMCall is the typed call wrapper for M.

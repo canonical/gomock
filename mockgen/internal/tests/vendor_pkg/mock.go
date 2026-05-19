@@ -10,8 +10,6 @@
 package vendor_pkg
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 )
 
@@ -24,13 +22,14 @@ type MockElem struct {
 
 // MockElemMockRecorder is the mock recorder for MockElem.
 type MockElemMockRecorder struct {
-	mock *MockElem
+	mock                *MockElem
+	templateNameExpects []*gomock.Call0_1[string]
 }
 
 // NewMockElem creates a new mock instance.
 func NewMockElem(ctrl *gomock.Controller) *MockElem {
 	mock := &MockElem{ctrl: ctrl}
-	mock.recorder = &MockElemMockRecorder{mock}
+	mock.recorder = &MockElemMockRecorder{mock: mock}
 	return mock
 }
 
@@ -42,14 +41,16 @@ func (m *MockElem) EXPECT() *MockElemMockRecorder {
 // TemplateName mocks base method.
 func (m *MockElem) TemplateName() string {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[string](m.ctrl.Call(m, "TemplateName"))
+	return gomock.Dispatch0_1(&m.recorder.templateNameExpects, m.ctrl, m, "TemplateName")
 }
 
 // TemplateName indicates an expected call of TemplateName.
 func (mr *MockElemMockRecorder) TemplateName() *MockElemTemplateNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TemplateName", reflect.TypeOf((*MockElem)(nil).TemplateName))
-	return &MockElemTemplateNameCall{Call: call}
+	call := gomock.NewCall0_1[string](mr.mock.ctrl.T, mr.mock, "TemplateName")
+	mr.templateNameExpects = append(mr.templateNameExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockElemTemplateNameCall is the typed call wrapper for TemplateName.
