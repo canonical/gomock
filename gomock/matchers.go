@@ -150,7 +150,7 @@ func (nilMatcher) Matches(x any) bool {
 	v := reflect.ValueOf(x)
 	switch v.Kind() {
 	case reflect.Chan, reflect.Func, reflect.Interface, reflect.Map,
-		reflect.Ptr, reflect.Slice:
+		reflect.Pointer, reflect.Slice:
 		return v.IsNil()
 	}
 

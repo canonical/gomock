@@ -98,7 +98,7 @@ func (p *packageModeParser) loadPackage(packageName string) (*packages.Package, 
 
 func extractInterfacesFromPackageTypes(pkgTypes *types.Package, ifaces []string) ([]*model.Interface, error) {
 	// If no interfaces specified, discover all interfaces in the package
-	if len(ifaces) == 0  {
+	if len(ifaces) == 0 {
 		return getAllInterfacesFromPackageTypes(pkgTypes)
 	}
 	scope := pkgTypes.Scope()
@@ -232,8 +232,8 @@ func parseInterface(obj types.Object) (*model.Interface, error) {
 }
 
 func isConstraint(t *types.Interface) bool {
-	for i := range t.NumEmbeddeds() {
-		embed := t.EmbeddedType(i)
+	for embed := range t.EmbeddedTypes() {
+		embed := embed
 		if _, ok := embed.Underlying().(*types.Interface); !ok {
 			return true
 		}

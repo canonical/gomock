@@ -189,7 +189,7 @@ func main() {
 
 func parseMockNames(names string) map[string]string {
 	mocksMap := make(map[string]string)
-	for _, kv := range strings.Split(names, ",") {
+	for kv := range strings.SplitSeq(names, ",") {
 		parts := strings.SplitN(kv, "=", 2)
 		if len(parts) != 2 || parts[1] == "" {
 			log.Fatalf("bad mock names spec: %v", kv)
@@ -307,8 +307,8 @@ func (g *generator) Generate(pkg *model.Package, outputPkgName string, outputPac
 	}
 
 	if g.copyrightHeader != "" {
-		lines := strings.Split(g.copyrightHeader, "\n")
-		for _, line := range lines {
+		lines := strings.SplitSeq(g.copyrightHeader, "\n")
+		for line := range lines {
 			g.p("// %s", line)
 		}
 		g.p("")
@@ -1117,11 +1117,11 @@ func parsePackageImport(srcDir string) (string, error) {
 	if goPaths == "" {
 		return "", fmt.Errorf("GOPATH is not set")
 	}
-	goPathList := strings.Split(goPaths, string(os.PathListSeparator))
-	for _, goPath := range goPathList {
+	goPathList := strings.SplitSeq(goPaths, string(os.PathListSeparator))
+	for goPath := range goPathList {
 		sourceRoot := filepath.Join(goPath, "src") + string(os.PathSeparator)
-		if strings.HasPrefix(srcDir, sourceRoot) {
-			return filepath.ToSlash(strings.TrimPrefix(srcDir, sourceRoot)), nil
+		if after, ok := strings.CutPrefix(srcDir, sourceRoot); ok {
+			return filepath.ToSlash(after), nil
 		}
 	}
 	return "", errOutsideGoPath

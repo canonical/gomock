@@ -243,13 +243,14 @@ func fatalfStmt(n int) string {
 	}
 	format := "Unexpected call to %T.%v(" +
 		strings.Join(fmts, ", ") + ") at %s"
-	args := "receiver, method"
+	var args strings.Builder
+	args.WriteString("receiver, method")
 	for i := 1; i <= n; i++ {
-		args += fmt.Sprintf(", a%d", i)
+		args.WriteString(fmt.Sprintf(", a%d", i))
 	}
-	args += ", origin"
+	args.WriteString(", origin")
 	return fmt.Sprintf(
-		`ctrl.T.Fatalf("%s", %s)`, format, args,
+		`ctrl.T.Fatalf("%s", %s)`, format, args.String(),
 	)
 }
 
@@ -347,12 +348,13 @@ func fatalfVStmt(n int) string {
 	fmts[n] = "%v"
 	format := "Unexpected call to %T.%v(" +
 		strings.Join(fmts, ", ") + ") at %s"
-	args := "receiver, method"
+	var args strings.Builder
+	args.WriteString("receiver, method")
 	for i := 1; i <= n; i++ {
-		args += fmt.Sprintf(", a%d", i)
+		args.WriteString(fmt.Sprintf(", a%d", i))
 	}
-	args += ", va, origin"
-	return fmt.Sprintf(`ctrl.T.Fatalf("%s", %s)`, format, args)
+	args.WriteString(", va, origin")
+	return fmt.Sprintf(`ctrl.T.Fatalf("%s", %s)`, format, args.String())
 }
 
 // writeFinalizedCall writes the FinalizedCallN type and its methods.

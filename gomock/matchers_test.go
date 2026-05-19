@@ -207,7 +207,7 @@ func TestAssignableToTypeOfMatcher(t *testing.T) {
 		t.Errorf(`AssignableToTypeOf(&Dog{}) should match &Dog{Breed: "pug", Name: "Fido"}`)
 	}
 
-	ctxInterface := reflect.TypeOf((*context.Context)(nil)).Elem()
+	ctxInterface := reflect.TypeFor[context.Context]()
 	if match := gomock.AssignableToTypeOf(ctxInterface).Matches(context.Background()); !match {
 		t.Errorf(`AssignableToTypeOf(context.Context) should not match context.Background()`)
 	}

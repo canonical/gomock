@@ -233,7 +233,7 @@ func TestAnyTimes(t *testing.T) {
 	addExpect(ctrl, &expects, gomock.NewCall1_1[string, int](
 		reporter, subject, "FooMethod", gomock.Eq("argument"),
 	).AnyTimes())
-	for i := 0; i < 100; i++ {
+	for range 100 {
 		gomock.Dispatch1_1(&expects, ctrl, subject, "FooMethod", "argument")
 	}
 	reporter.assertPass("After 100 method calls.")
@@ -266,7 +266,7 @@ func TestMinTimes1(t *testing.T) {
 	addExpect(ctrl, &expects, gomock.NewCall1_1[string, int](
 		reporter, subject, "FooMethod", gomock.Eq("argument"),
 	).MinTimes(1))
-	for i := 0; i < 100; i++ {
+	for range 100 {
 		gomock.Dispatch1_1(&expects, ctrl, subject, "FooMethod", "argument")
 	}
 	ctrl.Finish()
@@ -361,7 +361,7 @@ func TestMinMaxTimes(t *testing.T) {
 	addExpect(ctrl, &expects, gomock.NewCall1_1[string, int](
 		reporter, subject, "FooMethod", gomock.Eq("argument"),
 	).MaxTimes(1).MinTimes(2))
-	for i := 0; i < 100; i++ {
+	for range 100 {
 		gomock.Dispatch1_1(&expects, ctrl, subject, "FooMethod", "argument")
 	}
 	ctrl.Finish()

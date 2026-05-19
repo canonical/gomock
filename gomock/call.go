@@ -175,7 +175,7 @@ func (c *Call) dropPrereqs() (preReqs []*Call) {
 // implements CallHolder.
 func InOrder(args ...any) {
 	calls := make([]*Call, 0, len(args))
-	for i := 0; i < len(args); i++ {
+	for i := range args {
 		if call := getCall(args[i]); call != nil {
 			calls = append(calls, call)
 			continue
