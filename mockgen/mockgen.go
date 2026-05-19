@@ -48,7 +48,7 @@ const (
 
 	// maxTypedArgs and maxTypedReturns are the bounds of the pre-generated
 	// generic Call wrappers in the gomock package (see typed_calls.go).
-	maxTypedArgs    = 8
+	maxTypedArgs    = 12
 	maxTypedReturns = 5
 )
 

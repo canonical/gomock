@@ -26,7 +26,7 @@ import (
 )
 
 const (
-	maxArgs    = 8
+	maxArgs    = 12
 	maxReturns = 5
 )
 
