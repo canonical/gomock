@@ -66,10 +66,7 @@ func (m *MockExample) VarargMethod(_s, _x, a, ret int, varargs ...int) {
 // VarargMethod indicates an expected call of VarargMethod.
 func (mr *MockExampleMockRecorder) VarargMethod(_s, _x, a, ret any, varargs ...any) *MockExampleVarargMethodCall {
 	mr.mock.ctrl.T.Helper()
-	varArgs := make([]gomock.Matcher, len(varargs))
-	for i, a_2 := range varargs {
-		varArgs[i] = gomock.EnsureMatcher(a_2)
-	}
+	varArgs := gomock.EnsureVariadicMatcher(varargs)
 	call := gomock.NewCall4V_0[int, int, int, int, int](mr.mock.ctrl.T, mr.mock, "VarargMethod", gomock.EnsureMatcher(_s), gomock.EnsureMatcher(_x), gomock.EnsureMatcher(a), gomock.EnsureMatcher(ret), varArgs)
 	mr.varargMethodExpects = append(mr.varargMethodExpects, call)
 	mr.mock.ctrl.Track(call.Call)

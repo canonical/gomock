@@ -680,7 +680,8 @@ func (g *generator) GenerateMockRecorderMethod(
 	fieldName := expectsFieldName(m.Name)
 
 	// Recorder method signature: all fixed args as "any",
-	// variadic as "...any".
+	// variadic as "any" (not ...any) so callers can pass
+	// a Matcher, []Matcher, []any, nil, or a bare value.
 	var argString string
 	if m.Variadic == nil {
 		argString = strings.Join(argNames, ", ")
@@ -753,26 +754,14 @@ func (g *generator) GenerateMockRecorderMethod(
 			idRecv, idRecv, m.Name, matcherArgs,
 		)
 	} else {
-		// Variadic: build varArgs slice, then NewCallNV_M.
+		// Variadic: resolve varArgs via EnsureVariadicMatcher,
+		// then NewCallNV_M.
 		varName := argNames[len(argNames)-1]
 		idVarArgs := ia.allocateIdentifier("varArgs")
-		idI := ia.allocateIdentifier("i")
-		idA := ia.allocateIdentifier("a")
 		g.p(
-			"%s := make([]%sMatcher, len(%s))",
+			"%s := %sEnsureVariadicMatcher(%s)",
 			idVarArgs, gomockPkg, varName,
 		)
-		g.p(
-			"for %s, %s := range %s {",
-			idI, idA, varName,
-		)
-		g.in()
-		g.p(
-			"%s[%s] = %sEnsureMatcher(%s)",
-			idVarArgs, idI, gomockPkg, idA,
-		)
-		g.out()
-		g.p("}")
 		var fixedMatcherArgs string
 		if len(m.In) > 0 {
 			parts := make([]string, len(m.In))

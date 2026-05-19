@@ -521,17 +521,60 @@ func EnsureMatcher(v any) Matcher {
 	return Eq(v)
 }
 
+// EnsureVariadicMatcher converts v into a slice of Matchers for the
+// variadic arguments in a recorder method call.
+//
+// The cases handled are:
+//   - nil: returns nil (any variadic args are accepted by the call)
+//   - Matcher: returns []Matcher{v}
+//   - []Matcher: returned as-is
+//   - []any: each element is passed through EnsureMatcher
+//   - anything else: returns []Matcher{Eq(v)}
+//
+// Used by generated mock recorder code.
+func EnsureVariadicMatcher(v []any) []Matcher {
+	if len(v) == 0 {
+		return nil
+	}
+	matchers := make([]Matcher, len(v))
+	for i, e := range v {
+		matchers[i] = EnsureMatcher(e)
+	}
+	return matchers
+}
+
+// MatchVarArgs matches the variadic slice va against the registered
+// matchers ms. Used by generated mock recorder code.
+//
+// Variadic matching semantics:
+//   - len(ms)==0: va must be empty.
+//   - non-last matcher: direct element match at position j;
+//     fail if no element exists at that position.
+//   - last matcher: try ms[last].Matches(va[j]) first; only on
+//     miss, try ms[last].Matches(va[j:]) against the remainder.
+func MatchVarArgs[VA any](ms []Matcher, va []VA) bool {
+	if len(ms) == 0 {
+		return len(va) == 0
+	}
+	for j, m := range ms {
+		if j < len(ms)-1 {
+			if j >= len(va) || !m.Matches(va[j]) {
+				return false
+			}
+			continue
+		}
+		// Last matcher.
+		if j < len(va) && m.Matches(va[j]) {
+			return true
+		}
+		return m.Matches(va[j:])
+	}
+	return true
+}
+
 // MatchVariadicArgs matches args against fixed and variadic Matchers.
 // Used by generated mock code for variadic methods.
-//
-//   - fixedMs: one Matcher per non-variadic parameter.
-//   - varMs: matchers for the variadic elements.
-//     If empty, any number of variadic args is accepted.
-//     If one matcher, it is first tried against each individual
-//     variadic element; if counts differ it is tried against the
-//     whole variadic tail as []any.
-//     If multiple matchers, each must match the corresponding
-//     variadic element (counts must be equal).
+// The variadic matching semantics are defined by MatchVarArgs.
 func MatchVariadicArgs(
 	args []any,
 	fixedMs []Matcher,
@@ -545,25 +588,5 @@ func MatchVariadicArgs(
 			return false
 		}
 	}
-	varArgs := args[len(fixedMs):]
-	if len(varMs) == 0 {
-		return true
-	}
-	if len(varMs) == 1 {
-		// Try individual element matching first.
-		if len(varArgs) == 1 && varMs[0].Matches(varArgs[0]) {
-			return true
-		}
-		// Try matching the whole tail as []any.
-		return varMs[0].Matches(varArgs)
-	}
-	if len(varArgs) != len(varMs) {
-		return false
-	}
-	for i, m := range varMs {
-		if !m.Matches(varArgs[i]) {
-			return false
-		}
-	}
-	return true
+	return MatchVarArgs(varMs, args[len(fixedMs):])
 }

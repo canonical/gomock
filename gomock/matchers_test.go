@@ -366,3 +366,81 @@ func TestInAnyOrder(t *testing.T) {
 		})
 	}
 }
+
+func TestEnsureVariadicMatcher(t *testing.T) {
+	tests := []struct {
+		name  string
+		input []any
+		// wantNil means we expect a nil slice returned.
+		wantNil bool
+		wantLen int
+		// wantMatches are values each returned Matcher must match.
+		wantMatches []any
+	}{
+		{
+			// nil means "expect zero variadic args" — the caller
+			// asserts the method is called with no variadics at all.
+			name:    "nil returns nil slice",
+			input:   nil,
+			wantNil: true,
+		},
+		{
+			// expect zero variadic args — the caller asserts the method is
+			// called with no variadics at all.
+			name:    "nil returns nil slice",
+			input:   []any{},
+			wantNil: true,
+		},
+		{
+			name:        "Matcher wrapped in single-element slice",
+			input:       []any{gomock.Any()},
+			wantLen:     1,
+			wantMatches: []any{42},
+		},
+		{
+			name:        "[]any each element wrapped via EnsureMatcher",
+			input:       []any{5, 6},
+			wantLen:     2,
+			wantMatches: []any{5, 6},
+		},
+		{
+			name:        "[]any with embedded Matcher left as-is",
+			input:       []any{gomock.Any(), 6},
+			wantLen:     2,
+			wantMatches: []any{99, 6},
+		},
+		{
+			name:        "bare single value wrapped with Eq",
+			input:       []any{5},
+			wantLen:     1,
+			wantMatches: []any{5},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := gomock.EnsureVariadicMatcher(tt.input)
+			if tt.wantNil {
+				if got != nil {
+					t.Errorf("expected nil, got %v", got)
+				}
+				return
+			}
+			if len(got) != tt.wantLen {
+				t.Errorf(
+					"len = %d, want %d",
+					len(got), tt.wantLen,
+				)
+				return
+			}
+			for i, v := range tt.wantMatches {
+				if !got[i].Matches(v) {
+					t.Errorf(
+						"matcher[%d] did not match %v",
+						i, v,
+					)
+				}
+			}
+		})
+	}
+}

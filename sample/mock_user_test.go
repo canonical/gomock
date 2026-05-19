@@ -134,10 +134,7 @@ func (m *MockIndex) Ellip(fmt string, args ...any) {
 // Ellip indicates an expected call of Ellip.
 func (mr *MockIndexMockRecorder) Ellip(fmt any, args ...any) *MockIndexEllipCall {
 	mr.mock.ctrl.T.Helper()
-	varArgs := make([]gomock.Matcher, len(args))
-	for i, a := range args {
-		varArgs[i] = gomock.EnsureMatcher(a)
-	}
+	varArgs := gomock.EnsureVariadicMatcher(args)
 	call := gomock.NewCall1V_0[string, any](mr.mock.ctrl.T, mr.mock, "Ellip", gomock.EnsureMatcher(fmt), varArgs)
 	mr.ellipExpects = append(mr.ellipExpects, call)
 	mr.mock.ctrl.Track(call.Call)
@@ -156,10 +153,7 @@ func (m *MockIndex) EllipOnly(arg0 ...string) {
 // EllipOnly indicates an expected call of EllipOnly.
 func (mr *MockIndexMockRecorder) EllipOnly(arg0 ...any) *MockIndexEllipOnlyCall {
 	mr.mock.ctrl.T.Helper()
-	varArgs := make([]gomock.Matcher, len(arg0))
-	for i, a := range arg0 {
-		varArgs[i] = gomock.EnsureMatcher(a)
-	}
+	varArgs := gomock.EnsureVariadicMatcher(arg0)
 	call := gomock.NewCall0V_0[string](mr.mock.ctrl.T, mr.mock, "EllipOnly", varArgs)
 	mr.ellipOnlyExpects = append(mr.ellipOnlyExpects, call)
 	mr.mock.ctrl.Track(call.Call)

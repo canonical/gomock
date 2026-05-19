@@ -918,33 +918,9 @@ func writeDispatchV(buf *bytes.Buffer, n, m int) {
 		)
 	}
 
-	// Variadic matching semantics (matching old gomock behaviour):
-	//   - exactly one registered matcher, exactly one actual arg:
-	//     apply the matcher to that single element.
-	//   - exactly one registered matcher, any other count:
-	//     apply the matcher to the whole va slice.
-	//   - any other count: require len(va)==len(varArgs) then
-	//     match element-by-element.
-	buf.WriteString("\t\tif len(e.varArgs) == 1 {\n")
-	buf.WriteString("\t\t\tif len(va) == 1 {\n")
-	buf.WriteString("\t\t\t\tif !e.varArgs[0].Matches(va[0]) {\n")
-	buf.WriteString("\t\t\t\t\tcontinue\n")
-	buf.WriteString("\t\t\t\t}\n")
-	buf.WriteString("\t\t\t} else if !e.varArgs[0].Matches(va) {\n")
-	buf.WriteString("\t\t\t\tcontinue\n")
-	buf.WriteString("\t\t\t}\n")
-	buf.WriteString("\t\t} else {\n")
-	buf.WriteString("\t\t\tif len(e.varArgs) != len(va) {\n")
-	buf.WriteString("\t\t\t\tcontinue\n")
-	buf.WriteString("\t\t\t}\n")
-	buf.WriteString("\t\t\tvarMatch := true\n")
-	buf.WriteString("\t\t\tfor j, vm := range e.varArgs {\n")
-	buf.WriteString("\t\t\t\tif !vm.Matches(va[j]) {\n")
-	buf.WriteString("\t\t\t\t\tvarMatch = false\n")
-	buf.WriteString("\t\t\t\t\tbreak\n")
-	buf.WriteString("\t\t\t\t}\n")
-	buf.WriteString("\t\t\t}\n")
-	buf.WriteString("\t\t\tif !varMatch {\n\t\t\t\tcontinue\n\t\t\t}\n")
+	// Delegate variadic matching to MatchVarArgs.
+	buf.WriteString("\t\tif !MatchVarArgs(e.varArgs, va) {\n")
+	buf.WriteString("\t\t\tcontinue\n")
 	buf.WriteString("\t\t}\n")
 
 	// Skip exhausted expectations.

@@ -19613,28 +19613,8 @@ func Dispatch0V_0[VA any](expects *[]*Call0V_0[VA], ctrl *Controller, receiver a
 	}
 	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
 		i, e := idx, (*expects)[idx]
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -19684,28 +19664,8 @@ func Dispatch0V_1[VA, R1 any](expects *[]*Call0V_1[VA, R1], ctrl *Controller, re
 	}
 	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
 		i, e := idx, (*expects)[idx]
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -19764,28 +19724,8 @@ func Dispatch0V_2[VA, R1, R2 any](expects *[]*Call0V_2[VA, R1, R2], ctrl *Contro
 	}
 	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
 		i, e := idx, (*expects)[idx]
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -19846,28 +19786,8 @@ func Dispatch0V_3[VA, R1, R2, R3 any](expects *[]*Call0V_3[VA, R1, R2, R3], ctrl
 	}
 	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
 		i, e := idx, (*expects)[idx]
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -19930,28 +19850,8 @@ func Dispatch0V_4[VA, R1, R2, R3, R4 any](expects *[]*Call0V_4[VA, R1, R2, R3, R
 	}
 	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
 		i, e := idx, (*expects)[idx]
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -20016,28 +19916,8 @@ func Dispatch0V_5[VA, R1, R2, R3, R4, R5 any](expects *[]*Call0V_5[VA, R1, R2, R
 	}
 	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
 		i, e := idx, (*expects)[idx]
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -20107,28 +19987,8 @@ func Dispatch1V_0[A1, VA any](expects *[]*Call1V_0[A1, VA], ctrl *Controller, re
 		if !e.m1.Matches(a1) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -20181,28 +20041,8 @@ func Dispatch1V_1[A1, VA, R1 any](expects *[]*Call1V_1[A1, VA, R1], ctrl *Contro
 		if !e.m1.Matches(a1) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -20264,28 +20104,8 @@ func Dispatch1V_2[A1, VA, R1, R2 any](expects *[]*Call1V_2[A1, VA, R1, R2], ctrl
 		if !e.m1.Matches(a1) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -20349,28 +20169,8 @@ func Dispatch1V_3[A1, VA, R1, R2, R3 any](expects *[]*Call1V_3[A1, VA, R1, R2, R
 		if !e.m1.Matches(a1) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -20436,28 +20236,8 @@ func Dispatch1V_4[A1, VA, R1, R2, R3, R4 any](expects *[]*Call1V_4[A1, VA, R1, R
 		if !e.m1.Matches(a1) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -20525,28 +20305,8 @@ func Dispatch1V_5[A1, VA, R1, R2, R3, R4, R5 any](expects *[]*Call1V_5[A1, VA, R
 		if !e.m1.Matches(a1) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -20619,28 +20379,8 @@ func Dispatch2V_0[A1, A2, VA any](expects *[]*Call2V_0[A1, A2, VA], ctrl *Contro
 		if !e.m2.Matches(a2) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -20696,28 +20436,8 @@ func Dispatch2V_1[A1, A2, VA, R1 any](expects *[]*Call2V_1[A1, A2, VA, R1], ctrl
 		if !e.m2.Matches(a2) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -20782,28 +20502,8 @@ func Dispatch2V_2[A1, A2, VA, R1, R2 any](expects *[]*Call2V_2[A1, A2, VA, R1, R
 		if !e.m2.Matches(a2) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -20870,28 +20570,8 @@ func Dispatch2V_3[A1, A2, VA, R1, R2, R3 any](expects *[]*Call2V_3[A1, A2, VA, R
 		if !e.m2.Matches(a2) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -20960,28 +20640,8 @@ func Dispatch2V_4[A1, A2, VA, R1, R2, R3, R4 any](expects *[]*Call2V_4[A1, A2, V
 		if !e.m2.Matches(a2) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -21052,28 +20712,8 @@ func Dispatch2V_5[A1, A2, VA, R1, R2, R3, R4, R5 any](expects *[]*Call2V_5[A1, A
 		if !e.m2.Matches(a2) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -21149,28 +20789,8 @@ func Dispatch3V_0[A1, A2, A3, VA any](expects *[]*Call3V_0[A1, A2, A3, VA], ctrl
 		if !e.m3.Matches(a3) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -21229,28 +20849,8 @@ func Dispatch3V_1[A1, A2, A3, VA, R1 any](expects *[]*Call3V_1[A1, A2, A3, VA, R
 		if !e.m3.Matches(a3) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -21318,28 +20918,8 @@ func Dispatch3V_2[A1, A2, A3, VA, R1, R2 any](expects *[]*Call3V_2[A1, A2, A3, V
 		if !e.m3.Matches(a3) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -21409,28 +20989,8 @@ func Dispatch3V_3[A1, A2, A3, VA, R1, R2, R3 any](expects *[]*Call3V_3[A1, A2, A
 		if !e.m3.Matches(a3) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -21502,28 +21062,8 @@ func Dispatch3V_4[A1, A2, A3, VA, R1, R2, R3, R4 any](expects *[]*Call3V_4[A1, A
 		if !e.m3.Matches(a3) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -21597,28 +21137,8 @@ func Dispatch3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5 any](expects *[]*Call3V_5[A
 		if !e.m3.Matches(a3) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -21697,28 +21217,8 @@ func Dispatch4V_0[A1, A2, A3, A4, VA any](expects *[]*Call4V_0[A1, A2, A3, A4, V
 		if !e.m4.Matches(a4) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -21780,28 +21280,8 @@ func Dispatch4V_1[A1, A2, A3, A4, VA, R1 any](expects *[]*Call4V_1[A1, A2, A3, A
 		if !e.m4.Matches(a4) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -21872,28 +21352,8 @@ func Dispatch4V_2[A1, A2, A3, A4, VA, R1, R2 any](expects *[]*Call4V_2[A1, A2, A
 		if !e.m4.Matches(a4) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -21966,28 +21426,8 @@ func Dispatch4V_3[A1, A2, A3, A4, VA, R1, R2, R3 any](expects *[]*Call4V_3[A1, A
 		if !e.m4.Matches(a4) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -22062,28 +21502,8 @@ func Dispatch4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4 any](expects *[]*Call4V_4[A
 		if !e.m4.Matches(a4) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -22160,28 +21580,8 @@ func Dispatch4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5 any](expects *[]*Call4V
 		if !e.m4.Matches(a4) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -22263,28 +21663,8 @@ func Dispatch5V_0[A1, A2, A3, A4, A5, VA any](expects *[]*Call5V_0[A1, A2, A3, A
 		if !e.m5.Matches(a5) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -22349,28 +21729,8 @@ func Dispatch5V_1[A1, A2, A3, A4, A5, VA, R1 any](expects *[]*Call5V_1[A1, A2, A
 		if !e.m5.Matches(a5) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -22444,28 +21804,8 @@ func Dispatch5V_2[A1, A2, A3, A4, A5, VA, R1, R2 any](expects *[]*Call5V_2[A1, A
 		if !e.m5.Matches(a5) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -22541,28 +21881,8 @@ func Dispatch5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3 any](expects *[]*Call5V_3[A
 		if !e.m5.Matches(a5) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -22640,28 +21960,8 @@ func Dispatch5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4 any](expects *[]*Call5V
 		if !e.m5.Matches(a5) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -22741,28 +22041,8 @@ func Dispatch5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5 any](expects *[]*Ca
 		if !e.m5.Matches(a5) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -22847,28 +22127,8 @@ func Dispatch6V_0[A1, A2, A3, A4, A5, A6, VA any](expects *[]*Call6V_0[A1, A2, A
 		if !e.m6.Matches(a6) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -22936,28 +22196,8 @@ func Dispatch6V_1[A1, A2, A3, A4, A5, A6, VA, R1 any](expects *[]*Call6V_1[A1, A
 		if !e.m6.Matches(a6) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -23034,28 +22274,8 @@ func Dispatch6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2 any](expects *[]*Call6V_2[A
 		if !e.m6.Matches(a6) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -23134,28 +22354,8 @@ func Dispatch6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3 any](expects *[]*Call6V
 		if !e.m6.Matches(a6) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -23236,28 +22436,8 @@ func Dispatch6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4 any](expects *[]*Ca
 		if !e.m6.Matches(a6) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -23340,28 +22520,8 @@ func Dispatch6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5 any](expects *[
 		if !e.m6.Matches(a6) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -23449,28 +22609,8 @@ func Dispatch7V_0[A1, A2, A3, A4, A5, A6, A7, VA any](expects *[]*Call7V_0[A1, A
 		if !e.m7.Matches(a7) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -23541,28 +22681,8 @@ func Dispatch7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1 any](expects *[]*Call7V_1[A
 		if !e.m7.Matches(a7) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -23642,28 +22762,8 @@ func Dispatch7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2 any](expects *[]*Call7V
 		if !e.m7.Matches(a7) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -23745,28 +22845,8 @@ func Dispatch7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3 any](expects *[]*Ca
 		if !e.m7.Matches(a7) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -23850,28 +22930,8 @@ func Dispatch7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4 any](expects *[
 		if !e.m7.Matches(a7) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -23957,28 +23017,8 @@ func Dispatch7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5 any](expect
 		if !e.m7.Matches(a7) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -24069,28 +23109,8 @@ func Dispatch8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA any](expects *[]*Call8V_0[A
 		if !e.m8.Matches(a8) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -24164,28 +23184,8 @@ func Dispatch8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1 any](expects *[]*Call8V
 		if !e.m8.Matches(a8) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -24268,28 +23268,8 @@ func Dispatch8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2 any](expects *[]*Ca
 		if !e.m8.Matches(a8) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -24374,28 +23354,8 @@ func Dispatch8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3 any](expects *[
 		if !e.m8.Matches(a8) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -24482,28 +23442,8 @@ func Dispatch8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4 any](expect
 		if !e.m8.Matches(a8) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -24592,28 +23532,8 @@ func Dispatch8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5 any](ex
 		if !e.m8.Matches(a8) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -24707,28 +23627,8 @@ func Dispatch9V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA any](expects *[]*Call9V
 		if !e.m9.Matches(a9) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -24805,28 +23705,8 @@ func Dispatch9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1 any](expects *[]*Ca
 		if !e.m9.Matches(a9) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -24912,28 +23792,8 @@ func Dispatch9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2 any](expects *[
 		if !e.m9.Matches(a9) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -25021,28 +23881,8 @@ func Dispatch9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3 any](expect
 		if !e.m9.Matches(a9) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -25132,28 +23972,8 @@ func Dispatch9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4 any](ex
 		if !e.m9.Matches(a9) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -25245,28 +24065,8 @@ func Dispatch9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5 any
 		if !e.m9.Matches(a9) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -25363,28 +24163,8 @@ func Dispatch10V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA any](expects *[]*
 		if !e.m10.Matches(a10) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -25464,28 +24244,8 @@ func Dispatch10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1 any](expects 
 		if !e.m10.Matches(a10) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -25574,28 +24334,8 @@ func Dispatch10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2 any](expe
 		if !e.m10.Matches(a10) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -25686,28 +24426,8 @@ func Dispatch10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3 any](
 		if !e.m10.Matches(a10) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -25800,28 +24520,8 @@ func Dispatch10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4 a
 		if !e.m10.Matches(a10) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -25916,28 +24616,8 @@ func Dispatch10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, 
 		if !e.m10.Matches(a10) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -26037,28 +24717,8 @@ func Dispatch11V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA any](expects
 		if !e.m11.Matches(a11) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -26141,28 +24801,8 @@ func Dispatch11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1 any](exp
 		if !e.m11.Matches(a11) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -26254,28 +24894,8 @@ func Dispatch11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2 any]
 		if !e.m11.Matches(a11) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -26369,28 +24989,8 @@ func Dispatch11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3 
 		if !e.m11.Matches(a11) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -26486,28 +25086,8 @@ func Dispatch11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3,
 		if !e.m11.Matches(a11) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -26605,28 +25185,8 @@ func Dispatch11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3,
 		if !e.m11.Matches(a11) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -26729,28 +25289,8 @@ func Dispatch12V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA any](ex
 		if !e.m12.Matches(a12) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -26836,28 +25376,8 @@ func Dispatch12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1 any
 		if !e.m12.Matches(a12) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -26952,28 +25472,8 @@ func Dispatch12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2
 		if !e.m12.Matches(a12) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -27070,28 +25570,8 @@ func Dispatch12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2
 		if !e.m12.Matches(a12) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -27190,28 +25670,8 @@ func Dispatch12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2
 		if !e.m12.Matches(a12) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue
@@ -27312,28 +25772,8 @@ func Dispatch12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2
 		if !e.m12.Matches(a12) {
 			continue
 		}
-		if len(e.varArgs) == 1 {
-			if len(va) == 1 {
-				if !e.varArgs[0].Matches(va[0]) {
-					continue
-				}
-			} else if !e.varArgs[0].Matches(va) {
-				continue
-			}
-		} else {
-			if len(e.varArgs) != len(va) {
-				continue
-			}
-			varMatch := true
-			for j, vm := range e.varArgs {
-				if !vm.Matches(va[j]) {
-					varMatch = false
-					break
-				}
-			}
-			if !varMatch {
-				continue
-			}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
 		}
 		if e.Call.exhausted() {
 			continue

@@ -95,10 +95,7 @@ func (m *MockEater) Eat(foods ...package_mode.Food) {
 // Eat indicates an expected call of Eat.
 func (mr *MockEaterMockRecorder) Eat(foods ...any) *MockEaterEatCall {
 	mr.mock.ctrl.T.Helper()
-	varArgs := make([]gomock.Matcher, len(foods))
-	for i, a := range foods {
-		varArgs[i] = gomock.EnsureMatcher(a)
-	}
+	varArgs := gomock.EnsureVariadicMatcher(foods)
 	call := gomock.NewCall0V_0[package_mode.Food](mr.mock.ctrl.T, mr.mock, "Eat", varArgs)
 	mr.eatExpects = append(mr.eatExpects, call)
 	mr.mock.ctrl.Track(call.Call)
@@ -162,10 +159,7 @@ func (m *MockAnimal) Eat(foods ...package_mode.Food) {
 // Eat indicates an expected call of Eat.
 func (mr *MockAnimalMockRecorder) Eat(foods ...any) *MockAnimalEatCall {
 	mr.mock.ctrl.T.Helper()
-	varArgs := make([]gomock.Matcher, len(foods))
-	for i, a := range foods {
-		varArgs[i] = gomock.EnsureMatcher(a)
-	}
+	varArgs := gomock.EnsureVariadicMatcher(foods)
 	call := gomock.NewCall0V_0[package_mode.Food](mr.mock.ctrl.T, mr.mock, "Eat", varArgs)
 	mr.eatExpects = append(mr.eatExpects, call)
 	mr.mock.ctrl.Track(call.Call)
@@ -247,10 +241,7 @@ func (m *MockHuman) Eat(foods ...package_mode.Food) {
 // Eat indicates an expected call of Eat.
 func (mr *MockHumanMockRecorder) Eat(foods ...any) *MockHumanEatCall {
 	mr.mock.ctrl.T.Helper()
-	varArgs := make([]gomock.Matcher, len(foods))
-	for i, a := range foods {
-		varArgs[i] = gomock.EnsureMatcher(a)
-	}
+	varArgs := gomock.EnsureVariadicMatcher(foods)
 	call := gomock.NewCall0V_0[package_mode.Food](mr.mock.ctrl.T, mr.mock, "Eat", varArgs)
 	mr.eatExpects = append(mr.eatExpects, call)
 	mr.mock.ctrl.Track(call.Call)
@@ -332,10 +323,7 @@ func (m *MockPrimate) Eat(foods ...package_mode.Food) {
 // Eat indicates an expected call of Eat.
 func (mr *MockPrimateMockRecorder) Eat(foods ...any) *MockPrimateEatCall {
 	mr.mock.ctrl.T.Helper()
-	varArgs := make([]gomock.Matcher, len(foods))
-	for i, a := range foods {
-		varArgs[i] = gomock.EnsureMatcher(a)
-	}
+	varArgs := gomock.EnsureVariadicMatcher(foods)
 	call := gomock.NewCall0V_0[package_mode.Food](mr.mock.ctrl.T, mr.mock, "Eat", varArgs)
 	mr.eatExpects = append(mr.eatExpects, call)
 	mr.mock.ctrl.Track(call.Call)
@@ -600,10 +588,7 @@ func (m *MockUrbanResident) Eat(foods ...package_mode.Food) {
 // Eat indicates an expected call of Eat.
 func (mr *MockUrbanResidentMockRecorder) Eat(foods ...any) *MockUrbanResidentEatCall {
 	mr.mock.ctrl.T.Helper()
-	varArgs := make([]gomock.Matcher, len(foods))
-	for i, a := range foods {
-		varArgs[i] = gomock.EnsureMatcher(a)
-	}
+	varArgs := gomock.EnsureVariadicMatcher(foods)
 	call := gomock.NewCall0V_0[package_mode.Food](mr.mock.ctrl.T, mr.mock, "Eat", varArgs)
 	mr.eatExpects = append(mr.eatExpects, call)
 	mr.mock.ctrl.Track(call.Call)
@@ -761,10 +746,7 @@ func (m *MockFarmer) Eat(foods ...package_mode.Food) {
 // Eat indicates an expected call of Eat.
 func (mr *MockFarmerMockRecorder) Eat(foods ...any) *MockFarmerEatCall {
 	mr.mock.ctrl.T.Helper()
-	varArgs := make([]gomock.Matcher, len(foods))
-	for i, a := range foods {
-		varArgs[i] = gomock.EnsureMatcher(a)
-	}
+	varArgs := gomock.EnsureVariadicMatcher(foods)
 	call := gomock.NewCall0V_0[package_mode.Food](mr.mock.ctrl.T, mr.mock, "Eat", varArgs)
 	mr.eatExpects = append(mr.eatExpects, call)
 	mr.mock.ctrl.Track(call.Call)
