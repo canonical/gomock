@@ -5,11 +5,18 @@ package gomock
 // FinalizedCall0 is the finalized call wrapper for 0-arg methods.
 // It is returned by Return and DoAndReturn.
 type FinalizedCall0 struct {
-	Call  *Call
-	doFns []func()
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func()
 }
 
 func (c *FinalizedCall0) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall0) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
 
 // Do adds f to the functions called when matched.
 func (c *FinalizedCall0) Do(f func()) *FinalizedCall0 {
@@ -45,11 +52,18 @@ func (c *FinalizedCall0) After(preReq CallHolder) *FinalizedCall0 {
 // FinalizedCall1 is the finalized call wrapper for 1-arg methods.
 // It is returned by Return and DoAndReturn.
 type FinalizedCall1[A1 any] struct {
-	Call  *Call
-	doFns []func(A1)
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1)
 }
 
 func (c *FinalizedCall1[A1]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall1[A1]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
 
 // Do adds f to the functions called when matched.
 func (c *FinalizedCall1[A1]) Do(f func(A1)) *FinalizedCall1[A1] {
@@ -85,11 +99,18 @@ func (c *FinalizedCall1[A1]) After(preReq CallHolder) *FinalizedCall1[A1] {
 // FinalizedCall2 is the finalized call wrapper for 2-arg methods.
 // It is returned by Return and DoAndReturn.
 type FinalizedCall2[A1, A2 any] struct {
-	Call  *Call
-	doFns []func(A1, A2)
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2)
 }
 
 func (c *FinalizedCall2[A1, A2]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall2[A1, A2]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
 
 // Do adds f to the functions called when matched.
 func (c *FinalizedCall2[A1, A2]) Do(f func(A1, A2)) *FinalizedCall2[A1, A2] {
@@ -125,11 +146,18 @@ func (c *FinalizedCall2[A1, A2]) After(preReq CallHolder) *FinalizedCall2[A1, A2
 // FinalizedCall3 is the finalized call wrapper for 3-arg methods.
 // It is returned by Return and DoAndReturn.
 type FinalizedCall3[A1, A2, A3 any] struct {
-	Call  *Call
-	doFns []func(A1, A2, A3)
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3)
 }
 
 func (c *FinalizedCall3[A1, A2, A3]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall3[A1, A2, A3]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
 
 // Do adds f to the functions called when matched.
 func (c *FinalizedCall3[A1, A2, A3]) Do(f func(A1, A2, A3)) *FinalizedCall3[A1, A2, A3] {
@@ -165,11 +193,18 @@ func (c *FinalizedCall3[A1, A2, A3]) After(preReq CallHolder) *FinalizedCall3[A1
 // FinalizedCall4 is the finalized call wrapper for 4-arg methods.
 // It is returned by Return and DoAndReturn.
 type FinalizedCall4[A1, A2, A3, A4 any] struct {
-	Call  *Call
-	doFns []func(A1, A2, A3, A4)
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4)
 }
 
 func (c *FinalizedCall4[A1, A2, A3, A4]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall4[A1, A2, A3, A4]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
 
 // Do adds f to the functions called when matched.
 func (c *FinalizedCall4[A1, A2, A3, A4]) Do(f func(A1, A2, A3, A4)) *FinalizedCall4[A1, A2, A3, A4] {
@@ -205,11 +240,18 @@ func (c *FinalizedCall4[A1, A2, A3, A4]) After(preReq CallHolder) *FinalizedCall
 // FinalizedCall5 is the finalized call wrapper for 5-arg methods.
 // It is returned by Return and DoAndReturn.
 type FinalizedCall5[A1, A2, A3, A4, A5 any] struct {
-	Call  *Call
-	doFns []func(A1, A2, A3, A4, A5)
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5)
 }
 
 func (c *FinalizedCall5[A1, A2, A3, A4, A5]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall5[A1, A2, A3, A4, A5]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
 
 // Do adds f to the functions called when matched.
 func (c *FinalizedCall5[A1, A2, A3, A4, A5]) Do(f func(A1, A2, A3, A4, A5)) *FinalizedCall5[A1, A2, A3, A4, A5] {
@@ -245,11 +287,18 @@ func (c *FinalizedCall5[A1, A2, A3, A4, A5]) After(preReq CallHolder) *Finalized
 // FinalizedCall6 is the finalized call wrapper for 6-arg methods.
 // It is returned by Return and DoAndReturn.
 type FinalizedCall6[A1, A2, A3, A4, A5, A6 any] struct {
-	Call  *Call
-	doFns []func(A1, A2, A3, A4, A5, A6)
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, A6)
 }
 
 func (c *FinalizedCall6[A1, A2, A3, A4, A5, A6]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall6[A1, A2, A3, A4, A5, A6]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
 
 // Do adds f to the functions called when matched.
 func (c *FinalizedCall6[A1, A2, A3, A4, A5, A6]) Do(f func(A1, A2, A3, A4, A5, A6)) *FinalizedCall6[A1, A2, A3, A4, A5, A6] {
@@ -285,11 +334,18 @@ func (c *FinalizedCall6[A1, A2, A3, A4, A5, A6]) After(preReq CallHolder) *Final
 // FinalizedCall7 is the finalized call wrapper for 7-arg methods.
 // It is returned by Return and DoAndReturn.
 type FinalizedCall7[A1, A2, A3, A4, A5, A6, A7 any] struct {
-	Call  *Call
-	doFns []func(A1, A2, A3, A4, A5, A6, A7)
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, A6, A7)
 }
 
 func (c *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
 
 // Do adds f to the functions called when matched.
 func (c *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]) Do(f func(A1, A2, A3, A4, A5, A6, A7)) *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7] {
@@ -325,11 +381,18 @@ func (c *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]) After(preReq CallHolder) *F
 // FinalizedCall8 is the finalized call wrapper for 8-arg methods.
 // It is returned by Return and DoAndReturn.
 type FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8 any] struct {
-	Call  *Call
-	doFns []func(A1, A2, A3, A4, A5, A6, A7, A8)
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, A6, A7, A8)
 }
 
 func (c *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
 
 // Do adds f to the functions called when matched.
 func (c *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8)) *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8] {
@@ -367,11 +430,22 @@ type Call0_0 struct {
 	FinalizedCall0
 }
 
+func (c *Call0_0) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
 // NewCall0_0 creates a new Call0_0 expectation.
 func NewCall0_0(t TestHelper, receiver any, method string) *Call0_0 {
-	return &Call0_0{
-		FinalizedCall0: FinalizedCall0{Call: newCall(t, receiver, method, 2)},
+	t.Helper()
+	c := &Call0_0{
+		FinalizedCall0: FinalizedCall0{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
 	}
+	c.FinalizedCall0.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call0_0) Do(f func()) *Call0_0 {
@@ -411,11 +485,22 @@ type Call0_1[R1 any] struct {
 	doReturnFn func() R1
 }
 
+func (c *Call0_1[R1]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
 // NewCall0_1 creates a new Call0_1 expectation.
 func NewCall0_1[R1 any](t TestHelper, receiver any, method string) *Call0_1[R1] {
-	return &Call0_1[R1]{
-		FinalizedCall0: FinalizedCall0{Call: newCall(t, receiver, method, 2)},
+	t.Helper()
+	c := &Call0_1[R1]{
+		FinalizedCall0: FinalizedCall0{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
 	}
+	c.FinalizedCall0.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call0_1[R1]) Do(f func()) *Call0_1[R1] {
@@ -466,11 +551,22 @@ type Call0_2[R1, R2 any] struct {
 	doReturnFn func() (R1, R2)
 }
 
+func (c *Call0_2[R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
 // NewCall0_2 creates a new Call0_2 expectation.
 func NewCall0_2[R1, R2 any](t TestHelper, receiver any, method string) *Call0_2[R1, R2] {
-	return &Call0_2[R1, R2]{
-		FinalizedCall0: FinalizedCall0{Call: newCall(t, receiver, method, 2)},
+	t.Helper()
+	c := &Call0_2[R1, R2]{
+		FinalizedCall0: FinalizedCall0{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
 	}
+	c.FinalizedCall0.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call0_2[R1, R2]) Do(f func()) *Call0_2[R1, R2] {
@@ -523,11 +619,22 @@ type Call0_3[R1, R2, R3 any] struct {
 	doReturnFn func() (R1, R2, R3)
 }
 
+func (c *Call0_3[R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
 // NewCall0_3 creates a new Call0_3 expectation.
 func NewCall0_3[R1, R2, R3 any](t TestHelper, receiver any, method string) *Call0_3[R1, R2, R3] {
-	return &Call0_3[R1, R2, R3]{
-		FinalizedCall0: FinalizedCall0{Call: newCall(t, receiver, method, 2)},
+	t.Helper()
+	c := &Call0_3[R1, R2, R3]{
+		FinalizedCall0: FinalizedCall0{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
 	}
+	c.FinalizedCall0.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call0_3[R1, R2, R3]) Do(f func()) *Call0_3[R1, R2, R3] {
@@ -582,11 +689,22 @@ type Call0_4[R1, R2, R3, R4 any] struct {
 	doReturnFn func() (R1, R2, R3, R4)
 }
 
+func (c *Call0_4[R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
 // NewCall0_4 creates a new Call0_4 expectation.
 func NewCall0_4[R1, R2, R3, R4 any](t TestHelper, receiver any, method string) *Call0_4[R1, R2, R3, R4] {
-	return &Call0_4[R1, R2, R3, R4]{
-		FinalizedCall0: FinalizedCall0{Call: newCall(t, receiver, method, 2)},
+	t.Helper()
+	c := &Call0_4[R1, R2, R3, R4]{
+		FinalizedCall0: FinalizedCall0{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
 	}
+	c.FinalizedCall0.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call0_4[R1, R2, R3, R4]) Do(f func()) *Call0_4[R1, R2, R3, R4] {
@@ -643,11 +761,22 @@ type Call0_5[R1, R2, R3, R4, R5 any] struct {
 	doReturnFn func() (R1, R2, R3, R4, R5)
 }
 
+func (c *Call0_5[R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
 // NewCall0_5 creates a new Call0_5 expectation.
 func NewCall0_5[R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string) *Call0_5[R1, R2, R3, R4, R5] {
-	return &Call0_5[R1, R2, R3, R4, R5]{
-		FinalizedCall0: FinalizedCall0{Call: newCall(t, receiver, method, 2)},
+	t.Helper()
+	c := &Call0_5[R1, R2, R3, R4, R5]{
+		FinalizedCall0: FinalizedCall0{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
 	}
+	c.FinalizedCall0.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call0_5[R1, R2, R3, R4, R5]) Do(f func()) *Call0_5[R1, R2, R3, R4, R5] {
@@ -700,12 +829,23 @@ type Call1_0[A1 any] struct {
 	m1 Matcher
 }
 
+func (c *Call1_0[A1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1}, c.origin)
+}
+
 // NewCall1_0 creates a new Call1_0 expectation.
 func NewCall1_0[A1 any](t TestHelper, receiver any, method string, m1 Matcher) *Call1_0[A1] {
-	return &Call1_0[A1]{
-		FinalizedCall1: FinalizedCall1[A1]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
+	t.Helper()
+	c := &Call1_0[A1]{
+		FinalizedCall1: FinalizedCall1[A1]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
 	}
+	c.FinalizedCall1.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call1_0[A1]) Do(f func(A1)) *Call1_0[A1] {
@@ -746,12 +886,23 @@ type Call1_1[A1, R1 any] struct {
 	doReturnFn func(A1) R1
 }
 
+func (c *Call1_1[A1, R1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1}, c.origin)
+}
+
 // NewCall1_1 creates a new Call1_1 expectation.
 func NewCall1_1[A1, R1 any](t TestHelper, receiver any, method string, m1 Matcher) *Call1_1[A1, R1] {
-	return &Call1_1[A1, R1]{
-		FinalizedCall1: FinalizedCall1[A1]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
+	t.Helper()
+	c := &Call1_1[A1, R1]{
+		FinalizedCall1: FinalizedCall1[A1]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
 	}
+	c.FinalizedCall1.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call1_1[A1, R1]) Do(f func(A1)) *Call1_1[A1, R1] {
@@ -803,12 +954,23 @@ type Call1_2[A1, R1, R2 any] struct {
 	doReturnFn func(A1) (R1, R2)
 }
 
+func (c *Call1_2[A1, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1}, c.origin)
+}
+
 // NewCall1_2 creates a new Call1_2 expectation.
 func NewCall1_2[A1, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher) *Call1_2[A1, R1, R2] {
-	return &Call1_2[A1, R1, R2]{
-		FinalizedCall1: FinalizedCall1[A1]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
+	t.Helper()
+	c := &Call1_2[A1, R1, R2]{
+		FinalizedCall1: FinalizedCall1[A1]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
 	}
+	c.FinalizedCall1.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call1_2[A1, R1, R2]) Do(f func(A1)) *Call1_2[A1, R1, R2] {
@@ -862,12 +1024,23 @@ type Call1_3[A1, R1, R2, R3 any] struct {
 	doReturnFn func(A1) (R1, R2, R3)
 }
 
+func (c *Call1_3[A1, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1}, c.origin)
+}
+
 // NewCall1_3 creates a new Call1_3 expectation.
 func NewCall1_3[A1, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher) *Call1_3[A1, R1, R2, R3] {
-	return &Call1_3[A1, R1, R2, R3]{
-		FinalizedCall1: FinalizedCall1[A1]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
+	t.Helper()
+	c := &Call1_3[A1, R1, R2, R3]{
+		FinalizedCall1: FinalizedCall1[A1]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
 	}
+	c.FinalizedCall1.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call1_3[A1, R1, R2, R3]) Do(f func(A1)) *Call1_3[A1, R1, R2, R3] {
@@ -923,12 +1096,23 @@ type Call1_4[A1, R1, R2, R3, R4 any] struct {
 	doReturnFn func(A1) (R1, R2, R3, R4)
 }
 
+func (c *Call1_4[A1, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1}, c.origin)
+}
+
 // NewCall1_4 creates a new Call1_4 expectation.
 func NewCall1_4[A1, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher) *Call1_4[A1, R1, R2, R3, R4] {
-	return &Call1_4[A1, R1, R2, R3, R4]{
-		FinalizedCall1: FinalizedCall1[A1]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
+	t.Helper()
+	c := &Call1_4[A1, R1, R2, R3, R4]{
+		FinalizedCall1: FinalizedCall1[A1]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
 	}
+	c.FinalizedCall1.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call1_4[A1, R1, R2, R3, R4]) Do(f func(A1)) *Call1_4[A1, R1, R2, R3, R4] {
@@ -986,12 +1170,23 @@ type Call1_5[A1, R1, R2, R3, R4, R5 any] struct {
 	doReturnFn func(A1) (R1, R2, R3, R4, R5)
 }
 
+func (c *Call1_5[A1, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1}, c.origin)
+}
+
 // NewCall1_5 creates a new Call1_5 expectation.
 func NewCall1_5[A1, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher) *Call1_5[A1, R1, R2, R3, R4, R5] {
-	return &Call1_5[A1, R1, R2, R3, R4, R5]{
-		FinalizedCall1: FinalizedCall1[A1]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
+	t.Helper()
+	c := &Call1_5[A1, R1, R2, R3, R4, R5]{
+		FinalizedCall1: FinalizedCall1[A1]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
 	}
+	c.FinalizedCall1.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call1_5[A1, R1, R2, R3, R4, R5]) Do(f func(A1)) *Call1_5[A1, R1, R2, R3, R4, R5] {
@@ -1045,13 +1240,24 @@ type Call2_0[A1, A2 any] struct {
 	m2 Matcher
 }
 
+func (c *Call2_0[A1, A2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2}, c.origin)
+}
+
 // NewCall2_0 creates a new Call2_0 expectation.
 func NewCall2_0[A1, A2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher) *Call2_0[A1, A2] {
-	return &Call2_0[A1, A2]{
-		FinalizedCall2: FinalizedCall2[A1, A2]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
+	t.Helper()
+	c := &Call2_0[A1, A2]{
+		FinalizedCall2: FinalizedCall2[A1, A2]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
 	}
+	c.FinalizedCall2.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call2_0[A1, A2]) Do(f func(A1, A2)) *Call2_0[A1, A2] {
@@ -1093,13 +1299,24 @@ type Call2_1[A1, A2, R1 any] struct {
 	doReturnFn func(A1, A2) R1
 }
 
+func (c *Call2_1[A1, A2, R1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2}, c.origin)
+}
+
 // NewCall2_1 creates a new Call2_1 expectation.
 func NewCall2_1[A1, A2, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher) *Call2_1[A1, A2, R1] {
-	return &Call2_1[A1, A2, R1]{
-		FinalizedCall2: FinalizedCall2[A1, A2]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
+	t.Helper()
+	c := &Call2_1[A1, A2, R1]{
+		FinalizedCall2: FinalizedCall2[A1, A2]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
 	}
+	c.FinalizedCall2.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call2_1[A1, A2, R1]) Do(f func(A1, A2)) *Call2_1[A1, A2, R1] {
@@ -1152,13 +1369,24 @@ type Call2_2[A1, A2, R1, R2 any] struct {
 	doReturnFn func(A1, A2) (R1, R2)
 }
 
+func (c *Call2_2[A1, A2, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2}, c.origin)
+}
+
 // NewCall2_2 creates a new Call2_2 expectation.
 func NewCall2_2[A1, A2, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher) *Call2_2[A1, A2, R1, R2] {
-	return &Call2_2[A1, A2, R1, R2]{
-		FinalizedCall2: FinalizedCall2[A1, A2]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
+	t.Helper()
+	c := &Call2_2[A1, A2, R1, R2]{
+		FinalizedCall2: FinalizedCall2[A1, A2]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
 	}
+	c.FinalizedCall2.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call2_2[A1, A2, R1, R2]) Do(f func(A1, A2)) *Call2_2[A1, A2, R1, R2] {
@@ -1213,13 +1441,24 @@ type Call2_3[A1, A2, R1, R2, R3 any] struct {
 	doReturnFn func(A1, A2) (R1, R2, R3)
 }
 
+func (c *Call2_3[A1, A2, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2}, c.origin)
+}
+
 // NewCall2_3 creates a new Call2_3 expectation.
 func NewCall2_3[A1, A2, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher) *Call2_3[A1, A2, R1, R2, R3] {
-	return &Call2_3[A1, A2, R1, R2, R3]{
-		FinalizedCall2: FinalizedCall2[A1, A2]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
+	t.Helper()
+	c := &Call2_3[A1, A2, R1, R2, R3]{
+		FinalizedCall2: FinalizedCall2[A1, A2]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
 	}
+	c.FinalizedCall2.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call2_3[A1, A2, R1, R2, R3]) Do(f func(A1, A2)) *Call2_3[A1, A2, R1, R2, R3] {
@@ -1276,13 +1515,24 @@ type Call2_4[A1, A2, R1, R2, R3, R4 any] struct {
 	doReturnFn func(A1, A2) (R1, R2, R3, R4)
 }
 
+func (c *Call2_4[A1, A2, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2}, c.origin)
+}
+
 // NewCall2_4 creates a new Call2_4 expectation.
 func NewCall2_4[A1, A2, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher) *Call2_4[A1, A2, R1, R2, R3, R4] {
-	return &Call2_4[A1, A2, R1, R2, R3, R4]{
-		FinalizedCall2: FinalizedCall2[A1, A2]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
+	t.Helper()
+	c := &Call2_4[A1, A2, R1, R2, R3, R4]{
+		FinalizedCall2: FinalizedCall2[A1, A2]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
 	}
+	c.FinalizedCall2.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call2_4[A1, A2, R1, R2, R3, R4]) Do(f func(A1, A2)) *Call2_4[A1, A2, R1, R2, R3, R4] {
@@ -1341,13 +1591,24 @@ type Call2_5[A1, A2, R1, R2, R3, R4, R5 any] struct {
 	doReturnFn func(A1, A2) (R1, R2, R3, R4, R5)
 }
 
+func (c *Call2_5[A1, A2, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2}, c.origin)
+}
+
 // NewCall2_5 creates a new Call2_5 expectation.
 func NewCall2_5[A1, A2, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher) *Call2_5[A1, A2, R1, R2, R3, R4, R5] {
-	return &Call2_5[A1, A2, R1, R2, R3, R4, R5]{
-		FinalizedCall2: FinalizedCall2[A1, A2]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
+	t.Helper()
+	c := &Call2_5[A1, A2, R1, R2, R3, R4, R5]{
+		FinalizedCall2: FinalizedCall2[A1, A2]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
 	}
+	c.FinalizedCall2.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call2_5[A1, A2, R1, R2, R3, R4, R5]) Do(f func(A1, A2)) *Call2_5[A1, A2, R1, R2, R3, R4, R5] {
@@ -1402,14 +1663,25 @@ type Call3_0[A1, A2, A3 any] struct {
 	m3 Matcher
 }
 
+func (c *Call3_0[A1, A2, A3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3}, c.origin)
+}
+
 // NewCall3_0 creates a new Call3_0 expectation.
 func NewCall3_0[A1, A2, A3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher) *Call3_0[A1, A2, A3] {
-	return &Call3_0[A1, A2, A3]{
-		FinalizedCall3: FinalizedCall3[A1, A2, A3]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
+	t.Helper()
+	c := &Call3_0[A1, A2, A3]{
+		FinalizedCall3: FinalizedCall3[A1, A2, A3]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
 	}
+	c.FinalizedCall3.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call3_0[A1, A2, A3]) Do(f func(A1, A2, A3)) *Call3_0[A1, A2, A3] {
@@ -1452,14 +1724,25 @@ type Call3_1[A1, A2, A3, R1 any] struct {
 	doReturnFn func(A1, A2, A3) R1
 }
 
+func (c *Call3_1[A1, A2, A3, R1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3}, c.origin)
+}
+
 // NewCall3_1 creates a new Call3_1 expectation.
 func NewCall3_1[A1, A2, A3, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher) *Call3_1[A1, A2, A3, R1] {
-	return &Call3_1[A1, A2, A3, R1]{
-		FinalizedCall3: FinalizedCall3[A1, A2, A3]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
+	t.Helper()
+	c := &Call3_1[A1, A2, A3, R1]{
+		FinalizedCall3: FinalizedCall3[A1, A2, A3]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
 	}
+	c.FinalizedCall3.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call3_1[A1, A2, A3, R1]) Do(f func(A1, A2, A3)) *Call3_1[A1, A2, A3, R1] {
@@ -1513,14 +1796,25 @@ type Call3_2[A1, A2, A3, R1, R2 any] struct {
 	doReturnFn func(A1, A2, A3) (R1, R2)
 }
 
+func (c *Call3_2[A1, A2, A3, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3}, c.origin)
+}
+
 // NewCall3_2 creates a new Call3_2 expectation.
 func NewCall3_2[A1, A2, A3, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher) *Call3_2[A1, A2, A3, R1, R2] {
-	return &Call3_2[A1, A2, A3, R1, R2]{
-		FinalizedCall3: FinalizedCall3[A1, A2, A3]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
+	t.Helper()
+	c := &Call3_2[A1, A2, A3, R1, R2]{
+		FinalizedCall3: FinalizedCall3[A1, A2, A3]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
 	}
+	c.FinalizedCall3.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call3_2[A1, A2, A3, R1, R2]) Do(f func(A1, A2, A3)) *Call3_2[A1, A2, A3, R1, R2] {
@@ -1576,14 +1870,25 @@ type Call3_3[A1, A2, A3, R1, R2, R3 any] struct {
 	doReturnFn func(A1, A2, A3) (R1, R2, R3)
 }
 
+func (c *Call3_3[A1, A2, A3, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3}, c.origin)
+}
+
 // NewCall3_3 creates a new Call3_3 expectation.
 func NewCall3_3[A1, A2, A3, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher) *Call3_3[A1, A2, A3, R1, R2, R3] {
-	return &Call3_3[A1, A2, A3, R1, R2, R3]{
-		FinalizedCall3: FinalizedCall3[A1, A2, A3]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
+	t.Helper()
+	c := &Call3_3[A1, A2, A3, R1, R2, R3]{
+		FinalizedCall3: FinalizedCall3[A1, A2, A3]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
 	}
+	c.FinalizedCall3.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call3_3[A1, A2, A3, R1, R2, R3]) Do(f func(A1, A2, A3)) *Call3_3[A1, A2, A3, R1, R2, R3] {
@@ -1641,14 +1946,25 @@ type Call3_4[A1, A2, A3, R1, R2, R3, R4 any] struct {
 	doReturnFn func(A1, A2, A3) (R1, R2, R3, R4)
 }
 
+func (c *Call3_4[A1, A2, A3, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3}, c.origin)
+}
+
 // NewCall3_4 creates a new Call3_4 expectation.
 func NewCall3_4[A1, A2, A3, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher) *Call3_4[A1, A2, A3, R1, R2, R3, R4] {
-	return &Call3_4[A1, A2, A3, R1, R2, R3, R4]{
-		FinalizedCall3: FinalizedCall3[A1, A2, A3]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
+	t.Helper()
+	c := &Call3_4[A1, A2, A3, R1, R2, R3, R4]{
+		FinalizedCall3: FinalizedCall3[A1, A2, A3]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
 	}
+	c.FinalizedCall3.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call3_4[A1, A2, A3, R1, R2, R3, R4]) Do(f func(A1, A2, A3)) *Call3_4[A1, A2, A3, R1, R2, R3, R4] {
@@ -1708,14 +2024,25 @@ type Call3_5[A1, A2, A3, R1, R2, R3, R4, R5 any] struct {
 	doReturnFn func(A1, A2, A3) (R1, R2, R3, R4, R5)
 }
 
+func (c *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3}, c.origin)
+}
+
 // NewCall3_5 creates a new Call3_5 expectation.
 func NewCall3_5[A1, A2, A3, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher) *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5] {
-	return &Call3_5[A1, A2, A3, R1, R2, R3, R4, R5]{
-		FinalizedCall3: FinalizedCall3[A1, A2, A3]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
+	t.Helper()
+	c := &Call3_5[A1, A2, A3, R1, R2, R3, R4, R5]{
+		FinalizedCall3: FinalizedCall3[A1, A2, A3]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
 	}
+	c.FinalizedCall3.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3)) *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5] {
@@ -1771,15 +2098,26 @@ type Call4_0[A1, A2, A3, A4 any] struct {
 	m4 Matcher
 }
 
+func (c *Call4_0[A1, A2, A3, A4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4}, c.origin)
+}
+
 // NewCall4_0 creates a new Call4_0 expectation.
 func NewCall4_0[A1, A2, A3, A4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher) *Call4_0[A1, A2, A3, A4] {
-	return &Call4_0[A1, A2, A3, A4]{
-		FinalizedCall4: FinalizedCall4[A1, A2, A3, A4]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
+	t.Helper()
+	c := &Call4_0[A1, A2, A3, A4]{
+		FinalizedCall4: FinalizedCall4[A1, A2, A3, A4]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
 	}
+	c.FinalizedCall4.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call4_0[A1, A2, A3, A4]) Do(f func(A1, A2, A3, A4)) *Call4_0[A1, A2, A3, A4] {
@@ -1823,15 +2161,26 @@ type Call4_1[A1, A2, A3, A4, R1 any] struct {
 	doReturnFn func(A1, A2, A3, A4) R1
 }
 
+func (c *Call4_1[A1, A2, A3, A4, R1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4}, c.origin)
+}
+
 // NewCall4_1 creates a new Call4_1 expectation.
 func NewCall4_1[A1, A2, A3, A4, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher) *Call4_1[A1, A2, A3, A4, R1] {
-	return &Call4_1[A1, A2, A3, A4, R1]{
-		FinalizedCall4: FinalizedCall4[A1, A2, A3, A4]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
+	t.Helper()
+	c := &Call4_1[A1, A2, A3, A4, R1]{
+		FinalizedCall4: FinalizedCall4[A1, A2, A3, A4]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
 	}
+	c.FinalizedCall4.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call4_1[A1, A2, A3, A4, R1]) Do(f func(A1, A2, A3, A4)) *Call4_1[A1, A2, A3, A4, R1] {
@@ -1886,15 +2235,26 @@ type Call4_2[A1, A2, A3, A4, R1, R2 any] struct {
 	doReturnFn func(A1, A2, A3, A4) (R1, R2)
 }
 
+func (c *Call4_2[A1, A2, A3, A4, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4}, c.origin)
+}
+
 // NewCall4_2 creates a new Call4_2 expectation.
 func NewCall4_2[A1, A2, A3, A4, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher) *Call4_2[A1, A2, A3, A4, R1, R2] {
-	return &Call4_2[A1, A2, A3, A4, R1, R2]{
-		FinalizedCall4: FinalizedCall4[A1, A2, A3, A4]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
+	t.Helper()
+	c := &Call4_2[A1, A2, A3, A4, R1, R2]{
+		FinalizedCall4: FinalizedCall4[A1, A2, A3, A4]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
 	}
+	c.FinalizedCall4.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call4_2[A1, A2, A3, A4, R1, R2]) Do(f func(A1, A2, A3, A4)) *Call4_2[A1, A2, A3, A4, R1, R2] {
@@ -1951,15 +2311,26 @@ type Call4_3[A1, A2, A3, A4, R1, R2, R3 any] struct {
 	doReturnFn func(A1, A2, A3, A4) (R1, R2, R3)
 }
 
+func (c *Call4_3[A1, A2, A3, A4, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4}, c.origin)
+}
+
 // NewCall4_3 creates a new Call4_3 expectation.
 func NewCall4_3[A1, A2, A3, A4, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher) *Call4_3[A1, A2, A3, A4, R1, R2, R3] {
-	return &Call4_3[A1, A2, A3, A4, R1, R2, R3]{
-		FinalizedCall4: FinalizedCall4[A1, A2, A3, A4]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
+	t.Helper()
+	c := &Call4_3[A1, A2, A3, A4, R1, R2, R3]{
+		FinalizedCall4: FinalizedCall4[A1, A2, A3, A4]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
 	}
+	c.FinalizedCall4.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call4_3[A1, A2, A3, A4, R1, R2, R3]) Do(f func(A1, A2, A3, A4)) *Call4_3[A1, A2, A3, A4, R1, R2, R3] {
@@ -2018,15 +2389,26 @@ type Call4_4[A1, A2, A3, A4, R1, R2, R3, R4 any] struct {
 	doReturnFn func(A1, A2, A3, A4) (R1, R2, R3, R4)
 }
 
+func (c *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4}, c.origin)
+}
+
 // NewCall4_4 creates a new Call4_4 expectation.
 func NewCall4_4[A1, A2, A3, A4, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher) *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4] {
-	return &Call4_4[A1, A2, A3, A4, R1, R2, R3, R4]{
-		FinalizedCall4: FinalizedCall4[A1, A2, A3, A4]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
+	t.Helper()
+	c := &Call4_4[A1, A2, A3, A4, R1, R2, R3, R4]{
+		FinalizedCall4: FinalizedCall4[A1, A2, A3, A4]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
 	}
+	c.FinalizedCall4.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4)) *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4] {
@@ -2087,15 +2469,26 @@ type Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5 any] struct {
 	doReturnFn func(A1, A2, A3, A4) (R1, R2, R3, R4, R5)
 }
 
+func (c *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4}, c.origin)
+}
+
 // NewCall4_5 creates a new Call4_5 expectation.
 func NewCall4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher) *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5] {
-	return &Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5]{
-		FinalizedCall4: FinalizedCall4[A1, A2, A3, A4]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
+	t.Helper()
+	c := &Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5]{
+		FinalizedCall4: FinalizedCall4[A1, A2, A3, A4]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
 	}
+	c.FinalizedCall4.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4)) *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5] {
@@ -2152,16 +2545,27 @@ type Call5_0[A1, A2, A3, A4, A5 any] struct {
 	m5 Matcher
 }
 
+func (c *Call5_0[A1, A2, A3, A4, A5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.origin)
+}
+
 // NewCall5_0 creates a new Call5_0 expectation.
 func NewCall5_0[A1, A2, A3, A4, A5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher) *Call5_0[A1, A2, A3, A4, A5] {
-	return &Call5_0[A1, A2, A3, A4, A5]{
-		FinalizedCall5: FinalizedCall5[A1, A2, A3, A4, A5]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
+	t.Helper()
+	c := &Call5_0[A1, A2, A3, A4, A5]{
+		FinalizedCall5: FinalizedCall5[A1, A2, A3, A4, A5]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
 	}
+	c.FinalizedCall5.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call5_0[A1, A2, A3, A4, A5]) Do(f func(A1, A2, A3, A4, A5)) *Call5_0[A1, A2, A3, A4, A5] {
@@ -2206,16 +2610,27 @@ type Call5_1[A1, A2, A3, A4, A5, R1 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5) R1
 }
 
+func (c *Call5_1[A1, A2, A3, A4, A5, R1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.origin)
+}
+
 // NewCall5_1 creates a new Call5_1 expectation.
 func NewCall5_1[A1, A2, A3, A4, A5, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher) *Call5_1[A1, A2, A3, A4, A5, R1] {
-	return &Call5_1[A1, A2, A3, A4, A5, R1]{
-		FinalizedCall5: FinalizedCall5[A1, A2, A3, A4, A5]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
+	t.Helper()
+	c := &Call5_1[A1, A2, A3, A4, A5, R1]{
+		FinalizedCall5: FinalizedCall5[A1, A2, A3, A4, A5]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
 	}
+	c.FinalizedCall5.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call5_1[A1, A2, A3, A4, A5, R1]) Do(f func(A1, A2, A3, A4, A5)) *Call5_1[A1, A2, A3, A4, A5, R1] {
@@ -2271,16 +2686,27 @@ type Call5_2[A1, A2, A3, A4, A5, R1, R2 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5) (R1, R2)
 }
 
+func (c *Call5_2[A1, A2, A3, A4, A5, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.origin)
+}
+
 // NewCall5_2 creates a new Call5_2 expectation.
 func NewCall5_2[A1, A2, A3, A4, A5, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher) *Call5_2[A1, A2, A3, A4, A5, R1, R2] {
-	return &Call5_2[A1, A2, A3, A4, A5, R1, R2]{
-		FinalizedCall5: FinalizedCall5[A1, A2, A3, A4, A5]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
+	t.Helper()
+	c := &Call5_2[A1, A2, A3, A4, A5, R1, R2]{
+		FinalizedCall5: FinalizedCall5[A1, A2, A3, A4, A5]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
 	}
+	c.FinalizedCall5.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call5_2[A1, A2, A3, A4, A5, R1, R2]) Do(f func(A1, A2, A3, A4, A5)) *Call5_2[A1, A2, A3, A4, A5, R1, R2] {
@@ -2338,16 +2764,27 @@ type Call5_3[A1, A2, A3, A4, A5, R1, R2, R3 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5) (R1, R2, R3)
 }
 
+func (c *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.origin)
+}
+
 // NewCall5_3 creates a new Call5_3 expectation.
 func NewCall5_3[A1, A2, A3, A4, A5, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher) *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3] {
-	return &Call5_3[A1, A2, A3, A4, A5, R1, R2, R3]{
-		FinalizedCall5: FinalizedCall5[A1, A2, A3, A4, A5]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
+	t.Helper()
+	c := &Call5_3[A1, A2, A3, A4, A5, R1, R2, R3]{
+		FinalizedCall5: FinalizedCall5[A1, A2, A3, A4, A5]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
 	}
+	c.FinalizedCall5.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5)) *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3] {
@@ -2407,16 +2844,27 @@ type Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5) (R1, R2, R3, R4)
 }
 
+func (c *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.origin)
+}
+
 // NewCall5_4 creates a new Call5_4 expectation.
 func NewCall5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher) *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4] {
-	return &Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4]{
-		FinalizedCall5: FinalizedCall5[A1, A2, A3, A4, A5]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
+	t.Helper()
+	c := &Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4]{
+		FinalizedCall5: FinalizedCall5[A1, A2, A3, A4, A5]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
 	}
+	c.FinalizedCall5.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5)) *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4] {
@@ -2478,16 +2926,27 @@ type Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5) (R1, R2, R3, R4, R5)
 }
 
+func (c *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.origin)
+}
+
 // NewCall5_5 creates a new Call5_5 expectation.
 func NewCall5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher) *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5] {
-	return &Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5]{
-		FinalizedCall5: FinalizedCall5[A1, A2, A3, A4, A5]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
+	t.Helper()
+	c := &Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5]{
+		FinalizedCall5: FinalizedCall5[A1, A2, A3, A4, A5]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
 	}
+	c.FinalizedCall5.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5)) *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5] {
@@ -2545,17 +3004,28 @@ type Call6_0[A1, A2, A3, A4, A5, A6 any] struct {
 	m6 Matcher
 }
 
+func (c *Call6_0[A1, A2, A3, A4, A5, A6]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.origin)
+}
+
 // NewCall6_0 creates a new Call6_0 expectation.
 func NewCall6_0[A1, A2, A3, A4, A5, A6 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher) *Call6_0[A1, A2, A3, A4, A5, A6] {
-	return &Call6_0[A1, A2, A3, A4, A5, A6]{
-		FinalizedCall6: FinalizedCall6[A1, A2, A3, A4, A5, A6]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
-		m6:             m6,
+	t.Helper()
+	c := &Call6_0[A1, A2, A3, A4, A5, A6]{
+		FinalizedCall6: FinalizedCall6[A1, A2, A3, A4, A5, A6]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
 	}
+	c.FinalizedCall6.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call6_0[A1, A2, A3, A4, A5, A6]) Do(f func(A1, A2, A3, A4, A5, A6)) *Call6_0[A1, A2, A3, A4, A5, A6] {
@@ -2601,17 +3071,28 @@ type Call6_1[A1, A2, A3, A4, A5, A6, R1 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6) R1
 }
 
+func (c *Call6_1[A1, A2, A3, A4, A5, A6, R1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.origin)
+}
+
 // NewCall6_1 creates a new Call6_1 expectation.
 func NewCall6_1[A1, A2, A3, A4, A5, A6, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher) *Call6_1[A1, A2, A3, A4, A5, A6, R1] {
-	return &Call6_1[A1, A2, A3, A4, A5, A6, R1]{
-		FinalizedCall6: FinalizedCall6[A1, A2, A3, A4, A5, A6]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
-		m6:             m6,
+	t.Helper()
+	c := &Call6_1[A1, A2, A3, A4, A5, A6, R1]{
+		FinalizedCall6: FinalizedCall6[A1, A2, A3, A4, A5, A6]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
 	}
+	c.FinalizedCall6.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call6_1[A1, A2, A3, A4, A5, A6, R1]) Do(f func(A1, A2, A3, A4, A5, A6)) *Call6_1[A1, A2, A3, A4, A5, A6, R1] {
@@ -2668,17 +3149,28 @@ type Call6_2[A1, A2, A3, A4, A5, A6, R1, R2 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6) (R1, R2)
 }
 
+func (c *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.origin)
+}
+
 // NewCall6_2 creates a new Call6_2 expectation.
 func NewCall6_2[A1, A2, A3, A4, A5, A6, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher) *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2] {
-	return &Call6_2[A1, A2, A3, A4, A5, A6, R1, R2]{
-		FinalizedCall6: FinalizedCall6[A1, A2, A3, A4, A5, A6]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
-		m6:             m6,
+	t.Helper()
+	c := &Call6_2[A1, A2, A3, A4, A5, A6, R1, R2]{
+		FinalizedCall6: FinalizedCall6[A1, A2, A3, A4, A5, A6]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
 	}
+	c.FinalizedCall6.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2]) Do(f func(A1, A2, A3, A4, A5, A6)) *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2] {
@@ -2737,17 +3229,28 @@ type Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6) (R1, R2, R3)
 }
 
+func (c *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.origin)
+}
+
 // NewCall6_3 creates a new Call6_3 expectation.
 func NewCall6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher) *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3] {
-	return &Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3]{
-		FinalizedCall6: FinalizedCall6[A1, A2, A3, A4, A5, A6]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
-		m6:             m6,
+	t.Helper()
+	c := &Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3]{
+		FinalizedCall6: FinalizedCall6[A1, A2, A3, A4, A5, A6]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
 	}
+	c.FinalizedCall6.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, A6)) *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3] {
@@ -2808,17 +3311,28 @@ type Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6) (R1, R2, R3, R4)
 }
 
+func (c *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.origin)
+}
+
 // NewCall6_4 creates a new Call6_4 expectation.
 func NewCall6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher) *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4] {
-	return &Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4]{
-		FinalizedCall6: FinalizedCall6[A1, A2, A3, A4, A5, A6]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
-		m6:             m6,
+	t.Helper()
+	c := &Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4]{
+		FinalizedCall6: FinalizedCall6[A1, A2, A3, A4, A5, A6]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
 	}
+	c.FinalizedCall6.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, A6)) *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4] {
@@ -2881,17 +3395,28 @@ type Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6) (R1, R2, R3, R4, R5)
 }
 
+func (c *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.origin)
+}
+
 // NewCall6_5 creates a new Call6_5 expectation.
 func NewCall6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher) *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5] {
-	return &Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5]{
-		FinalizedCall6: FinalizedCall6[A1, A2, A3, A4, A5, A6]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
-		m6:             m6,
+	t.Helper()
+	c := &Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5]{
+		FinalizedCall6: FinalizedCall6[A1, A2, A3, A4, A5, A6]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
 	}
+	c.FinalizedCall6.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, A6)) *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5] {
@@ -2950,18 +3475,29 @@ type Call7_0[A1, A2, A3, A4, A5, A6, A7 any] struct {
 	m7 Matcher
 }
 
+func (c *Call7_0[A1, A2, A3, A4, A5, A6, A7]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.origin)
+}
+
 // NewCall7_0 creates a new Call7_0 expectation.
 func NewCall7_0[A1, A2, A3, A4, A5, A6, A7 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher) *Call7_0[A1, A2, A3, A4, A5, A6, A7] {
-	return &Call7_0[A1, A2, A3, A4, A5, A6, A7]{
-		FinalizedCall7: FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
-		m6:             m6,
-		m7:             m7,
+	t.Helper()
+	c := &Call7_0[A1, A2, A3, A4, A5, A6, A7]{
+		FinalizedCall7: FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
 	}
+	c.FinalizedCall7.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call7_0[A1, A2, A3, A4, A5, A6, A7]) Do(f func(A1, A2, A3, A4, A5, A6, A7)) *Call7_0[A1, A2, A3, A4, A5, A6, A7] {
@@ -3008,18 +3544,29 @@ type Call7_1[A1, A2, A3, A4, A5, A6, A7, R1 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, A7) R1
 }
 
+func (c *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.origin)
+}
+
 // NewCall7_1 creates a new Call7_1 expectation.
 func NewCall7_1[A1, A2, A3, A4, A5, A6, A7, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher) *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1] {
-	return &Call7_1[A1, A2, A3, A4, A5, A6, A7, R1]{
-		FinalizedCall7: FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
-		m6:             m6,
-		m7:             m7,
+	t.Helper()
+	c := &Call7_1[A1, A2, A3, A4, A5, A6, A7, R1]{
+		FinalizedCall7: FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
 	}
+	c.FinalizedCall7.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1]) Do(f func(A1, A2, A3, A4, A5, A6, A7)) *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1] {
@@ -3077,18 +3624,29 @@ type Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, A7) (R1, R2)
 }
 
+func (c *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.origin)
+}
+
 // NewCall7_2 creates a new Call7_2 expectation.
 func NewCall7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher) *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2] {
-	return &Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2]{
-		FinalizedCall7: FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
-		m6:             m6,
-		m7:             m7,
+	t.Helper()
+	c := &Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2]{
+		FinalizedCall7: FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
 	}
+	c.FinalizedCall7.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2]) Do(f func(A1, A2, A3, A4, A5, A6, A7)) *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2] {
@@ -3148,18 +3706,29 @@ type Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, A7) (R1, R2, R3)
 }
 
+func (c *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.origin)
+}
+
 // NewCall7_3 creates a new Call7_3 expectation.
 func NewCall7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher) *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3] {
-	return &Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3]{
-		FinalizedCall7: FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
-		m6:             m6,
-		m7:             m7,
+	t.Helper()
+	c := &Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3]{
+		FinalizedCall7: FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
 	}
+	c.FinalizedCall7.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, A6, A7)) *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3] {
@@ -3221,18 +3790,29 @@ type Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, A7) (R1, R2, R3, R4)
 }
 
+func (c *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.origin)
+}
+
 // NewCall7_4 creates a new Call7_4 expectation.
 func NewCall7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher) *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4] {
-	return &Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4]{
-		FinalizedCall7: FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
-		m6:             m6,
-		m7:             m7,
+	t.Helper()
+	c := &Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4]{
+		FinalizedCall7: FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
 	}
+	c.FinalizedCall7.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, A6, A7)) *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4] {
@@ -3296,18 +3876,29 @@ type Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, A7) (R1, R2, R3, R4, R5)
 }
 
+func (c *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.origin)
+}
+
 // NewCall7_5 creates a new Call7_5 expectation.
 func NewCall7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher) *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5] {
-	return &Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5]{
-		FinalizedCall7: FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
-		m6:             m6,
-		m7:             m7,
+	t.Helper()
+	c := &Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5]{
+		FinalizedCall7: FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
 	}
+	c.FinalizedCall7.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, A6, A7)) *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5] {
@@ -3367,19 +3958,30 @@ type Call8_0[A1, A2, A3, A4, A5, A6, A7, A8 any] struct {
 	m8 Matcher
 }
 
+func (c *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.origin)
+}
+
 // NewCall8_0 creates a new Call8_0 expectation.
 func NewCall8_0[A1, A2, A3, A4, A5, A6, A7, A8 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher) *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8] {
-	return &Call8_0[A1, A2, A3, A4, A5, A6, A7, A8]{
-		FinalizedCall8: FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
-		m6:             m6,
-		m7:             m7,
-		m8:             m8,
+	t.Helper()
+	c := &Call8_0[A1, A2, A3, A4, A5, A6, A7, A8]{
+		FinalizedCall8: FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+		m8: m8,
 	}
+	c.FinalizedCall8.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8)) *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8] {
@@ -3427,19 +4029,30 @@ type Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8) R1
 }
 
+func (c *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.origin)
+}
+
 // NewCall8_1 creates a new Call8_1 expectation.
 func NewCall8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher) *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1] {
-	return &Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1]{
-		FinalizedCall8: FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
-		m6:             m6,
-		m7:             m7,
-		m8:             m8,
+	t.Helper()
+	c := &Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1]{
+		FinalizedCall8: FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+		m8: m8,
 	}
+	c.FinalizedCall8.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8)) *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1] {
@@ -3498,19 +4111,30 @@ type Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8) (R1, R2)
 }
 
+func (c *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.origin)
+}
+
 // NewCall8_2 creates a new Call8_2 expectation.
 func NewCall8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher) *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2] {
-	return &Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2]{
-		FinalizedCall8: FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
-		m6:             m6,
-		m7:             m7,
-		m8:             m8,
+	t.Helper()
+	c := &Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2]{
+		FinalizedCall8: FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+		m8: m8,
 	}
+	c.FinalizedCall8.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8)) *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2] {
@@ -3571,19 +4195,30 @@ type Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8) (R1, R2, R3)
 }
 
+func (c *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.origin)
+}
+
 // NewCall8_3 creates a new Call8_3 expectation.
 func NewCall8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher) *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3] {
-	return &Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3]{
-		FinalizedCall8: FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
-		m6:             m6,
-		m7:             m7,
-		m8:             m8,
+	t.Helper()
+	c := &Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3]{
+		FinalizedCall8: FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+		m8: m8,
 	}
+	c.FinalizedCall8.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8)) *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3] {
@@ -3646,19 +4281,30 @@ type Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8) (R1, R2, R3, R4)
 }
 
+func (c *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.origin)
+}
+
 // NewCall8_4 creates a new Call8_4 expectation.
 func NewCall8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher) *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4] {
-	return &Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4]{
-		FinalizedCall8: FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
-		m6:             m6,
-		m7:             m7,
-		m8:             m8,
+	t.Helper()
+	c := &Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4]{
+		FinalizedCall8: FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+		m8: m8,
 	}
+	c.FinalizedCall8.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8)) *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4] {
@@ -3723,19 +4369,30 @@ type Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8) (R1, R2, R3, R4, R5)
 }
 
+func (c *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.origin)
+}
+
 // NewCall8_5 creates a new Call8_5 expectation.
 func NewCall8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher) *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5] {
-	return &Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5]{
-		FinalizedCall8: FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]{Call: newCall(t, receiver, method, 2)},
-		m1:             m1,
-		m2:             m2,
-		m3:             m3,
-		m4:             m4,
-		m5:             m5,
-		m6:             m6,
-		m7:             m7,
-		m8:             m8,
+	t.Helper()
+	c := &Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5]{
+		FinalizedCall8: FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+		m8: m8,
 	}
+	c.FinalizedCall8.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8)) *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5] {
@@ -7610,11 +8267,18 @@ func Dispatch8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5 any](expects
 // FinalizedCall0V is the finalized call wrapper for 0-arg variadic methods.
 // It is returned by Return and DoAndReturn.
 type FinalizedCall0V[VA any] struct {
-	Call  *Call
-	doFns []func(...VA)
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(...VA)
 }
 
 func (c *FinalizedCall0V[VA]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall0V[VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
 
 // Do adds f to the functions called when matched.
 func (c *FinalizedCall0V[VA]) Do(f func(...VA)) *FinalizedCall0V[VA] {
@@ -7650,11 +8314,18 @@ func (c *FinalizedCall0V[VA]) After(preReq CallHolder) *FinalizedCall0V[VA] {
 // FinalizedCall1V is the finalized call wrapper for 1-arg variadic methods.
 // It is returned by Return and DoAndReturn.
 type FinalizedCall1V[A1, VA any] struct {
-	Call  *Call
-	doFns []func(A1, ...VA)
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, ...VA)
 }
 
 func (c *FinalizedCall1V[A1, VA]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall1V[A1, VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
 
 // Do adds f to the functions called when matched.
 func (c *FinalizedCall1V[A1, VA]) Do(f func(A1, ...VA)) *FinalizedCall1V[A1, VA] {
@@ -7690,11 +8361,18 @@ func (c *FinalizedCall1V[A1, VA]) After(preReq CallHolder) *FinalizedCall1V[A1, 
 // FinalizedCall2V is the finalized call wrapper for 2-arg variadic methods.
 // It is returned by Return and DoAndReturn.
 type FinalizedCall2V[A1, A2, VA any] struct {
-	Call  *Call
-	doFns []func(A1, A2, ...VA)
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, ...VA)
 }
 
 func (c *FinalizedCall2V[A1, A2, VA]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall2V[A1, A2, VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
 
 // Do adds f to the functions called when matched.
 func (c *FinalizedCall2V[A1, A2, VA]) Do(f func(A1, A2, ...VA)) *FinalizedCall2V[A1, A2, VA] {
@@ -7730,11 +8408,18 @@ func (c *FinalizedCall2V[A1, A2, VA]) After(preReq CallHolder) *FinalizedCall2V[
 // FinalizedCall3V is the finalized call wrapper for 3-arg variadic methods.
 // It is returned by Return and DoAndReturn.
 type FinalizedCall3V[A1, A2, A3, VA any] struct {
-	Call  *Call
-	doFns []func(A1, A2, A3, ...VA)
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, ...VA)
 }
 
 func (c *FinalizedCall3V[A1, A2, A3, VA]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall3V[A1, A2, A3, VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
 
 // Do adds f to the functions called when matched.
 func (c *FinalizedCall3V[A1, A2, A3, VA]) Do(f func(A1, A2, A3, ...VA)) *FinalizedCall3V[A1, A2, A3, VA] {
@@ -7770,11 +8455,18 @@ func (c *FinalizedCall3V[A1, A2, A3, VA]) After(preReq CallHolder) *FinalizedCal
 // FinalizedCall4V is the finalized call wrapper for 4-arg variadic methods.
 // It is returned by Return and DoAndReturn.
 type FinalizedCall4V[A1, A2, A3, A4, VA any] struct {
-	Call  *Call
-	doFns []func(A1, A2, A3, A4, ...VA)
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, ...VA)
 }
 
 func (c *FinalizedCall4V[A1, A2, A3, A4, VA]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall4V[A1, A2, A3, A4, VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
 
 // Do adds f to the functions called when matched.
 func (c *FinalizedCall4V[A1, A2, A3, A4, VA]) Do(f func(A1, A2, A3, A4, ...VA)) *FinalizedCall4V[A1, A2, A3, A4, VA] {
@@ -7810,11 +8502,18 @@ func (c *FinalizedCall4V[A1, A2, A3, A4, VA]) After(preReq CallHolder) *Finalize
 // FinalizedCall5V is the finalized call wrapper for 5-arg variadic methods.
 // It is returned by Return and DoAndReturn.
 type FinalizedCall5V[A1, A2, A3, A4, A5, VA any] struct {
-	Call  *Call
-	doFns []func(A1, A2, A3, A4, A5, ...VA)
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, ...VA)
 }
 
 func (c *FinalizedCall5V[A1, A2, A3, A4, A5, VA]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall5V[A1, A2, A3, A4, A5, VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
 
 // Do adds f to the functions called when matched.
 func (c *FinalizedCall5V[A1, A2, A3, A4, A5, VA]) Do(f func(A1, A2, A3, A4, A5, ...VA)) *FinalizedCall5V[A1, A2, A3, A4, A5, VA] {
@@ -7850,11 +8549,18 @@ func (c *FinalizedCall5V[A1, A2, A3, A4, A5, VA]) After(preReq CallHolder) *Fina
 // FinalizedCall6V is the finalized call wrapper for 6-arg variadic methods.
 // It is returned by Return and DoAndReturn.
 type FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA any] struct {
-	Call  *Call
-	doFns []func(A1, A2, A3, A4, A5, A6, ...VA)
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, A6, ...VA)
 }
 
 func (c *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
 
 // Do adds f to the functions called when matched.
 func (c *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]) Do(f func(A1, A2, A3, A4, A5, A6, ...VA)) *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA] {
@@ -7890,11 +8596,18 @@ func (c *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]) After(preReq CallHolder) *
 // FinalizedCall7V is the finalized call wrapper for 7-arg variadic methods.
 // It is returned by Return and DoAndReturn.
 type FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA any] struct {
-	Call  *Call
-	doFns []func(A1, A2, A3, A4, A5, A6, A7, ...VA)
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, A6, A7, ...VA)
 }
 
 func (c *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
 
 // Do adds f to the functions called when matched.
 func (c *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]) Do(f func(A1, A2, A3, A4, A5, A6, A7, ...VA)) *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA] {
@@ -7930,11 +8643,18 @@ func (c *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]) After(preReq CallHolde
 // FinalizedCall8V is the finalized call wrapper for 8-arg variadic methods.
 // It is returned by Return and DoAndReturn.
 type FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA any] struct {
-	Call  *Call
-	doFns []func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA)
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA)
 }
 
 func (c *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
 
 // Do adds f to the functions called when matched.
 func (c *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA)) *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
@@ -7973,12 +8693,23 @@ type Call0V_0[VA any] struct {
 	varArgs []Matcher
 }
 
+func (c *Call0V_0[VA]) String() string {
+	return formatCallString(c.receiver, c.method, c.varArgs, c.origin)
+}
+
 // NewCall0V_0 creates a new Call0V_0 expectation.
 func NewCall0V_0[VA any](t TestHelper, receiver any, method string, varArgs []Matcher) *Call0V_0[VA] {
-	return &Call0V_0[VA]{
-		FinalizedCall0V: FinalizedCall0V[VA]{Call: newCall(t, receiver, method, 2)},
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call0V_0[VA]{
+		FinalizedCall0V: FinalizedCall0V[VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		varArgs: varArgs,
 	}
+	c.FinalizedCall0V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call0V_0[VA]) Do(f func(...VA)) *Call0V_0[VA] {
@@ -8019,12 +8750,23 @@ type Call0V_1[VA, R1 any] struct {
 	doReturnFn func(...VA) R1
 }
 
+func (c *Call0V_1[VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, c.varArgs, c.origin)
+}
+
 // NewCall0V_1 creates a new Call0V_1 expectation.
 func NewCall0V_1[VA, R1 any](t TestHelper, receiver any, method string, varArgs []Matcher) *Call0V_1[VA, R1] {
-	return &Call0V_1[VA, R1]{
-		FinalizedCall0V: FinalizedCall0V[VA]{Call: newCall(t, receiver, method, 2)},
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call0V_1[VA, R1]{
+		FinalizedCall0V: FinalizedCall0V[VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		varArgs: varArgs,
 	}
+	c.FinalizedCall0V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call0V_1[VA, R1]) Do(f func(...VA)) *Call0V_1[VA, R1] {
@@ -8076,12 +8818,23 @@ type Call0V_2[VA, R1, R2 any] struct {
 	doReturnFn func(...VA) (R1, R2)
 }
 
+func (c *Call0V_2[VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, c.varArgs, c.origin)
+}
+
 // NewCall0V_2 creates a new Call0V_2 expectation.
 func NewCall0V_2[VA, R1, R2 any](t TestHelper, receiver any, method string, varArgs []Matcher) *Call0V_2[VA, R1, R2] {
-	return &Call0V_2[VA, R1, R2]{
-		FinalizedCall0V: FinalizedCall0V[VA]{Call: newCall(t, receiver, method, 2)},
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call0V_2[VA, R1, R2]{
+		FinalizedCall0V: FinalizedCall0V[VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		varArgs: varArgs,
 	}
+	c.FinalizedCall0V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call0V_2[VA, R1, R2]) Do(f func(...VA)) *Call0V_2[VA, R1, R2] {
@@ -8135,12 +8888,23 @@ type Call0V_3[VA, R1, R2, R3 any] struct {
 	doReturnFn func(...VA) (R1, R2, R3)
 }
 
+func (c *Call0V_3[VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, c.varArgs, c.origin)
+}
+
 // NewCall0V_3 creates a new Call0V_3 expectation.
 func NewCall0V_3[VA, R1, R2, R3 any](t TestHelper, receiver any, method string, varArgs []Matcher) *Call0V_3[VA, R1, R2, R3] {
-	return &Call0V_3[VA, R1, R2, R3]{
-		FinalizedCall0V: FinalizedCall0V[VA]{Call: newCall(t, receiver, method, 2)},
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call0V_3[VA, R1, R2, R3]{
+		FinalizedCall0V: FinalizedCall0V[VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		varArgs: varArgs,
 	}
+	c.FinalizedCall0V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call0V_3[VA, R1, R2, R3]) Do(f func(...VA)) *Call0V_3[VA, R1, R2, R3] {
@@ -8196,12 +8960,23 @@ type Call0V_4[VA, R1, R2, R3, R4 any] struct {
 	doReturnFn func(...VA) (R1, R2, R3, R4)
 }
 
+func (c *Call0V_4[VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, c.varArgs, c.origin)
+}
+
 // NewCall0V_4 creates a new Call0V_4 expectation.
 func NewCall0V_4[VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, varArgs []Matcher) *Call0V_4[VA, R1, R2, R3, R4] {
-	return &Call0V_4[VA, R1, R2, R3, R4]{
-		FinalizedCall0V: FinalizedCall0V[VA]{Call: newCall(t, receiver, method, 2)},
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call0V_4[VA, R1, R2, R3, R4]{
+		FinalizedCall0V: FinalizedCall0V[VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		varArgs: varArgs,
 	}
+	c.FinalizedCall0V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call0V_4[VA, R1, R2, R3, R4]) Do(f func(...VA)) *Call0V_4[VA, R1, R2, R3, R4] {
@@ -8259,12 +9034,23 @@ type Call0V_5[VA, R1, R2, R3, R4, R5 any] struct {
 	doReturnFn func(...VA) (R1, R2, R3, R4, R5)
 }
 
+func (c *Call0V_5[VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, c.varArgs, c.origin)
+}
+
 // NewCall0V_5 creates a new Call0V_5 expectation.
 func NewCall0V_5[VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, varArgs []Matcher) *Call0V_5[VA, R1, R2, R3, R4, R5] {
-	return &Call0V_5[VA, R1, R2, R3, R4, R5]{
-		FinalizedCall0V: FinalizedCall0V[VA]{Call: newCall(t, receiver, method, 2)},
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call0V_5[VA, R1, R2, R3, R4, R5]{
+		FinalizedCall0V: FinalizedCall0V[VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		varArgs: varArgs,
 	}
+	c.FinalizedCall0V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call0V_5[VA, R1, R2, R3, R4, R5]) Do(f func(...VA)) *Call0V_5[VA, R1, R2, R3, R4, R5] {
@@ -8318,13 +9104,24 @@ type Call1V_0[A1, VA any] struct {
 	varArgs []Matcher
 }
 
+func (c *Call1V_0[A1, VA]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1}, c.varArgs...), c.origin)
+}
+
 // NewCall1V_0 creates a new Call1V_0 expectation.
 func NewCall1V_0[A1, VA any](t TestHelper, receiver any, method string, m1 Matcher, varArgs []Matcher) *Call1V_0[A1, VA] {
-	return &Call1V_0[A1, VA]{
-		FinalizedCall1V: FinalizedCall1V[A1, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call1V_0[A1, VA]{
+		FinalizedCall1V: FinalizedCall1V[A1, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall1V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call1V_0[A1, VA]) Do(f func(A1, ...VA)) *Call1V_0[A1, VA] {
@@ -8366,13 +9163,24 @@ type Call1V_1[A1, VA, R1 any] struct {
 	doReturnFn func(A1, ...VA) R1
 }
 
+func (c *Call1V_1[A1, VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1}, c.varArgs...), c.origin)
+}
+
 // NewCall1V_1 creates a new Call1V_1 expectation.
 func NewCall1V_1[A1, VA, R1 any](t TestHelper, receiver any, method string, m1 Matcher, varArgs []Matcher) *Call1V_1[A1, VA, R1] {
-	return &Call1V_1[A1, VA, R1]{
-		FinalizedCall1V: FinalizedCall1V[A1, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call1V_1[A1, VA, R1]{
+		FinalizedCall1V: FinalizedCall1V[A1, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall1V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call1V_1[A1, VA, R1]) Do(f func(A1, ...VA)) *Call1V_1[A1, VA, R1] {
@@ -8425,13 +9233,24 @@ type Call1V_2[A1, VA, R1, R2 any] struct {
 	doReturnFn func(A1, ...VA) (R1, R2)
 }
 
+func (c *Call1V_2[A1, VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1}, c.varArgs...), c.origin)
+}
+
 // NewCall1V_2 creates a new Call1V_2 expectation.
 func NewCall1V_2[A1, VA, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, varArgs []Matcher) *Call1V_2[A1, VA, R1, R2] {
-	return &Call1V_2[A1, VA, R1, R2]{
-		FinalizedCall1V: FinalizedCall1V[A1, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call1V_2[A1, VA, R1, R2]{
+		FinalizedCall1V: FinalizedCall1V[A1, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall1V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call1V_2[A1, VA, R1, R2]) Do(f func(A1, ...VA)) *Call1V_2[A1, VA, R1, R2] {
@@ -8486,13 +9305,24 @@ type Call1V_3[A1, VA, R1, R2, R3 any] struct {
 	doReturnFn func(A1, ...VA) (R1, R2, R3)
 }
 
+func (c *Call1V_3[A1, VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1}, c.varArgs...), c.origin)
+}
+
 // NewCall1V_3 creates a new Call1V_3 expectation.
 func NewCall1V_3[A1, VA, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, varArgs []Matcher) *Call1V_3[A1, VA, R1, R2, R3] {
-	return &Call1V_3[A1, VA, R1, R2, R3]{
-		FinalizedCall1V: FinalizedCall1V[A1, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call1V_3[A1, VA, R1, R2, R3]{
+		FinalizedCall1V: FinalizedCall1V[A1, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall1V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call1V_3[A1, VA, R1, R2, R3]) Do(f func(A1, ...VA)) *Call1V_3[A1, VA, R1, R2, R3] {
@@ -8549,13 +9379,24 @@ type Call1V_4[A1, VA, R1, R2, R3, R4 any] struct {
 	doReturnFn func(A1, ...VA) (R1, R2, R3, R4)
 }
 
+func (c *Call1V_4[A1, VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1}, c.varArgs...), c.origin)
+}
+
 // NewCall1V_4 creates a new Call1V_4 expectation.
 func NewCall1V_4[A1, VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, varArgs []Matcher) *Call1V_4[A1, VA, R1, R2, R3, R4] {
-	return &Call1V_4[A1, VA, R1, R2, R3, R4]{
-		FinalizedCall1V: FinalizedCall1V[A1, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call1V_4[A1, VA, R1, R2, R3, R4]{
+		FinalizedCall1V: FinalizedCall1V[A1, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall1V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call1V_4[A1, VA, R1, R2, R3, R4]) Do(f func(A1, ...VA)) *Call1V_4[A1, VA, R1, R2, R3, R4] {
@@ -8614,13 +9455,24 @@ type Call1V_5[A1, VA, R1, R2, R3, R4, R5 any] struct {
 	doReturnFn func(A1, ...VA) (R1, R2, R3, R4, R5)
 }
 
+func (c *Call1V_5[A1, VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1}, c.varArgs...), c.origin)
+}
+
 // NewCall1V_5 creates a new Call1V_5 expectation.
 func NewCall1V_5[A1, VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, varArgs []Matcher) *Call1V_5[A1, VA, R1, R2, R3, R4, R5] {
-	return &Call1V_5[A1, VA, R1, R2, R3, R4, R5]{
-		FinalizedCall1V: FinalizedCall1V[A1, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call1V_5[A1, VA, R1, R2, R3, R4, R5]{
+		FinalizedCall1V: FinalizedCall1V[A1, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall1V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call1V_5[A1, VA, R1, R2, R3, R4, R5]) Do(f func(A1, ...VA)) *Call1V_5[A1, VA, R1, R2, R3, R4, R5] {
@@ -8675,14 +9527,25 @@ type Call2V_0[A1, A2, VA any] struct {
 	varArgs []Matcher
 }
 
+func (c *Call2V_0[A1, A2, VA]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2}, c.varArgs...), c.origin)
+}
+
 // NewCall2V_0 creates a new Call2V_0 expectation.
 func NewCall2V_0[A1, A2, VA any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, varArgs []Matcher) *Call2V_0[A1, A2, VA] {
-	return &Call2V_0[A1, A2, VA]{
-		FinalizedCall2V: FinalizedCall2V[A1, A2, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call2V_0[A1, A2, VA]{
+		FinalizedCall2V: FinalizedCall2V[A1, A2, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall2V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call2V_0[A1, A2, VA]) Do(f func(A1, A2, ...VA)) *Call2V_0[A1, A2, VA] {
@@ -8725,14 +9588,25 @@ type Call2V_1[A1, A2, VA, R1 any] struct {
 	doReturnFn func(A1, A2, ...VA) R1
 }
 
+func (c *Call2V_1[A1, A2, VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2}, c.varArgs...), c.origin)
+}
+
 // NewCall2V_1 creates a new Call2V_1 expectation.
 func NewCall2V_1[A1, A2, VA, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, varArgs []Matcher) *Call2V_1[A1, A2, VA, R1] {
-	return &Call2V_1[A1, A2, VA, R1]{
-		FinalizedCall2V: FinalizedCall2V[A1, A2, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call2V_1[A1, A2, VA, R1]{
+		FinalizedCall2V: FinalizedCall2V[A1, A2, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall2V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call2V_1[A1, A2, VA, R1]) Do(f func(A1, A2, ...VA)) *Call2V_1[A1, A2, VA, R1] {
@@ -8786,14 +9660,25 @@ type Call2V_2[A1, A2, VA, R1, R2 any] struct {
 	doReturnFn func(A1, A2, ...VA) (R1, R2)
 }
 
+func (c *Call2V_2[A1, A2, VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2}, c.varArgs...), c.origin)
+}
+
 // NewCall2V_2 creates a new Call2V_2 expectation.
 func NewCall2V_2[A1, A2, VA, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, varArgs []Matcher) *Call2V_2[A1, A2, VA, R1, R2] {
-	return &Call2V_2[A1, A2, VA, R1, R2]{
-		FinalizedCall2V: FinalizedCall2V[A1, A2, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call2V_2[A1, A2, VA, R1, R2]{
+		FinalizedCall2V: FinalizedCall2V[A1, A2, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall2V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call2V_2[A1, A2, VA, R1, R2]) Do(f func(A1, A2, ...VA)) *Call2V_2[A1, A2, VA, R1, R2] {
@@ -8849,14 +9734,25 @@ type Call2V_3[A1, A2, VA, R1, R2, R3 any] struct {
 	doReturnFn func(A1, A2, ...VA) (R1, R2, R3)
 }
 
+func (c *Call2V_3[A1, A2, VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2}, c.varArgs...), c.origin)
+}
+
 // NewCall2V_3 creates a new Call2V_3 expectation.
 func NewCall2V_3[A1, A2, VA, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, varArgs []Matcher) *Call2V_3[A1, A2, VA, R1, R2, R3] {
-	return &Call2V_3[A1, A2, VA, R1, R2, R3]{
-		FinalizedCall2V: FinalizedCall2V[A1, A2, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call2V_3[A1, A2, VA, R1, R2, R3]{
+		FinalizedCall2V: FinalizedCall2V[A1, A2, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall2V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call2V_3[A1, A2, VA, R1, R2, R3]) Do(f func(A1, A2, ...VA)) *Call2V_3[A1, A2, VA, R1, R2, R3] {
@@ -8914,14 +9810,25 @@ type Call2V_4[A1, A2, VA, R1, R2, R3, R4 any] struct {
 	doReturnFn func(A1, A2, ...VA) (R1, R2, R3, R4)
 }
 
+func (c *Call2V_4[A1, A2, VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2}, c.varArgs...), c.origin)
+}
+
 // NewCall2V_4 creates a new Call2V_4 expectation.
 func NewCall2V_4[A1, A2, VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, varArgs []Matcher) *Call2V_4[A1, A2, VA, R1, R2, R3, R4] {
-	return &Call2V_4[A1, A2, VA, R1, R2, R3, R4]{
-		FinalizedCall2V: FinalizedCall2V[A1, A2, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call2V_4[A1, A2, VA, R1, R2, R3, R4]{
+		FinalizedCall2V: FinalizedCall2V[A1, A2, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall2V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call2V_4[A1, A2, VA, R1, R2, R3, R4]) Do(f func(A1, A2, ...VA)) *Call2V_4[A1, A2, VA, R1, R2, R3, R4] {
@@ -8981,14 +9888,25 @@ type Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5 any] struct {
 	doReturnFn func(A1, A2, ...VA) (R1, R2, R3, R4, R5)
 }
 
+func (c *Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2}, c.varArgs...), c.origin)
+}
+
 // NewCall2V_5 creates a new Call2V_5 expectation.
 func NewCall2V_5[A1, A2, VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, varArgs []Matcher) *Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5] {
-	return &Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5]{
-		FinalizedCall2V: FinalizedCall2V[A1, A2, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5]{
+		FinalizedCall2V: FinalizedCall2V[A1, A2, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall2V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5]) Do(f func(A1, A2, ...VA)) *Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5] {
@@ -9044,15 +9962,26 @@ type Call3V_0[A1, A2, A3, VA any] struct {
 	varArgs []Matcher
 }
 
+func (c *Call3V_0[A1, A2, A3, VA]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3}, c.varArgs...), c.origin)
+}
+
 // NewCall3V_0 creates a new Call3V_0 expectation.
 func NewCall3V_0[A1, A2, A3, VA any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, varArgs []Matcher) *Call3V_0[A1, A2, A3, VA] {
-	return &Call3V_0[A1, A2, A3, VA]{
-		FinalizedCall3V: FinalizedCall3V[A1, A2, A3, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call3V_0[A1, A2, A3, VA]{
+		FinalizedCall3V: FinalizedCall3V[A1, A2, A3, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall3V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call3V_0[A1, A2, A3, VA]) Do(f func(A1, A2, A3, ...VA)) *Call3V_0[A1, A2, A3, VA] {
@@ -9096,15 +10025,26 @@ type Call3V_1[A1, A2, A3, VA, R1 any] struct {
 	doReturnFn func(A1, A2, A3, ...VA) R1
 }
 
+func (c *Call3V_1[A1, A2, A3, VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3}, c.varArgs...), c.origin)
+}
+
 // NewCall3V_1 creates a new Call3V_1 expectation.
 func NewCall3V_1[A1, A2, A3, VA, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, varArgs []Matcher) *Call3V_1[A1, A2, A3, VA, R1] {
-	return &Call3V_1[A1, A2, A3, VA, R1]{
-		FinalizedCall3V: FinalizedCall3V[A1, A2, A3, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call3V_1[A1, A2, A3, VA, R1]{
+		FinalizedCall3V: FinalizedCall3V[A1, A2, A3, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall3V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call3V_1[A1, A2, A3, VA, R1]) Do(f func(A1, A2, A3, ...VA)) *Call3V_1[A1, A2, A3, VA, R1] {
@@ -9159,15 +10099,26 @@ type Call3V_2[A1, A2, A3, VA, R1, R2 any] struct {
 	doReturnFn func(A1, A2, A3, ...VA) (R1, R2)
 }
 
+func (c *Call3V_2[A1, A2, A3, VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3}, c.varArgs...), c.origin)
+}
+
 // NewCall3V_2 creates a new Call3V_2 expectation.
 func NewCall3V_2[A1, A2, A3, VA, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, varArgs []Matcher) *Call3V_2[A1, A2, A3, VA, R1, R2] {
-	return &Call3V_2[A1, A2, A3, VA, R1, R2]{
-		FinalizedCall3V: FinalizedCall3V[A1, A2, A3, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call3V_2[A1, A2, A3, VA, R1, R2]{
+		FinalizedCall3V: FinalizedCall3V[A1, A2, A3, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall3V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call3V_2[A1, A2, A3, VA, R1, R2]) Do(f func(A1, A2, A3, ...VA)) *Call3V_2[A1, A2, A3, VA, R1, R2] {
@@ -9224,15 +10175,26 @@ type Call3V_3[A1, A2, A3, VA, R1, R2, R3 any] struct {
 	doReturnFn func(A1, A2, A3, ...VA) (R1, R2, R3)
 }
 
+func (c *Call3V_3[A1, A2, A3, VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3}, c.varArgs...), c.origin)
+}
+
 // NewCall3V_3 creates a new Call3V_3 expectation.
 func NewCall3V_3[A1, A2, A3, VA, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, varArgs []Matcher) *Call3V_3[A1, A2, A3, VA, R1, R2, R3] {
-	return &Call3V_3[A1, A2, A3, VA, R1, R2, R3]{
-		FinalizedCall3V: FinalizedCall3V[A1, A2, A3, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call3V_3[A1, A2, A3, VA, R1, R2, R3]{
+		FinalizedCall3V: FinalizedCall3V[A1, A2, A3, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall3V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call3V_3[A1, A2, A3, VA, R1, R2, R3]) Do(f func(A1, A2, A3, ...VA)) *Call3V_3[A1, A2, A3, VA, R1, R2, R3] {
@@ -9291,15 +10253,26 @@ type Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4 any] struct {
 	doReturnFn func(A1, A2, A3, ...VA) (R1, R2, R3, R4)
 }
 
+func (c *Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3}, c.varArgs...), c.origin)
+}
+
 // NewCall3V_4 creates a new Call3V_4 expectation.
 func NewCall3V_4[A1, A2, A3, VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, varArgs []Matcher) *Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4] {
-	return &Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4]{
-		FinalizedCall3V: FinalizedCall3V[A1, A2, A3, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4]{
+		FinalizedCall3V: FinalizedCall3V[A1, A2, A3, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall3V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4]) Do(f func(A1, A2, A3, ...VA)) *Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4] {
@@ -9360,15 +10333,26 @@ type Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5 any] struct {
 	doReturnFn func(A1, A2, A3, ...VA) (R1, R2, R3, R4, R5)
 }
 
+func (c *Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3}, c.varArgs...), c.origin)
+}
+
 // NewCall3V_5 creates a new Call3V_5 expectation.
 func NewCall3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, varArgs []Matcher) *Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5] {
-	return &Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5]{
-		FinalizedCall3V: FinalizedCall3V[A1, A2, A3, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5]{
+		FinalizedCall3V: FinalizedCall3V[A1, A2, A3, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall3V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, ...VA)) *Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5] {
@@ -9425,16 +10409,27 @@ type Call4V_0[A1, A2, A3, A4, VA any] struct {
 	varArgs []Matcher
 }
 
+func (c *Call4V_0[A1, A2, A3, A4, VA]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4}, c.varArgs...), c.origin)
+}
+
 // NewCall4V_0 creates a new Call4V_0 expectation.
 func NewCall4V_0[A1, A2, A3, A4, VA any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, varArgs []Matcher) *Call4V_0[A1, A2, A3, A4, VA] {
-	return &Call4V_0[A1, A2, A3, A4, VA]{
-		FinalizedCall4V: FinalizedCall4V[A1, A2, A3, A4, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call4V_0[A1, A2, A3, A4, VA]{
+		FinalizedCall4V: FinalizedCall4V[A1, A2, A3, A4, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall4V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call4V_0[A1, A2, A3, A4, VA]) Do(f func(A1, A2, A3, A4, ...VA)) *Call4V_0[A1, A2, A3, A4, VA] {
@@ -9479,16 +10474,27 @@ type Call4V_1[A1, A2, A3, A4, VA, R1 any] struct {
 	doReturnFn func(A1, A2, A3, A4, ...VA) R1
 }
 
+func (c *Call4V_1[A1, A2, A3, A4, VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4}, c.varArgs...), c.origin)
+}
+
 // NewCall4V_1 creates a new Call4V_1 expectation.
 func NewCall4V_1[A1, A2, A3, A4, VA, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, varArgs []Matcher) *Call4V_1[A1, A2, A3, A4, VA, R1] {
-	return &Call4V_1[A1, A2, A3, A4, VA, R1]{
-		FinalizedCall4V: FinalizedCall4V[A1, A2, A3, A4, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call4V_1[A1, A2, A3, A4, VA, R1]{
+		FinalizedCall4V: FinalizedCall4V[A1, A2, A3, A4, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall4V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call4V_1[A1, A2, A3, A4, VA, R1]) Do(f func(A1, A2, A3, A4, ...VA)) *Call4V_1[A1, A2, A3, A4, VA, R1] {
@@ -9544,16 +10550,27 @@ type Call4V_2[A1, A2, A3, A4, VA, R1, R2 any] struct {
 	doReturnFn func(A1, A2, A3, A4, ...VA) (R1, R2)
 }
 
+func (c *Call4V_2[A1, A2, A3, A4, VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4}, c.varArgs...), c.origin)
+}
+
 // NewCall4V_2 creates a new Call4V_2 expectation.
 func NewCall4V_2[A1, A2, A3, A4, VA, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, varArgs []Matcher) *Call4V_2[A1, A2, A3, A4, VA, R1, R2] {
-	return &Call4V_2[A1, A2, A3, A4, VA, R1, R2]{
-		FinalizedCall4V: FinalizedCall4V[A1, A2, A3, A4, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call4V_2[A1, A2, A3, A4, VA, R1, R2]{
+		FinalizedCall4V: FinalizedCall4V[A1, A2, A3, A4, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall4V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call4V_2[A1, A2, A3, A4, VA, R1, R2]) Do(f func(A1, A2, A3, A4, ...VA)) *Call4V_2[A1, A2, A3, A4, VA, R1, R2] {
@@ -9611,16 +10628,27 @@ type Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3 any] struct {
 	doReturnFn func(A1, A2, A3, A4, ...VA) (R1, R2, R3)
 }
 
+func (c *Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4}, c.varArgs...), c.origin)
+}
+
 // NewCall4V_3 creates a new Call4V_3 expectation.
 func NewCall4V_3[A1, A2, A3, A4, VA, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, varArgs []Matcher) *Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3] {
-	return &Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3]{
-		FinalizedCall4V: FinalizedCall4V[A1, A2, A3, A4, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3]{
+		FinalizedCall4V: FinalizedCall4V[A1, A2, A3, A4, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall4V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3]) Do(f func(A1, A2, A3, A4, ...VA)) *Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3] {
@@ -9680,16 +10708,27 @@ type Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4 any] struct {
 	doReturnFn func(A1, A2, A3, A4, ...VA) (R1, R2, R3, R4)
 }
 
+func (c *Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4}, c.varArgs...), c.origin)
+}
+
 // NewCall4V_4 creates a new Call4V_4 expectation.
 func NewCall4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, varArgs []Matcher) *Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4] {
-	return &Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4]{
-		FinalizedCall4V: FinalizedCall4V[A1, A2, A3, A4, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4]{
+		FinalizedCall4V: FinalizedCall4V[A1, A2, A3, A4, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall4V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, ...VA)) *Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4] {
@@ -9751,16 +10790,27 @@ type Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5 any] struct {
 	doReturnFn func(A1, A2, A3, A4, ...VA) (R1, R2, R3, R4, R5)
 }
 
+func (c *Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4}, c.varArgs...), c.origin)
+}
+
 // NewCall4V_5 creates a new Call4V_5 expectation.
 func NewCall4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, varArgs []Matcher) *Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5] {
-	return &Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5]{
-		FinalizedCall4V: FinalizedCall4V[A1, A2, A3, A4, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5]{
+		FinalizedCall4V: FinalizedCall4V[A1, A2, A3, A4, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall4V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, ...VA)) *Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5] {
@@ -9818,17 +10868,28 @@ type Call5V_0[A1, A2, A3, A4, A5, VA any] struct {
 	varArgs []Matcher
 }
 
+func (c *Call5V_0[A1, A2, A3, A4, A5, VA]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.varArgs...), c.origin)
+}
+
 // NewCall5V_0 creates a new Call5V_0 expectation.
 func NewCall5V_0[A1, A2, A3, A4, A5, VA any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, varArgs []Matcher) *Call5V_0[A1, A2, A3, A4, A5, VA] {
-	return &Call5V_0[A1, A2, A3, A4, A5, VA]{
-		FinalizedCall5V: FinalizedCall5V[A1, A2, A3, A4, A5, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call5V_0[A1, A2, A3, A4, A5, VA]{
+		FinalizedCall5V: FinalizedCall5V[A1, A2, A3, A4, A5, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall5V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call5V_0[A1, A2, A3, A4, A5, VA]) Do(f func(A1, A2, A3, A4, A5, ...VA)) *Call5V_0[A1, A2, A3, A4, A5, VA] {
@@ -9874,17 +10935,28 @@ type Call5V_1[A1, A2, A3, A4, A5, VA, R1 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, ...VA) R1
 }
 
+func (c *Call5V_1[A1, A2, A3, A4, A5, VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.varArgs...), c.origin)
+}
+
 // NewCall5V_1 creates a new Call5V_1 expectation.
 func NewCall5V_1[A1, A2, A3, A4, A5, VA, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, varArgs []Matcher) *Call5V_1[A1, A2, A3, A4, A5, VA, R1] {
-	return &Call5V_1[A1, A2, A3, A4, A5, VA, R1]{
-		FinalizedCall5V: FinalizedCall5V[A1, A2, A3, A4, A5, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call5V_1[A1, A2, A3, A4, A5, VA, R1]{
+		FinalizedCall5V: FinalizedCall5V[A1, A2, A3, A4, A5, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall5V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call5V_1[A1, A2, A3, A4, A5, VA, R1]) Do(f func(A1, A2, A3, A4, A5, ...VA)) *Call5V_1[A1, A2, A3, A4, A5, VA, R1] {
@@ -9941,17 +11013,28 @@ type Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, ...VA) (R1, R2)
 }
 
+func (c *Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.varArgs...), c.origin)
+}
+
 // NewCall5V_2 creates a new Call5V_2 expectation.
 func NewCall5V_2[A1, A2, A3, A4, A5, VA, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, varArgs []Matcher) *Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2] {
-	return &Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2]{
-		FinalizedCall5V: FinalizedCall5V[A1, A2, A3, A4, A5, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2]{
+		FinalizedCall5V: FinalizedCall5V[A1, A2, A3, A4, A5, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall5V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2]) Do(f func(A1, A2, A3, A4, A5, ...VA)) *Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2] {
@@ -10010,17 +11093,28 @@ type Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, ...VA) (R1, R2, R3)
 }
 
+func (c *Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.varArgs...), c.origin)
+}
+
 // NewCall5V_3 creates a new Call5V_3 expectation.
 func NewCall5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, varArgs []Matcher) *Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3] {
-	return &Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3]{
-		FinalizedCall5V: FinalizedCall5V[A1, A2, A3, A4, A5, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3]{
+		FinalizedCall5V: FinalizedCall5V[A1, A2, A3, A4, A5, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall5V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, ...VA)) *Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3] {
@@ -10081,17 +11175,28 @@ type Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, ...VA) (R1, R2, R3, R4)
 }
 
+func (c *Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.varArgs...), c.origin)
+}
+
 // NewCall5V_4 creates a new Call5V_4 expectation.
 func NewCall5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, varArgs []Matcher) *Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4] {
-	return &Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4]{
-		FinalizedCall5V: FinalizedCall5V[A1, A2, A3, A4, A5, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4]{
+		FinalizedCall5V: FinalizedCall5V[A1, A2, A3, A4, A5, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall5V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, ...VA)) *Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4] {
@@ -10154,17 +11259,28 @@ type Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, ...VA) (R1, R2, R3, R4, R5)
 }
 
+func (c *Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.varArgs...), c.origin)
+}
+
 // NewCall5V_5 creates a new Call5V_5 expectation.
 func NewCall5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, varArgs []Matcher) *Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5] {
-	return &Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5]{
-		FinalizedCall5V: FinalizedCall5V[A1, A2, A3, A4, A5, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5]{
+		FinalizedCall5V: FinalizedCall5V[A1, A2, A3, A4, A5, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall5V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, ...VA)) *Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5] {
@@ -10223,18 +11339,29 @@ type Call6V_0[A1, A2, A3, A4, A5, A6, VA any] struct {
 	varArgs []Matcher
 }
 
+func (c *Call6V_0[A1, A2, A3, A4, A5, A6, VA]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.varArgs...), c.origin)
+}
+
 // NewCall6V_0 creates a new Call6V_0 expectation.
 func NewCall6V_0[A1, A2, A3, A4, A5, A6, VA any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, varArgs []Matcher) *Call6V_0[A1, A2, A3, A4, A5, A6, VA] {
-	return &Call6V_0[A1, A2, A3, A4, A5, A6, VA]{
-		FinalizedCall6V: FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		m6:              m6,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call6V_0[A1, A2, A3, A4, A5, A6, VA]{
+		FinalizedCall6V: FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall6V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call6V_0[A1, A2, A3, A4, A5, A6, VA]) Do(f func(A1, A2, A3, A4, A5, A6, ...VA)) *Call6V_0[A1, A2, A3, A4, A5, A6, VA] {
@@ -10281,18 +11408,29 @@ type Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, ...VA) R1
 }
 
+func (c *Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.varArgs...), c.origin)
+}
+
 // NewCall6V_1 creates a new Call6V_1 expectation.
 func NewCall6V_1[A1, A2, A3, A4, A5, A6, VA, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, varArgs []Matcher) *Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1] {
-	return &Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1]{
-		FinalizedCall6V: FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		m6:              m6,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1]{
+		FinalizedCall6V: FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall6V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1]) Do(f func(A1, A2, A3, A4, A5, A6, ...VA)) *Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1] {
@@ -10350,18 +11488,29 @@ type Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, ...VA) (R1, R2)
 }
 
+func (c *Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.varArgs...), c.origin)
+}
+
 // NewCall6V_2 creates a new Call6V_2 expectation.
 func NewCall6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, varArgs []Matcher) *Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2] {
-	return &Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2]{
-		FinalizedCall6V: FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		m6:              m6,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2]{
+		FinalizedCall6V: FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall6V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2]) Do(f func(A1, A2, A3, A4, A5, A6, ...VA)) *Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2] {
@@ -10421,18 +11570,29 @@ type Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, ...VA) (R1, R2, R3)
 }
 
+func (c *Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.varArgs...), c.origin)
+}
+
 // NewCall6V_3 creates a new Call6V_3 expectation.
 func NewCall6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, varArgs []Matcher) *Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3] {
-	return &Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3]{
-		FinalizedCall6V: FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		m6:              m6,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3]{
+		FinalizedCall6V: FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall6V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, A6, ...VA)) *Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3] {
@@ -10494,18 +11654,29 @@ type Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, ...VA) (R1, R2, R3, R4)
 }
 
+func (c *Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.varArgs...), c.origin)
+}
+
 // NewCall6V_4 creates a new Call6V_4 expectation.
 func NewCall6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, varArgs []Matcher) *Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4] {
-	return &Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4]{
-		FinalizedCall6V: FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		m6:              m6,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4]{
+		FinalizedCall6V: FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall6V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, A6, ...VA)) *Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4] {
@@ -10569,18 +11740,29 @@ type Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, ...VA) (R1, R2, R3, R4, R5)
 }
 
+func (c *Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.varArgs...), c.origin)
+}
+
 // NewCall6V_5 creates a new Call6V_5 expectation.
 func NewCall6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, varArgs []Matcher) *Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5] {
-	return &Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5]{
-		FinalizedCall6V: FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		m6:              m6,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5]{
+		FinalizedCall6V: FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall6V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, A6, ...VA)) *Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5] {
@@ -10640,19 +11822,30 @@ type Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA any] struct {
 	varArgs []Matcher
 }
 
+func (c *Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.varArgs...), c.origin)
+}
+
 // NewCall7V_0 creates a new Call7V_0 expectation.
 func NewCall7V_0[A1, A2, A3, A4, A5, A6, A7, VA any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, varArgs []Matcher) *Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA] {
-	return &Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA]{
-		FinalizedCall7V: FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		m6:              m6,
-		m7:              m7,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA]{
+		FinalizedCall7V: FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall7V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA]) Do(f func(A1, A2, A3, A4, A5, A6, A7, ...VA)) *Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA] {
@@ -10700,19 +11893,30 @@ type Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, ...VA) R1
 }
 
+func (c *Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.varArgs...), c.origin)
+}
+
 // NewCall7V_1 creates a new Call7V_1 expectation.
 func NewCall7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, varArgs []Matcher) *Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1] {
-	return &Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1]{
-		FinalizedCall7V: FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		m6:              m6,
-		m7:              m7,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1]{
+		FinalizedCall7V: FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall7V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1]) Do(f func(A1, A2, A3, A4, A5, A6, A7, ...VA)) *Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1] {
@@ -10771,19 +11975,30 @@ type Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, ...VA) (R1, R2)
 }
 
+func (c *Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.varArgs...), c.origin)
+}
+
 // NewCall7V_2 creates a new Call7V_2 expectation.
 func NewCall7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, varArgs []Matcher) *Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2] {
-	return &Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2]{
-		FinalizedCall7V: FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		m6:              m6,
-		m7:              m7,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2]{
+		FinalizedCall7V: FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall7V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2]) Do(f func(A1, A2, A3, A4, A5, A6, A7, ...VA)) *Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2] {
@@ -10844,19 +12059,30 @@ type Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, ...VA) (R1, R2, R3)
 }
 
+func (c *Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.varArgs...), c.origin)
+}
+
 // NewCall7V_3 creates a new Call7V_3 expectation.
 func NewCall7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, varArgs []Matcher) *Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3] {
-	return &Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3]{
-		FinalizedCall7V: FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		m6:              m6,
-		m7:              m7,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3]{
+		FinalizedCall7V: FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall7V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, A6, A7, ...VA)) *Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3] {
@@ -10919,19 +12145,30 @@ type Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, ...VA) (R1, R2, R3, R4)
 }
 
+func (c *Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.varArgs...), c.origin)
+}
+
 // NewCall7V_4 creates a new Call7V_4 expectation.
 func NewCall7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, varArgs []Matcher) *Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4] {
-	return &Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4]{
-		FinalizedCall7V: FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		m6:              m6,
-		m7:              m7,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4]{
+		FinalizedCall7V: FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall7V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, A6, A7, ...VA)) *Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4] {
@@ -10996,19 +12233,30 @@ type Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, ...VA) (R1, R2, R3, R4, R5)
 }
 
+func (c *Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.varArgs...), c.origin)
+}
+
 // NewCall7V_5 creates a new Call7V_5 expectation.
 func NewCall7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, varArgs []Matcher) *Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5] {
-	return &Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5]{
-		FinalizedCall7V: FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		m6:              m6,
-		m7:              m7,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5]{
+		FinalizedCall7V: FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall7V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, A6, A7, ...VA)) *Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5] {
@@ -11069,20 +12317,31 @@ type Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA any] struct {
 	varArgs []Matcher
 }
 
+func (c *Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.varArgs...), c.origin)
+}
+
 // NewCall8V_0 creates a new Call8V_0 expectation.
 func NewCall8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, varArgs []Matcher) *Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
-	return &Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA]{
-		FinalizedCall8V: FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		m6:              m6,
-		m7:              m7,
-		m8:              m8,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA]{
+		FinalizedCall8V: FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall8V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA)) *Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
@@ -11131,20 +12390,31 @@ type Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA) R1
 }
 
+func (c *Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.varArgs...), c.origin)
+}
+
 // NewCall8V_1 creates a new Call8V_1 expectation.
 func NewCall8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, varArgs []Matcher) *Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1] {
-	return &Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1]{
-		FinalizedCall8V: FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		m6:              m6,
-		m7:              m7,
-		m8:              m8,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1]{
+		FinalizedCall8V: FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall8V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA)) *Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1] {
@@ -11204,20 +12474,31 @@ type Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA) (R1, R2)
 }
 
+func (c *Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.varArgs...), c.origin)
+}
+
 // NewCall8V_2 creates a new Call8V_2 expectation.
 func NewCall8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, varArgs []Matcher) *Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2] {
-	return &Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2]{
-		FinalizedCall8V: FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		m6:              m6,
-		m7:              m7,
-		m8:              m8,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2]{
+		FinalizedCall8V: FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall8V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA)) *Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2] {
@@ -11279,20 +12560,31 @@ type Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA) (R1, R2, R3)
 }
 
+func (c *Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.varArgs...), c.origin)
+}
+
 // NewCall8V_3 creates a new Call8V_3 expectation.
 func NewCall8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, varArgs []Matcher) *Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3] {
-	return &Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3]{
-		FinalizedCall8V: FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		m6:              m6,
-		m7:              m7,
-		m8:              m8,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3]{
+		FinalizedCall8V: FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall8V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA)) *Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3] {
@@ -11356,20 +12648,31 @@ type Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4 any] struct {
 	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA) (R1, R2, R3, R4)
 }
 
+func (c *Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.varArgs...), c.origin)
+}
+
 // NewCall8V_4 creates a new Call8V_4 expectation.
 func NewCall8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, varArgs []Matcher) *Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4] {
-	return &Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4]{
-		FinalizedCall8V: FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		m6:              m6,
-		m7:              m7,
-		m8:              m8,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4]{
+		FinalizedCall8V: FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall8V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA)) *Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4] {
@@ -11435,20 +12738,31 @@ type Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5 any] struct
 	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA) (R1, R2, R3, R4, R5)
 }
 
+func (c *Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.varArgs...), c.origin)
+}
+
 // NewCall8V_5 creates a new Call8V_5 expectation.
 func NewCall8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, varArgs []Matcher) *Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5] {
-	return &Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5]{
-		FinalizedCall8V: FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]{Call: newCall(t, receiver, method, 2)},
-		m1:              m1,
-		m2:              m2,
-		m3:              m3,
-		m4:              m4,
-		m5:              m5,
-		m6:              m6,
-		m7:              m7,
-		m8:              m8,
-		varArgs:         varArgs,
+	t.Helper()
+	c := &Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5]{
+		FinalizedCall8V: FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		varArgs: varArgs,
 	}
+	c.FinalizedCall8V.Call = newCall(t, c)
+	return c
 }
 
 func (c *Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA)) *Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5] {

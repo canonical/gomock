@@ -366,8 +366,11 @@ func writeFinalizedCall(buf *bytes.Buffer, n int) {
 		"\n// %s is the finalized call wrapper for %d-arg methods.\n"+
 			"// It is returned by Return and DoAndReturn.\n"+
 			"type %s%s struct {\n"+
-			"\tCall  *Call\n"+
-			"\tdoFns []%s\n"+
+			"\tCall     *Call\n"+
+			"\treceiver any\n"+
+			"\tmethod   string\n"+
+			"\torigin   string\n"+
+			"\tdoFns    []%s\n"+
 			"}\n",
 		name, n, name, tp, doFunc,
 	)
@@ -375,6 +378,14 @@ func writeFinalizedCall(buf *bytes.Buffer, n int) {
 	// getCall implements CallHolder.
 	fmt.Fprintf(buf,
 		"\nfunc (c %s) getCall() *Call { return c.Call }\n",
+		self,
+	)
+
+	// String implements fmt.Stringer.
+	fmt.Fprintf(buf,
+		"\nfunc (c %s) String() string {\n"+
+			"\treturn formatCallString(c.receiver, c.method, nil, c.origin)\n"+
+			"}\n",
 		self,
 	)
 
@@ -405,14 +416,25 @@ func writeFinalizedCallV(buf *bytes.Buffer, n int) {
 			" for %d-arg variadic methods.\n"+
 			"// It is returned by Return and DoAndReturn.\n"+
 			"type %s%s struct {\n"+
-			"\tCall  *Call\n"+
-			"\tdoFns []%s\n"+
+			"\tCall     *Call\n"+
+			"\treceiver any\n"+
+			"\tmethod   string\n"+
+			"\torigin   string\n"+
+			"\tdoFns    []%s\n"+
 			"}\n",
 		name, n, name, tp, doFunc,
 	)
 
 	fmt.Fprintf(buf,
 		"\nfunc (c %s) getCall() *Call { return c.Call }\n",
+		self,
+	)
+
+	// String implements fmt.Stringer.
+	fmt.Fprintf(buf,
+		"\nfunc (c %s) String() string {\n"+
+			"\treturn formatCallString(c.receiver, c.method, nil, c.origin)\n"+
+			"}\n",
 		self,
 	)
 
@@ -488,27 +510,52 @@ func writeCallType(buf *bytes.Buffer, n, m int) {
 		ctorExtra = ", " + strings.Join(mps, ", ")
 	}
 	ctorTA := allTypeArgs(n, m)
-	embedded := fmt.Sprintf(
-		"%s%s{Call: newCall(t, receiver, method, 2)}",
-		finName, finArgs,
+	// String implements fmt.Stringer.
+	var matchersArg string
+	if n == 0 {
+		matchersArg = "nil"
+	} else {
+		parts := make([]string, n)
+		for i := range parts {
+			parts[i] = fmt.Sprintf("c.m%d", i+1)
+		}
+		matchersArg = "[]Matcher{" + strings.Join(parts, ", ") + "}"
+	}
+	fmt.Fprintf(buf,
+		"\nfunc (c %s) String() string {\n"+
+			"\treturn formatCallString(c.receiver, c.method, %s, c.origin)\n"+
+			"}\n",
+		self, matchersArg,
 	)
+
 	fmt.Fprintf(buf,
 		"\n// NewCall%d_%d creates a new %s expectation.\n"+
 			"func NewCall%d_%d%s("+
 			"t TestHelper, receiver any, method string%s"+
 			") *%s%s {\n"+
-			"\treturn &%s%s{\n"+
-			"\t\t%s: %s,\n",
+			"\tt.Helper()\n"+
+			"\tc := &%s%s{\n"+
+			"\t\t%s: %s%s{\n"+
+			"\t\t\treceiver: receiver,\n"+
+			"\t\t\tmethod:   method,\n"+
+			"\t\t\torigin:   callerInfo(2),\n"+
+			"\t\t},\n",
 		n, m, name,
 		n, m, tp, ctorExtra,
 		name, ctorTA,
 		name, ctorTA,
-		finName, embedded,
+		finName, finName, finArgs,
 	)
 	for i := 1; i <= n; i++ {
 		fmt.Fprintf(buf, "\t\tm%d: m%d,\n", i, i)
 	}
-	buf.WriteString("\t}\n}\n")
+	fmt.Fprintf(buf,
+		"\t}\n"+
+			"\tc.%s.Call = newCall(t, c)\n"+
+			"\treturn c\n"+
+			"}\n",
+		finName,
+	)
 
 	// Do override — returns *CallN_M to preserve the specific type.
 	fmt.Fprintf(buf,
@@ -593,28 +640,53 @@ func writeCallTypeV(buf *bytes.Buffer, n, m int) {
 	mps = append(mps, "varArgs []Matcher")
 	ctorExtra := ", " + strings.Join(mps, ", ")
 	ctorTA := allVTypeArgs(n, m)
-	embedded := fmt.Sprintf(
-		"%s%s{Call: newCall(t, receiver, method, 2)}",
-		finName, finArgs,
+	// String implements fmt.Stringer.
+	var matchersArg string
+	if n == 0 {
+		matchersArg = "c.varArgs"
+	} else {
+		parts := make([]string, n)
+		for i := range parts {
+			parts[i] = fmt.Sprintf("c.m%d", i+1)
+		}
+		matchersArg = "append([]Matcher{" + strings.Join(parts, ", ") + "}, c.varArgs...)"
+	}
+	fmt.Fprintf(buf,
+		"\nfunc (c %s) String() string {\n"+
+			"\treturn formatCallString(c.receiver, c.method, %s, c.origin)\n"+
+			"}\n",
+		self, matchersArg,
 	)
+
 	fmt.Fprintf(buf,
 		"\n// NewCall%dV_%d creates a new %s expectation.\n"+
 			"func NewCall%dV_%d%s("+
 			"t TestHelper, receiver any, method string%s"+
 			") *%s%s {\n"+
-			"\treturn &%s%s{\n"+
-			"\t\t%s: %s,\n",
+			"\tt.Helper()\n"+
+			"\tc := &%s%s{\n"+
+			"\t\t%s: %s%s{\n"+
+			"\t\t\treceiver: receiver,\n"+
+			"\t\t\tmethod:   method,\n"+
+			"\t\t\torigin:   callerInfo(2),\n"+
+			"\t\t},\n",
 		n, m, name,
 		n, m, tp, ctorExtra,
 		name, ctorTA,
 		name, ctorTA,
-		finName, embedded,
+		finName, finName, finArgs,
 	)
 	for i := 1; i <= n; i++ {
 		fmt.Fprintf(buf, "\t\tm%d: m%d,\n", i, i)
 	}
-	fmt.Fprintf(buf, "\t\tvarArgs: varArgs,\n")
-	buf.WriteString("\t}\n}\n")
+	fmt.Fprintf(buf,
+		"\t\tvarArgs: varArgs,\n"+
+			"\t}\n"+
+			"\tc.%s.Call = newCall(t, c)\n"+
+			"\treturn c\n"+
+			"}\n",
+		finName,
+	)
 
 	// Do override — returns *CallNV_M to preserve the specific type.
 	fmt.Fprintf(buf,

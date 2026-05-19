@@ -16,15 +16,13 @@ package gomock
 
 import (
 	"fmt"
+	"strings"
 )
 
 // Call represents an expected call to a mock.
 type Call struct {
-	t TestHelper // for triggering test failures on invalid call setup
-
-	receiver any    // the receiver of the method call
-	method   string // the name of the method
-	origin   string // file and line number of call setup
+	t        TestHelper   // for triggering test failures on invalid call setup
+	stringer fmt.Stringer // returns a human-readable description
 
 	preReqs []*Call // prerequisite calls
 
@@ -44,33 +42,38 @@ type CallHolder interface {
 // getCall implements CallHolder.
 func (c *Call) getCall() *Call { return c }
 
-// newCall creates an expected-call record.
-// callerSkip is the number of extra stack frames above newCall to
-// skip so that the reported origin points at the user's test code.
-//
-// Convention: when newCall is called from a generated NewCallN_M
-// constructor, which is itself called by a generated recorder method,
-// which is called by test code, the stack is:
-//
-//	callerInfo -> newCall -> NewCallN_M -> recorder.Method -> TestCode
-//
-// Pass callerSkip=2 so callerInfo(3) -> runtime.Caller(4) lands on
-// TestCode.
-func newCall(
-	t TestHelper,
-	receiver any,
-	method string,
-	callerSkip int,
-) *Call {
+// newCall creates an expected-call record. stringer provides the
+// human-readable description returned by String(); it is typically
+// the generated *CallN_M value itself.
+func newCall(t TestHelper, stringer fmt.Stringer) *Call {
 	t.Helper()
 	return &Call{
 		t:        t,
-		receiver: receiver,
-		method:   method,
-		origin:   callerInfo(callerSkip + 1),
+		stringer: stringer,
 		minCalls: 1,
 		maxCalls: 1,
 	}
+}
+
+// formatCallString builds a human-readable description of a call,
+// showing the receiver type, method name, matcher strings, and
+// the file/line origin of the expectation.
+func formatCallString(
+	receiver any,
+	method string,
+	args []Matcher,
+	origin string,
+) string {
+	parts := make([]string, len(args))
+	for i, a := range args {
+		parts[i] = a.String()
+	}
+	return fmt.Sprintf(
+		"%T.%s(%s) %s",
+		receiver, method,
+		strings.Join(parts, ", "),
+		origin,
+	)
 }
 
 // AnyTimes allows the expectation to be called 0 or more times.
@@ -156,9 +159,7 @@ func (c *Call) exhausted() bool {
 
 // String returns a human-readable description of the expected call.
 func (c *Call) String() string {
-	return fmt.Sprintf(
-		"%T.%v(...) %s", c.receiver, c.method, c.origin,
-	)
+	return c.stringer.String()
 }
 
 // dropPrereqs tells the expected Call to stop re-checking
