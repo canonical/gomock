@@ -10,8 +10,6 @@
 package typed_inorder
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 )
 
@@ -24,13 +22,15 @@ type MockAnimal struct {
 
 // MockAnimalMockRecorder is the mock recorder for MockAnimal.
 type MockAnimalMockRecorder struct {
-	mock *MockAnimal
+	mock            *MockAnimal
+	feedExpects     []*gomock.Call1_1[string, error]
+	getSoundExpects []*gomock.Call0_1[string]
 }
 
 // NewMockAnimal creates a new mock instance.
 func NewMockAnimal(ctrl *gomock.Controller) *MockAnimal {
 	mock := &MockAnimal{ctrl: ctrl}
-	mock.recorder = &MockAnimalMockRecorder{mock}
+	mock.recorder = &MockAnimalMockRecorder{mock: mock}
 	return mock
 }
 
@@ -42,14 +42,16 @@ func (m *MockAnimal) EXPECT() *MockAnimalMockRecorder {
 // Feed mocks base method.
 func (m *MockAnimal) Feed(arg0 string) error {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[error](m.ctrl.Call(m, "Feed", arg0))
+	return gomock.Dispatch1_1(&m.recorder.feedExpects, m.ctrl, m, "Feed", arg0)
 }
 
 // Feed indicates an expected call of Feed.
 func (mr *MockAnimalMockRecorder) Feed(arg0 any) *MockAnimalFeedCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Feed", reflect.TypeOf((*MockAnimal)(nil).Feed), arg0)
-	return &MockAnimalFeedCall{Call: call}
+	call := gomock.NewCall1_1[string, error](mr.mock.ctrl.T, mr.mock, "Feed", gomock.EnsureMatcher(arg0))
+	mr.feedExpects = append(mr.feedExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockAnimalFeedCall is the typed call wrapper for Feed.
@@ -58,14 +60,16 @@ type MockAnimalFeedCall = gomock.Call1_1[string, error]
 // GetSound mocks base method.
 func (m *MockAnimal) GetSound() string {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[string](m.ctrl.Call(m, "GetSound"))
+	return gomock.Dispatch0_1(&m.recorder.getSoundExpects, m.ctrl, m, "GetSound")
 }
 
 // GetSound indicates an expected call of GetSound.
 func (mr *MockAnimalMockRecorder) GetSound() *MockAnimalGetSoundCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSound", reflect.TypeOf((*MockAnimal)(nil).GetSound))
-	return &MockAnimalGetSoundCall{Call: call}
+	call := gomock.NewCall0_1[string](mr.mock.ctrl.T, mr.mock, "GetSound")
+	mr.getSoundExpects = append(mr.getSoundExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockAnimalGetSoundCall is the typed call wrapper for GetSound.

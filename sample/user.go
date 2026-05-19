@@ -112,9 +112,3 @@ func Remember(index Index, keys []string, values []any) {
 		index.EllipOnly("arg")
 	}
 }
-
-func GrabPointer(index Index) int {
-	var a int
-	index.Ptr(&a)
-	return a
-}

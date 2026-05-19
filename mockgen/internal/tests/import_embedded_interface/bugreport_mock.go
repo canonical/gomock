@@ -10,8 +10,6 @@
 package bugreport
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 	ersatz "github.com/canonical/gomock/mockgen/internal/tests/import_embedded_interface/ersatz"
 	ersatz0 "github.com/canonical/gomock/mockgen/internal/tests/import_embedded_interface/other/ersatz"
@@ -26,13 +24,17 @@ type MockSource struct {
 
 // MockSourceMockRecorder is the mock recorder for MockSource.
 type MockSourceMockRecorder struct {
-	mock *MockSource
+	mock               *MockSource
+	barExpects         []*gomock.Call0_1[Baz]
+	errorExpects       []*gomock.Call0_1[string]
+	ersatzExpects      []*gomock.Call0_1[ersatz.Return]
+	otherErsatzExpects []*gomock.Call0_1[ersatz0.Return]
 }
 
 // NewMockSource creates a new mock instance.
 func NewMockSource(ctrl *gomock.Controller) *MockSource {
 	mock := &MockSource{ctrl: ctrl}
-	mock.recorder = &MockSourceMockRecorder{mock}
+	mock.recorder = &MockSourceMockRecorder{mock: mock}
 	return mock
 }
 
@@ -44,14 +46,16 @@ func (m *MockSource) EXPECT() *MockSourceMockRecorder {
 // Bar mocks base method.
 func (m *MockSource) Bar() Baz {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[Baz](m.ctrl.Call(m, "Bar"))
+	return gomock.Dispatch0_1(&m.recorder.barExpects, m.ctrl, m, "Bar")
 }
 
 // Bar indicates an expected call of Bar.
 func (mr *MockSourceMockRecorder) Bar() *MockSourceBarCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Bar", reflect.TypeOf((*MockSource)(nil).Bar))
-	return &MockSourceBarCall{Call: call}
+	call := gomock.NewCall0_1[Baz](mr.mock.ctrl.T, mr.mock, "Bar")
+	mr.barExpects = append(mr.barExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockSourceBarCall is the typed call wrapper for Bar.
@@ -60,14 +64,16 @@ type MockSourceBarCall = gomock.Call0_1[Baz]
 // Error mocks base method.
 func (m *MockSource) Error() string {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[string](m.ctrl.Call(m, "Error"))
+	return gomock.Dispatch0_1(&m.recorder.errorExpects, m.ctrl, m, "Error")
 }
 
 // Error indicates an expected call of Error.
 func (mr *MockSourceMockRecorder) Error() *MockSourceErrorCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Error", reflect.TypeOf((*MockSource)(nil).Error))
-	return &MockSourceErrorCall{Call: call}
+	call := gomock.NewCall0_1[string](mr.mock.ctrl.T, mr.mock, "Error")
+	mr.errorExpects = append(mr.errorExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockSourceErrorCall is the typed call wrapper for Error.
@@ -76,14 +82,16 @@ type MockSourceErrorCall = gomock.Call0_1[string]
 // Ersatz mocks base method.
 func (m *MockSource) Ersatz() ersatz.Return {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[ersatz.Return](m.ctrl.Call(m, "Ersatz"))
+	return gomock.Dispatch0_1(&m.recorder.ersatzExpects, m.ctrl, m, "Ersatz")
 }
 
 // Ersatz indicates an expected call of Ersatz.
 func (mr *MockSourceMockRecorder) Ersatz() *MockSourceErsatzCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Ersatz", reflect.TypeOf((*MockSource)(nil).Ersatz))
-	return &MockSourceErsatzCall{Call: call}
+	call := gomock.NewCall0_1[ersatz.Return](mr.mock.ctrl.T, mr.mock, "Ersatz")
+	mr.ersatzExpects = append(mr.ersatzExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockSourceErsatzCall is the typed call wrapper for Ersatz.
@@ -92,14 +100,16 @@ type MockSourceErsatzCall = gomock.Call0_1[ersatz.Return]
 // OtherErsatz mocks base method.
 func (m *MockSource) OtherErsatz() ersatz0.Return {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[ersatz0.Return](m.ctrl.Call(m, "OtherErsatz"))
+	return gomock.Dispatch0_1(&m.recorder.otherErsatzExpects, m.ctrl, m, "OtherErsatz")
 }
 
 // OtherErsatz indicates an expected call of OtherErsatz.
 func (mr *MockSourceMockRecorder) OtherErsatz() *MockSourceOtherErsatzCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OtherErsatz", reflect.TypeOf((*MockSource)(nil).OtherErsatz))
-	return &MockSourceOtherErsatzCall{Call: call}
+	call := gomock.NewCall0_1[ersatz0.Return](mr.mock.ctrl.T, mr.mock, "OtherErsatz")
+	mr.otherErsatzExpects = append(mr.otherErsatzExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockSourceOtherErsatzCall is the typed call wrapper for OtherErsatz.

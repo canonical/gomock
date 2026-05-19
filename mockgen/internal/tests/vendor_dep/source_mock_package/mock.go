@@ -10,8 +10,6 @@
 package mock_vendor_dep
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 	present "golang.org/x/tools/present"
 )
@@ -25,13 +23,14 @@ type MockVendorsDep struct {
 
 // MockVendorsDepMockRecorder is the mock recorder for MockVendorsDep.
 type MockVendorsDepMockRecorder struct {
-	mock *MockVendorsDep
+	mock       *MockVendorsDep
+	fooExpects []*gomock.Call0_1[present.Elem]
 }
 
 // NewMockVendorsDep creates a new mock instance.
 func NewMockVendorsDep(ctrl *gomock.Controller) *MockVendorsDep {
 	mock := &MockVendorsDep{ctrl: ctrl}
-	mock.recorder = &MockVendorsDepMockRecorder{mock}
+	mock.recorder = &MockVendorsDepMockRecorder{mock: mock}
 	return mock
 }
 
@@ -43,14 +42,16 @@ func (m *MockVendorsDep) EXPECT() *MockVendorsDepMockRecorder {
 // Foo mocks base method.
 func (m *MockVendorsDep) Foo() present.Elem {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[present.Elem](m.ctrl.Call(m, "Foo"))
+	return gomock.Dispatch0_1(&m.recorder.fooExpects, m.ctrl, m, "Foo")
 }
 
 // Foo indicates an expected call of Foo.
 func (mr *MockVendorsDepMockRecorder) Foo() *MockVendorsDepFooCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Foo", reflect.TypeOf((*MockVendorsDep)(nil).Foo))
-	return &MockVendorsDepFooCall{Call: call}
+	call := gomock.NewCall0_1[present.Elem](mr.mock.ctrl.T, mr.mock, "Foo")
+	mr.fooExpects = append(mr.fooExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockVendorsDepFooCall is the typed call wrapper for Foo.

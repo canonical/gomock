@@ -10,8 +10,6 @@
 package bugreport
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 	faux "github.com/canonical/gomock/mockgen/internal/tests/aux_imports_embedded_interface/faux"
 )
@@ -25,13 +23,15 @@ type MockSource struct {
 
 // MockSourceMockRecorder is the mock recorder for MockSource.
 type MockSourceMockRecorder struct {
-	mock *MockSource
+	mock          *MockSource
+	errorExpects  []*gomock.Call0_1[string]
+	methodExpects []*gomock.Call0_1[faux.Return]
 }
 
 // NewMockSource creates a new mock instance.
 func NewMockSource(ctrl *gomock.Controller) *MockSource {
 	mock := &MockSource{ctrl: ctrl}
-	mock.recorder = &MockSourceMockRecorder{mock}
+	mock.recorder = &MockSourceMockRecorder{mock: mock}
 	return mock
 }
 
@@ -43,14 +43,16 @@ func (m *MockSource) EXPECT() *MockSourceMockRecorder {
 // Error mocks base method.
 func (m *MockSource) Error() string {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[string](m.ctrl.Call(m, "Error"))
+	return gomock.Dispatch0_1(&m.recorder.errorExpects, m.ctrl, m, "Error")
 }
 
 // Error indicates an expected call of Error.
 func (mr *MockSourceMockRecorder) Error() *MockSourceErrorCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Error", reflect.TypeOf((*MockSource)(nil).Error))
-	return &MockSourceErrorCall{Call: call}
+	call := gomock.NewCall0_1[string](mr.mock.ctrl.T, mr.mock, "Error")
+	mr.errorExpects = append(mr.errorExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockSourceErrorCall is the typed call wrapper for Error.
@@ -59,14 +61,16 @@ type MockSourceErrorCall = gomock.Call0_1[string]
 // Method mocks base method.
 func (m *MockSource) Method() faux.Return {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[faux.Return](m.ctrl.Call(m, "Method"))
+	return gomock.Dispatch0_1(&m.recorder.methodExpects, m.ctrl, m, "Method")
 }
 
 // Method indicates an expected call of Method.
 func (mr *MockSourceMockRecorder) Method() *MockSourceMethodCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Method", reflect.TypeOf((*MockSource)(nil).Method))
-	return &MockSourceMethodCall{Call: call}
+	call := gomock.NewCall0_1[faux.Return](mr.mock.ctrl.T, mr.mock, "Method")
+	mr.methodExpects = append(mr.methodExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockSourceMethodCall is the typed call wrapper for Method.

@@ -119,18 +119,6 @@ func TestVariadicFunction(t *testing.T) {
 	mockIndex.Ellip("%d")
 }
 
-func TestGrabPointer(t *testing.T) {
-	ctrl := gomock.NewController(t)
-
-	mockIndex := NewMockIndex(ctrl)
-	mockIndex.EXPECT().Ptr(gomock.Any()).SetArg(0, 7) // set first argument to 7
-
-	i := user.GrabPointer(mockIndex)
-	if i != 7 {
-		t.Errorf("Expected 7, got %d", i)
-	}
-}
-
 func TestEmbeddedInterface(t *testing.T) {
 	ctrl := gomock.NewController(t)
 

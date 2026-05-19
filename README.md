@@ -32,16 +32,9 @@ export PATH=$PATH:$(go env GOPATH)/bin
 
 ## Running mockgen
 
-`mockgen` generates mock implementations of Go interfaces by specifying
-the package and interface names.
-
-### Package mode
-
-Package mode works by specifying the package and interface names.
-It is enabled by passing two non-flag arguments: an import path, and a
-comma-separated list of symbols.
-
-You can use "." to refer to the current path's package.
+`mockgen` generates mock implementations of Go interfaces by passing
+two non-flag arguments: an import path, and a comma-separated list of
+symbols. You can use "." to refer to the current path's package.
 
 Example:
 
@@ -65,7 +58,10 @@ It supports the following flags:
   source code. If you don't set this, the package name is `mock_` concatenated
   with the package of the input file.
 
-- `-build_flags`: (package mode only) Flags passed verbatim to `go list`.
+- `-build_flags`: Flags passed verbatim to `go list`.
+
+- `-build_constraint`: If non-empty, added as `//go:build <constraint>` to the
+  generated file.
 
 - `-mock_names`: A list of custom names for generated mocks. This is specified
   as a comma-separated list of elements of the form
@@ -86,13 +82,14 @@ It supports the following flags:
 
 - `-debug_parser`: Print out parser results only.
 
+- `-write_command_comment`: Writes the command used to generate the mock as a
+  comment if true. (default true)
+
 - `-write_package_comment`: Writes package documentation comment (godoc) if true. (default true)
 
 - `-write_generate_directive`: Add //go:generate directive to regenerate the mock. (default false)
 
-- `-write_source_comment`: Writes interface names (package mode) comment if true. (default true)
-
-- `-exclude_interfaces`: Comma-separated names of interfaces to be excluded
+- `-write_source_comment`: Writes source interface names comment if true. (default true)
 
 For an example of the use of `mockgen`, see the `sample/` directory.
 

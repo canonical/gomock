@@ -13,7 +13,6 @@ import (
 	bytes "bytes"
 	context "context"
 	http "net/http"
-	reflect "reflect"
 
 	gomock "github.com/canonical/gomock/gomock"
 )
@@ -27,13 +26,16 @@ type MockWithDotImports struct {
 
 // MockWithDotImportsMockRecorder is the mock recorder for MockWithDotImports.
 type MockWithDotImportsMockRecorder struct {
-	mock *MockWithDotImports
+	mock           *MockWithDotImports
+	method1Expects []*gomock.Call0_1[http.Request]
+	method2Expects []*gomock.Call0_1[*bytes.Buffer]
+	method3Expects []*gomock.Call0_1[context.Context]
 }
 
 // NewMockWithDotImports creates a new mock instance.
 func NewMockWithDotImports(ctrl *gomock.Controller) *MockWithDotImports {
 	mock := &MockWithDotImports{ctrl: ctrl}
-	mock.recorder = &MockWithDotImportsMockRecorder{mock}
+	mock.recorder = &MockWithDotImportsMockRecorder{mock: mock}
 	return mock
 }
 
@@ -45,14 +47,16 @@ func (m *MockWithDotImports) EXPECT() *MockWithDotImportsMockRecorder {
 // Method1 mocks base method.
 func (m *MockWithDotImports) Method1() http.Request {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[http.Request](m.ctrl.Call(m, "Method1"))
+	return gomock.Dispatch0_1(&m.recorder.method1Expects, m.ctrl, m, "Method1")
 }
 
 // Method1 indicates an expected call of Method1.
 func (mr *MockWithDotImportsMockRecorder) Method1() *MockWithDotImportsMethod1Call {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Method1", reflect.TypeOf((*MockWithDotImports)(nil).Method1))
-	return &MockWithDotImportsMethod1Call{Call: call}
+	call := gomock.NewCall0_1[http.Request](mr.mock.ctrl.T, mr.mock, "Method1")
+	mr.method1Expects = append(mr.method1Expects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockWithDotImportsMethod1Call is the typed call wrapper for Method1.
@@ -61,14 +65,16 @@ type MockWithDotImportsMethod1Call = gomock.Call0_1[http.Request]
 // Method2 mocks base method.
 func (m *MockWithDotImports) Method2() *bytes.Buffer {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[*bytes.Buffer](m.ctrl.Call(m, "Method2"))
+	return gomock.Dispatch0_1(&m.recorder.method2Expects, m.ctrl, m, "Method2")
 }
 
 // Method2 indicates an expected call of Method2.
 func (mr *MockWithDotImportsMockRecorder) Method2() *MockWithDotImportsMethod2Call {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Method2", reflect.TypeOf((*MockWithDotImports)(nil).Method2))
-	return &MockWithDotImportsMethod2Call{Call: call}
+	call := gomock.NewCall0_1[*bytes.Buffer](mr.mock.ctrl.T, mr.mock, "Method2")
+	mr.method2Expects = append(mr.method2Expects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockWithDotImportsMethod2Call is the typed call wrapper for Method2.
@@ -77,14 +83,16 @@ type MockWithDotImportsMethod2Call = gomock.Call0_1[*bytes.Buffer]
 // Method3 mocks base method.
 func (m *MockWithDotImports) Method3() context.Context {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[context.Context](m.ctrl.Call(m, "Method3"))
+	return gomock.Dispatch0_1(&m.recorder.method3Expects, m.ctrl, m, "Method3")
 }
 
 // Method3 indicates an expected call of Method3.
 func (mr *MockWithDotImportsMockRecorder) Method3() *MockWithDotImportsMethod3Call {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Method3", reflect.TypeOf((*MockWithDotImports)(nil).Method3))
-	return &MockWithDotImportsMethod3Call{Call: call}
+	call := gomock.NewCall0_1[context.Context](mr.mock.ctrl.T, mr.mock, "Method3")
+	mr.method3Expects = append(mr.method3Expects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockWithDotImportsMethod3Call is the typed call wrapper for Method3.

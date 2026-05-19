@@ -10,8 +10,6 @@
 package users_test
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 	users "github.com/canonical/gomock/mockgen/internal/tests/mock_in_test_package"
 )
@@ -25,13 +23,15 @@ type MockFinder struct {
 
 // MockFinderMockRecorder is the mock recorder for MockFinder.
 type MockFinderMockRecorder struct {
-	mock *MockFinder
+	mock            *MockFinder
+	addExpects      []*gomock.Call1_0[users.User]
+	findUserExpects []*gomock.Call1_1[string, users.User]
 }
 
 // NewMockFinder creates a new mock instance.
 func NewMockFinder(ctrl *gomock.Controller) *MockFinder {
 	mock := &MockFinder{ctrl: ctrl}
-	mock.recorder = &MockFinderMockRecorder{mock}
+	mock.recorder = &MockFinderMockRecorder{mock: mock}
 	return mock
 }
 
@@ -43,14 +43,16 @@ func (m *MockFinder) EXPECT() *MockFinderMockRecorder {
 // Add mocks base method.
 func (m *MockFinder) Add(u users.User) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Add", u)
+	gomock.Dispatch1_0(&m.recorder.addExpects, m.ctrl, m, "Add", u)
 }
 
 // Add indicates an expected call of Add.
 func (mr *MockFinderMockRecorder) Add(u any) *MockFinderAddCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Add", reflect.TypeOf((*MockFinder)(nil).Add), u)
-	return &MockFinderAddCall{Call: call}
+	call := gomock.NewCall1_0[users.User](mr.mock.ctrl.T, mr.mock, "Add", gomock.EnsureMatcher(u))
+	mr.addExpects = append(mr.addExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockFinderAddCall is the typed call wrapper for Add.
@@ -59,14 +61,16 @@ type MockFinderAddCall = gomock.Call1_0[users.User]
 // FindUser mocks base method.
 func (m *MockFinder) FindUser(name string) users.User {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[users.User](m.ctrl.Call(m, "FindUser", name))
+	return gomock.Dispatch1_1(&m.recorder.findUserExpects, m.ctrl, m, "FindUser", name)
 }
 
 // FindUser indicates an expected call of FindUser.
 func (mr *MockFinderMockRecorder) FindUser(name any) *MockFinderFindUserCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUser", reflect.TypeOf((*MockFinder)(nil).FindUser), name)
-	return &MockFinderFindUserCall{Call: call}
+	call := gomock.NewCall1_1[string, users.User](mr.mock.ctrl.T, mr.mock, "FindUser", gomock.EnsureMatcher(name))
+	mr.findUserExpects = append(mr.findUserExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockFinderFindUserCall is the typed call wrapper for FindUser.

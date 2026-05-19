@@ -10,8 +10,6 @@
 package mock
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 	alias "github.com/canonical/gomock/mockgen/internal/tests/alias"
 	subpkg "github.com/canonical/gomock/mockgen/internal/tests/alias/subpkg"
@@ -26,13 +24,14 @@ type MockFooer struct {
 
 // MockFooerMockRecorder is the mock recorder for MockFooer.
 type MockFooerMockRecorder struct {
-	mock *MockFooer
+	mock       *MockFooer
+	fooExpects []*gomock.Call0_0
 }
 
 // NewMockFooer creates a new mock instance.
 func NewMockFooer(ctrl *gomock.Controller) *MockFooer {
 	mock := &MockFooer{ctrl: ctrl}
-	mock.recorder = &MockFooerMockRecorder{mock}
+	mock.recorder = &MockFooerMockRecorder{mock: mock}
 	return mock
 }
 
@@ -44,14 +43,16 @@ func (m *MockFooer) EXPECT() *MockFooerMockRecorder {
 // Foo mocks base method.
 func (m *MockFooer) Foo() {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Foo")
+	gomock.Dispatch0_0(&m.recorder.fooExpects, m.ctrl, m, "Foo")
 }
 
 // Foo indicates an expected call of Foo.
 func (mr *MockFooerMockRecorder) Foo() *MockFooerFooCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Foo", reflect.TypeOf((*MockFooer)(nil).Foo))
-	return &MockFooerFooCall{Call: call}
+	call := gomock.NewCall0_0(mr.mock.ctrl.T, mr.mock, "Foo")
+	mr.fooExpects = append(mr.fooExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockFooerFooCall is the typed call wrapper for Foo.
@@ -66,13 +67,14 @@ type MockFooerAlias struct {
 
 // MockFooerAliasMockRecorder is the mock recorder for MockFooerAlias.
 type MockFooerAliasMockRecorder struct {
-	mock *MockFooerAlias
+	mock       *MockFooerAlias
+	fooExpects []*gomock.Call0_0
 }
 
 // NewMockFooerAlias creates a new mock instance.
 func NewMockFooerAlias(ctrl *gomock.Controller) *MockFooerAlias {
 	mock := &MockFooerAlias{ctrl: ctrl}
-	mock.recorder = &MockFooerAliasMockRecorder{mock}
+	mock.recorder = &MockFooerAliasMockRecorder{mock: mock}
 	return mock
 }
 
@@ -84,14 +86,16 @@ func (m *MockFooerAlias) EXPECT() *MockFooerAliasMockRecorder {
 // Foo mocks base method.
 func (m *MockFooerAlias) Foo() {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Foo")
+	gomock.Dispatch0_0(&m.recorder.fooExpects, m.ctrl, m, "Foo")
 }
 
 // Foo indicates an expected call of Foo.
 func (mr *MockFooerAliasMockRecorder) Foo() *MockFooerAliasFooCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Foo", reflect.TypeOf((*MockFooerAlias)(nil).Foo))
-	return &MockFooerAliasFooCall{Call: call}
+	call := gomock.NewCall0_0(mr.mock.ctrl.T, mr.mock, "Foo")
+	mr.fooExpects = append(mr.fooExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockFooerAliasFooCall is the typed call wrapper for Foo.
@@ -106,13 +110,14 @@ type MockBarer struct {
 
 // MockBarerMockRecorder is the mock recorder for MockBarer.
 type MockBarerMockRecorder struct {
-	mock *MockBarer
+	mock       *MockBarer
+	barExpects []*gomock.Call1_1[alias.FooerAlias, alias.FooerAlias]
 }
 
 // NewMockBarer creates a new mock instance.
 func NewMockBarer(ctrl *gomock.Controller) *MockBarer {
 	mock := &MockBarer{ctrl: ctrl}
-	mock.recorder = &MockBarerMockRecorder{mock}
+	mock.recorder = &MockBarerMockRecorder{mock: mock}
 	return mock
 }
 
@@ -124,14 +129,16 @@ func (m *MockBarer) EXPECT() *MockBarerMockRecorder {
 // Bar mocks base method.
 func (m *MockBarer) Bar(arg0 alias.FooerAlias) alias.FooerAlias {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[alias.FooerAlias](m.ctrl.Call(m, "Bar", arg0))
+	return gomock.Dispatch1_1(&m.recorder.barExpects, m.ctrl, m, "Bar", arg0)
 }
 
 // Bar indicates an expected call of Bar.
 func (mr *MockBarerMockRecorder) Bar(arg0 any) *MockBarerBarCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Bar", reflect.TypeOf((*MockBarer)(nil).Bar), arg0)
-	return &MockBarerBarCall{Call: call}
+	call := gomock.NewCall1_1[alias.FooerAlias, alias.FooerAlias](mr.mock.ctrl.T, mr.mock, "Bar", gomock.EnsureMatcher(arg0))
+	mr.barExpects = append(mr.barExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockBarerBarCall is the typed call wrapper for Bar.
@@ -146,13 +153,14 @@ type MockBarerAlias struct {
 
 // MockBarerAliasMockRecorder is the mock recorder for MockBarerAlias.
 type MockBarerAliasMockRecorder struct {
-	mock *MockBarerAlias
+	mock       *MockBarerAlias
+	barExpects []*gomock.Call1_1[alias.FooerAlias, alias.FooerAlias]
 }
 
 // NewMockBarerAlias creates a new mock instance.
 func NewMockBarerAlias(ctrl *gomock.Controller) *MockBarerAlias {
 	mock := &MockBarerAlias{ctrl: ctrl}
-	mock.recorder = &MockBarerAliasMockRecorder{mock}
+	mock.recorder = &MockBarerAliasMockRecorder{mock: mock}
 	return mock
 }
 
@@ -164,14 +172,16 @@ func (m *MockBarerAlias) EXPECT() *MockBarerAliasMockRecorder {
 // Bar mocks base method.
 func (m *MockBarerAlias) Bar(arg0 alias.FooerAlias) alias.FooerAlias {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[alias.FooerAlias](m.ctrl.Call(m, "Bar", arg0))
+	return gomock.Dispatch1_1(&m.recorder.barExpects, m.ctrl, m, "Bar", arg0)
 }
 
 // Bar indicates an expected call of Bar.
 func (mr *MockBarerAliasMockRecorder) Bar(arg0 any) *MockBarerAliasBarCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Bar", reflect.TypeOf((*MockBarerAlias)(nil).Bar), arg0)
-	return &MockBarerAliasBarCall{Call: call}
+	call := gomock.NewCall1_1[alias.FooerAlias, alias.FooerAlias](mr.mock.ctrl.T, mr.mock, "Bar", gomock.EnsureMatcher(arg0))
+	mr.barExpects = append(mr.barExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockBarerAliasBarCall is the typed call wrapper for Bar.
@@ -186,13 +196,14 @@ type MockBazer struct {
 
 // MockBazerMockRecorder is the mock recorder for MockBazer.
 type MockBazerMockRecorder struct {
-	mock *MockBazer
+	mock       *MockBazer
+	bazExpects []*gomock.Call1_1[alias.Fooer, alias.Fooer]
 }
 
 // NewMockBazer creates a new mock instance.
 func NewMockBazer(ctrl *gomock.Controller) *MockBazer {
 	mock := &MockBazer{ctrl: ctrl}
-	mock.recorder = &MockBazerMockRecorder{mock}
+	mock.recorder = &MockBazerMockRecorder{mock: mock}
 	return mock
 }
 
@@ -204,14 +215,16 @@ func (m *MockBazer) EXPECT() *MockBazerMockRecorder {
 // Baz mocks base method.
 func (m *MockBazer) Baz(arg0 alias.Fooer) alias.Fooer {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[alias.Fooer](m.ctrl.Call(m, "Baz", arg0))
+	return gomock.Dispatch1_1(&m.recorder.bazExpects, m.ctrl, m, "Baz", arg0)
 }
 
 // Baz indicates an expected call of Baz.
 func (mr *MockBazerMockRecorder) Baz(arg0 any) *MockBazerBazCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Baz", reflect.TypeOf((*MockBazer)(nil).Baz), arg0)
-	return &MockBazerBazCall{Call: call}
+	call := gomock.NewCall1_1[alias.Fooer, alias.Fooer](mr.mock.ctrl.T, mr.mock, "Baz", gomock.EnsureMatcher(arg0))
+	mr.bazExpects = append(mr.bazExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockBazerBazCall is the typed call wrapper for Baz.
@@ -226,13 +239,14 @@ type MockQuxerConsumer struct {
 
 // MockQuxerConsumerMockRecorder is the mock recorder for MockQuxerConsumer.
 type MockQuxerConsumerMockRecorder struct {
-	mock *MockQuxerConsumer
+	mock           *MockQuxerConsumer
+	consumeExpects []*gomock.Call1_1[alias.QuxerAlias, alias.QuxerAlias]
 }
 
 // NewMockQuxerConsumer creates a new mock instance.
 func NewMockQuxerConsumer(ctrl *gomock.Controller) *MockQuxerConsumer {
 	mock := &MockQuxerConsumer{ctrl: ctrl}
-	mock.recorder = &MockQuxerConsumerMockRecorder{mock}
+	mock.recorder = &MockQuxerConsumerMockRecorder{mock: mock}
 	return mock
 }
 
@@ -244,14 +258,16 @@ func (m *MockQuxerConsumer) EXPECT() *MockQuxerConsumerMockRecorder {
 // Consume mocks base method.
 func (m *MockQuxerConsumer) Consume(arg0 alias.QuxerAlias) alias.QuxerAlias {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[alias.QuxerAlias](m.ctrl.Call(m, "Consume", arg0))
+	return gomock.Dispatch1_1(&m.recorder.consumeExpects, m.ctrl, m, "Consume", arg0)
 }
 
 // Consume indicates an expected call of Consume.
 func (mr *MockQuxerConsumerMockRecorder) Consume(arg0 any) *MockQuxerConsumerConsumeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Consume", reflect.TypeOf((*MockQuxerConsumer)(nil).Consume), arg0)
-	return &MockQuxerConsumerConsumeCall{Call: call}
+	call := gomock.NewCall1_1[alias.QuxerAlias, alias.QuxerAlias](mr.mock.ctrl.T, mr.mock, "Consume", gomock.EnsureMatcher(arg0))
+	mr.consumeExpects = append(mr.consumeExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockQuxerConsumerConsumeCall is the typed call wrapper for Consume.
@@ -266,13 +282,14 @@ type MockQuuxerConsumer struct {
 
 // MockQuuxerConsumerMockRecorder is the mock recorder for MockQuuxerConsumer.
 type MockQuuxerConsumerMockRecorder struct {
-	mock *MockQuuxerConsumer
+	mock           *MockQuuxerConsumer
+	consumeExpects []*gomock.Call1_1[subpkg.Quuxer, subpkg.Quuxer]
 }
 
 // NewMockQuuxerConsumer creates a new mock instance.
 func NewMockQuuxerConsumer(ctrl *gomock.Controller) *MockQuuxerConsumer {
 	mock := &MockQuuxerConsumer{ctrl: ctrl}
-	mock.recorder = &MockQuuxerConsumerMockRecorder{mock}
+	mock.recorder = &MockQuuxerConsumerMockRecorder{mock: mock}
 	return mock
 }
 
@@ -284,14 +301,16 @@ func (m *MockQuuxerConsumer) EXPECT() *MockQuuxerConsumerMockRecorder {
 // Consume mocks base method.
 func (m *MockQuuxerConsumer) Consume(arg0 subpkg.Quuxer) subpkg.Quuxer {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[subpkg.Quuxer](m.ctrl.Call(m, "Consume", arg0))
+	return gomock.Dispatch1_1(&m.recorder.consumeExpects, m.ctrl, m, "Consume", arg0)
 }
 
 // Consume indicates an expected call of Consume.
 func (mr *MockQuuxerConsumerMockRecorder) Consume(arg0 any) *MockQuuxerConsumerConsumeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Consume", reflect.TypeOf((*MockQuuxerConsumer)(nil).Consume), arg0)
-	return &MockQuuxerConsumerConsumeCall{Call: call}
+	call := gomock.NewCall1_1[subpkg.Quuxer, subpkg.Quuxer](mr.mock.ctrl.T, mr.mock, "Consume", gomock.EnsureMatcher(arg0))
+	mr.consumeExpects = append(mr.consumeExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockQuuxerConsumerConsumeCall is the typed call wrapper for Consume.

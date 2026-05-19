@@ -11,7 +11,6 @@ package bugreport
 
 import (
 	http "net/http"
-	reflect "reflect"
 
 	gomock "github.com/canonical/gomock/gomock"
 )
@@ -25,13 +24,16 @@ type MockNet struct {
 
 // MockNetMockRecorder is the mock recorder for MockNet.
 type MockNetMockRecorder struct {
-	mock *MockNet
+	mock               *MockNet
+	headerExpects      []*gomock.Call0_1[http.Header]
+	writeExpects       []*gomock.Call1_2[[]byte, int, error]
+	writeHeaderExpects []*gomock.Call1_0[int]
 }
 
 // NewMockNet creates a new mock instance.
 func NewMockNet(ctrl *gomock.Controller) *MockNet {
 	mock := &MockNet{ctrl: ctrl}
-	mock.recorder = &MockNetMockRecorder{mock}
+	mock.recorder = &MockNetMockRecorder{mock: mock}
 	return mock
 }
 
@@ -43,14 +45,16 @@ func (m *MockNet) EXPECT() *MockNetMockRecorder {
 // Header mocks base method.
 func (m *MockNet) Header() http.Header {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[http.Header](m.ctrl.Call(m, "Header"))
+	return gomock.Dispatch0_1(&m.recorder.headerExpects, m.ctrl, m, "Header")
 }
 
 // Header indicates an expected call of Header.
 func (mr *MockNetMockRecorder) Header() *MockNetHeaderCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Header", reflect.TypeOf((*MockNet)(nil).Header))
-	return &MockNetHeaderCall{Call: call}
+	call := gomock.NewCall0_1[http.Header](mr.mock.ctrl.T, mr.mock, "Header")
+	mr.headerExpects = append(mr.headerExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockNetHeaderCall is the typed call wrapper for Header.
@@ -59,14 +63,16 @@ type MockNetHeaderCall = gomock.Call0_1[http.Header]
 // Write mocks base method.
 func (m *MockNet) Write(arg0 []byte) (int, error) {
 	m.ctrl.T.Helper()
-	return gomock.Invoke2[int, error](m.ctrl.Call(m, "Write", arg0))
+	return gomock.Dispatch1_2(&m.recorder.writeExpects, m.ctrl, m, "Write", arg0)
 }
 
 // Write indicates an expected call of Write.
 func (mr *MockNetMockRecorder) Write(arg0 any) *MockNetWriteCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Write", reflect.TypeOf((*MockNet)(nil).Write), arg0)
-	return &MockNetWriteCall{Call: call}
+	call := gomock.NewCall1_2[[]byte, int, error](mr.mock.ctrl.T, mr.mock, "Write", gomock.EnsureMatcher(arg0))
+	mr.writeExpects = append(mr.writeExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockNetWriteCall is the typed call wrapper for Write.
@@ -75,14 +81,16 @@ type MockNetWriteCall = gomock.Call1_2[[]byte, int, error]
 // WriteHeader mocks base method.
 func (m *MockNet) WriteHeader(statusCode int) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "WriteHeader", statusCode)
+	gomock.Dispatch1_0(&m.recorder.writeHeaderExpects, m.ctrl, m, "WriteHeader", statusCode)
 }
 
 // WriteHeader indicates an expected call of WriteHeader.
 func (mr *MockNetMockRecorder) WriteHeader(statusCode any) *MockNetWriteHeaderCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WriteHeader", reflect.TypeOf((*MockNet)(nil).WriteHeader), statusCode)
-	return &MockNetWriteHeaderCall{Call: call}
+	call := gomock.NewCall1_0[int](mr.mock.ctrl.T, mr.mock, "WriteHeader", gomock.EnsureMatcher(statusCode))
+	mr.writeHeaderExpects = append(mr.writeHeaderExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockNetWriteHeaderCall is the typed call wrapper for WriteHeader.

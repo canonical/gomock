@@ -10,8 +10,6 @@
 package mock_concurrent
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 )
 
@@ -24,13 +22,14 @@ type MockMath struct {
 
 // MockMathMockRecorder is the mock recorder for MockMath.
 type MockMathMockRecorder struct {
-	mock *MockMath
+	mock       *MockMath
+	sumExpects []*gomock.Call2_1[int, int, int]
 }
 
 // NewMockMath creates a new mock instance.
 func NewMockMath(ctrl *gomock.Controller) *MockMath {
 	mock := &MockMath{ctrl: ctrl}
-	mock.recorder = &MockMathMockRecorder{mock}
+	mock.recorder = &MockMathMockRecorder{mock: mock}
 	return mock
 }
 
@@ -42,14 +41,16 @@ func (m *MockMath) EXPECT() *MockMathMockRecorder {
 // Sum mocks base method.
 func (m *MockMath) Sum(a, b int) int {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[int](m.ctrl.Call(m, "Sum", a, b))
+	return gomock.Dispatch2_1(&m.recorder.sumExpects, m.ctrl, m, "Sum", a, b)
 }
 
 // Sum indicates an expected call of Sum.
 func (mr *MockMathMockRecorder) Sum(a, b any) *MockMathSumCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Sum", reflect.TypeOf((*MockMath)(nil).Sum), a, b)
-	return &MockMathSumCall{Call: call}
+	call := gomock.NewCall2_1[int, int, int](mr.mock.ctrl.T, mr.mock, "Sum", gomock.EnsureMatcher(a), gomock.EnsureMatcher(b))
+	mr.sumExpects = append(mr.sumExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockMathSumCall is the typed call wrapper for Sum.

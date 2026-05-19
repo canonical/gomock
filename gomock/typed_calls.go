@@ -2,2936 +2,25848 @@
 
 package gomock
 
-// Call0_0 wraps *Call for a method with 0 arguments and 0 return values.
+// FinalizedCall0 is the finalized call wrapper for 0-arg methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall0 struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func()
+}
+
+func (c *FinalizedCall0) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall0) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall0) Do(f func()) *FinalizedCall0 {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall0) AnyTimes() *FinalizedCall0 {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall0) MinTimes(n int) *FinalizedCall0 {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall0) MaxTimes(n int) *FinalizedCall0 {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall0) Times(n int) *FinalizedCall0 {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall0) After(preReq CallHolder) *FinalizedCall0 {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall1 is the finalized call wrapper for 1-arg methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall1[A1 any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1)
+}
+
+func (c *FinalizedCall1[A1]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall1[A1]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall1[A1]) Do(f func(A1)) *FinalizedCall1[A1] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall1[A1]) AnyTimes() *FinalizedCall1[A1] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall1[A1]) MinTimes(n int) *FinalizedCall1[A1] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall1[A1]) MaxTimes(n int) *FinalizedCall1[A1] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall1[A1]) Times(n int) *FinalizedCall1[A1] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall1[A1]) After(preReq CallHolder) *FinalizedCall1[A1] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall2 is the finalized call wrapper for 2-arg methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall2[A1, A2 any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2)
+}
+
+func (c *FinalizedCall2[A1, A2]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall2[A1, A2]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall2[A1, A2]) Do(f func(A1, A2)) *FinalizedCall2[A1, A2] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall2[A1, A2]) AnyTimes() *FinalizedCall2[A1, A2] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall2[A1, A2]) MinTimes(n int) *FinalizedCall2[A1, A2] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall2[A1, A2]) MaxTimes(n int) *FinalizedCall2[A1, A2] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall2[A1, A2]) Times(n int) *FinalizedCall2[A1, A2] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall2[A1, A2]) After(preReq CallHolder) *FinalizedCall2[A1, A2] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall3 is the finalized call wrapper for 3-arg methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall3[A1, A2, A3 any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3)
+}
+
+func (c *FinalizedCall3[A1, A2, A3]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall3[A1, A2, A3]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall3[A1, A2, A3]) Do(f func(A1, A2, A3)) *FinalizedCall3[A1, A2, A3] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall3[A1, A2, A3]) AnyTimes() *FinalizedCall3[A1, A2, A3] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall3[A1, A2, A3]) MinTimes(n int) *FinalizedCall3[A1, A2, A3] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall3[A1, A2, A3]) MaxTimes(n int) *FinalizedCall3[A1, A2, A3] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall3[A1, A2, A3]) Times(n int) *FinalizedCall3[A1, A2, A3] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall3[A1, A2, A3]) After(preReq CallHolder) *FinalizedCall3[A1, A2, A3] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall4 is the finalized call wrapper for 4-arg methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall4[A1, A2, A3, A4 any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4)
+}
+
+func (c *FinalizedCall4[A1, A2, A3, A4]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall4[A1, A2, A3, A4]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall4[A1, A2, A3, A4]) Do(f func(A1, A2, A3, A4)) *FinalizedCall4[A1, A2, A3, A4] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall4[A1, A2, A3, A4]) AnyTimes() *FinalizedCall4[A1, A2, A3, A4] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall4[A1, A2, A3, A4]) MinTimes(n int) *FinalizedCall4[A1, A2, A3, A4] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall4[A1, A2, A3, A4]) MaxTimes(n int) *FinalizedCall4[A1, A2, A3, A4] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall4[A1, A2, A3, A4]) Times(n int) *FinalizedCall4[A1, A2, A3, A4] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall4[A1, A2, A3, A4]) After(preReq CallHolder) *FinalizedCall4[A1, A2, A3, A4] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall5 is the finalized call wrapper for 5-arg methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall5[A1, A2, A3, A4, A5 any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5)
+}
+
+func (c *FinalizedCall5[A1, A2, A3, A4, A5]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall5[A1, A2, A3, A4, A5]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall5[A1, A2, A3, A4, A5]) Do(f func(A1, A2, A3, A4, A5)) *FinalizedCall5[A1, A2, A3, A4, A5] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall5[A1, A2, A3, A4, A5]) AnyTimes() *FinalizedCall5[A1, A2, A3, A4, A5] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall5[A1, A2, A3, A4, A5]) MinTimes(n int) *FinalizedCall5[A1, A2, A3, A4, A5] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall5[A1, A2, A3, A4, A5]) MaxTimes(n int) *FinalizedCall5[A1, A2, A3, A4, A5] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall5[A1, A2, A3, A4, A5]) Times(n int) *FinalizedCall5[A1, A2, A3, A4, A5] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall5[A1, A2, A3, A4, A5]) After(preReq CallHolder) *FinalizedCall5[A1, A2, A3, A4, A5] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall6 is the finalized call wrapper for 6-arg methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall6[A1, A2, A3, A4, A5, A6 any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, A6)
+}
+
+func (c *FinalizedCall6[A1, A2, A3, A4, A5, A6]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall6[A1, A2, A3, A4, A5, A6]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall6[A1, A2, A3, A4, A5, A6]) Do(f func(A1, A2, A3, A4, A5, A6)) *FinalizedCall6[A1, A2, A3, A4, A5, A6] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall6[A1, A2, A3, A4, A5, A6]) AnyTimes() *FinalizedCall6[A1, A2, A3, A4, A5, A6] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall6[A1, A2, A3, A4, A5, A6]) MinTimes(n int) *FinalizedCall6[A1, A2, A3, A4, A5, A6] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall6[A1, A2, A3, A4, A5, A6]) MaxTimes(n int) *FinalizedCall6[A1, A2, A3, A4, A5, A6] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall6[A1, A2, A3, A4, A5, A6]) Times(n int) *FinalizedCall6[A1, A2, A3, A4, A5, A6] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall6[A1, A2, A3, A4, A5, A6]) After(preReq CallHolder) *FinalizedCall6[A1, A2, A3, A4, A5, A6] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall7 is the finalized call wrapper for 7-arg methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall7[A1, A2, A3, A4, A5, A6, A7 any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, A6, A7)
+}
+
+func (c *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]) Do(f func(A1, A2, A3, A4, A5, A6, A7)) *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]) AnyTimes() *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]) MinTimes(n int) *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]) MaxTimes(n int) *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]) Times(n int) *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]) After(preReq CallHolder) *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall8 is the finalized call wrapper for 8-arg methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8 any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, A6, A7, A8)
+}
+
+func (c *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8)) *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]) AnyTimes() *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]) MinTimes(n int) *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]) MaxTimes(n int) *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]) Times(n int) *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]) After(preReq CallHolder) *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall9 is the finalized call wrapper for 9-arg methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9 any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, A6, A7, A8, A9)
+}
+
+func (c *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9)) *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9]) AnyTimes() *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9]) MinTimes(n int) *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9]) MaxTimes(n int) *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9]) Times(n int) *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9]) After(preReq CallHolder) *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall10 is the finalized call wrapper for 10-arg methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10 any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)
+}
+
+func (c *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]) AnyTimes() *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]) MinTimes(n int) *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]) MaxTimes(n int) *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]) Times(n int) *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]) After(preReq CallHolder) *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall11 is the finalized call wrapper for 11-arg methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11 any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)
+}
+
+func (c *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]) getCall() *Call {
+	return c.Call
+}
+
+func (c *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]) AnyTimes() *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]) MinTimes(n int) *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]) MaxTimes(n int) *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]) Times(n int) *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]) After(preReq CallHolder) *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall12 is the finalized call wrapper for 12-arg methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12 any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)
+}
+
+func (c *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]) getCall() *Call {
+	return c.Call
+}
+
+func (c *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]) AnyTimes() *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]) MinTimes(n int) *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]) MaxTimes(n int) *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]) Times(n int) *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]) After(preReq CallHolder) *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call0_0 wraps FinalizedCall0 for a method with 0 args and 0 return values.
 type Call0_0 struct {
-	*Call
+	FinalizedCall0
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
+func (c *Call0_0) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// NewCall0_0 creates a new Call0_0 expectation.
+func NewCall0_0(t TestHelper, receiver any, method string) *Call0_0 {
+	t.Helper()
+	c := &Call0_0{
+		FinalizedCall0: FinalizedCall0{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+	}
+	c.FinalizedCall0.Call = newCall(t, c)
+	return c
+}
+
 func (c *Call0_0) Do(f func()) *Call0_0 {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call0_0) DoAndReturn(f func()) *Call0_0 {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
-}
-
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
 func (c *Call0_0) AnyTimes() *Call0_0 {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call0_0) MinTimes(n int) *Call0_0 {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call0_0) MaxTimes(n int) *Call0_0 {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call0_0) Times(n int) *Call0_0 {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call0_0) After(preReq *Call) *Call0_0 {
-	c.Call = c.Call.After(preReq)
+func (c *Call0_0) After(preReq CallHolder) *Call0_0 {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call0_1 wraps *Call for a method with 0 arguments and 1 return value.
+// Call0_1 wraps FinalizedCall0 for a method with 0 args and 1 return values.
 type Call0_1[R1 any] struct {
-	*Call
+	FinalizedCall0
+	retV1      *R1
+	doReturnFn func() R1
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call0_1[R1]) Return(r1 R1) *Call0_1[R1] {
-	c.Call = c.Call.Return(r1)
+func (c *Call0_1[R1]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// NewCall0_1 creates a new Call0_1 expectation.
+func NewCall0_1[R1 any](t TestHelper, receiver any, method string) *Call0_1[R1] {
+	t.Helper()
+	c := &Call0_1[R1]{
+		FinalizedCall0: FinalizedCall0{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+	}
+	c.FinalizedCall0.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call0_1[R1]) Do(f func()) *Call0_1[R1] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call0_1[R1]) DoAndReturn(f func() R1) *Call0_1[R1] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call0_1[R1]) Return(r1 R1) *FinalizedCall0 {
+	c.retV1 = &r1
+	return &c.FinalizedCall0
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call0_1[R1]) DoAndReturn(f func() R1) *FinalizedCall0 {
+	c.doReturnFn = f
+	return &c.FinalizedCall0
+}
+
 func (c *Call0_1[R1]) AnyTimes() *Call0_1[R1] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call0_1[R1]) MinTimes(n int) *Call0_1[R1] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call0_1[R1]) MaxTimes(n int) *Call0_1[R1] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call0_1[R1]) Times(n int) *Call0_1[R1] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call0_1[R1]) After(preReq *Call) *Call0_1[R1] {
-	c.Call = c.Call.After(preReq)
+func (c *Call0_1[R1]) After(preReq CallHolder) *Call0_1[R1] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call0_2 wraps *Call for a method with 0 arguments and 2 return values.
+// Call0_2 wraps FinalizedCall0 for a method with 0 args and 2 return values.
 type Call0_2[R1, R2 any] struct {
-	*Call
+	FinalizedCall0
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func() (R1, R2)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call0_2[R1, R2]) Return(r1 R1, r2 R2) *Call0_2[R1, R2] {
-	c.Call = c.Call.Return(r1, r2)
+func (c *Call0_2[R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// NewCall0_2 creates a new Call0_2 expectation.
+func NewCall0_2[R1, R2 any](t TestHelper, receiver any, method string) *Call0_2[R1, R2] {
+	t.Helper()
+	c := &Call0_2[R1, R2]{
+		FinalizedCall0: FinalizedCall0{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+	}
+	c.FinalizedCall0.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call0_2[R1, R2]) Do(f func()) *Call0_2[R1, R2] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call0_2[R1, R2]) DoAndReturn(f func() (R1, R2)) *Call0_2[R1, R2] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call0_2[R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall0 {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall0
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call0_2[R1, R2]) DoAndReturn(f func() (R1, R2)) *FinalizedCall0 {
+	c.doReturnFn = f
+	return &c.FinalizedCall0
+}
+
 func (c *Call0_2[R1, R2]) AnyTimes() *Call0_2[R1, R2] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call0_2[R1, R2]) MinTimes(n int) *Call0_2[R1, R2] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call0_2[R1, R2]) MaxTimes(n int) *Call0_2[R1, R2] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call0_2[R1, R2]) Times(n int) *Call0_2[R1, R2] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call0_2[R1, R2]) After(preReq *Call) *Call0_2[R1, R2] {
-	c.Call = c.Call.After(preReq)
+func (c *Call0_2[R1, R2]) After(preReq CallHolder) *Call0_2[R1, R2] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call0_3 wraps *Call for a method with 0 arguments and 3 return values.
+// Call0_3 wraps FinalizedCall0 for a method with 0 args and 3 return values.
 type Call0_3[R1, R2, R3 any] struct {
-	*Call
+	FinalizedCall0
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func() (R1, R2, R3)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call0_3[R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *Call0_3[R1, R2, R3] {
-	c.Call = c.Call.Return(r1, r2, r3)
+func (c *Call0_3[R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// NewCall0_3 creates a new Call0_3 expectation.
+func NewCall0_3[R1, R2, R3 any](t TestHelper, receiver any, method string) *Call0_3[R1, R2, R3] {
+	t.Helper()
+	c := &Call0_3[R1, R2, R3]{
+		FinalizedCall0: FinalizedCall0{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+	}
+	c.FinalizedCall0.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call0_3[R1, R2, R3]) Do(f func()) *Call0_3[R1, R2, R3] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call0_3[R1, R2, R3]) DoAndReturn(f func() (R1, R2, R3)) *Call0_3[R1, R2, R3] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call0_3[R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall0 {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall0
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call0_3[R1, R2, R3]) DoAndReturn(f func() (R1, R2, R3)) *FinalizedCall0 {
+	c.doReturnFn = f
+	return &c.FinalizedCall0
+}
+
 func (c *Call0_3[R1, R2, R3]) AnyTimes() *Call0_3[R1, R2, R3] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call0_3[R1, R2, R3]) MinTimes(n int) *Call0_3[R1, R2, R3] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call0_3[R1, R2, R3]) MaxTimes(n int) *Call0_3[R1, R2, R3] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call0_3[R1, R2, R3]) Times(n int) *Call0_3[R1, R2, R3] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call0_3[R1, R2, R3]) After(preReq *Call) *Call0_3[R1, R2, R3] {
-	c.Call = c.Call.After(preReq)
+func (c *Call0_3[R1, R2, R3]) After(preReq CallHolder) *Call0_3[R1, R2, R3] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call0_4 wraps *Call for a method with 0 arguments and 4 return values.
+// Call0_4 wraps FinalizedCall0 for a method with 0 args and 4 return values.
 type Call0_4[R1, R2, R3, R4 any] struct {
-	*Call
+	FinalizedCall0
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func() (R1, R2, R3, R4)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call0_4[R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *Call0_4[R1, R2, R3, R4] {
-	c.Call = c.Call.Return(r1, r2, r3, r4)
+func (c *Call0_4[R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// NewCall0_4 creates a new Call0_4 expectation.
+func NewCall0_4[R1, R2, R3, R4 any](t TestHelper, receiver any, method string) *Call0_4[R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call0_4[R1, R2, R3, R4]{
+		FinalizedCall0: FinalizedCall0{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+	}
+	c.FinalizedCall0.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call0_4[R1, R2, R3, R4]) Do(f func()) *Call0_4[R1, R2, R3, R4] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call0_4[R1, R2, R3, R4]) DoAndReturn(f func() (R1, R2, R3, R4)) *Call0_4[R1, R2, R3, R4] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call0_4[R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall0 {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall0
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call0_4[R1, R2, R3, R4]) DoAndReturn(f func() (R1, R2, R3, R4)) *FinalizedCall0 {
+	c.doReturnFn = f
+	return &c.FinalizedCall0
+}
+
 func (c *Call0_4[R1, R2, R3, R4]) AnyTimes() *Call0_4[R1, R2, R3, R4] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call0_4[R1, R2, R3, R4]) MinTimes(n int) *Call0_4[R1, R2, R3, R4] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call0_4[R1, R2, R3, R4]) MaxTimes(n int) *Call0_4[R1, R2, R3, R4] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call0_4[R1, R2, R3, R4]) Times(n int) *Call0_4[R1, R2, R3, R4] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call0_4[R1, R2, R3, R4]) After(preReq *Call) *Call0_4[R1, R2, R3, R4] {
-	c.Call = c.Call.After(preReq)
+func (c *Call0_4[R1, R2, R3, R4]) After(preReq CallHolder) *Call0_4[R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call0_5 wraps *Call for a method with 0 arguments and 5 return values.
+// Call0_5 wraps FinalizedCall0 for a method with 0 args and 5 return values.
 type Call0_5[R1, R2, R3, R4, R5 any] struct {
-	*Call
+	FinalizedCall0
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func() (R1, R2, R3, R4, R5)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call0_5[R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *Call0_5[R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Return(r1, r2, r3, r4, r5)
+func (c *Call0_5[R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// NewCall0_5 creates a new Call0_5 expectation.
+func NewCall0_5[R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string) *Call0_5[R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call0_5[R1, R2, R3, R4, R5]{
+		FinalizedCall0: FinalizedCall0{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+	}
+	c.FinalizedCall0.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call0_5[R1, R2, R3, R4, R5]) Do(f func()) *Call0_5[R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call0_5[R1, R2, R3, R4, R5]) DoAndReturn(f func() (R1, R2, R3, R4, R5)) *Call0_5[R1, R2, R3, R4, R5] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call0_5[R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall0 {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall0
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call0_5[R1, R2, R3, R4, R5]) DoAndReturn(f func() (R1, R2, R3, R4, R5)) *FinalizedCall0 {
+	c.doReturnFn = f
+	return &c.FinalizedCall0
+}
+
 func (c *Call0_5[R1, R2, R3, R4, R5]) AnyTimes() *Call0_5[R1, R2, R3, R4, R5] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call0_5[R1, R2, R3, R4, R5]) MinTimes(n int) *Call0_5[R1, R2, R3, R4, R5] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call0_5[R1, R2, R3, R4, R5]) MaxTimes(n int) *Call0_5[R1, R2, R3, R4, R5] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call0_5[R1, R2, R3, R4, R5]) Times(n int) *Call0_5[R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call0_5[R1, R2, R3, R4, R5]) After(preReq *Call) *Call0_5[R1, R2, R3, R4, R5] {
-	c.Call = c.Call.After(preReq)
+func (c *Call0_5[R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call0_5[R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call1_0 wraps *Call for a method with 1 argument and 0 return values.
+// Call1_0 wraps FinalizedCall1 for a method with 1 args and 0 return values.
 type Call1_0[A1 any] struct {
-	*Call
+	FinalizedCall1[A1]
+	m1 Matcher
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
+func (c *Call1_0[A1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1}, c.origin)
+}
+
+// NewCall1_0 creates a new Call1_0 expectation.
+func NewCall1_0[A1 any](t TestHelper, receiver any, method string, m1 Matcher) *Call1_0[A1] {
+	t.Helper()
+	c := &Call1_0[A1]{
+		FinalizedCall1: FinalizedCall1[A1]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+	}
+	c.FinalizedCall1.Call = newCall(t, c)
+	return c
+}
+
 func (c *Call1_0[A1]) Do(f func(A1)) *Call1_0[A1] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call1_0[A1]) DoAndReturn(f func(A1)) *Call1_0[A1] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
-}
-
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
 func (c *Call1_0[A1]) AnyTimes() *Call1_0[A1] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call1_0[A1]) MinTimes(n int) *Call1_0[A1] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call1_0[A1]) MaxTimes(n int) *Call1_0[A1] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call1_0[A1]) Times(n int) *Call1_0[A1] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call1_0[A1]) After(preReq *Call) *Call1_0[A1] {
-	c.Call = c.Call.After(preReq)
+func (c *Call1_0[A1]) After(preReq CallHolder) *Call1_0[A1] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call1_1 wraps *Call for a method with 1 argument and 1 return value.
+// Call1_1 wraps FinalizedCall1 for a method with 1 args and 1 return values.
 type Call1_1[A1, R1 any] struct {
-	*Call
+	FinalizedCall1[A1]
+	m1         Matcher
+	retV1      *R1
+	doReturnFn func(A1) R1
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call1_1[A1, R1]) Return(r1 R1) *Call1_1[A1, R1] {
-	c.Call = c.Call.Return(r1)
+func (c *Call1_1[A1, R1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1}, c.origin)
+}
+
+// NewCall1_1 creates a new Call1_1 expectation.
+func NewCall1_1[A1, R1 any](t TestHelper, receiver any, method string, m1 Matcher) *Call1_1[A1, R1] {
+	t.Helper()
+	c := &Call1_1[A1, R1]{
+		FinalizedCall1: FinalizedCall1[A1]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+	}
+	c.FinalizedCall1.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call1_1[A1, R1]) Do(f func(A1)) *Call1_1[A1, R1] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call1_1[A1, R1]) DoAndReturn(f func(A1) R1) *Call1_1[A1, R1] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call1_1[A1, R1]) Return(r1 R1) *FinalizedCall1[A1] {
+	c.retV1 = &r1
+	return &c.FinalizedCall1
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call1_1[A1, R1]) DoAndReturn(f func(A1) R1) *FinalizedCall1[A1] {
+	c.doReturnFn = f
+	return &c.FinalizedCall1
+}
+
 func (c *Call1_1[A1, R1]) AnyTimes() *Call1_1[A1, R1] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call1_1[A1, R1]) MinTimes(n int) *Call1_1[A1, R1] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call1_1[A1, R1]) MaxTimes(n int) *Call1_1[A1, R1] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call1_1[A1, R1]) Times(n int) *Call1_1[A1, R1] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call1_1[A1, R1]) After(preReq *Call) *Call1_1[A1, R1] {
-	c.Call = c.Call.After(preReq)
+func (c *Call1_1[A1, R1]) After(preReq CallHolder) *Call1_1[A1, R1] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call1_2 wraps *Call for a method with 1 argument and 2 return values.
+// Call1_2 wraps FinalizedCall1 for a method with 1 args and 2 return values.
 type Call1_2[A1, R1, R2 any] struct {
-	*Call
+	FinalizedCall1[A1]
+	m1         Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1) (R1, R2)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call1_2[A1, R1, R2]) Return(r1 R1, r2 R2) *Call1_2[A1, R1, R2] {
-	c.Call = c.Call.Return(r1, r2)
+func (c *Call1_2[A1, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1}, c.origin)
+}
+
+// NewCall1_2 creates a new Call1_2 expectation.
+func NewCall1_2[A1, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher) *Call1_2[A1, R1, R2] {
+	t.Helper()
+	c := &Call1_2[A1, R1, R2]{
+		FinalizedCall1: FinalizedCall1[A1]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+	}
+	c.FinalizedCall1.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call1_2[A1, R1, R2]) Do(f func(A1)) *Call1_2[A1, R1, R2] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call1_2[A1, R1, R2]) DoAndReturn(f func(A1) (R1, R2)) *Call1_2[A1, R1, R2] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call1_2[A1, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall1[A1] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall1
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call1_2[A1, R1, R2]) DoAndReturn(f func(A1) (R1, R2)) *FinalizedCall1[A1] {
+	c.doReturnFn = f
+	return &c.FinalizedCall1
+}
+
 func (c *Call1_2[A1, R1, R2]) AnyTimes() *Call1_2[A1, R1, R2] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call1_2[A1, R1, R2]) MinTimes(n int) *Call1_2[A1, R1, R2] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call1_2[A1, R1, R2]) MaxTimes(n int) *Call1_2[A1, R1, R2] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call1_2[A1, R1, R2]) Times(n int) *Call1_2[A1, R1, R2] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call1_2[A1, R1, R2]) After(preReq *Call) *Call1_2[A1, R1, R2] {
-	c.Call = c.Call.After(preReq)
+func (c *Call1_2[A1, R1, R2]) After(preReq CallHolder) *Call1_2[A1, R1, R2] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call1_3 wraps *Call for a method with 1 argument and 3 return values.
+// Call1_3 wraps FinalizedCall1 for a method with 1 args and 3 return values.
 type Call1_3[A1, R1, R2, R3 any] struct {
-	*Call
+	FinalizedCall1[A1]
+	m1         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1) (R1, R2, R3)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call1_3[A1, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *Call1_3[A1, R1, R2, R3] {
-	c.Call = c.Call.Return(r1, r2, r3)
+func (c *Call1_3[A1, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1}, c.origin)
+}
+
+// NewCall1_3 creates a new Call1_3 expectation.
+func NewCall1_3[A1, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher) *Call1_3[A1, R1, R2, R3] {
+	t.Helper()
+	c := &Call1_3[A1, R1, R2, R3]{
+		FinalizedCall1: FinalizedCall1[A1]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+	}
+	c.FinalizedCall1.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call1_3[A1, R1, R2, R3]) Do(f func(A1)) *Call1_3[A1, R1, R2, R3] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call1_3[A1, R1, R2, R3]) DoAndReturn(f func(A1) (R1, R2, R3)) *Call1_3[A1, R1, R2, R3] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call1_3[A1, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall1[A1] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall1
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call1_3[A1, R1, R2, R3]) DoAndReturn(f func(A1) (R1, R2, R3)) *FinalizedCall1[A1] {
+	c.doReturnFn = f
+	return &c.FinalizedCall1
+}
+
 func (c *Call1_3[A1, R1, R2, R3]) AnyTimes() *Call1_3[A1, R1, R2, R3] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call1_3[A1, R1, R2, R3]) MinTimes(n int) *Call1_3[A1, R1, R2, R3] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call1_3[A1, R1, R2, R3]) MaxTimes(n int) *Call1_3[A1, R1, R2, R3] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call1_3[A1, R1, R2, R3]) Times(n int) *Call1_3[A1, R1, R2, R3] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call1_3[A1, R1, R2, R3]) After(preReq *Call) *Call1_3[A1, R1, R2, R3] {
-	c.Call = c.Call.After(preReq)
+func (c *Call1_3[A1, R1, R2, R3]) After(preReq CallHolder) *Call1_3[A1, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call1_4 wraps *Call for a method with 1 argument and 4 return values.
+// Call1_4 wraps FinalizedCall1 for a method with 1 args and 4 return values.
 type Call1_4[A1, R1, R2, R3, R4 any] struct {
-	*Call
+	FinalizedCall1[A1]
+	m1         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1) (R1, R2, R3, R4)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call1_4[A1, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *Call1_4[A1, R1, R2, R3, R4] {
-	c.Call = c.Call.Return(r1, r2, r3, r4)
+func (c *Call1_4[A1, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1}, c.origin)
+}
+
+// NewCall1_4 creates a new Call1_4 expectation.
+func NewCall1_4[A1, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher) *Call1_4[A1, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call1_4[A1, R1, R2, R3, R4]{
+		FinalizedCall1: FinalizedCall1[A1]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+	}
+	c.FinalizedCall1.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call1_4[A1, R1, R2, R3, R4]) Do(f func(A1)) *Call1_4[A1, R1, R2, R3, R4] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call1_4[A1, R1, R2, R3, R4]) DoAndReturn(f func(A1) (R1, R2, R3, R4)) *Call1_4[A1, R1, R2, R3, R4] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call1_4[A1, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall1[A1] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall1
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call1_4[A1, R1, R2, R3, R4]) DoAndReturn(f func(A1) (R1, R2, R3, R4)) *FinalizedCall1[A1] {
+	c.doReturnFn = f
+	return &c.FinalizedCall1
+}
+
 func (c *Call1_4[A1, R1, R2, R3, R4]) AnyTimes() *Call1_4[A1, R1, R2, R3, R4] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call1_4[A1, R1, R2, R3, R4]) MinTimes(n int) *Call1_4[A1, R1, R2, R3, R4] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call1_4[A1, R1, R2, R3, R4]) MaxTimes(n int) *Call1_4[A1, R1, R2, R3, R4] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call1_4[A1, R1, R2, R3, R4]) Times(n int) *Call1_4[A1, R1, R2, R3, R4] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call1_4[A1, R1, R2, R3, R4]) After(preReq *Call) *Call1_4[A1, R1, R2, R3, R4] {
-	c.Call = c.Call.After(preReq)
+func (c *Call1_4[A1, R1, R2, R3, R4]) After(preReq CallHolder) *Call1_4[A1, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call1_5 wraps *Call for a method with 1 argument and 5 return values.
+// Call1_5 wraps FinalizedCall1 for a method with 1 args and 5 return values.
 type Call1_5[A1, R1, R2, R3, R4, R5 any] struct {
-	*Call
+	FinalizedCall1[A1]
+	m1         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1) (R1, R2, R3, R4, R5)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call1_5[A1, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *Call1_5[A1, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Return(r1, r2, r3, r4, r5)
+func (c *Call1_5[A1, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1}, c.origin)
+}
+
+// NewCall1_5 creates a new Call1_5 expectation.
+func NewCall1_5[A1, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher) *Call1_5[A1, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call1_5[A1, R1, R2, R3, R4, R5]{
+		FinalizedCall1: FinalizedCall1[A1]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+	}
+	c.FinalizedCall1.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call1_5[A1, R1, R2, R3, R4, R5]) Do(f func(A1)) *Call1_5[A1, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call1_5[A1, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1) (R1, R2, R3, R4, R5)) *Call1_5[A1, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call1_5[A1, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall1[A1] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall1
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call1_5[A1, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1) (R1, R2, R3, R4, R5)) *FinalizedCall1[A1] {
+	c.doReturnFn = f
+	return &c.FinalizedCall1
+}
+
 func (c *Call1_5[A1, R1, R2, R3, R4, R5]) AnyTimes() *Call1_5[A1, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call1_5[A1, R1, R2, R3, R4, R5]) MinTimes(n int) *Call1_5[A1, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call1_5[A1, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call1_5[A1, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call1_5[A1, R1, R2, R3, R4, R5]) Times(n int) *Call1_5[A1, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call1_5[A1, R1, R2, R3, R4, R5]) After(preReq *Call) *Call1_5[A1, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.After(preReq)
+func (c *Call1_5[A1, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call1_5[A1, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call2_0 wraps *Call for a method with 2 arguments and 0 return values.
+// Call2_0 wraps FinalizedCall2 for a method with 2 args and 0 return values.
 type Call2_0[A1, A2 any] struct {
-	*Call
+	FinalizedCall2[A1, A2]
+	m1 Matcher
+	m2 Matcher
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
+func (c *Call2_0[A1, A2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2}, c.origin)
+}
+
+// NewCall2_0 creates a new Call2_0 expectation.
+func NewCall2_0[A1, A2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher) *Call2_0[A1, A2] {
+	t.Helper()
+	c := &Call2_0[A1, A2]{
+		FinalizedCall2: FinalizedCall2[A1, A2]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+	}
+	c.FinalizedCall2.Call = newCall(t, c)
+	return c
+}
+
 func (c *Call2_0[A1, A2]) Do(f func(A1, A2)) *Call2_0[A1, A2] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call2_0[A1, A2]) DoAndReturn(f func(A1, A2)) *Call2_0[A1, A2] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
-}
-
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
 func (c *Call2_0[A1, A2]) AnyTimes() *Call2_0[A1, A2] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call2_0[A1, A2]) MinTimes(n int) *Call2_0[A1, A2] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call2_0[A1, A2]) MaxTimes(n int) *Call2_0[A1, A2] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call2_0[A1, A2]) Times(n int) *Call2_0[A1, A2] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call2_0[A1, A2]) After(preReq *Call) *Call2_0[A1, A2] {
-	c.Call = c.Call.After(preReq)
+func (c *Call2_0[A1, A2]) After(preReq CallHolder) *Call2_0[A1, A2] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call2_1 wraps *Call for a method with 2 arguments and 1 return value.
+// Call2_1 wraps FinalizedCall2 for a method with 2 args and 1 return values.
 type Call2_1[A1, A2, R1 any] struct {
-	*Call
+	FinalizedCall2[A1, A2]
+	m1         Matcher
+	m2         Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2) R1
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call2_1[A1, A2, R1]) Return(r1 R1) *Call2_1[A1, A2, R1] {
-	c.Call = c.Call.Return(r1)
+func (c *Call2_1[A1, A2, R1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2}, c.origin)
+}
+
+// NewCall2_1 creates a new Call2_1 expectation.
+func NewCall2_1[A1, A2, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher) *Call2_1[A1, A2, R1] {
+	t.Helper()
+	c := &Call2_1[A1, A2, R1]{
+		FinalizedCall2: FinalizedCall2[A1, A2]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+	}
+	c.FinalizedCall2.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call2_1[A1, A2, R1]) Do(f func(A1, A2)) *Call2_1[A1, A2, R1] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call2_1[A1, A2, R1]) DoAndReturn(f func(A1, A2) R1) *Call2_1[A1, A2, R1] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call2_1[A1, A2, R1]) Return(r1 R1) *FinalizedCall2[A1, A2] {
+	c.retV1 = &r1
+	return &c.FinalizedCall2
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call2_1[A1, A2, R1]) DoAndReturn(f func(A1, A2) R1) *FinalizedCall2[A1, A2] {
+	c.doReturnFn = f
+	return &c.FinalizedCall2
+}
+
 func (c *Call2_1[A1, A2, R1]) AnyTimes() *Call2_1[A1, A2, R1] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call2_1[A1, A2, R1]) MinTimes(n int) *Call2_1[A1, A2, R1] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call2_1[A1, A2, R1]) MaxTimes(n int) *Call2_1[A1, A2, R1] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call2_1[A1, A2, R1]) Times(n int) *Call2_1[A1, A2, R1] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call2_1[A1, A2, R1]) After(preReq *Call) *Call2_1[A1, A2, R1] {
-	c.Call = c.Call.After(preReq)
+func (c *Call2_1[A1, A2, R1]) After(preReq CallHolder) *Call2_1[A1, A2, R1] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call2_2 wraps *Call for a method with 2 arguments and 2 return values.
+// Call2_2 wraps FinalizedCall2 for a method with 2 args and 2 return values.
 type Call2_2[A1, A2, R1, R2 any] struct {
-	*Call
+	FinalizedCall2[A1, A2]
+	m1         Matcher
+	m2         Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2) (R1, R2)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call2_2[A1, A2, R1, R2]) Return(r1 R1, r2 R2) *Call2_2[A1, A2, R1, R2] {
-	c.Call = c.Call.Return(r1, r2)
+func (c *Call2_2[A1, A2, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2}, c.origin)
+}
+
+// NewCall2_2 creates a new Call2_2 expectation.
+func NewCall2_2[A1, A2, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher) *Call2_2[A1, A2, R1, R2] {
+	t.Helper()
+	c := &Call2_2[A1, A2, R1, R2]{
+		FinalizedCall2: FinalizedCall2[A1, A2]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+	}
+	c.FinalizedCall2.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call2_2[A1, A2, R1, R2]) Do(f func(A1, A2)) *Call2_2[A1, A2, R1, R2] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call2_2[A1, A2, R1, R2]) DoAndReturn(f func(A1, A2) (R1, R2)) *Call2_2[A1, A2, R1, R2] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call2_2[A1, A2, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall2[A1, A2] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall2
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call2_2[A1, A2, R1, R2]) DoAndReturn(f func(A1, A2) (R1, R2)) *FinalizedCall2[A1, A2] {
+	c.doReturnFn = f
+	return &c.FinalizedCall2
+}
+
 func (c *Call2_2[A1, A2, R1, R2]) AnyTimes() *Call2_2[A1, A2, R1, R2] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call2_2[A1, A2, R1, R2]) MinTimes(n int) *Call2_2[A1, A2, R1, R2] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call2_2[A1, A2, R1, R2]) MaxTimes(n int) *Call2_2[A1, A2, R1, R2] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call2_2[A1, A2, R1, R2]) Times(n int) *Call2_2[A1, A2, R1, R2] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call2_2[A1, A2, R1, R2]) After(preReq *Call) *Call2_2[A1, A2, R1, R2] {
-	c.Call = c.Call.After(preReq)
+func (c *Call2_2[A1, A2, R1, R2]) After(preReq CallHolder) *Call2_2[A1, A2, R1, R2] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call2_3 wraps *Call for a method with 2 arguments and 3 return values.
+// Call2_3 wraps FinalizedCall2 for a method with 2 args and 3 return values.
 type Call2_3[A1, A2, R1, R2, R3 any] struct {
-	*Call
+	FinalizedCall2[A1, A2]
+	m1         Matcher
+	m2         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2) (R1, R2, R3)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call2_3[A1, A2, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *Call2_3[A1, A2, R1, R2, R3] {
-	c.Call = c.Call.Return(r1, r2, r3)
+func (c *Call2_3[A1, A2, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2}, c.origin)
+}
+
+// NewCall2_3 creates a new Call2_3 expectation.
+func NewCall2_3[A1, A2, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher) *Call2_3[A1, A2, R1, R2, R3] {
+	t.Helper()
+	c := &Call2_3[A1, A2, R1, R2, R3]{
+		FinalizedCall2: FinalizedCall2[A1, A2]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+	}
+	c.FinalizedCall2.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call2_3[A1, A2, R1, R2, R3]) Do(f func(A1, A2)) *Call2_3[A1, A2, R1, R2, R3] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call2_3[A1, A2, R1, R2, R3]) DoAndReturn(f func(A1, A2) (R1, R2, R3)) *Call2_3[A1, A2, R1, R2, R3] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call2_3[A1, A2, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall2[A1, A2] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall2
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call2_3[A1, A2, R1, R2, R3]) DoAndReturn(f func(A1, A2) (R1, R2, R3)) *FinalizedCall2[A1, A2] {
+	c.doReturnFn = f
+	return &c.FinalizedCall2
+}
+
 func (c *Call2_3[A1, A2, R1, R2, R3]) AnyTimes() *Call2_3[A1, A2, R1, R2, R3] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call2_3[A1, A2, R1, R2, R3]) MinTimes(n int) *Call2_3[A1, A2, R1, R2, R3] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call2_3[A1, A2, R1, R2, R3]) MaxTimes(n int) *Call2_3[A1, A2, R1, R2, R3] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call2_3[A1, A2, R1, R2, R3]) Times(n int) *Call2_3[A1, A2, R1, R2, R3] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call2_3[A1, A2, R1, R2, R3]) After(preReq *Call) *Call2_3[A1, A2, R1, R2, R3] {
-	c.Call = c.Call.After(preReq)
+func (c *Call2_3[A1, A2, R1, R2, R3]) After(preReq CallHolder) *Call2_3[A1, A2, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call2_4 wraps *Call for a method with 2 arguments and 4 return values.
+// Call2_4 wraps FinalizedCall2 for a method with 2 args and 4 return values.
 type Call2_4[A1, A2, R1, R2, R3, R4 any] struct {
-	*Call
+	FinalizedCall2[A1, A2]
+	m1         Matcher
+	m2         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2) (R1, R2, R3, R4)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call2_4[A1, A2, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *Call2_4[A1, A2, R1, R2, R3, R4] {
-	c.Call = c.Call.Return(r1, r2, r3, r4)
+func (c *Call2_4[A1, A2, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2}, c.origin)
+}
+
+// NewCall2_4 creates a new Call2_4 expectation.
+func NewCall2_4[A1, A2, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher) *Call2_4[A1, A2, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call2_4[A1, A2, R1, R2, R3, R4]{
+		FinalizedCall2: FinalizedCall2[A1, A2]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+	}
+	c.FinalizedCall2.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call2_4[A1, A2, R1, R2, R3, R4]) Do(f func(A1, A2)) *Call2_4[A1, A2, R1, R2, R3, R4] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call2_4[A1, A2, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2) (R1, R2, R3, R4)) *Call2_4[A1, A2, R1, R2, R3, R4] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call2_4[A1, A2, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall2[A1, A2] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall2
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call2_4[A1, A2, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2) (R1, R2, R3, R4)) *FinalizedCall2[A1, A2] {
+	c.doReturnFn = f
+	return &c.FinalizedCall2
+}
+
 func (c *Call2_4[A1, A2, R1, R2, R3, R4]) AnyTimes() *Call2_4[A1, A2, R1, R2, R3, R4] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call2_4[A1, A2, R1, R2, R3, R4]) MinTimes(n int) *Call2_4[A1, A2, R1, R2, R3, R4] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call2_4[A1, A2, R1, R2, R3, R4]) MaxTimes(n int) *Call2_4[A1, A2, R1, R2, R3, R4] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call2_4[A1, A2, R1, R2, R3, R4]) Times(n int) *Call2_4[A1, A2, R1, R2, R3, R4] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call2_4[A1, A2, R1, R2, R3, R4]) After(preReq *Call) *Call2_4[A1, A2, R1, R2, R3, R4] {
-	c.Call = c.Call.After(preReq)
+func (c *Call2_4[A1, A2, R1, R2, R3, R4]) After(preReq CallHolder) *Call2_4[A1, A2, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call2_5 wraps *Call for a method with 2 arguments and 5 return values.
+// Call2_5 wraps FinalizedCall2 for a method with 2 args and 5 return values.
 type Call2_5[A1, A2, R1, R2, R3, R4, R5 any] struct {
-	*Call
+	FinalizedCall2[A1, A2]
+	m1         Matcher
+	m2         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2) (R1, R2, R3, R4, R5)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call2_5[A1, A2, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *Call2_5[A1, A2, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Return(r1, r2, r3, r4, r5)
+func (c *Call2_5[A1, A2, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2}, c.origin)
+}
+
+// NewCall2_5 creates a new Call2_5 expectation.
+func NewCall2_5[A1, A2, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher) *Call2_5[A1, A2, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call2_5[A1, A2, R1, R2, R3, R4, R5]{
+		FinalizedCall2: FinalizedCall2[A1, A2]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+	}
+	c.FinalizedCall2.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call2_5[A1, A2, R1, R2, R3, R4, R5]) Do(f func(A1, A2)) *Call2_5[A1, A2, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call2_5[A1, A2, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2) (R1, R2, R3, R4, R5)) *Call2_5[A1, A2, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call2_5[A1, A2, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall2[A1, A2] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall2
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call2_5[A1, A2, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2) (R1, R2, R3, R4, R5)) *FinalizedCall2[A1, A2] {
+	c.doReturnFn = f
+	return &c.FinalizedCall2
+}
+
 func (c *Call2_5[A1, A2, R1, R2, R3, R4, R5]) AnyTimes() *Call2_5[A1, A2, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call2_5[A1, A2, R1, R2, R3, R4, R5]) MinTimes(n int) *Call2_5[A1, A2, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call2_5[A1, A2, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call2_5[A1, A2, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call2_5[A1, A2, R1, R2, R3, R4, R5]) Times(n int) *Call2_5[A1, A2, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call2_5[A1, A2, R1, R2, R3, R4, R5]) After(preReq *Call) *Call2_5[A1, A2, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.After(preReq)
+func (c *Call2_5[A1, A2, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call2_5[A1, A2, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call3_0 wraps *Call for a method with 3 arguments and 0 return values.
+// Call3_0 wraps FinalizedCall3 for a method with 3 args and 0 return values.
 type Call3_0[A1, A2, A3 any] struct {
-	*Call
+	FinalizedCall3[A1, A2, A3]
+	m1 Matcher
+	m2 Matcher
+	m3 Matcher
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
+func (c *Call3_0[A1, A2, A3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3}, c.origin)
+}
+
+// NewCall3_0 creates a new Call3_0 expectation.
+func NewCall3_0[A1, A2, A3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher) *Call3_0[A1, A2, A3] {
+	t.Helper()
+	c := &Call3_0[A1, A2, A3]{
+		FinalizedCall3: FinalizedCall3[A1, A2, A3]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+	}
+	c.FinalizedCall3.Call = newCall(t, c)
+	return c
+}
+
 func (c *Call3_0[A1, A2, A3]) Do(f func(A1, A2, A3)) *Call3_0[A1, A2, A3] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call3_0[A1, A2, A3]) DoAndReturn(f func(A1, A2, A3)) *Call3_0[A1, A2, A3] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
-}
-
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
 func (c *Call3_0[A1, A2, A3]) AnyTimes() *Call3_0[A1, A2, A3] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call3_0[A1, A2, A3]) MinTimes(n int) *Call3_0[A1, A2, A3] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call3_0[A1, A2, A3]) MaxTimes(n int) *Call3_0[A1, A2, A3] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call3_0[A1, A2, A3]) Times(n int) *Call3_0[A1, A2, A3] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call3_0[A1, A2, A3]) After(preReq *Call) *Call3_0[A1, A2, A3] {
-	c.Call = c.Call.After(preReq)
+func (c *Call3_0[A1, A2, A3]) After(preReq CallHolder) *Call3_0[A1, A2, A3] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call3_1 wraps *Call for a method with 3 arguments and 1 return value.
+// Call3_1 wraps FinalizedCall3 for a method with 3 args and 1 return values.
 type Call3_1[A1, A2, A3, R1 any] struct {
-	*Call
+	FinalizedCall3[A1, A2, A3]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, A3) R1
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call3_1[A1, A2, A3, R1]) Return(r1 R1) *Call3_1[A1, A2, A3, R1] {
-	c.Call = c.Call.Return(r1)
+func (c *Call3_1[A1, A2, A3, R1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3}, c.origin)
+}
+
+// NewCall3_1 creates a new Call3_1 expectation.
+func NewCall3_1[A1, A2, A3, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher) *Call3_1[A1, A2, A3, R1] {
+	t.Helper()
+	c := &Call3_1[A1, A2, A3, R1]{
+		FinalizedCall3: FinalizedCall3[A1, A2, A3]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+	}
+	c.FinalizedCall3.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call3_1[A1, A2, A3, R1]) Do(f func(A1, A2, A3)) *Call3_1[A1, A2, A3, R1] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call3_1[A1, A2, A3, R1]) DoAndReturn(f func(A1, A2, A3) R1) *Call3_1[A1, A2, A3, R1] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call3_1[A1, A2, A3, R1]) Return(r1 R1) *FinalizedCall3[A1, A2, A3] {
+	c.retV1 = &r1
+	return &c.FinalizedCall3
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call3_1[A1, A2, A3, R1]) DoAndReturn(f func(A1, A2, A3) R1) *FinalizedCall3[A1, A2, A3] {
+	c.doReturnFn = f
+	return &c.FinalizedCall3
+}
+
 func (c *Call3_1[A1, A2, A3, R1]) AnyTimes() *Call3_1[A1, A2, A3, R1] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call3_1[A1, A2, A3, R1]) MinTimes(n int) *Call3_1[A1, A2, A3, R1] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call3_1[A1, A2, A3, R1]) MaxTimes(n int) *Call3_1[A1, A2, A3, R1] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call3_1[A1, A2, A3, R1]) Times(n int) *Call3_1[A1, A2, A3, R1] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call3_1[A1, A2, A3, R1]) After(preReq *Call) *Call3_1[A1, A2, A3, R1] {
-	c.Call = c.Call.After(preReq)
+func (c *Call3_1[A1, A2, A3, R1]) After(preReq CallHolder) *Call3_1[A1, A2, A3, R1] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call3_2 wraps *Call for a method with 3 arguments and 2 return values.
+// Call3_2 wraps FinalizedCall3 for a method with 3 args and 2 return values.
 type Call3_2[A1, A2, A3, R1, R2 any] struct {
-	*Call
+	FinalizedCall3[A1, A2, A3]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, A3) (R1, R2)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call3_2[A1, A2, A3, R1, R2]) Return(r1 R1, r2 R2) *Call3_2[A1, A2, A3, R1, R2] {
-	c.Call = c.Call.Return(r1, r2)
+func (c *Call3_2[A1, A2, A3, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3}, c.origin)
+}
+
+// NewCall3_2 creates a new Call3_2 expectation.
+func NewCall3_2[A1, A2, A3, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher) *Call3_2[A1, A2, A3, R1, R2] {
+	t.Helper()
+	c := &Call3_2[A1, A2, A3, R1, R2]{
+		FinalizedCall3: FinalizedCall3[A1, A2, A3]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+	}
+	c.FinalizedCall3.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call3_2[A1, A2, A3, R1, R2]) Do(f func(A1, A2, A3)) *Call3_2[A1, A2, A3, R1, R2] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call3_2[A1, A2, A3, R1, R2]) DoAndReturn(f func(A1, A2, A3) (R1, R2)) *Call3_2[A1, A2, A3, R1, R2] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call3_2[A1, A2, A3, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall3[A1, A2, A3] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall3
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call3_2[A1, A2, A3, R1, R2]) DoAndReturn(f func(A1, A2, A3) (R1, R2)) *FinalizedCall3[A1, A2, A3] {
+	c.doReturnFn = f
+	return &c.FinalizedCall3
+}
+
 func (c *Call3_2[A1, A2, A3, R1, R2]) AnyTimes() *Call3_2[A1, A2, A3, R1, R2] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call3_2[A1, A2, A3, R1, R2]) MinTimes(n int) *Call3_2[A1, A2, A3, R1, R2] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call3_2[A1, A2, A3, R1, R2]) MaxTimes(n int) *Call3_2[A1, A2, A3, R1, R2] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call3_2[A1, A2, A3, R1, R2]) Times(n int) *Call3_2[A1, A2, A3, R1, R2] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call3_2[A1, A2, A3, R1, R2]) After(preReq *Call) *Call3_2[A1, A2, A3, R1, R2] {
-	c.Call = c.Call.After(preReq)
+func (c *Call3_2[A1, A2, A3, R1, R2]) After(preReq CallHolder) *Call3_2[A1, A2, A3, R1, R2] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call3_3 wraps *Call for a method with 3 arguments and 3 return values.
+// Call3_3 wraps FinalizedCall3 for a method with 3 args and 3 return values.
 type Call3_3[A1, A2, A3, R1, R2, R3 any] struct {
-	*Call
+	FinalizedCall3[A1, A2, A3]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, A3) (R1, R2, R3)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call3_3[A1, A2, A3, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *Call3_3[A1, A2, A3, R1, R2, R3] {
-	c.Call = c.Call.Return(r1, r2, r3)
+func (c *Call3_3[A1, A2, A3, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3}, c.origin)
+}
+
+// NewCall3_3 creates a new Call3_3 expectation.
+func NewCall3_3[A1, A2, A3, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher) *Call3_3[A1, A2, A3, R1, R2, R3] {
+	t.Helper()
+	c := &Call3_3[A1, A2, A3, R1, R2, R3]{
+		FinalizedCall3: FinalizedCall3[A1, A2, A3]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+	}
+	c.FinalizedCall3.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call3_3[A1, A2, A3, R1, R2, R3]) Do(f func(A1, A2, A3)) *Call3_3[A1, A2, A3, R1, R2, R3] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call3_3[A1, A2, A3, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3) (R1, R2, R3)) *Call3_3[A1, A2, A3, R1, R2, R3] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call3_3[A1, A2, A3, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall3[A1, A2, A3] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall3
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call3_3[A1, A2, A3, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3) (R1, R2, R3)) *FinalizedCall3[A1, A2, A3] {
+	c.doReturnFn = f
+	return &c.FinalizedCall3
+}
+
 func (c *Call3_3[A1, A2, A3, R1, R2, R3]) AnyTimes() *Call3_3[A1, A2, A3, R1, R2, R3] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call3_3[A1, A2, A3, R1, R2, R3]) MinTimes(n int) *Call3_3[A1, A2, A3, R1, R2, R3] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call3_3[A1, A2, A3, R1, R2, R3]) MaxTimes(n int) *Call3_3[A1, A2, A3, R1, R2, R3] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call3_3[A1, A2, A3, R1, R2, R3]) Times(n int) *Call3_3[A1, A2, A3, R1, R2, R3] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call3_3[A1, A2, A3, R1, R2, R3]) After(preReq *Call) *Call3_3[A1, A2, A3, R1, R2, R3] {
-	c.Call = c.Call.After(preReq)
+func (c *Call3_3[A1, A2, A3, R1, R2, R3]) After(preReq CallHolder) *Call3_3[A1, A2, A3, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call3_4 wraps *Call for a method with 3 arguments and 4 return values.
+// Call3_4 wraps FinalizedCall3 for a method with 3 args and 4 return values.
 type Call3_4[A1, A2, A3, R1, R2, R3, R4 any] struct {
-	*Call
+	FinalizedCall3[A1, A2, A3]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, A3) (R1, R2, R3, R4)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call3_4[A1, A2, A3, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *Call3_4[A1, A2, A3, R1, R2, R3, R4] {
-	c.Call = c.Call.Return(r1, r2, r3, r4)
+func (c *Call3_4[A1, A2, A3, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3}, c.origin)
+}
+
+// NewCall3_4 creates a new Call3_4 expectation.
+func NewCall3_4[A1, A2, A3, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher) *Call3_4[A1, A2, A3, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call3_4[A1, A2, A3, R1, R2, R3, R4]{
+		FinalizedCall3: FinalizedCall3[A1, A2, A3]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+	}
+	c.FinalizedCall3.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call3_4[A1, A2, A3, R1, R2, R3, R4]) Do(f func(A1, A2, A3)) *Call3_4[A1, A2, A3, R1, R2, R3, R4] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call3_4[A1, A2, A3, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3) (R1, R2, R3, R4)) *Call3_4[A1, A2, A3, R1, R2, R3, R4] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call3_4[A1, A2, A3, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall3[A1, A2, A3] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall3
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call3_4[A1, A2, A3, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3) (R1, R2, R3, R4)) *FinalizedCall3[A1, A2, A3] {
+	c.doReturnFn = f
+	return &c.FinalizedCall3
+}
+
 func (c *Call3_4[A1, A2, A3, R1, R2, R3, R4]) AnyTimes() *Call3_4[A1, A2, A3, R1, R2, R3, R4] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call3_4[A1, A2, A3, R1, R2, R3, R4]) MinTimes(n int) *Call3_4[A1, A2, A3, R1, R2, R3, R4] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call3_4[A1, A2, A3, R1, R2, R3, R4]) MaxTimes(n int) *Call3_4[A1, A2, A3, R1, R2, R3, R4] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call3_4[A1, A2, A3, R1, R2, R3, R4]) Times(n int) *Call3_4[A1, A2, A3, R1, R2, R3, R4] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call3_4[A1, A2, A3, R1, R2, R3, R4]) After(preReq *Call) *Call3_4[A1, A2, A3, R1, R2, R3, R4] {
-	c.Call = c.Call.After(preReq)
+func (c *Call3_4[A1, A2, A3, R1, R2, R3, R4]) After(preReq CallHolder) *Call3_4[A1, A2, A3, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call3_5 wraps *Call for a method with 3 arguments and 5 return values.
+// Call3_5 wraps FinalizedCall3 for a method with 3 args and 5 return values.
 type Call3_5[A1, A2, A3, R1, R2, R3, R4, R5 any] struct {
-	*Call
+	FinalizedCall3[A1, A2, A3]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, A3) (R1, R2, R3, R4, R5)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Return(r1, r2, r3, r4, r5)
+func (c *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3}, c.origin)
+}
+
+// NewCall3_5 creates a new Call3_5 expectation.
+func NewCall3_5[A1, A2, A3, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher) *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call3_5[A1, A2, A3, R1, R2, R3, R4, R5]{
+		FinalizedCall3: FinalizedCall3[A1, A2, A3]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+	}
+	c.FinalizedCall3.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3)) *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3) (R1, R2, R3, R4, R5)) *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall3[A1, A2, A3] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall3
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3) (R1, R2, R3, R4, R5)) *FinalizedCall3[A1, A2, A3] {
+	c.doReturnFn = f
+	return &c.FinalizedCall3
+}
+
 func (c *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5]) AnyTimes() *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5]) MinTimes(n int) *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5]) Times(n int) *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5]) After(preReq *Call) *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.After(preReq)
+func (c *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call3_5[A1, A2, A3, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call4_0 wraps *Call for a method with 4 arguments and 0 return values.
+// Call4_0 wraps FinalizedCall4 for a method with 4 args and 0 return values.
 type Call4_0[A1, A2, A3, A4 any] struct {
-	*Call
+	FinalizedCall4[A1, A2, A3, A4]
+	m1 Matcher
+	m2 Matcher
+	m3 Matcher
+	m4 Matcher
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
+func (c *Call4_0[A1, A2, A3, A4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4}, c.origin)
+}
+
+// NewCall4_0 creates a new Call4_0 expectation.
+func NewCall4_0[A1, A2, A3, A4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher) *Call4_0[A1, A2, A3, A4] {
+	t.Helper()
+	c := &Call4_0[A1, A2, A3, A4]{
+		FinalizedCall4: FinalizedCall4[A1, A2, A3, A4]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+	}
+	c.FinalizedCall4.Call = newCall(t, c)
+	return c
+}
+
 func (c *Call4_0[A1, A2, A3, A4]) Do(f func(A1, A2, A3, A4)) *Call4_0[A1, A2, A3, A4] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call4_0[A1, A2, A3, A4]) DoAndReturn(f func(A1, A2, A3, A4)) *Call4_0[A1, A2, A3, A4] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
-}
-
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
 func (c *Call4_0[A1, A2, A3, A4]) AnyTimes() *Call4_0[A1, A2, A3, A4] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call4_0[A1, A2, A3, A4]) MinTimes(n int) *Call4_0[A1, A2, A3, A4] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call4_0[A1, A2, A3, A4]) MaxTimes(n int) *Call4_0[A1, A2, A3, A4] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call4_0[A1, A2, A3, A4]) Times(n int) *Call4_0[A1, A2, A3, A4] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call4_0[A1, A2, A3, A4]) After(preReq *Call) *Call4_0[A1, A2, A3, A4] {
-	c.Call = c.Call.After(preReq)
+func (c *Call4_0[A1, A2, A3, A4]) After(preReq CallHolder) *Call4_0[A1, A2, A3, A4] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call4_1 wraps *Call for a method with 4 arguments and 1 return value.
+// Call4_1 wraps FinalizedCall4 for a method with 4 args and 1 return values.
 type Call4_1[A1, A2, A3, A4, R1 any] struct {
-	*Call
+	FinalizedCall4[A1, A2, A3, A4]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, A3, A4) R1
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call4_1[A1, A2, A3, A4, R1]) Return(r1 R1) *Call4_1[A1, A2, A3, A4, R1] {
-	c.Call = c.Call.Return(r1)
+func (c *Call4_1[A1, A2, A3, A4, R1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4}, c.origin)
+}
+
+// NewCall4_1 creates a new Call4_1 expectation.
+func NewCall4_1[A1, A2, A3, A4, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher) *Call4_1[A1, A2, A3, A4, R1] {
+	t.Helper()
+	c := &Call4_1[A1, A2, A3, A4, R1]{
+		FinalizedCall4: FinalizedCall4[A1, A2, A3, A4]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+	}
+	c.FinalizedCall4.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call4_1[A1, A2, A3, A4, R1]) Do(f func(A1, A2, A3, A4)) *Call4_1[A1, A2, A3, A4, R1] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call4_1[A1, A2, A3, A4, R1]) DoAndReturn(f func(A1, A2, A3, A4) R1) *Call4_1[A1, A2, A3, A4, R1] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call4_1[A1, A2, A3, A4, R1]) Return(r1 R1) *FinalizedCall4[A1, A2, A3, A4] {
+	c.retV1 = &r1
+	return &c.FinalizedCall4
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call4_1[A1, A2, A3, A4, R1]) DoAndReturn(f func(A1, A2, A3, A4) R1) *FinalizedCall4[A1, A2, A3, A4] {
+	c.doReturnFn = f
+	return &c.FinalizedCall4
+}
+
 func (c *Call4_1[A1, A2, A3, A4, R1]) AnyTimes() *Call4_1[A1, A2, A3, A4, R1] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call4_1[A1, A2, A3, A4, R1]) MinTimes(n int) *Call4_1[A1, A2, A3, A4, R1] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call4_1[A1, A2, A3, A4, R1]) MaxTimes(n int) *Call4_1[A1, A2, A3, A4, R1] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call4_1[A1, A2, A3, A4, R1]) Times(n int) *Call4_1[A1, A2, A3, A4, R1] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call4_1[A1, A2, A3, A4, R1]) After(preReq *Call) *Call4_1[A1, A2, A3, A4, R1] {
-	c.Call = c.Call.After(preReq)
+func (c *Call4_1[A1, A2, A3, A4, R1]) After(preReq CallHolder) *Call4_1[A1, A2, A3, A4, R1] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call4_2 wraps *Call for a method with 4 arguments and 2 return values.
+// Call4_2 wraps FinalizedCall4 for a method with 4 args and 2 return values.
 type Call4_2[A1, A2, A3, A4, R1, R2 any] struct {
-	*Call
+	FinalizedCall4[A1, A2, A3, A4]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, A3, A4) (R1, R2)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call4_2[A1, A2, A3, A4, R1, R2]) Return(r1 R1, r2 R2) *Call4_2[A1, A2, A3, A4, R1, R2] {
-	c.Call = c.Call.Return(r1, r2)
+func (c *Call4_2[A1, A2, A3, A4, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4}, c.origin)
+}
+
+// NewCall4_2 creates a new Call4_2 expectation.
+func NewCall4_2[A1, A2, A3, A4, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher) *Call4_2[A1, A2, A3, A4, R1, R2] {
+	t.Helper()
+	c := &Call4_2[A1, A2, A3, A4, R1, R2]{
+		FinalizedCall4: FinalizedCall4[A1, A2, A3, A4]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+	}
+	c.FinalizedCall4.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call4_2[A1, A2, A3, A4, R1, R2]) Do(f func(A1, A2, A3, A4)) *Call4_2[A1, A2, A3, A4, R1, R2] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call4_2[A1, A2, A3, A4, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4) (R1, R2)) *Call4_2[A1, A2, A3, A4, R1, R2] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call4_2[A1, A2, A3, A4, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall4[A1, A2, A3, A4] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall4
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call4_2[A1, A2, A3, A4, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4) (R1, R2)) *FinalizedCall4[A1, A2, A3, A4] {
+	c.doReturnFn = f
+	return &c.FinalizedCall4
+}
+
 func (c *Call4_2[A1, A2, A3, A4, R1, R2]) AnyTimes() *Call4_2[A1, A2, A3, A4, R1, R2] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call4_2[A1, A2, A3, A4, R1, R2]) MinTimes(n int) *Call4_2[A1, A2, A3, A4, R1, R2] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call4_2[A1, A2, A3, A4, R1, R2]) MaxTimes(n int) *Call4_2[A1, A2, A3, A4, R1, R2] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call4_2[A1, A2, A3, A4, R1, R2]) Times(n int) *Call4_2[A1, A2, A3, A4, R1, R2] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call4_2[A1, A2, A3, A4, R1, R2]) After(preReq *Call) *Call4_2[A1, A2, A3, A4, R1, R2] {
-	c.Call = c.Call.After(preReq)
+func (c *Call4_2[A1, A2, A3, A4, R1, R2]) After(preReq CallHolder) *Call4_2[A1, A2, A3, A4, R1, R2] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call4_3 wraps *Call for a method with 4 arguments and 3 return values.
+// Call4_3 wraps FinalizedCall4 for a method with 4 args and 3 return values.
 type Call4_3[A1, A2, A3, A4, R1, R2, R3 any] struct {
-	*Call
+	FinalizedCall4[A1, A2, A3, A4]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, A3, A4) (R1, R2, R3)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call4_3[A1, A2, A3, A4, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *Call4_3[A1, A2, A3, A4, R1, R2, R3] {
-	c.Call = c.Call.Return(r1, r2, r3)
+func (c *Call4_3[A1, A2, A3, A4, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4}, c.origin)
+}
+
+// NewCall4_3 creates a new Call4_3 expectation.
+func NewCall4_3[A1, A2, A3, A4, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher) *Call4_3[A1, A2, A3, A4, R1, R2, R3] {
+	t.Helper()
+	c := &Call4_3[A1, A2, A3, A4, R1, R2, R3]{
+		FinalizedCall4: FinalizedCall4[A1, A2, A3, A4]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+	}
+	c.FinalizedCall4.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call4_3[A1, A2, A3, A4, R1, R2, R3]) Do(f func(A1, A2, A3, A4)) *Call4_3[A1, A2, A3, A4, R1, R2, R3] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call4_3[A1, A2, A3, A4, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4) (R1, R2, R3)) *Call4_3[A1, A2, A3, A4, R1, R2, R3] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call4_3[A1, A2, A3, A4, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall4[A1, A2, A3, A4] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall4
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call4_3[A1, A2, A3, A4, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4) (R1, R2, R3)) *FinalizedCall4[A1, A2, A3, A4] {
+	c.doReturnFn = f
+	return &c.FinalizedCall4
+}
+
 func (c *Call4_3[A1, A2, A3, A4, R1, R2, R3]) AnyTimes() *Call4_3[A1, A2, A3, A4, R1, R2, R3] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call4_3[A1, A2, A3, A4, R1, R2, R3]) MinTimes(n int) *Call4_3[A1, A2, A3, A4, R1, R2, R3] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call4_3[A1, A2, A3, A4, R1, R2, R3]) MaxTimes(n int) *Call4_3[A1, A2, A3, A4, R1, R2, R3] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call4_3[A1, A2, A3, A4, R1, R2, R3]) Times(n int) *Call4_3[A1, A2, A3, A4, R1, R2, R3] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call4_3[A1, A2, A3, A4, R1, R2, R3]) After(preReq *Call) *Call4_3[A1, A2, A3, A4, R1, R2, R3] {
-	c.Call = c.Call.After(preReq)
+func (c *Call4_3[A1, A2, A3, A4, R1, R2, R3]) After(preReq CallHolder) *Call4_3[A1, A2, A3, A4, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call4_4 wraps *Call for a method with 4 arguments and 4 return values.
+// Call4_4 wraps FinalizedCall4 for a method with 4 args and 4 return values.
 type Call4_4[A1, A2, A3, A4, R1, R2, R3, R4 any] struct {
-	*Call
+	FinalizedCall4[A1, A2, A3, A4]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, A3, A4) (R1, R2, R3, R4)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4] {
-	c.Call = c.Call.Return(r1, r2, r3, r4)
+func (c *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4}, c.origin)
+}
+
+// NewCall4_4 creates a new Call4_4 expectation.
+func NewCall4_4[A1, A2, A3, A4, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher) *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call4_4[A1, A2, A3, A4, R1, R2, R3, R4]{
+		FinalizedCall4: FinalizedCall4[A1, A2, A3, A4]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+	}
+	c.FinalizedCall4.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4)) *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4) (R1, R2, R3, R4)) *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall4[A1, A2, A3, A4] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall4
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4) (R1, R2, R3, R4)) *FinalizedCall4[A1, A2, A3, A4] {
+	c.doReturnFn = f
+	return &c.FinalizedCall4
+}
+
 func (c *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4]) AnyTimes() *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4]) MinTimes(n int) *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4]) MaxTimes(n int) *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4]) Times(n int) *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4]) After(preReq *Call) *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4] {
-	c.Call = c.Call.After(preReq)
+func (c *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4]) After(preReq CallHolder) *Call4_4[A1, A2, A3, A4, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call4_5 wraps *Call for a method with 4 arguments and 5 return values.
+// Call4_5 wraps FinalizedCall4 for a method with 4 args and 5 return values.
 type Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5 any] struct {
-	*Call
+	FinalizedCall4[A1, A2, A3, A4]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, A3, A4) (R1, R2, R3, R4, R5)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Return(r1, r2, r3, r4, r5)
+func (c *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4}, c.origin)
+}
+
+// NewCall4_5 creates a new Call4_5 expectation.
+func NewCall4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher) *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5]{
+		FinalizedCall4: FinalizedCall4[A1, A2, A3, A4]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+	}
+	c.FinalizedCall4.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4)) *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4) (R1, R2, R3, R4, R5)) *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall4[A1, A2, A3, A4] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall4
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4) (R1, R2, R3, R4, R5)) *FinalizedCall4[A1, A2, A3, A4] {
+	c.doReturnFn = f
+	return &c.FinalizedCall4
+}
+
 func (c *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5]) AnyTimes() *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5]) MinTimes(n int) *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5]) Times(n int) *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5]) After(preReq *Call) *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.After(preReq)
+func (c *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call5_0 wraps *Call for a method with 5 arguments and 0 return values.
+// Call5_0 wraps FinalizedCall5 for a method with 5 args and 0 return values.
 type Call5_0[A1, A2, A3, A4, A5 any] struct {
-	*Call
+	FinalizedCall5[A1, A2, A3, A4, A5]
+	m1 Matcher
+	m2 Matcher
+	m3 Matcher
+	m4 Matcher
+	m5 Matcher
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
+func (c *Call5_0[A1, A2, A3, A4, A5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.origin)
+}
+
+// NewCall5_0 creates a new Call5_0 expectation.
+func NewCall5_0[A1, A2, A3, A4, A5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher) *Call5_0[A1, A2, A3, A4, A5] {
+	t.Helper()
+	c := &Call5_0[A1, A2, A3, A4, A5]{
+		FinalizedCall5: FinalizedCall5[A1, A2, A3, A4, A5]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+	}
+	c.FinalizedCall5.Call = newCall(t, c)
+	return c
+}
+
 func (c *Call5_0[A1, A2, A3, A4, A5]) Do(f func(A1, A2, A3, A4, A5)) *Call5_0[A1, A2, A3, A4, A5] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call5_0[A1, A2, A3, A4, A5]) DoAndReturn(f func(A1, A2, A3, A4, A5)) *Call5_0[A1, A2, A3, A4, A5] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
-}
-
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
 func (c *Call5_0[A1, A2, A3, A4, A5]) AnyTimes() *Call5_0[A1, A2, A3, A4, A5] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call5_0[A1, A2, A3, A4, A5]) MinTimes(n int) *Call5_0[A1, A2, A3, A4, A5] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call5_0[A1, A2, A3, A4, A5]) MaxTimes(n int) *Call5_0[A1, A2, A3, A4, A5] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call5_0[A1, A2, A3, A4, A5]) Times(n int) *Call5_0[A1, A2, A3, A4, A5] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call5_0[A1, A2, A3, A4, A5]) After(preReq *Call) *Call5_0[A1, A2, A3, A4, A5] {
-	c.Call = c.Call.After(preReq)
+func (c *Call5_0[A1, A2, A3, A4, A5]) After(preReq CallHolder) *Call5_0[A1, A2, A3, A4, A5] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call5_1 wraps *Call for a method with 5 arguments and 1 return value.
+// Call5_1 wraps FinalizedCall5 for a method with 5 args and 1 return values.
 type Call5_1[A1, A2, A3, A4, A5, R1 any] struct {
-	*Call
+	FinalizedCall5[A1, A2, A3, A4, A5]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, A3, A4, A5) R1
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call5_1[A1, A2, A3, A4, A5, R1]) Return(r1 R1) *Call5_1[A1, A2, A3, A4, A5, R1] {
-	c.Call = c.Call.Return(r1)
+func (c *Call5_1[A1, A2, A3, A4, A5, R1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.origin)
+}
+
+// NewCall5_1 creates a new Call5_1 expectation.
+func NewCall5_1[A1, A2, A3, A4, A5, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher) *Call5_1[A1, A2, A3, A4, A5, R1] {
+	t.Helper()
+	c := &Call5_1[A1, A2, A3, A4, A5, R1]{
+		FinalizedCall5: FinalizedCall5[A1, A2, A3, A4, A5]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+	}
+	c.FinalizedCall5.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call5_1[A1, A2, A3, A4, A5, R1]) Do(f func(A1, A2, A3, A4, A5)) *Call5_1[A1, A2, A3, A4, A5, R1] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call5_1[A1, A2, A3, A4, A5, R1]) DoAndReturn(f func(A1, A2, A3, A4, A5) R1) *Call5_1[A1, A2, A3, A4, A5, R1] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call5_1[A1, A2, A3, A4, A5, R1]) Return(r1 R1) *FinalizedCall5[A1, A2, A3, A4, A5] {
+	c.retV1 = &r1
+	return &c.FinalizedCall5
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call5_1[A1, A2, A3, A4, A5, R1]) DoAndReturn(f func(A1, A2, A3, A4, A5) R1) *FinalizedCall5[A1, A2, A3, A4, A5] {
+	c.doReturnFn = f
+	return &c.FinalizedCall5
+}
+
 func (c *Call5_1[A1, A2, A3, A4, A5, R1]) AnyTimes() *Call5_1[A1, A2, A3, A4, A5, R1] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call5_1[A1, A2, A3, A4, A5, R1]) MinTimes(n int) *Call5_1[A1, A2, A3, A4, A5, R1] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call5_1[A1, A2, A3, A4, A5, R1]) MaxTimes(n int) *Call5_1[A1, A2, A3, A4, A5, R1] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call5_1[A1, A2, A3, A4, A5, R1]) Times(n int) *Call5_1[A1, A2, A3, A4, A5, R1] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call5_1[A1, A2, A3, A4, A5, R1]) After(preReq *Call) *Call5_1[A1, A2, A3, A4, A5, R1] {
-	c.Call = c.Call.After(preReq)
+func (c *Call5_1[A1, A2, A3, A4, A5, R1]) After(preReq CallHolder) *Call5_1[A1, A2, A3, A4, A5, R1] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call5_2 wraps *Call for a method with 5 arguments and 2 return values.
+// Call5_2 wraps FinalizedCall5 for a method with 5 args and 2 return values.
 type Call5_2[A1, A2, A3, A4, A5, R1, R2 any] struct {
-	*Call
+	FinalizedCall5[A1, A2, A3, A4, A5]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, A3, A4, A5) (R1, R2)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call5_2[A1, A2, A3, A4, A5, R1, R2]) Return(r1 R1, r2 R2) *Call5_2[A1, A2, A3, A4, A5, R1, R2] {
-	c.Call = c.Call.Return(r1, r2)
+func (c *Call5_2[A1, A2, A3, A4, A5, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.origin)
+}
+
+// NewCall5_2 creates a new Call5_2 expectation.
+func NewCall5_2[A1, A2, A3, A4, A5, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher) *Call5_2[A1, A2, A3, A4, A5, R1, R2] {
+	t.Helper()
+	c := &Call5_2[A1, A2, A3, A4, A5, R1, R2]{
+		FinalizedCall5: FinalizedCall5[A1, A2, A3, A4, A5]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+	}
+	c.FinalizedCall5.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call5_2[A1, A2, A3, A4, A5, R1, R2]) Do(f func(A1, A2, A3, A4, A5)) *Call5_2[A1, A2, A3, A4, A5, R1, R2] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call5_2[A1, A2, A3, A4, A5, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, A5) (R1, R2)) *Call5_2[A1, A2, A3, A4, A5, R1, R2] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call5_2[A1, A2, A3, A4, A5, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall5[A1, A2, A3, A4, A5] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall5
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call5_2[A1, A2, A3, A4, A5, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, A5) (R1, R2)) *FinalizedCall5[A1, A2, A3, A4, A5] {
+	c.doReturnFn = f
+	return &c.FinalizedCall5
+}
+
 func (c *Call5_2[A1, A2, A3, A4, A5, R1, R2]) AnyTimes() *Call5_2[A1, A2, A3, A4, A5, R1, R2] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call5_2[A1, A2, A3, A4, A5, R1, R2]) MinTimes(n int) *Call5_2[A1, A2, A3, A4, A5, R1, R2] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call5_2[A1, A2, A3, A4, A5, R1, R2]) MaxTimes(n int) *Call5_2[A1, A2, A3, A4, A5, R1, R2] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call5_2[A1, A2, A3, A4, A5, R1, R2]) Times(n int) *Call5_2[A1, A2, A3, A4, A5, R1, R2] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call5_2[A1, A2, A3, A4, A5, R1, R2]) After(preReq *Call) *Call5_2[A1, A2, A3, A4, A5, R1, R2] {
-	c.Call = c.Call.After(preReq)
+func (c *Call5_2[A1, A2, A3, A4, A5, R1, R2]) After(preReq CallHolder) *Call5_2[A1, A2, A3, A4, A5, R1, R2] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call5_3 wraps *Call for a method with 5 arguments and 3 return values.
+// Call5_3 wraps FinalizedCall5 for a method with 5 args and 3 return values.
 type Call5_3[A1, A2, A3, A4, A5, R1, R2, R3 any] struct {
-	*Call
+	FinalizedCall5[A1, A2, A3, A4, A5]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, A3, A4, A5) (R1, R2, R3)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3] {
-	c.Call = c.Call.Return(r1, r2, r3)
+func (c *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.origin)
+}
+
+// NewCall5_3 creates a new Call5_3 expectation.
+func NewCall5_3[A1, A2, A3, A4, A5, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher) *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3] {
+	t.Helper()
+	c := &Call5_3[A1, A2, A3, A4, A5, R1, R2, R3]{
+		FinalizedCall5: FinalizedCall5[A1, A2, A3, A4, A5]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+	}
+	c.FinalizedCall5.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5)) *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, A5) (R1, R2, R3)) *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall5[A1, A2, A3, A4, A5] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall5
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, A5) (R1, R2, R3)) *FinalizedCall5[A1, A2, A3, A4, A5] {
+	c.doReturnFn = f
+	return &c.FinalizedCall5
+}
+
 func (c *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3]) AnyTimes() *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3]) MinTimes(n int) *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3]) MaxTimes(n int) *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3]) Times(n int) *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3]) After(preReq *Call) *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3] {
-	c.Call = c.Call.After(preReq)
+func (c *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3]) After(preReq CallHolder) *Call5_3[A1, A2, A3, A4, A5, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call5_4 wraps *Call for a method with 5 arguments and 4 return values.
+// Call5_4 wraps FinalizedCall5 for a method with 5 args and 4 return values.
 type Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4 any] struct {
-	*Call
+	FinalizedCall5[A1, A2, A3, A4, A5]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, A3, A4, A5) (R1, R2, R3, R4)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4] {
-	c.Call = c.Call.Return(r1, r2, r3, r4)
+func (c *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.origin)
+}
+
+// NewCall5_4 creates a new Call5_4 expectation.
+func NewCall5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher) *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4]{
+		FinalizedCall5: FinalizedCall5[A1, A2, A3, A4, A5]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+	}
+	c.FinalizedCall5.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5)) *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, A5) (R1, R2, R3, R4)) *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall5[A1, A2, A3, A4, A5] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall5
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, A5) (R1, R2, R3, R4)) *FinalizedCall5[A1, A2, A3, A4, A5] {
+	c.doReturnFn = f
+	return &c.FinalizedCall5
+}
+
 func (c *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4]) AnyTimes() *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4]) MinTimes(n int) *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4]) MaxTimes(n int) *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4]) Times(n int) *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4]) After(preReq *Call) *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4] {
-	c.Call = c.Call.After(preReq)
+func (c *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4]) After(preReq CallHolder) *Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call5_5 wraps *Call for a method with 5 arguments and 5 return values.
+// Call5_5 wraps FinalizedCall5 for a method with 5 args and 5 return values.
 type Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5 any] struct {
-	*Call
+	FinalizedCall5[A1, A2, A3, A4, A5]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, A3, A4, A5) (R1, R2, R3, R4, R5)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Return(r1, r2, r3, r4, r5)
+func (c *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.origin)
+}
+
+// NewCall5_5 creates a new Call5_5 expectation.
+func NewCall5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher) *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5]{
+		FinalizedCall5: FinalizedCall5[A1, A2, A3, A4, A5]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+	}
+	c.FinalizedCall5.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5)) *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, A5) (R1, R2, R3, R4, R5)) *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall5[A1, A2, A3, A4, A5] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall5
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, A5) (R1, R2, R3, R4, R5)) *FinalizedCall5[A1, A2, A3, A4, A5] {
+	c.doReturnFn = f
+	return &c.FinalizedCall5
+}
+
 func (c *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5]) AnyTimes() *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5]) MinTimes(n int) *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5]) Times(n int) *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5]) After(preReq *Call) *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.After(preReq)
+func (c *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call6_0 wraps *Call for a method with 6 arguments and 0 return values.
+// Call6_0 wraps FinalizedCall6 for a method with 6 args and 0 return values.
 type Call6_0[A1, A2, A3, A4, A5, A6 any] struct {
-	*Call
+	FinalizedCall6[A1, A2, A3, A4, A5, A6]
+	m1 Matcher
+	m2 Matcher
+	m3 Matcher
+	m4 Matcher
+	m5 Matcher
+	m6 Matcher
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
+func (c *Call6_0[A1, A2, A3, A4, A5, A6]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.origin)
+}
+
+// NewCall6_0 creates a new Call6_0 expectation.
+func NewCall6_0[A1, A2, A3, A4, A5, A6 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher) *Call6_0[A1, A2, A3, A4, A5, A6] {
+	t.Helper()
+	c := &Call6_0[A1, A2, A3, A4, A5, A6]{
+		FinalizedCall6: FinalizedCall6[A1, A2, A3, A4, A5, A6]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+	}
+	c.FinalizedCall6.Call = newCall(t, c)
+	return c
+}
+
 func (c *Call6_0[A1, A2, A3, A4, A5, A6]) Do(f func(A1, A2, A3, A4, A5, A6)) *Call6_0[A1, A2, A3, A4, A5, A6] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call6_0[A1, A2, A3, A4, A5, A6]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6)) *Call6_0[A1, A2, A3, A4, A5, A6] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
-}
-
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
 func (c *Call6_0[A1, A2, A3, A4, A5, A6]) AnyTimes() *Call6_0[A1, A2, A3, A4, A5, A6] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call6_0[A1, A2, A3, A4, A5, A6]) MinTimes(n int) *Call6_0[A1, A2, A3, A4, A5, A6] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call6_0[A1, A2, A3, A4, A5, A6]) MaxTimes(n int) *Call6_0[A1, A2, A3, A4, A5, A6] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call6_0[A1, A2, A3, A4, A5, A6]) Times(n int) *Call6_0[A1, A2, A3, A4, A5, A6] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call6_0[A1, A2, A3, A4, A5, A6]) After(preReq *Call) *Call6_0[A1, A2, A3, A4, A5, A6] {
-	c.Call = c.Call.After(preReq)
+func (c *Call6_0[A1, A2, A3, A4, A5, A6]) After(preReq CallHolder) *Call6_0[A1, A2, A3, A4, A5, A6] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call6_1 wraps *Call for a method with 6 arguments and 1 return value.
+// Call6_1 wraps FinalizedCall6 for a method with 6 args and 1 return values.
 type Call6_1[A1, A2, A3, A4, A5, A6, R1 any] struct {
-	*Call
+	FinalizedCall6[A1, A2, A3, A4, A5, A6]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, A3, A4, A5, A6) R1
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call6_1[A1, A2, A3, A4, A5, A6, R1]) Return(r1 R1) *Call6_1[A1, A2, A3, A4, A5, A6, R1] {
-	c.Call = c.Call.Return(r1)
+func (c *Call6_1[A1, A2, A3, A4, A5, A6, R1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.origin)
+}
+
+// NewCall6_1 creates a new Call6_1 expectation.
+func NewCall6_1[A1, A2, A3, A4, A5, A6, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher) *Call6_1[A1, A2, A3, A4, A5, A6, R1] {
+	t.Helper()
+	c := &Call6_1[A1, A2, A3, A4, A5, A6, R1]{
+		FinalizedCall6: FinalizedCall6[A1, A2, A3, A4, A5, A6]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+	}
+	c.FinalizedCall6.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call6_1[A1, A2, A3, A4, A5, A6, R1]) Do(f func(A1, A2, A3, A4, A5, A6)) *Call6_1[A1, A2, A3, A4, A5, A6, R1] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call6_1[A1, A2, A3, A4, A5, A6, R1]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6) R1) *Call6_1[A1, A2, A3, A4, A5, A6, R1] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call6_1[A1, A2, A3, A4, A5, A6, R1]) Return(r1 R1) *FinalizedCall6[A1, A2, A3, A4, A5, A6] {
+	c.retV1 = &r1
+	return &c.FinalizedCall6
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call6_1[A1, A2, A3, A4, A5, A6, R1]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6) R1) *FinalizedCall6[A1, A2, A3, A4, A5, A6] {
+	c.doReturnFn = f
+	return &c.FinalizedCall6
+}
+
 func (c *Call6_1[A1, A2, A3, A4, A5, A6, R1]) AnyTimes() *Call6_1[A1, A2, A3, A4, A5, A6, R1] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call6_1[A1, A2, A3, A4, A5, A6, R1]) MinTimes(n int) *Call6_1[A1, A2, A3, A4, A5, A6, R1] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call6_1[A1, A2, A3, A4, A5, A6, R1]) MaxTimes(n int) *Call6_1[A1, A2, A3, A4, A5, A6, R1] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call6_1[A1, A2, A3, A4, A5, A6, R1]) Times(n int) *Call6_1[A1, A2, A3, A4, A5, A6, R1] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call6_1[A1, A2, A3, A4, A5, A6, R1]) After(preReq *Call) *Call6_1[A1, A2, A3, A4, A5, A6, R1] {
-	c.Call = c.Call.After(preReq)
+func (c *Call6_1[A1, A2, A3, A4, A5, A6, R1]) After(preReq CallHolder) *Call6_1[A1, A2, A3, A4, A5, A6, R1] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call6_2 wraps *Call for a method with 6 arguments and 2 return values.
+// Call6_2 wraps FinalizedCall6 for a method with 6 args and 2 return values.
 type Call6_2[A1, A2, A3, A4, A5, A6, R1, R2 any] struct {
-	*Call
+	FinalizedCall6[A1, A2, A3, A4, A5, A6]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, A3, A4, A5, A6) (R1, R2)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2]) Return(r1 R1, r2 R2) *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2] {
-	c.Call = c.Call.Return(r1, r2)
+func (c *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.origin)
+}
+
+// NewCall6_2 creates a new Call6_2 expectation.
+func NewCall6_2[A1, A2, A3, A4, A5, A6, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher) *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2] {
+	t.Helper()
+	c := &Call6_2[A1, A2, A3, A4, A5, A6, R1, R2]{
+		FinalizedCall6: FinalizedCall6[A1, A2, A3, A4, A5, A6]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+	}
+	c.FinalizedCall6.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2]) Do(f func(A1, A2, A3, A4, A5, A6)) *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6) (R1, R2)) *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall6[A1, A2, A3, A4, A5, A6] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall6
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6) (R1, R2)) *FinalizedCall6[A1, A2, A3, A4, A5, A6] {
+	c.doReturnFn = f
+	return &c.FinalizedCall6
+}
+
 func (c *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2]) AnyTimes() *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2]) MinTimes(n int) *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2]) MaxTimes(n int) *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2]) Times(n int) *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2]) After(preReq *Call) *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2] {
-	c.Call = c.Call.After(preReq)
+func (c *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2]) After(preReq CallHolder) *Call6_2[A1, A2, A3, A4, A5, A6, R1, R2] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call6_3 wraps *Call for a method with 6 arguments and 3 return values.
+// Call6_3 wraps FinalizedCall6 for a method with 6 args and 3 return values.
 type Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3 any] struct {
-	*Call
+	FinalizedCall6[A1, A2, A3, A4, A5, A6]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, A3, A4, A5, A6) (R1, R2, R3)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3] {
-	c.Call = c.Call.Return(r1, r2, r3)
+func (c *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.origin)
+}
+
+// NewCall6_3 creates a new Call6_3 expectation.
+func NewCall6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher) *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3] {
+	t.Helper()
+	c := &Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3]{
+		FinalizedCall6: FinalizedCall6[A1, A2, A3, A4, A5, A6]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+	}
+	c.FinalizedCall6.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, A6)) *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6) (R1, R2, R3)) *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall6[A1, A2, A3, A4, A5, A6] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall6
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6) (R1, R2, R3)) *FinalizedCall6[A1, A2, A3, A4, A5, A6] {
+	c.doReturnFn = f
+	return &c.FinalizedCall6
+}
+
 func (c *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3]) AnyTimes() *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3]) MinTimes(n int) *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3]) MaxTimes(n int) *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3]) Times(n int) *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3]) After(preReq *Call) *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3] {
-	c.Call = c.Call.After(preReq)
+func (c *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3]) After(preReq CallHolder) *Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call6_4 wraps *Call for a method with 6 arguments and 4 return values.
+// Call6_4 wraps FinalizedCall6 for a method with 6 args and 4 return values.
 type Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4 any] struct {
-	*Call
+	FinalizedCall6[A1, A2, A3, A4, A5, A6]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, A3, A4, A5, A6) (R1, R2, R3, R4)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4] {
-	c.Call = c.Call.Return(r1, r2, r3, r4)
+func (c *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.origin)
+}
+
+// NewCall6_4 creates a new Call6_4 expectation.
+func NewCall6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher) *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4]{
+		FinalizedCall6: FinalizedCall6[A1, A2, A3, A4, A5, A6]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+	}
+	c.FinalizedCall6.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, A6)) *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6) (R1, R2, R3, R4)) *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall6[A1, A2, A3, A4, A5, A6] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall6
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6) (R1, R2, R3, R4)) *FinalizedCall6[A1, A2, A3, A4, A5, A6] {
+	c.doReturnFn = f
+	return &c.FinalizedCall6
+}
+
 func (c *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4]) AnyTimes() *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4]) MinTimes(n int) *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4]) MaxTimes(n int) *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4]) Times(n int) *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4]) After(preReq *Call) *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4] {
-	c.Call = c.Call.After(preReq)
+func (c *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4]) After(preReq CallHolder) *Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call6_5 wraps *Call for a method with 6 arguments and 5 return values.
+// Call6_5 wraps FinalizedCall6 for a method with 6 args and 5 return values.
 type Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5 any] struct {
-	*Call
+	FinalizedCall6[A1, A2, A3, A4, A5, A6]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, A3, A4, A5, A6) (R1, R2, R3, R4, R5)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Return(r1, r2, r3, r4, r5)
+func (c *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.origin)
+}
+
+// NewCall6_5 creates a new Call6_5 expectation.
+func NewCall6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher) *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5]{
+		FinalizedCall6: FinalizedCall6[A1, A2, A3, A4, A5, A6]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+	}
+	c.FinalizedCall6.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, A6)) *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6) (R1, R2, R3, R4, R5)) *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall6[A1, A2, A3, A4, A5, A6] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall6
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6) (R1, R2, R3, R4, R5)) *FinalizedCall6[A1, A2, A3, A4, A5, A6] {
+	c.doReturnFn = f
+	return &c.FinalizedCall6
+}
+
 func (c *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5]) AnyTimes() *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5]) MinTimes(n int) *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5]) Times(n int) *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5]) After(preReq *Call) *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.After(preReq)
+func (c *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call7_0 wraps *Call for a method with 7 arguments and 0 return values.
+// Call7_0 wraps FinalizedCall7 for a method with 7 args and 0 return values.
 type Call7_0[A1, A2, A3, A4, A5, A6, A7 any] struct {
-	*Call
+	FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]
+	m1 Matcher
+	m2 Matcher
+	m3 Matcher
+	m4 Matcher
+	m5 Matcher
+	m6 Matcher
+	m7 Matcher
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
+func (c *Call7_0[A1, A2, A3, A4, A5, A6, A7]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.origin)
+}
+
+// NewCall7_0 creates a new Call7_0 expectation.
+func NewCall7_0[A1, A2, A3, A4, A5, A6, A7 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher) *Call7_0[A1, A2, A3, A4, A5, A6, A7] {
+	t.Helper()
+	c := &Call7_0[A1, A2, A3, A4, A5, A6, A7]{
+		FinalizedCall7: FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+	}
+	c.FinalizedCall7.Call = newCall(t, c)
+	return c
+}
+
 func (c *Call7_0[A1, A2, A3, A4, A5, A6, A7]) Do(f func(A1, A2, A3, A4, A5, A6, A7)) *Call7_0[A1, A2, A3, A4, A5, A6, A7] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call7_0[A1, A2, A3, A4, A5, A6, A7]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7)) *Call7_0[A1, A2, A3, A4, A5, A6, A7] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
-}
-
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
 func (c *Call7_0[A1, A2, A3, A4, A5, A6, A7]) AnyTimes() *Call7_0[A1, A2, A3, A4, A5, A6, A7] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call7_0[A1, A2, A3, A4, A5, A6, A7]) MinTimes(n int) *Call7_0[A1, A2, A3, A4, A5, A6, A7] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call7_0[A1, A2, A3, A4, A5, A6, A7]) MaxTimes(n int) *Call7_0[A1, A2, A3, A4, A5, A6, A7] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call7_0[A1, A2, A3, A4, A5, A6, A7]) Times(n int) *Call7_0[A1, A2, A3, A4, A5, A6, A7] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call7_0[A1, A2, A3, A4, A5, A6, A7]) After(preReq *Call) *Call7_0[A1, A2, A3, A4, A5, A6, A7] {
-	c.Call = c.Call.After(preReq)
+func (c *Call7_0[A1, A2, A3, A4, A5, A6, A7]) After(preReq CallHolder) *Call7_0[A1, A2, A3, A4, A5, A6, A7] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call7_1 wraps *Call for a method with 7 arguments and 1 return value.
+// Call7_1 wraps FinalizedCall7 for a method with 7 args and 1 return values.
 type Call7_1[A1, A2, A3, A4, A5, A6, A7, R1 any] struct {
-	*Call
+	FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7) R1
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1]) Return(r1 R1) *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1] {
-	c.Call = c.Call.Return(r1)
+func (c *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.origin)
+}
+
+// NewCall7_1 creates a new Call7_1 expectation.
+func NewCall7_1[A1, A2, A3, A4, A5, A6, A7, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher) *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1] {
+	t.Helper()
+	c := &Call7_1[A1, A2, A3, A4, A5, A6, A7, R1]{
+		FinalizedCall7: FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+	}
+	c.FinalizedCall7.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1]) Do(f func(A1, A2, A3, A4, A5, A6, A7)) *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7) R1) *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1]) Return(r1 R1) *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7] {
+	c.retV1 = &r1
+	return &c.FinalizedCall7
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7) R1) *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7] {
+	c.doReturnFn = f
+	return &c.FinalizedCall7
+}
+
 func (c *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1]) AnyTimes() *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1]) MinTimes(n int) *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1]) MaxTimes(n int) *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1]) Times(n int) *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1]) After(preReq *Call) *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1] {
-	c.Call = c.Call.After(preReq)
+func (c *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1]) After(preReq CallHolder) *Call7_1[A1, A2, A3, A4, A5, A6, A7, R1] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call7_2 wraps *Call for a method with 7 arguments and 2 return values.
+// Call7_2 wraps FinalizedCall7 for a method with 7 args and 2 return values.
 type Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2 any] struct {
-	*Call
+	FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7) (R1, R2)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2]) Return(r1 R1, r2 R2) *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2] {
-	c.Call = c.Call.Return(r1, r2)
+func (c *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.origin)
+}
+
+// NewCall7_2 creates a new Call7_2 expectation.
+func NewCall7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher) *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2] {
+	t.Helper()
+	c := &Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2]{
+		FinalizedCall7: FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+	}
+	c.FinalizedCall7.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2]) Do(f func(A1, A2, A3, A4, A5, A6, A7)) *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7) (R1, R2)) *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall7
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7) (R1, R2)) *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7] {
+	c.doReturnFn = f
+	return &c.FinalizedCall7
+}
+
 func (c *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2]) AnyTimes() *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2]) MinTimes(n int) *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2]) MaxTimes(n int) *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2]) Times(n int) *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2]) After(preReq *Call) *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2] {
-	c.Call = c.Call.After(preReq)
+func (c *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2]) After(preReq CallHolder) *Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call7_3 wraps *Call for a method with 7 arguments and 3 return values.
+// Call7_3 wraps FinalizedCall7 for a method with 7 args and 3 return values.
 type Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3 any] struct {
-	*Call
+	FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7) (R1, R2, R3)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3] {
-	c.Call = c.Call.Return(r1, r2, r3)
+func (c *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.origin)
+}
+
+// NewCall7_3 creates a new Call7_3 expectation.
+func NewCall7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher) *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3] {
+	t.Helper()
+	c := &Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3]{
+		FinalizedCall7: FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+	}
+	c.FinalizedCall7.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, A6, A7)) *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7) (R1, R2, R3)) *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall7
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7) (R1, R2, R3)) *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7] {
+	c.doReturnFn = f
+	return &c.FinalizedCall7
+}
+
 func (c *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3]) AnyTimes() *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3]) MinTimes(n int) *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3]) MaxTimes(n int) *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3]) Times(n int) *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3]) After(preReq *Call) *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3] {
-	c.Call = c.Call.After(preReq)
+func (c *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3]) After(preReq CallHolder) *Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call7_4 wraps *Call for a method with 7 arguments and 4 return values.
+// Call7_4 wraps FinalizedCall7 for a method with 7 args and 4 return values.
 type Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4 any] struct {
-	*Call
+	FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7) (R1, R2, R3, R4)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4] {
-	c.Call = c.Call.Return(r1, r2, r3, r4)
+func (c *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.origin)
+}
+
+// NewCall7_4 creates a new Call7_4 expectation.
+func NewCall7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher) *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4]{
+		FinalizedCall7: FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+	}
+	c.FinalizedCall7.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, A6, A7)) *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7) (R1, R2, R3, R4)) *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall7
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7) (R1, R2, R3, R4)) *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7] {
+	c.doReturnFn = f
+	return &c.FinalizedCall7
+}
+
 func (c *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4]) AnyTimes() *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4]) MinTimes(n int) *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4]) MaxTimes(n int) *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4]) Times(n int) *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4]) After(preReq *Call) *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4] {
-	c.Call = c.Call.After(preReq)
+func (c *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4]) After(preReq CallHolder) *Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call7_5 wraps *Call for a method with 7 arguments and 5 return values.
+// Call7_5 wraps FinalizedCall7 for a method with 7 args and 5 return values.
 type Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5 any] struct {
-	*Call
+	FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7) (R1, R2, R3, R4, R5)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Return(r1, r2, r3, r4, r5)
+func (c *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.origin)
+}
+
+// NewCall7_5 creates a new Call7_5 expectation.
+func NewCall7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher) *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5]{
+		FinalizedCall7: FinalizedCall7[A1, A2, A3, A4, A5, A6, A7]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+	}
+	c.FinalizedCall7.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, A6, A7)) *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7) (R1, R2, R3, R4, R5)) *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall7
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7) (R1, R2, R3, R4, R5)) *FinalizedCall7[A1, A2, A3, A4, A5, A6, A7] {
+	c.doReturnFn = f
+	return &c.FinalizedCall7
+}
+
 func (c *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5]) AnyTimes() *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5]) MinTimes(n int) *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5]) Times(n int) *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5]) After(preReq *Call) *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.After(preReq)
+func (c *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call8_0 wraps *Call for a method with 8 arguments and 0 return values.
+// Call8_0 wraps FinalizedCall8 for a method with 8 args and 0 return values.
 type Call8_0[A1, A2, A3, A4, A5, A6, A7, A8 any] struct {
-	*Call
+	FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]
+	m1 Matcher
+	m2 Matcher
+	m3 Matcher
+	m4 Matcher
+	m5 Matcher
+	m6 Matcher
+	m7 Matcher
+	m8 Matcher
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
+func (c *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.origin)
+}
+
+// NewCall8_0 creates a new Call8_0 expectation.
+func NewCall8_0[A1, A2, A3, A4, A5, A6, A7, A8 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher) *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8] {
+	t.Helper()
+	c := &Call8_0[A1, A2, A3, A4, A5, A6, A7, A8]{
+		FinalizedCall8: FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+		m8: m8,
+	}
+	c.FinalizedCall8.Call = newCall(t, c)
+	return c
+}
+
 func (c *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8)) *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8)) *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
-}
-
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
 func (c *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8]) AnyTimes() *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8]) MinTimes(n int) *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8]) MaxTimes(n int) *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8]) Times(n int) *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8]) After(preReq *Call) *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8] {
-	c.Call = c.Call.After(preReq)
+func (c *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8]) After(preReq CallHolder) *Call8_0[A1, A2, A3, A4, A5, A6, A7, A8] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call8_1 wraps *Call for a method with 8 arguments and 1 return value.
+// Call8_1 wraps FinalizedCall8 for a method with 8 args and 1 return values.
 type Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1 any] struct {
-	*Call
+	FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8) R1
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1]) Return(r1 R1) *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1] {
-	c.Call = c.Call.Return(r1)
+func (c *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.origin)
+}
+
+// NewCall8_1 creates a new Call8_1 expectation.
+func NewCall8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher) *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1] {
+	t.Helper()
+	c := &Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1]{
+		FinalizedCall8: FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+		m8: m8,
+	}
+	c.FinalizedCall8.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8)) *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8) R1) *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1]) Return(r1 R1) *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8] {
+	c.retV1 = &r1
+	return &c.FinalizedCall8
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8) R1) *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8] {
+	c.doReturnFn = f
+	return &c.FinalizedCall8
+}
+
 func (c *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1]) AnyTimes() *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1]) MinTimes(n int) *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1]) MaxTimes(n int) *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1]) Times(n int) *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1]) After(preReq *Call) *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1] {
-	c.Call = c.Call.After(preReq)
+func (c *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1]) After(preReq CallHolder) *Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call8_2 wraps *Call for a method with 8 arguments and 2 return values.
+// Call8_2 wraps FinalizedCall8 for a method with 8 args and 2 return values.
 type Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2 any] struct {
-	*Call
+	FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8) (R1, R2)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2]) Return(r1 R1, r2 R2) *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2] {
-	c.Call = c.Call.Return(r1, r2)
+func (c *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.origin)
+}
+
+// NewCall8_2 creates a new Call8_2 expectation.
+func NewCall8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher) *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2] {
+	t.Helper()
+	c := &Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2]{
+		FinalizedCall8: FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+		m8: m8,
+	}
+	c.FinalizedCall8.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8)) *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8) (R1, R2)) *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall8
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8) (R1, R2)) *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8] {
+	c.doReturnFn = f
+	return &c.FinalizedCall8
+}
+
 func (c *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2]) AnyTimes() *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2]) MinTimes(n int) *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2]) MaxTimes(n int) *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2]) Times(n int) *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2]) After(preReq *Call) *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2] {
-	c.Call = c.Call.After(preReq)
+func (c *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2]) After(preReq CallHolder) *Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call8_3 wraps *Call for a method with 8 arguments and 3 return values.
+// Call8_3 wraps FinalizedCall8 for a method with 8 args and 3 return values.
 type Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3 any] struct {
-	*Call
+	FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8) (R1, R2, R3)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3] {
-	c.Call = c.Call.Return(r1, r2, r3)
+func (c *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.origin)
+}
+
+// NewCall8_3 creates a new Call8_3 expectation.
+func NewCall8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher) *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3] {
+	t.Helper()
+	c := &Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3]{
+		FinalizedCall8: FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+		m8: m8,
+	}
+	c.FinalizedCall8.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8)) *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8) (R1, R2, R3)) *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall8
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8) (R1, R2, R3)) *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8] {
+	c.doReturnFn = f
+	return &c.FinalizedCall8
+}
+
 func (c *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3]) AnyTimes() *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3]) MinTimes(n int) *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3]) MaxTimes(n int) *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3]) Times(n int) *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3]) After(preReq *Call) *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3] {
-	c.Call = c.Call.After(preReq)
+func (c *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3]) After(preReq CallHolder) *Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call8_4 wraps *Call for a method with 8 arguments and 4 return values.
+// Call8_4 wraps FinalizedCall8 for a method with 8 args and 4 return values.
 type Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4 any] struct {
-	*Call
+	FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8) (R1, R2, R3, R4)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4] {
-	c.Call = c.Call.Return(r1, r2, r3, r4)
+func (c *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.origin)
+}
+
+// NewCall8_4 creates a new Call8_4 expectation.
+func NewCall8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher) *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4]{
+		FinalizedCall8: FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+		m8: m8,
+	}
+	c.FinalizedCall8.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8)) *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8) (R1, R2, R3, R4)) *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall8
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8) (R1, R2, R3, R4)) *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8] {
+	c.doReturnFn = f
+	return &c.FinalizedCall8
+}
+
 func (c *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4]) AnyTimes() *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4]) MinTimes(n int) *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4]) MaxTimes(n int) *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4]) Times(n int) *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4]) After(preReq *Call) *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4] {
-	c.Call = c.Call.After(preReq)
+func (c *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4]) After(preReq CallHolder) *Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Call8_5 wraps *Call for a method with 8 arguments and 5 return values.
+// Call8_5 wraps FinalizedCall8 for a method with 8 args and 5 return values.
 type Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5 any] struct {
-	*Call
+	FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8) (R1, R2, R3, R4, R5)
 }
 
-// Return sets the values to be returned by this call.
-func (c *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Return(r1, r2, r3, r4, r5)
+func (c *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.origin)
+}
+
+// NewCall8_5 creates a new Call8_5 expectation.
+func NewCall8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher) *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5]{
+		FinalizedCall8: FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+		m8: m8,
+	}
+	c.FinalizedCall8.Call = newCall(t, c)
 	return c
 }
 
-// Do sets the action to run when the call is matched.
-// Return values from f are ignored; use DoAndReturn to use them.
 func (c *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8)) *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Do(f)
+	c.doFns = append(c.doFns, f)
 	return c
 }
 
-// DoAndReturn sets the action to run when the call is matched.
-// The function's return values are used as the mock's return values.
-func (c *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8) (R1, R2, R3, R4, R5)) *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall8
 }
 
-// AnyTimes allows the expectation to be called 0 or more times. — see *Call.AnyTimes.
+func (c *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8) (R1, R2, R3, R4, R5)) *FinalizedCall8[A1, A2, A3, A4, A5, A6, A7, A8] {
+	c.doReturnFn = f
+	return &c.FinalizedCall8
+}
+
 func (c *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5]) AnyTimes() *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.AnyTimes()
+	c.Call.AnyTimes()
 	return c
 }
 
-// MinTimes requires the call to occur at least n times. — see *Call.MinTimes.
 func (c *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5]) MinTimes(n int) *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.MinTimes(n)
+	c.Call.MinTimes(n)
 	return c
 }
 
-// MaxTimes limits the number of calls to n times. — see *Call.MaxTimes.
 func (c *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.MaxTimes(n)
+	c.Call.MaxTimes(n)
 	return c
 }
 
-// Times declares the exact number of times this call is expected. — see *Call.Times.
 func (c *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5]) Times(n int) *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.Times(n)
+	c.Call.Times(n)
 	return c
 }
 
-// After declares that this call may only match after preReq is exhausted. — see *Call.After.
-func (c *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5]) After(preReq *Call) *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5] {
-	c.Call = c.Call.After(preReq)
+func (c *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
 	return c
 }
 
-// Invoke1 unpacks 1 typed return value(s) from a []any call result.
+// Call9_0 wraps FinalizedCall9 for a method with 9 args and 0 return values.
+type Call9_0[A1, A2, A3, A4, A5, A6, A7, A8, A9 any] struct {
+	FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9]
+	m1 Matcher
+	m2 Matcher
+	m3 Matcher
+	m4 Matcher
+	m5 Matcher
+	m6 Matcher
+	m7 Matcher
+	m8 Matcher
+	m9 Matcher
+}
+
+func (c *Call9_0[A1, A2, A3, A4, A5, A6, A7, A8, A9]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9}, c.origin)
+}
+
+// NewCall9_0 creates a new Call9_0 expectation.
+func NewCall9_0[A1, A2, A3, A4, A5, A6, A7, A8, A9 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher) *Call9_0[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	t.Helper()
+	c := &Call9_0[A1, A2, A3, A4, A5, A6, A7, A8, A9]{
+		FinalizedCall9: FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+		m8: m8,
+		m9: m9,
+	}
+	c.FinalizedCall9.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call9_0[A1, A2, A3, A4, A5, A6, A7, A8, A9]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9)) *Call9_0[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call9_0[A1, A2, A3, A4, A5, A6, A7, A8, A9]) AnyTimes() *Call9_0[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call9_0[A1, A2, A3, A4, A5, A6, A7, A8, A9]) MinTimes(n int) *Call9_0[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call9_0[A1, A2, A3, A4, A5, A6, A7, A8, A9]) MaxTimes(n int) *Call9_0[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call9_0[A1, A2, A3, A4, A5, A6, A7, A8, A9]) Times(n int) *Call9_0[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call9_0[A1, A2, A3, A4, A5, A6, A7, A8, A9]) After(preReq CallHolder) *Call9_0[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call9_1 wraps FinalizedCall9 for a method with 9 args and 1 return values.
+type Call9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1 any] struct {
+	FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9) R1
+}
+
+func (c *Call9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9}, c.origin)
+}
+
+// NewCall9_1 creates a new Call9_1 expectation.
+func NewCall9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher) *Call9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1] {
+	t.Helper()
+	c := &Call9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1]{
+		FinalizedCall9: FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+		m8: m8,
+		m9: m9,
+	}
+	c.FinalizedCall9.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9)) *Call9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1]) Return(r1 R1) *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.retV1 = &r1
+	return &c.FinalizedCall9
+}
+
+func (c *Call9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9) R1) *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.doReturnFn = f
+	return &c.FinalizedCall9
+}
+
+func (c *Call9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1]) AnyTimes() *Call9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1]) MinTimes(n int) *Call9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1]) MaxTimes(n int) *Call9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1]) Times(n int) *Call9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1]) After(preReq CallHolder) *Call9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call9_2 wraps FinalizedCall9 for a method with 9 args and 2 return values.
+type Call9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2 any] struct {
+	FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9) (R1, R2)
+}
+
+func (c *Call9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9}, c.origin)
+}
+
+// NewCall9_2 creates a new Call9_2 expectation.
+func NewCall9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher) *Call9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2] {
+	t.Helper()
+	c := &Call9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2]{
+		FinalizedCall9: FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+		m8: m8,
+		m9: m9,
+	}
+	c.FinalizedCall9.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9)) *Call9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall9
+}
+
+func (c *Call9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9) (R1, R2)) *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.doReturnFn = f
+	return &c.FinalizedCall9
+}
+
+func (c *Call9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2]) AnyTimes() *Call9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2]) MinTimes(n int) *Call9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2]) MaxTimes(n int) *Call9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2]) Times(n int) *Call9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2]) After(preReq CallHolder) *Call9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call9_3 wraps FinalizedCall9 for a method with 9 args and 3 return values.
+type Call9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3 any] struct {
+	FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9) (R1, R2, R3)
+}
+
+func (c *Call9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9}, c.origin)
+}
+
+// NewCall9_3 creates a new Call9_3 expectation.
+func NewCall9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher) *Call9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3] {
+	t.Helper()
+	c := &Call9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3]{
+		FinalizedCall9: FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+		m8: m8,
+		m9: m9,
+	}
+	c.FinalizedCall9.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9)) *Call9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall9
+}
+
+func (c *Call9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9) (R1, R2, R3)) *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.doReturnFn = f
+	return &c.FinalizedCall9
+}
+
+func (c *Call9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3]) AnyTimes() *Call9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3]) MinTimes(n int) *Call9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3]) MaxTimes(n int) *Call9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3]) Times(n int) *Call9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3]) After(preReq CallHolder) *Call9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call9_4 wraps FinalizedCall9 for a method with 9 args and 4 return values.
+type Call9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4 any] struct {
+	FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9) (R1, R2, R3, R4)
+}
+
+func (c *Call9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9}, c.origin)
+}
+
+// NewCall9_4 creates a new Call9_4 expectation.
+func NewCall9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher) *Call9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4]{
+		FinalizedCall9: FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+		m8: m8,
+		m9: m9,
+	}
+	c.FinalizedCall9.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9)) *Call9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall9
+}
+
+func (c *Call9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9) (R1, R2, R3, R4)) *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.doReturnFn = f
+	return &c.FinalizedCall9
+}
+
+func (c *Call9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4]) AnyTimes() *Call9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4]) MinTimes(n int) *Call9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4]) MaxTimes(n int) *Call9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4]) Times(n int) *Call9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4]) After(preReq CallHolder) *Call9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call9_5 wraps FinalizedCall9 for a method with 9 args and 5 return values.
+type Call9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5 any] struct {
+	FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9) (R1, R2, R3, R4, R5)
+}
+
+func (c *Call9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9}, c.origin)
+}
+
+// NewCall9_5 creates a new Call9_5 expectation.
+func NewCall9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher) *Call9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5]{
+		FinalizedCall9: FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1: m1,
+		m2: m2,
+		m3: m3,
+		m4: m4,
+		m5: m5,
+		m6: m6,
+		m7: m7,
+		m8: m8,
+		m9: m9,
+	}
+	c.FinalizedCall9.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9)) *Call9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall9
+}
+
+func (c *Call9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9) (R1, R2, R3, R4, R5)) *FinalizedCall9[A1, A2, A3, A4, A5, A6, A7, A8, A9] {
+	c.doReturnFn = f
+	return &c.FinalizedCall9
+}
+
+func (c *Call9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5]) AnyTimes() *Call9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5]) MinTimes(n int) *Call9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5]) Times(n int) *Call9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call10_0 wraps FinalizedCall10 for a method with 10 args and 0 return values.
+type Call10_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10 any] struct {
+	FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]
+	m1  Matcher
+	m2  Matcher
+	m3  Matcher
+	m4  Matcher
+	m5  Matcher
+	m6  Matcher
+	m7  Matcher
+	m8  Matcher
+	m9  Matcher
+	m10 Matcher
+}
+
+func (c *Call10_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10}, c.origin)
+}
+
+// NewCall10_0 creates a new Call10_0 expectation.
+func NewCall10_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher) *Call10_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	t.Helper()
+	c := &Call10_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]{
+		FinalizedCall10: FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:  m1,
+		m2:  m2,
+		m3:  m3,
+		m4:  m4,
+		m5:  m5,
+		m6:  m6,
+		m7:  m7,
+		m8:  m8,
+		m9:  m9,
+		m10: m10,
+	}
+	c.FinalizedCall10.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call10_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) *Call10_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call10_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]) AnyTimes() *Call10_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call10_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]) MinTimes(n int) *Call10_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call10_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]) MaxTimes(n int) *Call10_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call10_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]) Times(n int) *Call10_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call10_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]) After(preReq CallHolder) *Call10_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call10_1 wraps FinalizedCall10 for a method with 10 args and 1 return values.
+type Call10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1 any] struct {
+	FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10) R1
+}
+
+func (c *Call10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10}, c.origin)
+}
+
+// NewCall10_1 creates a new Call10_1 expectation.
+func NewCall10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher) *Call10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1] {
+	t.Helper()
+	c := &Call10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1]{
+		FinalizedCall10: FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:  m1,
+		m2:  m2,
+		m3:  m3,
+		m4:  m4,
+		m5:  m5,
+		m6:  m6,
+		m7:  m7,
+		m8:  m8,
+		m9:  m9,
+		m10: m10,
+	}
+	c.FinalizedCall10.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) *Call10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1]) Return(r1 R1) *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.retV1 = &r1
+	return &c.FinalizedCall10
+}
+
+func (c *Call10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10) R1) *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.doReturnFn = f
+	return &c.FinalizedCall10
+}
+
+func (c *Call10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1]) AnyTimes() *Call10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1]) MinTimes(n int) *Call10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1]) MaxTimes(n int) *Call10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1]) Times(n int) *Call10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1]) After(preReq CallHolder) *Call10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call10_2 wraps FinalizedCall10 for a method with 10 args and 2 return values.
+type Call10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2 any] struct {
+	FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10) (R1, R2)
+}
+
+func (c *Call10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10}, c.origin)
+}
+
+// NewCall10_2 creates a new Call10_2 expectation.
+func NewCall10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher) *Call10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2] {
+	t.Helper()
+	c := &Call10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2]{
+		FinalizedCall10: FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:  m1,
+		m2:  m2,
+		m3:  m3,
+		m4:  m4,
+		m5:  m5,
+		m6:  m6,
+		m7:  m7,
+		m8:  m8,
+		m9:  m9,
+		m10: m10,
+	}
+	c.FinalizedCall10.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) *Call10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall10
+}
+
+func (c *Call10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10) (R1, R2)) *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.doReturnFn = f
+	return &c.FinalizedCall10
+}
+
+func (c *Call10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2]) AnyTimes() *Call10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2]) MinTimes(n int) *Call10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2]) MaxTimes(n int) *Call10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2]) Times(n int) *Call10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2]) After(preReq CallHolder) *Call10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call10_3 wraps FinalizedCall10 for a method with 10 args and 3 return values.
+type Call10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3 any] struct {
+	FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10) (R1, R2, R3)
+}
+
+func (c *Call10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10}, c.origin)
+}
+
+// NewCall10_3 creates a new Call10_3 expectation.
+func NewCall10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher) *Call10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3] {
+	t.Helper()
+	c := &Call10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3]{
+		FinalizedCall10: FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:  m1,
+		m2:  m2,
+		m3:  m3,
+		m4:  m4,
+		m5:  m5,
+		m6:  m6,
+		m7:  m7,
+		m8:  m8,
+		m9:  m9,
+		m10: m10,
+	}
+	c.FinalizedCall10.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) *Call10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall10
+}
+
+func (c *Call10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10) (R1, R2, R3)) *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.doReturnFn = f
+	return &c.FinalizedCall10
+}
+
+func (c *Call10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3]) AnyTimes() *Call10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3]) MinTimes(n int) *Call10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3]) MaxTimes(n int) *Call10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3]) Times(n int) *Call10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3]) After(preReq CallHolder) *Call10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call10_4 wraps FinalizedCall10 for a method with 10 args and 4 return values.
+type Call10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4 any] struct {
+	FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10) (R1, R2, R3, R4)
+}
+
+func (c *Call10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10}, c.origin)
+}
+
+// NewCall10_4 creates a new Call10_4 expectation.
+func NewCall10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher) *Call10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4]{
+		FinalizedCall10: FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:  m1,
+		m2:  m2,
+		m3:  m3,
+		m4:  m4,
+		m5:  m5,
+		m6:  m6,
+		m7:  m7,
+		m8:  m8,
+		m9:  m9,
+		m10: m10,
+	}
+	c.FinalizedCall10.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) *Call10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall10
+}
+
+func (c *Call10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10) (R1, R2, R3, R4)) *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.doReturnFn = f
+	return &c.FinalizedCall10
+}
+
+func (c *Call10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4]) AnyTimes() *Call10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4]) MinTimes(n int) *Call10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4]) MaxTimes(n int) *Call10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4]) Times(n int) *Call10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4]) After(preReq CallHolder) *Call10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call10_5 wraps FinalizedCall10 for a method with 10 args and 5 return values.
+type Call10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5 any] struct {
+	FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10) (R1, R2, R3, R4, R5)
+}
+
+func (c *Call10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10}, c.origin)
+}
+
+// NewCall10_5 creates a new Call10_5 expectation.
+func NewCall10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher) *Call10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5]{
+		FinalizedCall10: FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:  m1,
+		m2:  m2,
+		m3:  m3,
+		m4:  m4,
+		m5:  m5,
+		m6:  m6,
+		m7:  m7,
+		m8:  m8,
+		m9:  m9,
+		m10: m10,
+	}
+	c.FinalizedCall10.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) *Call10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall10
+}
+
+func (c *Call10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10) (R1, R2, R3, R4, R5)) *FinalizedCall10[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10] {
+	c.doReturnFn = f
+	return &c.FinalizedCall10
+}
+
+func (c *Call10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5]) AnyTimes() *Call10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5]) MinTimes(n int) *Call10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5]) Times(n int) *Call10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call11_0 wraps FinalizedCall11 for a method with 11 args and 0 return values.
+type Call11_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11 any] struct {
+	FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]
+	m1  Matcher
+	m2  Matcher
+	m3  Matcher
+	m4  Matcher
+	m5  Matcher
+	m6  Matcher
+	m7  Matcher
+	m8  Matcher
+	m9  Matcher
+	m10 Matcher
+	m11 Matcher
+}
+
+func (c *Call11_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11}, c.origin)
+}
+
+// NewCall11_0 creates a new Call11_0 expectation.
+func NewCall11_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher) *Call11_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	t.Helper()
+	c := &Call11_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]{
+		FinalizedCall11: FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:  m1,
+		m2:  m2,
+		m3:  m3,
+		m4:  m4,
+		m5:  m5,
+		m6:  m6,
+		m7:  m7,
+		m8:  m8,
+		m9:  m9,
+		m10: m10,
+		m11: m11,
+	}
+	c.FinalizedCall11.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call11_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) *Call11_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call11_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]) AnyTimes() *Call11_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call11_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]) MinTimes(n int) *Call11_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call11_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]) MaxTimes(n int) *Call11_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call11_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]) Times(n int) *Call11_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call11_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]) After(preReq CallHolder) *Call11_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call11_1 wraps FinalizedCall11 for a method with 11 args and 1 return values.
+type Call11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1 any] struct {
+	FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	m11        Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11) R1
+}
+
+func (c *Call11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11}, c.origin)
+}
+
+// NewCall11_1 creates a new Call11_1 expectation.
+func NewCall11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher) *Call11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1] {
+	t.Helper()
+	c := &Call11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1]{
+		FinalizedCall11: FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:  m1,
+		m2:  m2,
+		m3:  m3,
+		m4:  m4,
+		m5:  m5,
+		m6:  m6,
+		m7:  m7,
+		m8:  m8,
+		m9:  m9,
+		m10: m10,
+		m11: m11,
+	}
+	c.FinalizedCall11.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) *Call11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1]) Return(r1 R1) *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.retV1 = &r1
+	return &c.FinalizedCall11
+}
+
+func (c *Call11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11) R1) *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.doReturnFn = f
+	return &c.FinalizedCall11
+}
+
+func (c *Call11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1]) AnyTimes() *Call11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1]) MinTimes(n int) *Call11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1]) MaxTimes(n int) *Call11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1]) Times(n int) *Call11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1]) After(preReq CallHolder) *Call11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call11_2 wraps FinalizedCall11 for a method with 11 args and 2 return values.
+type Call11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2 any] struct {
+	FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	m11        Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11) (R1, R2)
+}
+
+func (c *Call11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11}, c.origin)
+}
+
+// NewCall11_2 creates a new Call11_2 expectation.
+func NewCall11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher) *Call11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2] {
+	t.Helper()
+	c := &Call11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2]{
+		FinalizedCall11: FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:  m1,
+		m2:  m2,
+		m3:  m3,
+		m4:  m4,
+		m5:  m5,
+		m6:  m6,
+		m7:  m7,
+		m8:  m8,
+		m9:  m9,
+		m10: m10,
+		m11: m11,
+	}
+	c.FinalizedCall11.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) *Call11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall11
+}
+
+func (c *Call11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11) (R1, R2)) *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.doReturnFn = f
+	return &c.FinalizedCall11
+}
+
+func (c *Call11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2]) AnyTimes() *Call11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2]) MinTimes(n int) *Call11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2]) MaxTimes(n int) *Call11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2]) Times(n int) *Call11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2]) After(preReq CallHolder) *Call11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call11_3 wraps FinalizedCall11 for a method with 11 args and 3 return values.
+type Call11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3 any] struct {
+	FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	m11        Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11) (R1, R2, R3)
+}
+
+func (c *Call11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11}, c.origin)
+}
+
+// NewCall11_3 creates a new Call11_3 expectation.
+func NewCall11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher) *Call11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3] {
+	t.Helper()
+	c := &Call11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3]{
+		FinalizedCall11: FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:  m1,
+		m2:  m2,
+		m3:  m3,
+		m4:  m4,
+		m5:  m5,
+		m6:  m6,
+		m7:  m7,
+		m8:  m8,
+		m9:  m9,
+		m10: m10,
+		m11: m11,
+	}
+	c.FinalizedCall11.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) *Call11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall11
+}
+
+func (c *Call11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11) (R1, R2, R3)) *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.doReturnFn = f
+	return &c.FinalizedCall11
+}
+
+func (c *Call11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3]) AnyTimes() *Call11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3]) MinTimes(n int) *Call11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3]) MaxTimes(n int) *Call11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3]) Times(n int) *Call11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3]) After(preReq CallHolder) *Call11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call11_4 wraps FinalizedCall11 for a method with 11 args and 4 return values.
+type Call11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4 any] struct {
+	FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	m11        Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11) (R1, R2, R3, R4)
+}
+
+func (c *Call11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11}, c.origin)
+}
+
+// NewCall11_4 creates a new Call11_4 expectation.
+func NewCall11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher) *Call11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4]{
+		FinalizedCall11: FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:  m1,
+		m2:  m2,
+		m3:  m3,
+		m4:  m4,
+		m5:  m5,
+		m6:  m6,
+		m7:  m7,
+		m8:  m8,
+		m9:  m9,
+		m10: m10,
+		m11: m11,
+	}
+	c.FinalizedCall11.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) *Call11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall11
+}
+
+func (c *Call11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11) (R1, R2, R3, R4)) *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.doReturnFn = f
+	return &c.FinalizedCall11
+}
+
+func (c *Call11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4]) AnyTimes() *Call11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4]) MinTimes(n int) *Call11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4]) MaxTimes(n int) *Call11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4]) Times(n int) *Call11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4]) After(preReq CallHolder) *Call11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call11_5 wraps FinalizedCall11 for a method with 11 args and 5 return values.
+type Call11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5 any] struct {
+	FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	m11        Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11) (R1, R2, R3, R4, R5)
+}
+
+func (c *Call11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11}, c.origin)
+}
+
+// NewCall11_5 creates a new Call11_5 expectation.
+func NewCall11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher) *Call11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5]{
+		FinalizedCall11: FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:  m1,
+		m2:  m2,
+		m3:  m3,
+		m4:  m4,
+		m5:  m5,
+		m6:  m6,
+		m7:  m7,
+		m8:  m8,
+		m9:  m9,
+		m10: m10,
+		m11: m11,
+	}
+	c.FinalizedCall11.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) *Call11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall11
+}
+
+func (c *Call11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11) (R1, R2, R3, R4, R5)) *FinalizedCall11[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11] {
+	c.doReturnFn = f
+	return &c.FinalizedCall11
+}
+
+func (c *Call11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5]) AnyTimes() *Call11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5]) MinTimes(n int) *Call11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5]) Times(n int) *Call11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call12_0 wraps FinalizedCall12 for a method with 12 args and 0 return values.
+type Call12_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12 any] struct {
+	FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]
+	m1  Matcher
+	m2  Matcher
+	m3  Matcher
+	m4  Matcher
+	m5  Matcher
+	m6  Matcher
+	m7  Matcher
+	m8  Matcher
+	m9  Matcher
+	m10 Matcher
+	m11 Matcher
+	m12 Matcher
+}
+
+func (c *Call12_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11, c.m12}, c.origin)
+}
+
+// NewCall12_0 creates a new Call12_0 expectation.
+func NewCall12_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher, m12 Matcher) *Call12_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	t.Helper()
+	c := &Call12_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]{
+		FinalizedCall12: FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:  m1,
+		m2:  m2,
+		m3:  m3,
+		m4:  m4,
+		m5:  m5,
+		m6:  m6,
+		m7:  m7,
+		m8:  m8,
+		m9:  m9,
+		m10: m10,
+		m11: m11,
+		m12: m12,
+	}
+	c.FinalizedCall12.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call12_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) *Call12_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call12_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]) AnyTimes() *Call12_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call12_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]) MinTimes(n int) *Call12_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call12_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]) MaxTimes(n int) *Call12_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call12_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]) Times(n int) *Call12_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call12_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]) After(preReq CallHolder) *Call12_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call12_1 wraps FinalizedCall12 for a method with 12 args and 1 return values.
+type Call12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1 any] struct {
+	FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	m11        Matcher
+	m12        Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12) R1
+}
+
+func (c *Call12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11, c.m12}, c.origin)
+}
+
+// NewCall12_1 creates a new Call12_1 expectation.
+func NewCall12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher, m12 Matcher) *Call12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1] {
+	t.Helper()
+	c := &Call12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1]{
+		FinalizedCall12: FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:  m1,
+		m2:  m2,
+		m3:  m3,
+		m4:  m4,
+		m5:  m5,
+		m6:  m6,
+		m7:  m7,
+		m8:  m8,
+		m9:  m9,
+		m10: m10,
+		m11: m11,
+		m12: m12,
+	}
+	c.FinalizedCall12.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) *Call12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1]) Return(r1 R1) *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.retV1 = &r1
+	return &c.FinalizedCall12
+}
+
+func (c *Call12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12) R1) *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.doReturnFn = f
+	return &c.FinalizedCall12
+}
+
+func (c *Call12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1]) AnyTimes() *Call12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1]) MinTimes(n int) *Call12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1]) MaxTimes(n int) *Call12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1]) Times(n int) *Call12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1]) After(preReq CallHolder) *Call12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call12_2 wraps FinalizedCall12 for a method with 12 args and 2 return values.
+type Call12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2 any] struct {
+	FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	m11        Matcher
+	m12        Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12) (R1, R2)
+}
+
+func (c *Call12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11, c.m12}, c.origin)
+}
+
+// NewCall12_2 creates a new Call12_2 expectation.
+func NewCall12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher, m12 Matcher) *Call12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2] {
+	t.Helper()
+	c := &Call12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2]{
+		FinalizedCall12: FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:  m1,
+		m2:  m2,
+		m3:  m3,
+		m4:  m4,
+		m5:  m5,
+		m6:  m6,
+		m7:  m7,
+		m8:  m8,
+		m9:  m9,
+		m10: m10,
+		m11: m11,
+		m12: m12,
+	}
+	c.FinalizedCall12.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) *Call12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall12
+}
+
+func (c *Call12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12) (R1, R2)) *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.doReturnFn = f
+	return &c.FinalizedCall12
+}
+
+func (c *Call12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2]) AnyTimes() *Call12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2]) MinTimes(n int) *Call12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2]) MaxTimes(n int) *Call12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2]) Times(n int) *Call12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2]) After(preReq CallHolder) *Call12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call12_3 wraps FinalizedCall12 for a method with 12 args and 3 return values.
+type Call12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3 any] struct {
+	FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	m11        Matcher
+	m12        Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12) (R1, R2, R3)
+}
+
+func (c *Call12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11, c.m12}, c.origin)
+}
+
+// NewCall12_3 creates a new Call12_3 expectation.
+func NewCall12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher, m12 Matcher) *Call12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3] {
+	t.Helper()
+	c := &Call12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3]{
+		FinalizedCall12: FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:  m1,
+		m2:  m2,
+		m3:  m3,
+		m4:  m4,
+		m5:  m5,
+		m6:  m6,
+		m7:  m7,
+		m8:  m8,
+		m9:  m9,
+		m10: m10,
+		m11: m11,
+		m12: m12,
+	}
+	c.FinalizedCall12.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) *Call12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall12
+}
+
+func (c *Call12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12) (R1, R2, R3)) *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.doReturnFn = f
+	return &c.FinalizedCall12
+}
+
+func (c *Call12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3]) AnyTimes() *Call12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3]) MinTimes(n int) *Call12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3]) MaxTimes(n int) *Call12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3]) Times(n int) *Call12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3]) After(preReq CallHolder) *Call12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call12_4 wraps FinalizedCall12 for a method with 12 args and 4 return values.
+type Call12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4 any] struct {
+	FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	m11        Matcher
+	m12        Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12) (R1, R2, R3, R4)
+}
+
+func (c *Call12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11, c.m12}, c.origin)
+}
+
+// NewCall12_4 creates a new Call12_4 expectation.
+func NewCall12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher, m12 Matcher) *Call12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4]{
+		FinalizedCall12: FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:  m1,
+		m2:  m2,
+		m3:  m3,
+		m4:  m4,
+		m5:  m5,
+		m6:  m6,
+		m7:  m7,
+		m8:  m8,
+		m9:  m9,
+		m10: m10,
+		m11: m11,
+		m12: m12,
+	}
+	c.FinalizedCall12.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) *Call12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall12
+}
+
+func (c *Call12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12) (R1, R2, R3, R4)) *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.doReturnFn = f
+	return &c.FinalizedCall12
+}
+
+func (c *Call12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4]) AnyTimes() *Call12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4]) MinTimes(n int) *Call12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4]) MaxTimes(n int) *Call12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4]) Times(n int) *Call12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4]) After(preReq CallHolder) *Call12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call12_5 wraps FinalizedCall12 for a method with 12 args and 5 return values.
+type Call12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5 any] struct {
+	FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	m11        Matcher
+	m12        Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12) (R1, R2, R3, R4, R5)
+}
+
+func (c *Call12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, []Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11, c.m12}, c.origin)
+}
+
+// NewCall12_5 creates a new Call12_5 expectation.
+func NewCall12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher, m12 Matcher) *Call12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5]{
+		FinalizedCall12: FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:  m1,
+		m2:  m2,
+		m3:  m3,
+		m4:  m4,
+		m5:  m5,
+		m6:  m6,
+		m7:  m7,
+		m8:  m8,
+		m9:  m9,
+		m10: m10,
+		m11: m11,
+		m12: m12,
+	}
+	c.FinalizedCall12.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) *Call12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall12
+}
+
+func (c *Call12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12) (R1, R2, R3, R4, R5)) *FinalizedCall12[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12] {
+	c.doReturnFn = f
+	return &c.FinalizedCall12
+}
+
+func (c *Call12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5]) AnyTimes() *Call12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5]) MinTimes(n int) *Call12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5]) Times(n int) *Call12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Dispatch0_0 dispatches a typed call to matching expectations.
+func Dispatch0_0(expects *[]*Call0_0, ctrl *Controller, receiver any, method string) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f()
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v() at %s", receiver, method, origin)
+}
+
+// Dispatch0_1 dispatches a typed call to matching expectations.
+func Dispatch0_1[R1 any](expects *[]*Call0_1[R1], ctrl *Controller, receiver any, method string) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f()
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn()
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v() at %s", receiver, method, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch0_2 dispatches a typed call to matching expectations.
+func Dispatch0_2[R1, R2 any](expects *[]*Call0_2[R1, R2], ctrl *Controller, receiver any, method string) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f()
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn()
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v() at %s", receiver, method, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch0_3 dispatches a typed call to matching expectations.
+func Dispatch0_3[R1, R2, R3 any](expects *[]*Call0_3[R1, R2, R3], ctrl *Controller, receiver any, method string) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f()
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn()
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v() at %s", receiver, method, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch0_4 dispatches a typed call to matching expectations.
+func Dispatch0_4[R1, R2, R3, R4 any](expects *[]*Call0_4[R1, R2, R3, R4], ctrl *Controller, receiver any, method string) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f()
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn()
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v() at %s", receiver, method, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch0_5 dispatches a typed call to matching expectations.
+func Dispatch0_5[R1, R2, R3, R4, R5 any](expects *[]*Call0_5[R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f()
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn()
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v() at %s", receiver, method, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch1_0 dispatches a typed call to matching expectations.
+func Dispatch1_0[A1 any](expects *[]*Call1_0[A1], ctrl *Controller, receiver any, method string, a1 A1) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v) at %s", receiver, method, a1, origin)
+}
+
+// Dispatch1_1 dispatches a typed call to matching expectations.
+func Dispatch1_1[A1, R1 any](expects *[]*Call1_1[A1, R1], ctrl *Controller, receiver any, method string, a1 A1) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v) at %s", receiver, method, a1, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch1_2 dispatches a typed call to matching expectations.
+func Dispatch1_2[A1, R1, R2 any](expects *[]*Call1_2[A1, R1, R2], ctrl *Controller, receiver any, method string, a1 A1) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v) at %s", receiver, method, a1, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch1_3 dispatches a typed call to matching expectations.
+func Dispatch1_3[A1, R1, R2, R3 any](expects *[]*Call1_3[A1, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v) at %s", receiver, method, a1, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch1_4 dispatches a typed call to matching expectations.
+func Dispatch1_4[A1, R1, R2, R3, R4 any](expects *[]*Call1_4[A1, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v) at %s", receiver, method, a1, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch1_5 dispatches a typed call to matching expectations.
+func Dispatch1_5[A1, R1, R2, R3, R4, R5 any](expects *[]*Call1_5[A1, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v) at %s", receiver, method, a1, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch2_0 dispatches a typed call to matching expectations.
+func Dispatch2_0[A1, A2 any](expects *[]*Call2_0[A1, A2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v) at %s", receiver, method, a1, a2, origin)
+}
+
+// Dispatch2_1 dispatches a typed call to matching expectations.
+func Dispatch2_1[A1, A2, R1 any](expects *[]*Call2_1[A1, A2, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v) at %s", receiver, method, a1, a2, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch2_2 dispatches a typed call to matching expectations.
+func Dispatch2_2[A1, A2, R1, R2 any](expects *[]*Call2_2[A1, A2, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v) at %s", receiver, method, a1, a2, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch2_3 dispatches a typed call to matching expectations.
+func Dispatch2_3[A1, A2, R1, R2, R3 any](expects *[]*Call2_3[A1, A2, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v) at %s", receiver, method, a1, a2, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch2_4 dispatches a typed call to matching expectations.
+func Dispatch2_4[A1, A2, R1, R2, R3, R4 any](expects *[]*Call2_4[A1, A2, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v) at %s", receiver, method, a1, a2, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch2_5 dispatches a typed call to matching expectations.
+func Dispatch2_5[A1, A2, R1, R2, R3, R4, R5 any](expects *[]*Call2_5[A1, A2, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v) at %s", receiver, method, a1, a2, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch3_0 dispatches a typed call to matching expectations.
+func Dispatch3_0[A1, A2, A3 any](expects *[]*Call3_0[A1, A2, A3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v) at %s", receiver, method, a1, a2, a3, origin)
+}
+
+// Dispatch3_1 dispatches a typed call to matching expectations.
+func Dispatch3_1[A1, A2, A3, R1 any](expects *[]*Call3_1[A1, A2, A3, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v) at %s", receiver, method, a1, a2, a3, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch3_2 dispatches a typed call to matching expectations.
+func Dispatch3_2[A1, A2, A3, R1, R2 any](expects *[]*Call3_2[A1, A2, A3, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v) at %s", receiver, method, a1, a2, a3, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch3_3 dispatches a typed call to matching expectations.
+func Dispatch3_3[A1, A2, A3, R1, R2, R3 any](expects *[]*Call3_3[A1, A2, A3, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v) at %s", receiver, method, a1, a2, a3, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch3_4 dispatches a typed call to matching expectations.
+func Dispatch3_4[A1, A2, A3, R1, R2, R3, R4 any](expects *[]*Call3_4[A1, A2, A3, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v) at %s", receiver, method, a1, a2, a3, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch3_5 dispatches a typed call to matching expectations.
+func Dispatch3_5[A1, A2, A3, R1, R2, R3, R4, R5 any](expects *[]*Call3_5[A1, A2, A3, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v) at %s", receiver, method, a1, a2, a3, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch4_0 dispatches a typed call to matching expectations.
+func Dispatch4_0[A1, A2, A3, A4 any](expects *[]*Call4_0[A1, A2, A3, A4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, origin)
+}
+
+// Dispatch4_1 dispatches a typed call to matching expectations.
+func Dispatch4_1[A1, A2, A3, A4, R1 any](expects *[]*Call4_1[A1, A2, A3, A4, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch4_2 dispatches a typed call to matching expectations.
+func Dispatch4_2[A1, A2, A3, A4, R1, R2 any](expects *[]*Call4_2[A1, A2, A3, A4, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch4_3 dispatches a typed call to matching expectations.
+func Dispatch4_3[A1, A2, A3, A4, R1, R2, R3 any](expects *[]*Call4_3[A1, A2, A3, A4, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch4_4 dispatches a typed call to matching expectations.
+func Dispatch4_4[A1, A2, A3, A4, R1, R2, R3, R4 any](expects *[]*Call4_4[A1, A2, A3, A4, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch4_5 dispatches a typed call to matching expectations.
+func Dispatch4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5 any](expects *[]*Call4_5[A1, A2, A3, A4, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch5_0 dispatches a typed call to matching expectations.
+func Dispatch5_0[A1, A2, A3, A4, A5 any](expects *[]*Call5_0[A1, A2, A3, A4, A5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, origin)
+}
+
+// Dispatch5_1 dispatches a typed call to matching expectations.
+func Dispatch5_1[A1, A2, A3, A4, A5, R1 any](expects *[]*Call5_1[A1, A2, A3, A4, A5, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch5_2 dispatches a typed call to matching expectations.
+func Dispatch5_2[A1, A2, A3, A4, A5, R1, R2 any](expects *[]*Call5_2[A1, A2, A3, A4, A5, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch5_3 dispatches a typed call to matching expectations.
+func Dispatch5_3[A1, A2, A3, A4, A5, R1, R2, R3 any](expects *[]*Call5_3[A1, A2, A3, A4, A5, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch5_4 dispatches a typed call to matching expectations.
+func Dispatch5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4 any](expects *[]*Call5_4[A1, A2, A3, A4, A5, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch5_5 dispatches a typed call to matching expectations.
+func Dispatch5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5 any](expects *[]*Call5_5[A1, A2, A3, A4, A5, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch6_0 dispatches a typed call to matching expectations.
+func Dispatch6_0[A1, A2, A3, A4, A5, A6 any](expects *[]*Call6_0[A1, A2, A3, A4, A5, A6], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, origin)
+}
+
+// Dispatch6_1 dispatches a typed call to matching expectations.
+func Dispatch6_1[A1, A2, A3, A4, A5, A6, R1 any](expects *[]*Call6_1[A1, A2, A3, A4, A5, A6, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch6_2 dispatches a typed call to matching expectations.
+func Dispatch6_2[A1, A2, A3, A4, A5, A6, R1, R2 any](expects *[]*Call6_2[A1, A2, A3, A4, A5, A6, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch6_3 dispatches a typed call to matching expectations.
+func Dispatch6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3 any](expects *[]*Call6_3[A1, A2, A3, A4, A5, A6, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch6_4 dispatches a typed call to matching expectations.
+func Dispatch6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4 any](expects *[]*Call6_4[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch6_5 dispatches a typed call to matching expectations.
+func Dispatch6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5 any](expects *[]*Call6_5[A1, A2, A3, A4, A5, A6, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch7_0 dispatches a typed call to matching expectations.
+func Dispatch7_0[A1, A2, A3, A4, A5, A6, A7 any](expects *[]*Call7_0[A1, A2, A3, A4, A5, A6, A7], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, origin)
+}
+
+// Dispatch7_1 dispatches a typed call to matching expectations.
+func Dispatch7_1[A1, A2, A3, A4, A5, A6, A7, R1 any](expects *[]*Call7_1[A1, A2, A3, A4, A5, A6, A7, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch7_2 dispatches a typed call to matching expectations.
+func Dispatch7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2 any](expects *[]*Call7_2[A1, A2, A3, A4, A5, A6, A7, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch7_3 dispatches a typed call to matching expectations.
+func Dispatch7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3 any](expects *[]*Call7_3[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch7_4 dispatches a typed call to matching expectations.
+func Dispatch7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4 any](expects *[]*Call7_4[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch7_5 dispatches a typed call to matching expectations.
+func Dispatch7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5 any](expects *[]*Call7_5[A1, A2, A3, A4, A5, A6, A7, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch8_0 dispatches a typed call to matching expectations.
+func Dispatch8_0[A1, A2, A3, A4, A5, A6, A7, A8 any](expects *[]*Call8_0[A1, A2, A3, A4, A5, A6, A7, A8], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, origin)
+}
+
+// Dispatch8_1 dispatches a typed call to matching expectations.
+func Dispatch8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1 any](expects *[]*Call8_1[A1, A2, A3, A4, A5, A6, A7, A8, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch8_2 dispatches a typed call to matching expectations.
+func Dispatch8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2 any](expects *[]*Call8_2[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch8_3 dispatches a typed call to matching expectations.
+func Dispatch8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3 any](expects *[]*Call8_3[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch8_4 dispatches a typed call to matching expectations.
+func Dispatch8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4 any](expects *[]*Call8_4[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch8_5 dispatches a typed call to matching expectations.
+func Dispatch8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5 any](expects *[]*Call8_5[A1, A2, A3, A4, A5, A6, A7, A8, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch9_0 dispatches a typed call to matching expectations.
+func Dispatch9_0[A1, A2, A3, A4, A5, A6, A7, A8, A9 any](expects *[]*Call9_0[A1, A2, A3, A4, A5, A6, A7, A8, A9], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, origin)
+}
+
+// Dispatch9_1 dispatches a typed call to matching expectations.
+func Dispatch9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1 any](expects *[]*Call9_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch9_2 dispatches a typed call to matching expectations.
+func Dispatch9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2 any](expects *[]*Call9_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch9_3 dispatches a typed call to matching expectations.
+func Dispatch9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3 any](expects *[]*Call9_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch9_4 dispatches a typed call to matching expectations.
+func Dispatch9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4 any](expects *[]*Call9_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch9_5 dispatches a typed call to matching expectations.
+func Dispatch9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5 any](expects *[]*Call9_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch10_0 dispatches a typed call to matching expectations.
+func Dispatch10_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10 any](expects *[]*Call10_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, origin)
+}
+
+// Dispatch10_1 dispatches a typed call to matching expectations.
+func Dispatch10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1 any](expects *[]*Call10_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch10_2 dispatches a typed call to matching expectations.
+func Dispatch10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2 any](expects *[]*Call10_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch10_3 dispatches a typed call to matching expectations.
+func Dispatch10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3 any](expects *[]*Call10_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch10_4 dispatches a typed call to matching expectations.
+func Dispatch10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4 any](expects *[]*Call10_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch10_5 dispatches a typed call to matching expectations.
+func Dispatch10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5 any](expects *[]*Call10_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch11_0 dispatches a typed call to matching expectations.
+func Dispatch11_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11 any](expects *[]*Call11_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, origin)
+}
+
+// Dispatch11_1 dispatches a typed call to matching expectations.
+func Dispatch11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1 any](expects *[]*Call11_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch11_2 dispatches a typed call to matching expectations.
+func Dispatch11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2 any](expects *[]*Call11_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch11_3 dispatches a typed call to matching expectations.
+func Dispatch11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3 any](expects *[]*Call11_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch11_4 dispatches a typed call to matching expectations.
+func Dispatch11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4 any](expects *[]*Call11_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch11_5 dispatches a typed call to matching expectations.
+func Dispatch11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5 any](expects *[]*Call11_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch12_0 dispatches a typed call to matching expectations.
+func Dispatch12_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12 any](expects *[]*Call12_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11, a12 A12) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if !e.m12.Matches(a12) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, origin)
+}
+
+// Dispatch12_1 dispatches a typed call to matching expectations.
+func Dispatch12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1 any](expects *[]*Call12_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11, a12 A12) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if !e.m12.Matches(a12) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch12_2 dispatches a typed call to matching expectations.
+func Dispatch12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2 any](expects *[]*Call12_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11, a12 A12) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if !e.m12.Matches(a12) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch12_3 dispatches a typed call to matching expectations.
+func Dispatch12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3 any](expects *[]*Call12_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11, a12 A12) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if !e.m12.Matches(a12) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch12_4 dispatches a typed call to matching expectations.
+func Dispatch12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4 any](expects *[]*Call12_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11, a12 A12) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if !e.m12.Matches(a12) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch12_5 dispatches a typed call to matching expectations.
+func Dispatch12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5 any](expects *[]*Call12_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11, a12 A12) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if !e.m12.Matches(a12) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// FinalizedCall0V is the finalized call wrapper for 0-arg variadic methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall0V[VA any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(...VA)
+}
+
+func (c *FinalizedCall0V[VA]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall0V[VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall0V[VA]) Do(f func(...VA)) *FinalizedCall0V[VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall0V[VA]) AnyTimes() *FinalizedCall0V[VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall0V[VA]) MinTimes(n int) *FinalizedCall0V[VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall0V[VA]) MaxTimes(n int) *FinalizedCall0V[VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall0V[VA]) Times(n int) *FinalizedCall0V[VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall0V[VA]) After(preReq CallHolder) *FinalizedCall0V[VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall1V is the finalized call wrapper for 1-arg variadic methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall1V[A1, VA any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, ...VA)
+}
+
+func (c *FinalizedCall1V[A1, VA]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall1V[A1, VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall1V[A1, VA]) Do(f func(A1, ...VA)) *FinalizedCall1V[A1, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall1V[A1, VA]) AnyTimes() *FinalizedCall1V[A1, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall1V[A1, VA]) MinTimes(n int) *FinalizedCall1V[A1, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall1V[A1, VA]) MaxTimes(n int) *FinalizedCall1V[A1, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall1V[A1, VA]) Times(n int) *FinalizedCall1V[A1, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall1V[A1, VA]) After(preReq CallHolder) *FinalizedCall1V[A1, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall2V is the finalized call wrapper for 2-arg variadic methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall2V[A1, A2, VA any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, ...VA)
+}
+
+func (c *FinalizedCall2V[A1, A2, VA]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall2V[A1, A2, VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall2V[A1, A2, VA]) Do(f func(A1, A2, ...VA)) *FinalizedCall2V[A1, A2, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall2V[A1, A2, VA]) AnyTimes() *FinalizedCall2V[A1, A2, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall2V[A1, A2, VA]) MinTimes(n int) *FinalizedCall2V[A1, A2, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall2V[A1, A2, VA]) MaxTimes(n int) *FinalizedCall2V[A1, A2, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall2V[A1, A2, VA]) Times(n int) *FinalizedCall2V[A1, A2, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall2V[A1, A2, VA]) After(preReq CallHolder) *FinalizedCall2V[A1, A2, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall3V is the finalized call wrapper for 3-arg variadic methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall3V[A1, A2, A3, VA any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, ...VA)
+}
+
+func (c *FinalizedCall3V[A1, A2, A3, VA]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall3V[A1, A2, A3, VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall3V[A1, A2, A3, VA]) Do(f func(A1, A2, A3, ...VA)) *FinalizedCall3V[A1, A2, A3, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall3V[A1, A2, A3, VA]) AnyTimes() *FinalizedCall3V[A1, A2, A3, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall3V[A1, A2, A3, VA]) MinTimes(n int) *FinalizedCall3V[A1, A2, A3, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall3V[A1, A2, A3, VA]) MaxTimes(n int) *FinalizedCall3V[A1, A2, A3, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall3V[A1, A2, A3, VA]) Times(n int) *FinalizedCall3V[A1, A2, A3, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall3V[A1, A2, A3, VA]) After(preReq CallHolder) *FinalizedCall3V[A1, A2, A3, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall4V is the finalized call wrapper for 4-arg variadic methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall4V[A1, A2, A3, A4, VA any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, ...VA)
+}
+
+func (c *FinalizedCall4V[A1, A2, A3, A4, VA]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall4V[A1, A2, A3, A4, VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall4V[A1, A2, A3, A4, VA]) Do(f func(A1, A2, A3, A4, ...VA)) *FinalizedCall4V[A1, A2, A3, A4, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall4V[A1, A2, A3, A4, VA]) AnyTimes() *FinalizedCall4V[A1, A2, A3, A4, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall4V[A1, A2, A3, A4, VA]) MinTimes(n int) *FinalizedCall4V[A1, A2, A3, A4, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall4V[A1, A2, A3, A4, VA]) MaxTimes(n int) *FinalizedCall4V[A1, A2, A3, A4, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall4V[A1, A2, A3, A4, VA]) Times(n int) *FinalizedCall4V[A1, A2, A3, A4, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall4V[A1, A2, A3, A4, VA]) After(preReq CallHolder) *FinalizedCall4V[A1, A2, A3, A4, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall5V is the finalized call wrapper for 5-arg variadic methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall5V[A1, A2, A3, A4, A5, VA any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, ...VA)
+}
+
+func (c *FinalizedCall5V[A1, A2, A3, A4, A5, VA]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall5V[A1, A2, A3, A4, A5, VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall5V[A1, A2, A3, A4, A5, VA]) Do(f func(A1, A2, A3, A4, A5, ...VA)) *FinalizedCall5V[A1, A2, A3, A4, A5, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall5V[A1, A2, A3, A4, A5, VA]) AnyTimes() *FinalizedCall5V[A1, A2, A3, A4, A5, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall5V[A1, A2, A3, A4, A5, VA]) MinTimes(n int) *FinalizedCall5V[A1, A2, A3, A4, A5, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall5V[A1, A2, A3, A4, A5, VA]) MaxTimes(n int) *FinalizedCall5V[A1, A2, A3, A4, A5, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall5V[A1, A2, A3, A4, A5, VA]) Times(n int) *FinalizedCall5V[A1, A2, A3, A4, A5, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall5V[A1, A2, A3, A4, A5, VA]) After(preReq CallHolder) *FinalizedCall5V[A1, A2, A3, A4, A5, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall6V is the finalized call wrapper for 6-arg variadic methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, A6, ...VA)
+}
+
+func (c *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]) Do(f func(A1, A2, A3, A4, A5, A6, ...VA)) *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]) AnyTimes() *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]) MinTimes(n int) *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]) MaxTimes(n int) *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]) Times(n int) *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]) After(preReq CallHolder) *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall7V is the finalized call wrapper for 7-arg variadic methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, A6, A7, ...VA)
+}
+
+func (c *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]) Do(f func(A1, A2, A3, A4, A5, A6, A7, ...VA)) *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]) AnyTimes() *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]) MinTimes(n int) *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]) MaxTimes(n int) *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]) Times(n int) *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]) After(preReq CallHolder) *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall8V is the finalized call wrapper for 8-arg variadic methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA)
+}
+
+func (c *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA)) *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]) AnyTimes() *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]) MinTimes(n int) *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]) MaxTimes(n int) *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]) Times(n int) *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]) After(preReq CallHolder) *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall9V is the finalized call wrapper for 9-arg variadic methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, A6, A7, A8, A9, ...VA)
+}
+
+func (c *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]) getCall() *Call { return c.Call }
+
+func (c *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, ...VA)) *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]) AnyTimes() *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]) MinTimes(n int) *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]) MaxTimes(n int) *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]) Times(n int) *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]) After(preReq CallHolder) *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall10V is the finalized call wrapper for 10-arg variadic methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, ...VA)
+}
+
+func (c *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]) getCall() *Call {
+	return c.Call
+}
+
+func (c *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, ...VA)) *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]) AnyTimes() *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]) MinTimes(n int) *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]) MaxTimes(n int) *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]) Times(n int) *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]) After(preReq CallHolder) *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall11V is the finalized call wrapper for 11-arg variadic methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, ...VA)
+}
+
+func (c *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]) getCall() *Call {
+	return c.Call
+}
+
+func (c *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, ...VA)) *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]) AnyTimes() *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]) MinTimes(n int) *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]) MaxTimes(n int) *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]) Times(n int) *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]) After(preReq CallHolder) *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// FinalizedCall12V is the finalized call wrapper for 12-arg variadic methods.
+// It is returned by Return and DoAndReturn.
+type FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA any] struct {
+	Call     *Call
+	receiver any
+	method   string
+	origin   string
+	doFns    []func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, ...VA)
+}
+
+func (c *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]) getCall() *Call {
+	return c.Call
+}
+
+func (c *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]) String() string {
+	return formatCallString(c.receiver, c.method, nil, c.origin)
+}
+
+// Do adds f to the functions called when matched.
+func (c *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, ...VA)) *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]) AnyTimes() *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]) MinTimes(n int) *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]) MaxTimes(n int) *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]) Times(n int) *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]) After(preReq CallHolder) *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call0V_0 wraps FinalizedCall0V for a variadic method with 0 fixed args and 0 return values.
+type Call0V_0[VA any] struct {
+	FinalizedCall0V[VA]
+	varArgs []Matcher
+}
+
+func (c *Call0V_0[VA]) String() string {
+	return formatCallString(c.receiver, c.method, c.varArgs, c.origin)
+}
+
+// NewCall0V_0 creates a new Call0V_0 expectation.
+func NewCall0V_0[VA any](t TestHelper, receiver any, method string, varArgs []Matcher) *Call0V_0[VA] {
+	t.Helper()
+	c := &Call0V_0[VA]{
+		FinalizedCall0V: FinalizedCall0V[VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		varArgs: varArgs,
+	}
+	c.FinalizedCall0V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call0V_0[VA]) Do(f func(...VA)) *Call0V_0[VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call0V_0[VA]) AnyTimes() *Call0V_0[VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call0V_0[VA]) MinTimes(n int) *Call0V_0[VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call0V_0[VA]) MaxTimes(n int) *Call0V_0[VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call0V_0[VA]) Times(n int) *Call0V_0[VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call0V_0[VA]) After(preReq CallHolder) *Call0V_0[VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call0V_1 wraps FinalizedCall0V for a variadic method with 0 fixed args and 1 return values.
+type Call0V_1[VA, R1 any] struct {
+	FinalizedCall0V[VA]
+	varArgs    []Matcher
+	retV1      *R1
+	doReturnFn func(...VA) R1
+}
+
+func (c *Call0V_1[VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, c.varArgs, c.origin)
+}
+
+// NewCall0V_1 creates a new Call0V_1 expectation.
+func NewCall0V_1[VA, R1 any](t TestHelper, receiver any, method string, varArgs []Matcher) *Call0V_1[VA, R1] {
+	t.Helper()
+	c := &Call0V_1[VA, R1]{
+		FinalizedCall0V: FinalizedCall0V[VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		varArgs: varArgs,
+	}
+	c.FinalizedCall0V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call0V_1[VA, R1]) Do(f func(...VA)) *Call0V_1[VA, R1] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call0V_1[VA, R1]) Return(r1 R1) *FinalizedCall0V[VA] {
+	c.retV1 = &r1
+	return &c.FinalizedCall0V
+}
+
+func (c *Call0V_1[VA, R1]) DoAndReturn(f func(...VA) R1) *FinalizedCall0V[VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall0V
+}
+
+func (c *Call0V_1[VA, R1]) AnyTimes() *Call0V_1[VA, R1] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call0V_1[VA, R1]) MinTimes(n int) *Call0V_1[VA, R1] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call0V_1[VA, R1]) MaxTimes(n int) *Call0V_1[VA, R1] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call0V_1[VA, R1]) Times(n int) *Call0V_1[VA, R1] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call0V_1[VA, R1]) After(preReq CallHolder) *Call0V_1[VA, R1] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call0V_2 wraps FinalizedCall0V for a variadic method with 0 fixed args and 2 return values.
+type Call0V_2[VA, R1, R2 any] struct {
+	FinalizedCall0V[VA]
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(...VA) (R1, R2)
+}
+
+func (c *Call0V_2[VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, c.varArgs, c.origin)
+}
+
+// NewCall0V_2 creates a new Call0V_2 expectation.
+func NewCall0V_2[VA, R1, R2 any](t TestHelper, receiver any, method string, varArgs []Matcher) *Call0V_2[VA, R1, R2] {
+	t.Helper()
+	c := &Call0V_2[VA, R1, R2]{
+		FinalizedCall0V: FinalizedCall0V[VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		varArgs: varArgs,
+	}
+	c.FinalizedCall0V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call0V_2[VA, R1, R2]) Do(f func(...VA)) *Call0V_2[VA, R1, R2] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call0V_2[VA, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall0V[VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall0V
+}
+
+func (c *Call0V_2[VA, R1, R2]) DoAndReturn(f func(...VA) (R1, R2)) *FinalizedCall0V[VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall0V
+}
+
+func (c *Call0V_2[VA, R1, R2]) AnyTimes() *Call0V_2[VA, R1, R2] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call0V_2[VA, R1, R2]) MinTimes(n int) *Call0V_2[VA, R1, R2] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call0V_2[VA, R1, R2]) MaxTimes(n int) *Call0V_2[VA, R1, R2] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call0V_2[VA, R1, R2]) Times(n int) *Call0V_2[VA, R1, R2] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call0V_2[VA, R1, R2]) After(preReq CallHolder) *Call0V_2[VA, R1, R2] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call0V_3 wraps FinalizedCall0V for a variadic method with 0 fixed args and 3 return values.
+type Call0V_3[VA, R1, R2, R3 any] struct {
+	FinalizedCall0V[VA]
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(...VA) (R1, R2, R3)
+}
+
+func (c *Call0V_3[VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, c.varArgs, c.origin)
+}
+
+// NewCall0V_3 creates a new Call0V_3 expectation.
+func NewCall0V_3[VA, R1, R2, R3 any](t TestHelper, receiver any, method string, varArgs []Matcher) *Call0V_3[VA, R1, R2, R3] {
+	t.Helper()
+	c := &Call0V_3[VA, R1, R2, R3]{
+		FinalizedCall0V: FinalizedCall0V[VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		varArgs: varArgs,
+	}
+	c.FinalizedCall0V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call0V_3[VA, R1, R2, R3]) Do(f func(...VA)) *Call0V_3[VA, R1, R2, R3] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call0V_3[VA, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall0V[VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall0V
+}
+
+func (c *Call0V_3[VA, R1, R2, R3]) DoAndReturn(f func(...VA) (R1, R2, R3)) *FinalizedCall0V[VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall0V
+}
+
+func (c *Call0V_3[VA, R1, R2, R3]) AnyTimes() *Call0V_3[VA, R1, R2, R3] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call0V_3[VA, R1, R2, R3]) MinTimes(n int) *Call0V_3[VA, R1, R2, R3] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call0V_3[VA, R1, R2, R3]) MaxTimes(n int) *Call0V_3[VA, R1, R2, R3] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call0V_3[VA, R1, R2, R3]) Times(n int) *Call0V_3[VA, R1, R2, R3] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call0V_3[VA, R1, R2, R3]) After(preReq CallHolder) *Call0V_3[VA, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call0V_4 wraps FinalizedCall0V for a variadic method with 0 fixed args and 4 return values.
+type Call0V_4[VA, R1, R2, R3, R4 any] struct {
+	FinalizedCall0V[VA]
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(...VA) (R1, R2, R3, R4)
+}
+
+func (c *Call0V_4[VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, c.varArgs, c.origin)
+}
+
+// NewCall0V_4 creates a new Call0V_4 expectation.
+func NewCall0V_4[VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, varArgs []Matcher) *Call0V_4[VA, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call0V_4[VA, R1, R2, R3, R4]{
+		FinalizedCall0V: FinalizedCall0V[VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		varArgs: varArgs,
+	}
+	c.FinalizedCall0V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call0V_4[VA, R1, R2, R3, R4]) Do(f func(...VA)) *Call0V_4[VA, R1, R2, R3, R4] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call0V_4[VA, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall0V[VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall0V
+}
+
+func (c *Call0V_4[VA, R1, R2, R3, R4]) DoAndReturn(f func(...VA) (R1, R2, R3, R4)) *FinalizedCall0V[VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall0V
+}
+
+func (c *Call0V_4[VA, R1, R2, R3, R4]) AnyTimes() *Call0V_4[VA, R1, R2, R3, R4] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call0V_4[VA, R1, R2, R3, R4]) MinTimes(n int) *Call0V_4[VA, R1, R2, R3, R4] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call0V_4[VA, R1, R2, R3, R4]) MaxTimes(n int) *Call0V_4[VA, R1, R2, R3, R4] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call0V_4[VA, R1, R2, R3, R4]) Times(n int) *Call0V_4[VA, R1, R2, R3, R4] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call0V_4[VA, R1, R2, R3, R4]) After(preReq CallHolder) *Call0V_4[VA, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call0V_5 wraps FinalizedCall0V for a variadic method with 0 fixed args and 5 return values.
+type Call0V_5[VA, R1, R2, R3, R4, R5 any] struct {
+	FinalizedCall0V[VA]
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(...VA) (R1, R2, R3, R4, R5)
+}
+
+func (c *Call0V_5[VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, c.varArgs, c.origin)
+}
+
+// NewCall0V_5 creates a new Call0V_5 expectation.
+func NewCall0V_5[VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, varArgs []Matcher) *Call0V_5[VA, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call0V_5[VA, R1, R2, R3, R4, R5]{
+		FinalizedCall0V: FinalizedCall0V[VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		varArgs: varArgs,
+	}
+	c.FinalizedCall0V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call0V_5[VA, R1, R2, R3, R4, R5]) Do(f func(...VA)) *Call0V_5[VA, R1, R2, R3, R4, R5] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call0V_5[VA, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall0V[VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall0V
+}
+
+func (c *Call0V_5[VA, R1, R2, R3, R4, R5]) DoAndReturn(f func(...VA) (R1, R2, R3, R4, R5)) *FinalizedCall0V[VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall0V
+}
+
+func (c *Call0V_5[VA, R1, R2, R3, R4, R5]) AnyTimes() *Call0V_5[VA, R1, R2, R3, R4, R5] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call0V_5[VA, R1, R2, R3, R4, R5]) MinTimes(n int) *Call0V_5[VA, R1, R2, R3, R4, R5] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call0V_5[VA, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call0V_5[VA, R1, R2, R3, R4, R5] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call0V_5[VA, R1, R2, R3, R4, R5]) Times(n int) *Call0V_5[VA, R1, R2, R3, R4, R5] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call0V_5[VA, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call0V_5[VA, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call1V_0 wraps FinalizedCall1V for a variadic method with 1 fixed args and 0 return values.
+type Call1V_0[A1, VA any] struct {
+	FinalizedCall1V[A1, VA]
+	m1      Matcher
+	varArgs []Matcher
+}
+
+func (c *Call1V_0[A1, VA]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1}, c.varArgs...), c.origin)
+}
+
+// NewCall1V_0 creates a new Call1V_0 expectation.
+func NewCall1V_0[A1, VA any](t TestHelper, receiver any, method string, m1 Matcher, varArgs []Matcher) *Call1V_0[A1, VA] {
+	t.Helper()
+	c := &Call1V_0[A1, VA]{
+		FinalizedCall1V: FinalizedCall1V[A1, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall1V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call1V_0[A1, VA]) Do(f func(A1, ...VA)) *Call1V_0[A1, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call1V_0[A1, VA]) AnyTimes() *Call1V_0[A1, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call1V_0[A1, VA]) MinTimes(n int) *Call1V_0[A1, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call1V_0[A1, VA]) MaxTimes(n int) *Call1V_0[A1, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call1V_0[A1, VA]) Times(n int) *Call1V_0[A1, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call1V_0[A1, VA]) After(preReq CallHolder) *Call1V_0[A1, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call1V_1 wraps FinalizedCall1V for a variadic method with 1 fixed args and 1 return values.
+type Call1V_1[A1, VA, R1 any] struct {
+	FinalizedCall1V[A1, VA]
+	m1         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	doReturnFn func(A1, ...VA) R1
+}
+
+func (c *Call1V_1[A1, VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1}, c.varArgs...), c.origin)
+}
+
+// NewCall1V_1 creates a new Call1V_1 expectation.
+func NewCall1V_1[A1, VA, R1 any](t TestHelper, receiver any, method string, m1 Matcher, varArgs []Matcher) *Call1V_1[A1, VA, R1] {
+	t.Helper()
+	c := &Call1V_1[A1, VA, R1]{
+		FinalizedCall1V: FinalizedCall1V[A1, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall1V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call1V_1[A1, VA, R1]) Do(f func(A1, ...VA)) *Call1V_1[A1, VA, R1] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call1V_1[A1, VA, R1]) Return(r1 R1) *FinalizedCall1V[A1, VA] {
+	c.retV1 = &r1
+	return &c.FinalizedCall1V
+}
+
+func (c *Call1V_1[A1, VA, R1]) DoAndReturn(f func(A1, ...VA) R1) *FinalizedCall1V[A1, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall1V
+}
+
+func (c *Call1V_1[A1, VA, R1]) AnyTimes() *Call1V_1[A1, VA, R1] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call1V_1[A1, VA, R1]) MinTimes(n int) *Call1V_1[A1, VA, R1] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call1V_1[A1, VA, R1]) MaxTimes(n int) *Call1V_1[A1, VA, R1] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call1V_1[A1, VA, R1]) Times(n int) *Call1V_1[A1, VA, R1] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call1V_1[A1, VA, R1]) After(preReq CallHolder) *Call1V_1[A1, VA, R1] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call1V_2 wraps FinalizedCall1V for a variadic method with 1 fixed args and 2 return values.
+type Call1V_2[A1, VA, R1, R2 any] struct {
+	FinalizedCall1V[A1, VA]
+	m1         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, ...VA) (R1, R2)
+}
+
+func (c *Call1V_2[A1, VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1}, c.varArgs...), c.origin)
+}
+
+// NewCall1V_2 creates a new Call1V_2 expectation.
+func NewCall1V_2[A1, VA, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, varArgs []Matcher) *Call1V_2[A1, VA, R1, R2] {
+	t.Helper()
+	c := &Call1V_2[A1, VA, R1, R2]{
+		FinalizedCall1V: FinalizedCall1V[A1, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall1V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call1V_2[A1, VA, R1, R2]) Do(f func(A1, ...VA)) *Call1V_2[A1, VA, R1, R2] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call1V_2[A1, VA, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall1V[A1, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall1V
+}
+
+func (c *Call1V_2[A1, VA, R1, R2]) DoAndReturn(f func(A1, ...VA) (R1, R2)) *FinalizedCall1V[A1, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall1V
+}
+
+func (c *Call1V_2[A1, VA, R1, R2]) AnyTimes() *Call1V_2[A1, VA, R1, R2] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call1V_2[A1, VA, R1, R2]) MinTimes(n int) *Call1V_2[A1, VA, R1, R2] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call1V_2[A1, VA, R1, R2]) MaxTimes(n int) *Call1V_2[A1, VA, R1, R2] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call1V_2[A1, VA, R1, R2]) Times(n int) *Call1V_2[A1, VA, R1, R2] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call1V_2[A1, VA, R1, R2]) After(preReq CallHolder) *Call1V_2[A1, VA, R1, R2] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call1V_3 wraps FinalizedCall1V for a variadic method with 1 fixed args and 3 return values.
+type Call1V_3[A1, VA, R1, R2, R3 any] struct {
+	FinalizedCall1V[A1, VA]
+	m1         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, ...VA) (R1, R2, R3)
+}
+
+func (c *Call1V_3[A1, VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1}, c.varArgs...), c.origin)
+}
+
+// NewCall1V_3 creates a new Call1V_3 expectation.
+func NewCall1V_3[A1, VA, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, varArgs []Matcher) *Call1V_3[A1, VA, R1, R2, R3] {
+	t.Helper()
+	c := &Call1V_3[A1, VA, R1, R2, R3]{
+		FinalizedCall1V: FinalizedCall1V[A1, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall1V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call1V_3[A1, VA, R1, R2, R3]) Do(f func(A1, ...VA)) *Call1V_3[A1, VA, R1, R2, R3] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call1V_3[A1, VA, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall1V[A1, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall1V
+}
+
+func (c *Call1V_3[A1, VA, R1, R2, R3]) DoAndReturn(f func(A1, ...VA) (R1, R2, R3)) *FinalizedCall1V[A1, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall1V
+}
+
+func (c *Call1V_3[A1, VA, R1, R2, R3]) AnyTimes() *Call1V_3[A1, VA, R1, R2, R3] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call1V_3[A1, VA, R1, R2, R3]) MinTimes(n int) *Call1V_3[A1, VA, R1, R2, R3] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call1V_3[A1, VA, R1, R2, R3]) MaxTimes(n int) *Call1V_3[A1, VA, R1, R2, R3] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call1V_3[A1, VA, R1, R2, R3]) Times(n int) *Call1V_3[A1, VA, R1, R2, R3] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call1V_3[A1, VA, R1, R2, R3]) After(preReq CallHolder) *Call1V_3[A1, VA, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call1V_4 wraps FinalizedCall1V for a variadic method with 1 fixed args and 4 return values.
+type Call1V_4[A1, VA, R1, R2, R3, R4 any] struct {
+	FinalizedCall1V[A1, VA]
+	m1         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, ...VA) (R1, R2, R3, R4)
+}
+
+func (c *Call1V_4[A1, VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1}, c.varArgs...), c.origin)
+}
+
+// NewCall1V_4 creates a new Call1V_4 expectation.
+func NewCall1V_4[A1, VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, varArgs []Matcher) *Call1V_4[A1, VA, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call1V_4[A1, VA, R1, R2, R3, R4]{
+		FinalizedCall1V: FinalizedCall1V[A1, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall1V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call1V_4[A1, VA, R1, R2, R3, R4]) Do(f func(A1, ...VA)) *Call1V_4[A1, VA, R1, R2, R3, R4] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call1V_4[A1, VA, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall1V[A1, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall1V
+}
+
+func (c *Call1V_4[A1, VA, R1, R2, R3, R4]) DoAndReturn(f func(A1, ...VA) (R1, R2, R3, R4)) *FinalizedCall1V[A1, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall1V
+}
+
+func (c *Call1V_4[A1, VA, R1, R2, R3, R4]) AnyTimes() *Call1V_4[A1, VA, R1, R2, R3, R4] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call1V_4[A1, VA, R1, R2, R3, R4]) MinTimes(n int) *Call1V_4[A1, VA, R1, R2, R3, R4] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call1V_4[A1, VA, R1, R2, R3, R4]) MaxTimes(n int) *Call1V_4[A1, VA, R1, R2, R3, R4] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call1V_4[A1, VA, R1, R2, R3, R4]) Times(n int) *Call1V_4[A1, VA, R1, R2, R3, R4] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call1V_4[A1, VA, R1, R2, R3, R4]) After(preReq CallHolder) *Call1V_4[A1, VA, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call1V_5 wraps FinalizedCall1V for a variadic method with 1 fixed args and 5 return values.
+type Call1V_5[A1, VA, R1, R2, R3, R4, R5 any] struct {
+	FinalizedCall1V[A1, VA]
+	m1         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, ...VA) (R1, R2, R3, R4, R5)
+}
+
+func (c *Call1V_5[A1, VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1}, c.varArgs...), c.origin)
+}
+
+// NewCall1V_5 creates a new Call1V_5 expectation.
+func NewCall1V_5[A1, VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, varArgs []Matcher) *Call1V_5[A1, VA, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call1V_5[A1, VA, R1, R2, R3, R4, R5]{
+		FinalizedCall1V: FinalizedCall1V[A1, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall1V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call1V_5[A1, VA, R1, R2, R3, R4, R5]) Do(f func(A1, ...VA)) *Call1V_5[A1, VA, R1, R2, R3, R4, R5] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call1V_5[A1, VA, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall1V[A1, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall1V
+}
+
+func (c *Call1V_5[A1, VA, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, ...VA) (R1, R2, R3, R4, R5)) *FinalizedCall1V[A1, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall1V
+}
+
+func (c *Call1V_5[A1, VA, R1, R2, R3, R4, R5]) AnyTimes() *Call1V_5[A1, VA, R1, R2, R3, R4, R5] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call1V_5[A1, VA, R1, R2, R3, R4, R5]) MinTimes(n int) *Call1V_5[A1, VA, R1, R2, R3, R4, R5] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call1V_5[A1, VA, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call1V_5[A1, VA, R1, R2, R3, R4, R5] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call1V_5[A1, VA, R1, R2, R3, R4, R5]) Times(n int) *Call1V_5[A1, VA, R1, R2, R3, R4, R5] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call1V_5[A1, VA, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call1V_5[A1, VA, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call2V_0 wraps FinalizedCall2V for a variadic method with 2 fixed args and 0 return values.
+type Call2V_0[A1, A2, VA any] struct {
+	FinalizedCall2V[A1, A2, VA]
+	m1      Matcher
+	m2      Matcher
+	varArgs []Matcher
+}
+
+func (c *Call2V_0[A1, A2, VA]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2}, c.varArgs...), c.origin)
+}
+
+// NewCall2V_0 creates a new Call2V_0 expectation.
+func NewCall2V_0[A1, A2, VA any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, varArgs []Matcher) *Call2V_0[A1, A2, VA] {
+	t.Helper()
+	c := &Call2V_0[A1, A2, VA]{
+		FinalizedCall2V: FinalizedCall2V[A1, A2, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall2V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call2V_0[A1, A2, VA]) Do(f func(A1, A2, ...VA)) *Call2V_0[A1, A2, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call2V_0[A1, A2, VA]) AnyTimes() *Call2V_0[A1, A2, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call2V_0[A1, A2, VA]) MinTimes(n int) *Call2V_0[A1, A2, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call2V_0[A1, A2, VA]) MaxTimes(n int) *Call2V_0[A1, A2, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call2V_0[A1, A2, VA]) Times(n int) *Call2V_0[A1, A2, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call2V_0[A1, A2, VA]) After(preReq CallHolder) *Call2V_0[A1, A2, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call2V_1 wraps FinalizedCall2V for a variadic method with 2 fixed args and 1 return values.
+type Call2V_1[A1, A2, VA, R1 any] struct {
+	FinalizedCall2V[A1, A2, VA]
+	m1         Matcher
+	m2         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, ...VA) R1
+}
+
+func (c *Call2V_1[A1, A2, VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2}, c.varArgs...), c.origin)
+}
+
+// NewCall2V_1 creates a new Call2V_1 expectation.
+func NewCall2V_1[A1, A2, VA, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, varArgs []Matcher) *Call2V_1[A1, A2, VA, R1] {
+	t.Helper()
+	c := &Call2V_1[A1, A2, VA, R1]{
+		FinalizedCall2V: FinalizedCall2V[A1, A2, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall2V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call2V_1[A1, A2, VA, R1]) Do(f func(A1, A2, ...VA)) *Call2V_1[A1, A2, VA, R1] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call2V_1[A1, A2, VA, R1]) Return(r1 R1) *FinalizedCall2V[A1, A2, VA] {
+	c.retV1 = &r1
+	return &c.FinalizedCall2V
+}
+
+func (c *Call2V_1[A1, A2, VA, R1]) DoAndReturn(f func(A1, A2, ...VA) R1) *FinalizedCall2V[A1, A2, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall2V
+}
+
+func (c *Call2V_1[A1, A2, VA, R1]) AnyTimes() *Call2V_1[A1, A2, VA, R1] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call2V_1[A1, A2, VA, R1]) MinTimes(n int) *Call2V_1[A1, A2, VA, R1] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call2V_1[A1, A2, VA, R1]) MaxTimes(n int) *Call2V_1[A1, A2, VA, R1] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call2V_1[A1, A2, VA, R1]) Times(n int) *Call2V_1[A1, A2, VA, R1] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call2V_1[A1, A2, VA, R1]) After(preReq CallHolder) *Call2V_1[A1, A2, VA, R1] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call2V_2 wraps FinalizedCall2V for a variadic method with 2 fixed args and 2 return values.
+type Call2V_2[A1, A2, VA, R1, R2 any] struct {
+	FinalizedCall2V[A1, A2, VA]
+	m1         Matcher
+	m2         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, ...VA) (R1, R2)
+}
+
+func (c *Call2V_2[A1, A2, VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2}, c.varArgs...), c.origin)
+}
+
+// NewCall2V_2 creates a new Call2V_2 expectation.
+func NewCall2V_2[A1, A2, VA, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, varArgs []Matcher) *Call2V_2[A1, A2, VA, R1, R2] {
+	t.Helper()
+	c := &Call2V_2[A1, A2, VA, R1, R2]{
+		FinalizedCall2V: FinalizedCall2V[A1, A2, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall2V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call2V_2[A1, A2, VA, R1, R2]) Do(f func(A1, A2, ...VA)) *Call2V_2[A1, A2, VA, R1, R2] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call2V_2[A1, A2, VA, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall2V[A1, A2, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall2V
+}
+
+func (c *Call2V_2[A1, A2, VA, R1, R2]) DoAndReturn(f func(A1, A2, ...VA) (R1, R2)) *FinalizedCall2V[A1, A2, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall2V
+}
+
+func (c *Call2V_2[A1, A2, VA, R1, R2]) AnyTimes() *Call2V_2[A1, A2, VA, R1, R2] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call2V_2[A1, A2, VA, R1, R2]) MinTimes(n int) *Call2V_2[A1, A2, VA, R1, R2] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call2V_2[A1, A2, VA, R1, R2]) MaxTimes(n int) *Call2V_2[A1, A2, VA, R1, R2] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call2V_2[A1, A2, VA, R1, R2]) Times(n int) *Call2V_2[A1, A2, VA, R1, R2] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call2V_2[A1, A2, VA, R1, R2]) After(preReq CallHolder) *Call2V_2[A1, A2, VA, R1, R2] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call2V_3 wraps FinalizedCall2V for a variadic method with 2 fixed args and 3 return values.
+type Call2V_3[A1, A2, VA, R1, R2, R3 any] struct {
+	FinalizedCall2V[A1, A2, VA]
+	m1         Matcher
+	m2         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, ...VA) (R1, R2, R3)
+}
+
+func (c *Call2V_3[A1, A2, VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2}, c.varArgs...), c.origin)
+}
+
+// NewCall2V_3 creates a new Call2V_3 expectation.
+func NewCall2V_3[A1, A2, VA, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, varArgs []Matcher) *Call2V_3[A1, A2, VA, R1, R2, R3] {
+	t.Helper()
+	c := &Call2V_3[A1, A2, VA, R1, R2, R3]{
+		FinalizedCall2V: FinalizedCall2V[A1, A2, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall2V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call2V_3[A1, A2, VA, R1, R2, R3]) Do(f func(A1, A2, ...VA)) *Call2V_3[A1, A2, VA, R1, R2, R3] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call2V_3[A1, A2, VA, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall2V[A1, A2, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall2V
+}
+
+func (c *Call2V_3[A1, A2, VA, R1, R2, R3]) DoAndReturn(f func(A1, A2, ...VA) (R1, R2, R3)) *FinalizedCall2V[A1, A2, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall2V
+}
+
+func (c *Call2V_3[A1, A2, VA, R1, R2, R3]) AnyTimes() *Call2V_3[A1, A2, VA, R1, R2, R3] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call2V_3[A1, A2, VA, R1, R2, R3]) MinTimes(n int) *Call2V_3[A1, A2, VA, R1, R2, R3] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call2V_3[A1, A2, VA, R1, R2, R3]) MaxTimes(n int) *Call2V_3[A1, A2, VA, R1, R2, R3] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call2V_3[A1, A2, VA, R1, R2, R3]) Times(n int) *Call2V_3[A1, A2, VA, R1, R2, R3] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call2V_3[A1, A2, VA, R1, R2, R3]) After(preReq CallHolder) *Call2V_3[A1, A2, VA, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call2V_4 wraps FinalizedCall2V for a variadic method with 2 fixed args and 4 return values.
+type Call2V_4[A1, A2, VA, R1, R2, R3, R4 any] struct {
+	FinalizedCall2V[A1, A2, VA]
+	m1         Matcher
+	m2         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, ...VA) (R1, R2, R3, R4)
+}
+
+func (c *Call2V_4[A1, A2, VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2}, c.varArgs...), c.origin)
+}
+
+// NewCall2V_4 creates a new Call2V_4 expectation.
+func NewCall2V_4[A1, A2, VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, varArgs []Matcher) *Call2V_4[A1, A2, VA, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call2V_4[A1, A2, VA, R1, R2, R3, R4]{
+		FinalizedCall2V: FinalizedCall2V[A1, A2, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall2V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call2V_4[A1, A2, VA, R1, R2, R3, R4]) Do(f func(A1, A2, ...VA)) *Call2V_4[A1, A2, VA, R1, R2, R3, R4] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call2V_4[A1, A2, VA, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall2V[A1, A2, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall2V
+}
+
+func (c *Call2V_4[A1, A2, VA, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, ...VA) (R1, R2, R3, R4)) *FinalizedCall2V[A1, A2, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall2V
+}
+
+func (c *Call2V_4[A1, A2, VA, R1, R2, R3, R4]) AnyTimes() *Call2V_4[A1, A2, VA, R1, R2, R3, R4] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call2V_4[A1, A2, VA, R1, R2, R3, R4]) MinTimes(n int) *Call2V_4[A1, A2, VA, R1, R2, R3, R4] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call2V_4[A1, A2, VA, R1, R2, R3, R4]) MaxTimes(n int) *Call2V_4[A1, A2, VA, R1, R2, R3, R4] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call2V_4[A1, A2, VA, R1, R2, R3, R4]) Times(n int) *Call2V_4[A1, A2, VA, R1, R2, R3, R4] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call2V_4[A1, A2, VA, R1, R2, R3, R4]) After(preReq CallHolder) *Call2V_4[A1, A2, VA, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call2V_5 wraps FinalizedCall2V for a variadic method with 2 fixed args and 5 return values.
+type Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5 any] struct {
+	FinalizedCall2V[A1, A2, VA]
+	m1         Matcher
+	m2         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, ...VA) (R1, R2, R3, R4, R5)
+}
+
+func (c *Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2}, c.varArgs...), c.origin)
+}
+
+// NewCall2V_5 creates a new Call2V_5 expectation.
+func NewCall2V_5[A1, A2, VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, varArgs []Matcher) *Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5]{
+		FinalizedCall2V: FinalizedCall2V[A1, A2, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall2V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5]) Do(f func(A1, A2, ...VA)) *Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall2V[A1, A2, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall2V
+}
+
+func (c *Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, ...VA) (R1, R2, R3, R4, R5)) *FinalizedCall2V[A1, A2, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall2V
+}
+
+func (c *Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5]) AnyTimes() *Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5]) MinTimes(n int) *Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5]) Times(n int) *Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call3V_0 wraps FinalizedCall3V for a variadic method with 3 fixed args and 0 return values.
+type Call3V_0[A1, A2, A3, VA any] struct {
+	FinalizedCall3V[A1, A2, A3, VA]
+	m1      Matcher
+	m2      Matcher
+	m3      Matcher
+	varArgs []Matcher
+}
+
+func (c *Call3V_0[A1, A2, A3, VA]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3}, c.varArgs...), c.origin)
+}
+
+// NewCall3V_0 creates a new Call3V_0 expectation.
+func NewCall3V_0[A1, A2, A3, VA any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, varArgs []Matcher) *Call3V_0[A1, A2, A3, VA] {
+	t.Helper()
+	c := &Call3V_0[A1, A2, A3, VA]{
+		FinalizedCall3V: FinalizedCall3V[A1, A2, A3, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall3V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call3V_0[A1, A2, A3, VA]) Do(f func(A1, A2, A3, ...VA)) *Call3V_0[A1, A2, A3, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call3V_0[A1, A2, A3, VA]) AnyTimes() *Call3V_0[A1, A2, A3, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call3V_0[A1, A2, A3, VA]) MinTimes(n int) *Call3V_0[A1, A2, A3, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call3V_0[A1, A2, A3, VA]) MaxTimes(n int) *Call3V_0[A1, A2, A3, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call3V_0[A1, A2, A3, VA]) Times(n int) *Call3V_0[A1, A2, A3, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call3V_0[A1, A2, A3, VA]) After(preReq CallHolder) *Call3V_0[A1, A2, A3, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call3V_1 wraps FinalizedCall3V for a variadic method with 3 fixed args and 1 return values.
+type Call3V_1[A1, A2, A3, VA, R1 any] struct {
+	FinalizedCall3V[A1, A2, A3, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, A3, ...VA) R1
+}
+
+func (c *Call3V_1[A1, A2, A3, VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3}, c.varArgs...), c.origin)
+}
+
+// NewCall3V_1 creates a new Call3V_1 expectation.
+func NewCall3V_1[A1, A2, A3, VA, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, varArgs []Matcher) *Call3V_1[A1, A2, A3, VA, R1] {
+	t.Helper()
+	c := &Call3V_1[A1, A2, A3, VA, R1]{
+		FinalizedCall3V: FinalizedCall3V[A1, A2, A3, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall3V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call3V_1[A1, A2, A3, VA, R1]) Do(f func(A1, A2, A3, ...VA)) *Call3V_1[A1, A2, A3, VA, R1] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call3V_1[A1, A2, A3, VA, R1]) Return(r1 R1) *FinalizedCall3V[A1, A2, A3, VA] {
+	c.retV1 = &r1
+	return &c.FinalizedCall3V
+}
+
+func (c *Call3V_1[A1, A2, A3, VA, R1]) DoAndReturn(f func(A1, A2, A3, ...VA) R1) *FinalizedCall3V[A1, A2, A3, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall3V
+}
+
+func (c *Call3V_1[A1, A2, A3, VA, R1]) AnyTimes() *Call3V_1[A1, A2, A3, VA, R1] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call3V_1[A1, A2, A3, VA, R1]) MinTimes(n int) *Call3V_1[A1, A2, A3, VA, R1] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call3V_1[A1, A2, A3, VA, R1]) MaxTimes(n int) *Call3V_1[A1, A2, A3, VA, R1] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call3V_1[A1, A2, A3, VA, R1]) Times(n int) *Call3V_1[A1, A2, A3, VA, R1] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call3V_1[A1, A2, A3, VA, R1]) After(preReq CallHolder) *Call3V_1[A1, A2, A3, VA, R1] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call3V_2 wraps FinalizedCall3V for a variadic method with 3 fixed args and 2 return values.
+type Call3V_2[A1, A2, A3, VA, R1, R2 any] struct {
+	FinalizedCall3V[A1, A2, A3, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, A3, ...VA) (R1, R2)
+}
+
+func (c *Call3V_2[A1, A2, A3, VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3}, c.varArgs...), c.origin)
+}
+
+// NewCall3V_2 creates a new Call3V_2 expectation.
+func NewCall3V_2[A1, A2, A3, VA, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, varArgs []Matcher) *Call3V_2[A1, A2, A3, VA, R1, R2] {
+	t.Helper()
+	c := &Call3V_2[A1, A2, A3, VA, R1, R2]{
+		FinalizedCall3V: FinalizedCall3V[A1, A2, A3, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall3V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call3V_2[A1, A2, A3, VA, R1, R2]) Do(f func(A1, A2, A3, ...VA)) *Call3V_2[A1, A2, A3, VA, R1, R2] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call3V_2[A1, A2, A3, VA, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall3V[A1, A2, A3, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall3V
+}
+
+func (c *Call3V_2[A1, A2, A3, VA, R1, R2]) DoAndReturn(f func(A1, A2, A3, ...VA) (R1, R2)) *FinalizedCall3V[A1, A2, A3, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall3V
+}
+
+func (c *Call3V_2[A1, A2, A3, VA, R1, R2]) AnyTimes() *Call3V_2[A1, A2, A3, VA, R1, R2] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call3V_2[A1, A2, A3, VA, R1, R2]) MinTimes(n int) *Call3V_2[A1, A2, A3, VA, R1, R2] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call3V_2[A1, A2, A3, VA, R1, R2]) MaxTimes(n int) *Call3V_2[A1, A2, A3, VA, R1, R2] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call3V_2[A1, A2, A3, VA, R1, R2]) Times(n int) *Call3V_2[A1, A2, A3, VA, R1, R2] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call3V_2[A1, A2, A3, VA, R1, R2]) After(preReq CallHolder) *Call3V_2[A1, A2, A3, VA, R1, R2] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call3V_3 wraps FinalizedCall3V for a variadic method with 3 fixed args and 3 return values.
+type Call3V_3[A1, A2, A3, VA, R1, R2, R3 any] struct {
+	FinalizedCall3V[A1, A2, A3, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, A3, ...VA) (R1, R2, R3)
+}
+
+func (c *Call3V_3[A1, A2, A3, VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3}, c.varArgs...), c.origin)
+}
+
+// NewCall3V_3 creates a new Call3V_3 expectation.
+func NewCall3V_3[A1, A2, A3, VA, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, varArgs []Matcher) *Call3V_3[A1, A2, A3, VA, R1, R2, R3] {
+	t.Helper()
+	c := &Call3V_3[A1, A2, A3, VA, R1, R2, R3]{
+		FinalizedCall3V: FinalizedCall3V[A1, A2, A3, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall3V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call3V_3[A1, A2, A3, VA, R1, R2, R3]) Do(f func(A1, A2, A3, ...VA)) *Call3V_3[A1, A2, A3, VA, R1, R2, R3] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call3V_3[A1, A2, A3, VA, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall3V[A1, A2, A3, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall3V
+}
+
+func (c *Call3V_3[A1, A2, A3, VA, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, ...VA) (R1, R2, R3)) *FinalizedCall3V[A1, A2, A3, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall3V
+}
+
+func (c *Call3V_3[A1, A2, A3, VA, R1, R2, R3]) AnyTimes() *Call3V_3[A1, A2, A3, VA, R1, R2, R3] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call3V_3[A1, A2, A3, VA, R1, R2, R3]) MinTimes(n int) *Call3V_3[A1, A2, A3, VA, R1, R2, R3] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call3V_3[A1, A2, A3, VA, R1, R2, R3]) MaxTimes(n int) *Call3V_3[A1, A2, A3, VA, R1, R2, R3] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call3V_3[A1, A2, A3, VA, R1, R2, R3]) Times(n int) *Call3V_3[A1, A2, A3, VA, R1, R2, R3] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call3V_3[A1, A2, A3, VA, R1, R2, R3]) After(preReq CallHolder) *Call3V_3[A1, A2, A3, VA, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call3V_4 wraps FinalizedCall3V for a variadic method with 3 fixed args and 4 return values.
+type Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4 any] struct {
+	FinalizedCall3V[A1, A2, A3, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, A3, ...VA) (R1, R2, R3, R4)
+}
+
+func (c *Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3}, c.varArgs...), c.origin)
+}
+
+// NewCall3V_4 creates a new Call3V_4 expectation.
+func NewCall3V_4[A1, A2, A3, VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, varArgs []Matcher) *Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4]{
+		FinalizedCall3V: FinalizedCall3V[A1, A2, A3, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall3V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4]) Do(f func(A1, A2, A3, ...VA)) *Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall3V[A1, A2, A3, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall3V
+}
+
+func (c *Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, ...VA) (R1, R2, R3, R4)) *FinalizedCall3V[A1, A2, A3, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall3V
+}
+
+func (c *Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4]) AnyTimes() *Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4]) MinTimes(n int) *Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4]) MaxTimes(n int) *Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4]) Times(n int) *Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4]) After(preReq CallHolder) *Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call3V_5 wraps FinalizedCall3V for a variadic method with 3 fixed args and 5 return values.
+type Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5 any] struct {
+	FinalizedCall3V[A1, A2, A3, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, A3, ...VA) (R1, R2, R3, R4, R5)
+}
+
+func (c *Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3}, c.varArgs...), c.origin)
+}
+
+// NewCall3V_5 creates a new Call3V_5 expectation.
+func NewCall3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, varArgs []Matcher) *Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5]{
+		FinalizedCall3V: FinalizedCall3V[A1, A2, A3, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall3V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, ...VA)) *Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall3V[A1, A2, A3, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall3V
+}
+
+func (c *Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, ...VA) (R1, R2, R3, R4, R5)) *FinalizedCall3V[A1, A2, A3, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall3V
+}
+
+func (c *Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5]) AnyTimes() *Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5]) MinTimes(n int) *Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5]) Times(n int) *Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call4V_0 wraps FinalizedCall4V for a variadic method with 4 fixed args and 0 return values.
+type Call4V_0[A1, A2, A3, A4, VA any] struct {
+	FinalizedCall4V[A1, A2, A3, A4, VA]
+	m1      Matcher
+	m2      Matcher
+	m3      Matcher
+	m4      Matcher
+	varArgs []Matcher
+}
+
+func (c *Call4V_0[A1, A2, A3, A4, VA]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4}, c.varArgs...), c.origin)
+}
+
+// NewCall4V_0 creates a new Call4V_0 expectation.
+func NewCall4V_0[A1, A2, A3, A4, VA any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, varArgs []Matcher) *Call4V_0[A1, A2, A3, A4, VA] {
+	t.Helper()
+	c := &Call4V_0[A1, A2, A3, A4, VA]{
+		FinalizedCall4V: FinalizedCall4V[A1, A2, A3, A4, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall4V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call4V_0[A1, A2, A3, A4, VA]) Do(f func(A1, A2, A3, A4, ...VA)) *Call4V_0[A1, A2, A3, A4, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call4V_0[A1, A2, A3, A4, VA]) AnyTimes() *Call4V_0[A1, A2, A3, A4, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call4V_0[A1, A2, A3, A4, VA]) MinTimes(n int) *Call4V_0[A1, A2, A3, A4, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call4V_0[A1, A2, A3, A4, VA]) MaxTimes(n int) *Call4V_0[A1, A2, A3, A4, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call4V_0[A1, A2, A3, A4, VA]) Times(n int) *Call4V_0[A1, A2, A3, A4, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call4V_0[A1, A2, A3, A4, VA]) After(preReq CallHolder) *Call4V_0[A1, A2, A3, A4, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call4V_1 wraps FinalizedCall4V for a variadic method with 4 fixed args and 1 return values.
+type Call4V_1[A1, A2, A3, A4, VA, R1 any] struct {
+	FinalizedCall4V[A1, A2, A3, A4, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, A3, A4, ...VA) R1
+}
+
+func (c *Call4V_1[A1, A2, A3, A4, VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4}, c.varArgs...), c.origin)
+}
+
+// NewCall4V_1 creates a new Call4V_1 expectation.
+func NewCall4V_1[A1, A2, A3, A4, VA, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, varArgs []Matcher) *Call4V_1[A1, A2, A3, A4, VA, R1] {
+	t.Helper()
+	c := &Call4V_1[A1, A2, A3, A4, VA, R1]{
+		FinalizedCall4V: FinalizedCall4V[A1, A2, A3, A4, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall4V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call4V_1[A1, A2, A3, A4, VA, R1]) Do(f func(A1, A2, A3, A4, ...VA)) *Call4V_1[A1, A2, A3, A4, VA, R1] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call4V_1[A1, A2, A3, A4, VA, R1]) Return(r1 R1) *FinalizedCall4V[A1, A2, A3, A4, VA] {
+	c.retV1 = &r1
+	return &c.FinalizedCall4V
+}
+
+func (c *Call4V_1[A1, A2, A3, A4, VA, R1]) DoAndReturn(f func(A1, A2, A3, A4, ...VA) R1) *FinalizedCall4V[A1, A2, A3, A4, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall4V
+}
+
+func (c *Call4V_1[A1, A2, A3, A4, VA, R1]) AnyTimes() *Call4V_1[A1, A2, A3, A4, VA, R1] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call4V_1[A1, A2, A3, A4, VA, R1]) MinTimes(n int) *Call4V_1[A1, A2, A3, A4, VA, R1] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call4V_1[A1, A2, A3, A4, VA, R1]) MaxTimes(n int) *Call4V_1[A1, A2, A3, A4, VA, R1] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call4V_1[A1, A2, A3, A4, VA, R1]) Times(n int) *Call4V_1[A1, A2, A3, A4, VA, R1] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call4V_1[A1, A2, A3, A4, VA, R1]) After(preReq CallHolder) *Call4V_1[A1, A2, A3, A4, VA, R1] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call4V_2 wraps FinalizedCall4V for a variadic method with 4 fixed args and 2 return values.
+type Call4V_2[A1, A2, A3, A4, VA, R1, R2 any] struct {
+	FinalizedCall4V[A1, A2, A3, A4, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, A3, A4, ...VA) (R1, R2)
+}
+
+func (c *Call4V_2[A1, A2, A3, A4, VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4}, c.varArgs...), c.origin)
+}
+
+// NewCall4V_2 creates a new Call4V_2 expectation.
+func NewCall4V_2[A1, A2, A3, A4, VA, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, varArgs []Matcher) *Call4V_2[A1, A2, A3, A4, VA, R1, R2] {
+	t.Helper()
+	c := &Call4V_2[A1, A2, A3, A4, VA, R1, R2]{
+		FinalizedCall4V: FinalizedCall4V[A1, A2, A3, A4, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall4V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call4V_2[A1, A2, A3, A4, VA, R1, R2]) Do(f func(A1, A2, A3, A4, ...VA)) *Call4V_2[A1, A2, A3, A4, VA, R1, R2] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call4V_2[A1, A2, A3, A4, VA, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall4V[A1, A2, A3, A4, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall4V
+}
+
+func (c *Call4V_2[A1, A2, A3, A4, VA, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, ...VA) (R1, R2)) *FinalizedCall4V[A1, A2, A3, A4, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall4V
+}
+
+func (c *Call4V_2[A1, A2, A3, A4, VA, R1, R2]) AnyTimes() *Call4V_2[A1, A2, A3, A4, VA, R1, R2] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call4V_2[A1, A2, A3, A4, VA, R1, R2]) MinTimes(n int) *Call4V_2[A1, A2, A3, A4, VA, R1, R2] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call4V_2[A1, A2, A3, A4, VA, R1, R2]) MaxTimes(n int) *Call4V_2[A1, A2, A3, A4, VA, R1, R2] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call4V_2[A1, A2, A3, A4, VA, R1, R2]) Times(n int) *Call4V_2[A1, A2, A3, A4, VA, R1, R2] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call4V_2[A1, A2, A3, A4, VA, R1, R2]) After(preReq CallHolder) *Call4V_2[A1, A2, A3, A4, VA, R1, R2] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call4V_3 wraps FinalizedCall4V for a variadic method with 4 fixed args and 3 return values.
+type Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3 any] struct {
+	FinalizedCall4V[A1, A2, A3, A4, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, A3, A4, ...VA) (R1, R2, R3)
+}
+
+func (c *Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4}, c.varArgs...), c.origin)
+}
+
+// NewCall4V_3 creates a new Call4V_3 expectation.
+func NewCall4V_3[A1, A2, A3, A4, VA, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, varArgs []Matcher) *Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3] {
+	t.Helper()
+	c := &Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3]{
+		FinalizedCall4V: FinalizedCall4V[A1, A2, A3, A4, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall4V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3]) Do(f func(A1, A2, A3, A4, ...VA)) *Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall4V[A1, A2, A3, A4, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall4V
+}
+
+func (c *Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, ...VA) (R1, R2, R3)) *FinalizedCall4V[A1, A2, A3, A4, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall4V
+}
+
+func (c *Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3]) AnyTimes() *Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3]) MinTimes(n int) *Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3]) MaxTimes(n int) *Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3]) Times(n int) *Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3]) After(preReq CallHolder) *Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call4V_4 wraps FinalizedCall4V for a variadic method with 4 fixed args and 4 return values.
+type Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4 any] struct {
+	FinalizedCall4V[A1, A2, A3, A4, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, A3, A4, ...VA) (R1, R2, R3, R4)
+}
+
+func (c *Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4}, c.varArgs...), c.origin)
+}
+
+// NewCall4V_4 creates a new Call4V_4 expectation.
+func NewCall4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, varArgs []Matcher) *Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4]{
+		FinalizedCall4V: FinalizedCall4V[A1, A2, A3, A4, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall4V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, ...VA)) *Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall4V[A1, A2, A3, A4, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall4V
+}
+
+func (c *Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, ...VA) (R1, R2, R3, R4)) *FinalizedCall4V[A1, A2, A3, A4, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall4V
+}
+
+func (c *Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4]) AnyTimes() *Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4]) MinTimes(n int) *Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4]) MaxTimes(n int) *Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4]) Times(n int) *Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4]) After(preReq CallHolder) *Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call4V_5 wraps FinalizedCall4V for a variadic method with 4 fixed args and 5 return values.
+type Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5 any] struct {
+	FinalizedCall4V[A1, A2, A3, A4, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, A3, A4, ...VA) (R1, R2, R3, R4, R5)
+}
+
+func (c *Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4}, c.varArgs...), c.origin)
+}
+
+// NewCall4V_5 creates a new Call4V_5 expectation.
+func NewCall4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, varArgs []Matcher) *Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5]{
+		FinalizedCall4V: FinalizedCall4V[A1, A2, A3, A4, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall4V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, ...VA)) *Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall4V[A1, A2, A3, A4, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall4V
+}
+
+func (c *Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, ...VA) (R1, R2, R3, R4, R5)) *FinalizedCall4V[A1, A2, A3, A4, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall4V
+}
+
+func (c *Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5]) AnyTimes() *Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5]) MinTimes(n int) *Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5]) Times(n int) *Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call5V_0 wraps FinalizedCall5V for a variadic method with 5 fixed args and 0 return values.
+type Call5V_0[A1, A2, A3, A4, A5, VA any] struct {
+	FinalizedCall5V[A1, A2, A3, A4, A5, VA]
+	m1      Matcher
+	m2      Matcher
+	m3      Matcher
+	m4      Matcher
+	m5      Matcher
+	varArgs []Matcher
+}
+
+func (c *Call5V_0[A1, A2, A3, A4, A5, VA]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.varArgs...), c.origin)
+}
+
+// NewCall5V_0 creates a new Call5V_0 expectation.
+func NewCall5V_0[A1, A2, A3, A4, A5, VA any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, varArgs []Matcher) *Call5V_0[A1, A2, A3, A4, A5, VA] {
+	t.Helper()
+	c := &Call5V_0[A1, A2, A3, A4, A5, VA]{
+		FinalizedCall5V: FinalizedCall5V[A1, A2, A3, A4, A5, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall5V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call5V_0[A1, A2, A3, A4, A5, VA]) Do(f func(A1, A2, A3, A4, A5, ...VA)) *Call5V_0[A1, A2, A3, A4, A5, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call5V_0[A1, A2, A3, A4, A5, VA]) AnyTimes() *Call5V_0[A1, A2, A3, A4, A5, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call5V_0[A1, A2, A3, A4, A5, VA]) MinTimes(n int) *Call5V_0[A1, A2, A3, A4, A5, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call5V_0[A1, A2, A3, A4, A5, VA]) MaxTimes(n int) *Call5V_0[A1, A2, A3, A4, A5, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call5V_0[A1, A2, A3, A4, A5, VA]) Times(n int) *Call5V_0[A1, A2, A3, A4, A5, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call5V_0[A1, A2, A3, A4, A5, VA]) After(preReq CallHolder) *Call5V_0[A1, A2, A3, A4, A5, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call5V_1 wraps FinalizedCall5V for a variadic method with 5 fixed args and 1 return values.
+type Call5V_1[A1, A2, A3, A4, A5, VA, R1 any] struct {
+	FinalizedCall5V[A1, A2, A3, A4, A5, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, A3, A4, A5, ...VA) R1
+}
+
+func (c *Call5V_1[A1, A2, A3, A4, A5, VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.varArgs...), c.origin)
+}
+
+// NewCall5V_1 creates a new Call5V_1 expectation.
+func NewCall5V_1[A1, A2, A3, A4, A5, VA, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, varArgs []Matcher) *Call5V_1[A1, A2, A3, A4, A5, VA, R1] {
+	t.Helper()
+	c := &Call5V_1[A1, A2, A3, A4, A5, VA, R1]{
+		FinalizedCall5V: FinalizedCall5V[A1, A2, A3, A4, A5, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall5V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call5V_1[A1, A2, A3, A4, A5, VA, R1]) Do(f func(A1, A2, A3, A4, A5, ...VA)) *Call5V_1[A1, A2, A3, A4, A5, VA, R1] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call5V_1[A1, A2, A3, A4, A5, VA, R1]) Return(r1 R1) *FinalizedCall5V[A1, A2, A3, A4, A5, VA] {
+	c.retV1 = &r1
+	return &c.FinalizedCall5V
+}
+
+func (c *Call5V_1[A1, A2, A3, A4, A5, VA, R1]) DoAndReturn(f func(A1, A2, A3, A4, A5, ...VA) R1) *FinalizedCall5V[A1, A2, A3, A4, A5, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall5V
+}
+
+func (c *Call5V_1[A1, A2, A3, A4, A5, VA, R1]) AnyTimes() *Call5V_1[A1, A2, A3, A4, A5, VA, R1] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call5V_1[A1, A2, A3, A4, A5, VA, R1]) MinTimes(n int) *Call5V_1[A1, A2, A3, A4, A5, VA, R1] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call5V_1[A1, A2, A3, A4, A5, VA, R1]) MaxTimes(n int) *Call5V_1[A1, A2, A3, A4, A5, VA, R1] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call5V_1[A1, A2, A3, A4, A5, VA, R1]) Times(n int) *Call5V_1[A1, A2, A3, A4, A5, VA, R1] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call5V_1[A1, A2, A3, A4, A5, VA, R1]) After(preReq CallHolder) *Call5V_1[A1, A2, A3, A4, A5, VA, R1] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call5V_2 wraps FinalizedCall5V for a variadic method with 5 fixed args and 2 return values.
+type Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2 any] struct {
+	FinalizedCall5V[A1, A2, A3, A4, A5, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, A3, A4, A5, ...VA) (R1, R2)
+}
+
+func (c *Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.varArgs...), c.origin)
+}
+
+// NewCall5V_2 creates a new Call5V_2 expectation.
+func NewCall5V_2[A1, A2, A3, A4, A5, VA, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, varArgs []Matcher) *Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2] {
+	t.Helper()
+	c := &Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2]{
+		FinalizedCall5V: FinalizedCall5V[A1, A2, A3, A4, A5, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall5V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2]) Do(f func(A1, A2, A3, A4, A5, ...VA)) *Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall5V[A1, A2, A3, A4, A5, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall5V
+}
+
+func (c *Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, A5, ...VA) (R1, R2)) *FinalizedCall5V[A1, A2, A3, A4, A5, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall5V
+}
+
+func (c *Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2]) AnyTimes() *Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2]) MinTimes(n int) *Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2]) MaxTimes(n int) *Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2]) Times(n int) *Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2]) After(preReq CallHolder) *Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call5V_3 wraps FinalizedCall5V for a variadic method with 5 fixed args and 3 return values.
+type Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3 any] struct {
+	FinalizedCall5V[A1, A2, A3, A4, A5, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, A3, A4, A5, ...VA) (R1, R2, R3)
+}
+
+func (c *Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.varArgs...), c.origin)
+}
+
+// NewCall5V_3 creates a new Call5V_3 expectation.
+func NewCall5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, varArgs []Matcher) *Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3] {
+	t.Helper()
+	c := &Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3]{
+		FinalizedCall5V: FinalizedCall5V[A1, A2, A3, A4, A5, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall5V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, ...VA)) *Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall5V[A1, A2, A3, A4, A5, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall5V
+}
+
+func (c *Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, A5, ...VA) (R1, R2, R3)) *FinalizedCall5V[A1, A2, A3, A4, A5, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall5V
+}
+
+func (c *Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3]) AnyTimes() *Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3]) MinTimes(n int) *Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3]) MaxTimes(n int) *Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3]) Times(n int) *Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3]) After(preReq CallHolder) *Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call5V_4 wraps FinalizedCall5V for a variadic method with 5 fixed args and 4 return values.
+type Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4 any] struct {
+	FinalizedCall5V[A1, A2, A3, A4, A5, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, A3, A4, A5, ...VA) (R1, R2, R3, R4)
+}
+
+func (c *Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.varArgs...), c.origin)
+}
+
+// NewCall5V_4 creates a new Call5V_4 expectation.
+func NewCall5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, varArgs []Matcher) *Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4]{
+		FinalizedCall5V: FinalizedCall5V[A1, A2, A3, A4, A5, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall5V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, ...VA)) *Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall5V[A1, A2, A3, A4, A5, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall5V
+}
+
+func (c *Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, A5, ...VA) (R1, R2, R3, R4)) *FinalizedCall5V[A1, A2, A3, A4, A5, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall5V
+}
+
+func (c *Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4]) AnyTimes() *Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4]) MinTimes(n int) *Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4]) MaxTimes(n int) *Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4]) Times(n int) *Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4]) After(preReq CallHolder) *Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call5V_5 wraps FinalizedCall5V for a variadic method with 5 fixed args and 5 return values.
+type Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5 any] struct {
+	FinalizedCall5V[A1, A2, A3, A4, A5, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, A3, A4, A5, ...VA) (R1, R2, R3, R4, R5)
+}
+
+func (c *Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5}, c.varArgs...), c.origin)
+}
+
+// NewCall5V_5 creates a new Call5V_5 expectation.
+func NewCall5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, varArgs []Matcher) *Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5]{
+		FinalizedCall5V: FinalizedCall5V[A1, A2, A3, A4, A5, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall5V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, ...VA)) *Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall5V[A1, A2, A3, A4, A5, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall5V
+}
+
+func (c *Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, A5, ...VA) (R1, R2, R3, R4, R5)) *FinalizedCall5V[A1, A2, A3, A4, A5, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall5V
+}
+
+func (c *Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5]) AnyTimes() *Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5]) MinTimes(n int) *Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5]) Times(n int) *Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call6V_0 wraps FinalizedCall6V for a variadic method with 6 fixed args and 0 return values.
+type Call6V_0[A1, A2, A3, A4, A5, A6, VA any] struct {
+	FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]
+	m1      Matcher
+	m2      Matcher
+	m3      Matcher
+	m4      Matcher
+	m5      Matcher
+	m6      Matcher
+	varArgs []Matcher
+}
+
+func (c *Call6V_0[A1, A2, A3, A4, A5, A6, VA]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.varArgs...), c.origin)
+}
+
+// NewCall6V_0 creates a new Call6V_0 expectation.
+func NewCall6V_0[A1, A2, A3, A4, A5, A6, VA any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, varArgs []Matcher) *Call6V_0[A1, A2, A3, A4, A5, A6, VA] {
+	t.Helper()
+	c := &Call6V_0[A1, A2, A3, A4, A5, A6, VA]{
+		FinalizedCall6V: FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall6V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call6V_0[A1, A2, A3, A4, A5, A6, VA]) Do(f func(A1, A2, A3, A4, A5, A6, ...VA)) *Call6V_0[A1, A2, A3, A4, A5, A6, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call6V_0[A1, A2, A3, A4, A5, A6, VA]) AnyTimes() *Call6V_0[A1, A2, A3, A4, A5, A6, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call6V_0[A1, A2, A3, A4, A5, A6, VA]) MinTimes(n int) *Call6V_0[A1, A2, A3, A4, A5, A6, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call6V_0[A1, A2, A3, A4, A5, A6, VA]) MaxTimes(n int) *Call6V_0[A1, A2, A3, A4, A5, A6, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call6V_0[A1, A2, A3, A4, A5, A6, VA]) Times(n int) *Call6V_0[A1, A2, A3, A4, A5, A6, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call6V_0[A1, A2, A3, A4, A5, A6, VA]) After(preReq CallHolder) *Call6V_0[A1, A2, A3, A4, A5, A6, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call6V_1 wraps FinalizedCall6V for a variadic method with 6 fixed args and 1 return values.
+type Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1 any] struct {
+	FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, A3, A4, A5, A6, ...VA) R1
+}
+
+func (c *Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.varArgs...), c.origin)
+}
+
+// NewCall6V_1 creates a new Call6V_1 expectation.
+func NewCall6V_1[A1, A2, A3, A4, A5, A6, VA, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, varArgs []Matcher) *Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1] {
+	t.Helper()
+	c := &Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1]{
+		FinalizedCall6V: FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall6V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1]) Do(f func(A1, A2, A3, A4, A5, A6, ...VA)) *Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1]) Return(r1 R1) *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA] {
+	c.retV1 = &r1
+	return &c.FinalizedCall6V
+}
+
+func (c *Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, ...VA) R1) *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall6V
+}
+
+func (c *Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1]) AnyTimes() *Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1]) MinTimes(n int) *Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1]) MaxTimes(n int) *Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1]) Times(n int) *Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1]) After(preReq CallHolder) *Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call6V_2 wraps FinalizedCall6V for a variadic method with 6 fixed args and 2 return values.
+type Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2 any] struct {
+	FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, A3, A4, A5, A6, ...VA) (R1, R2)
+}
+
+func (c *Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.varArgs...), c.origin)
+}
+
+// NewCall6V_2 creates a new Call6V_2 expectation.
+func NewCall6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, varArgs []Matcher) *Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2] {
+	t.Helper()
+	c := &Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2]{
+		FinalizedCall6V: FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall6V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2]) Do(f func(A1, A2, A3, A4, A5, A6, ...VA)) *Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall6V
+}
+
+func (c *Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, ...VA) (R1, R2)) *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall6V
+}
+
+func (c *Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2]) AnyTimes() *Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2]) MinTimes(n int) *Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2]) MaxTimes(n int) *Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2]) Times(n int) *Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2]) After(preReq CallHolder) *Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call6V_3 wraps FinalizedCall6V for a variadic method with 6 fixed args and 3 return values.
+type Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3 any] struct {
+	FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, A3, A4, A5, A6, ...VA) (R1, R2, R3)
+}
+
+func (c *Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.varArgs...), c.origin)
+}
+
+// NewCall6V_3 creates a new Call6V_3 expectation.
+func NewCall6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, varArgs []Matcher) *Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3] {
+	t.Helper()
+	c := &Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3]{
+		FinalizedCall6V: FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall6V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, A6, ...VA)) *Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall6V
+}
+
+func (c *Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, ...VA) (R1, R2, R3)) *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall6V
+}
+
+func (c *Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3]) AnyTimes() *Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3]) MinTimes(n int) *Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3]) MaxTimes(n int) *Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3]) Times(n int) *Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3]) After(preReq CallHolder) *Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call6V_4 wraps FinalizedCall6V for a variadic method with 6 fixed args and 4 return values.
+type Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4 any] struct {
+	FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, A3, A4, A5, A6, ...VA) (R1, R2, R3, R4)
+}
+
+func (c *Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.varArgs...), c.origin)
+}
+
+// NewCall6V_4 creates a new Call6V_4 expectation.
+func NewCall6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, varArgs []Matcher) *Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4]{
+		FinalizedCall6V: FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall6V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, A6, ...VA)) *Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall6V
+}
+
+func (c *Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, ...VA) (R1, R2, R3, R4)) *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall6V
+}
+
+func (c *Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4]) AnyTimes() *Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4]) MinTimes(n int) *Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4]) MaxTimes(n int) *Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4]) Times(n int) *Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4]) After(preReq CallHolder) *Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call6V_5 wraps FinalizedCall6V for a variadic method with 6 fixed args and 5 return values.
+type Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5 any] struct {
+	FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, A3, A4, A5, A6, ...VA) (R1, R2, R3, R4, R5)
+}
+
+func (c *Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6}, c.varArgs...), c.origin)
+}
+
+// NewCall6V_5 creates a new Call6V_5 expectation.
+func NewCall6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, varArgs []Matcher) *Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5]{
+		FinalizedCall6V: FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall6V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, A6, ...VA)) *Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall6V
+}
+
+func (c *Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, ...VA) (R1, R2, R3, R4, R5)) *FinalizedCall6V[A1, A2, A3, A4, A5, A6, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall6V
+}
+
+func (c *Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5]) AnyTimes() *Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5]) MinTimes(n int) *Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5]) Times(n int) *Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call7V_0 wraps FinalizedCall7V for a variadic method with 7 fixed args and 0 return values.
+type Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA any] struct {
+	FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]
+	m1      Matcher
+	m2      Matcher
+	m3      Matcher
+	m4      Matcher
+	m5      Matcher
+	m6      Matcher
+	m7      Matcher
+	varArgs []Matcher
+}
+
+func (c *Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.varArgs...), c.origin)
+}
+
+// NewCall7V_0 creates a new Call7V_0 expectation.
+func NewCall7V_0[A1, A2, A3, A4, A5, A6, A7, VA any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, varArgs []Matcher) *Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA] {
+	t.Helper()
+	c := &Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA]{
+		FinalizedCall7V: FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall7V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA]) Do(f func(A1, A2, A3, A4, A5, A6, A7, ...VA)) *Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA]) AnyTimes() *Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA]) MinTimes(n int) *Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA]) MaxTimes(n int) *Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA]) Times(n int) *Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA]) After(preReq CallHolder) *Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call7V_1 wraps FinalizedCall7V for a variadic method with 7 fixed args and 1 return values.
+type Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1 any] struct {
+	FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, ...VA) R1
+}
+
+func (c *Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.varArgs...), c.origin)
+}
+
+// NewCall7V_1 creates a new Call7V_1 expectation.
+func NewCall7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, varArgs []Matcher) *Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1] {
+	t.Helper()
+	c := &Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1]{
+		FinalizedCall7V: FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall7V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1]) Do(f func(A1, A2, A3, A4, A5, A6, A7, ...VA)) *Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1]) Return(r1 R1) *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.retV1 = &r1
+	return &c.FinalizedCall7V
+}
+
+func (c *Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, ...VA) R1) *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall7V
+}
+
+func (c *Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1]) AnyTimes() *Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1]) MinTimes(n int) *Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1]) MaxTimes(n int) *Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1]) Times(n int) *Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1]) After(preReq CallHolder) *Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call7V_2 wraps FinalizedCall7V for a variadic method with 7 fixed args and 2 return values.
+type Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2 any] struct {
+	FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, ...VA) (R1, R2)
+}
+
+func (c *Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.varArgs...), c.origin)
+}
+
+// NewCall7V_2 creates a new Call7V_2 expectation.
+func NewCall7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, varArgs []Matcher) *Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2] {
+	t.Helper()
+	c := &Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2]{
+		FinalizedCall7V: FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall7V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2]) Do(f func(A1, A2, A3, A4, A5, A6, A7, ...VA)) *Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall7V
+}
+
+func (c *Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, ...VA) (R1, R2)) *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall7V
+}
+
+func (c *Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2]) AnyTimes() *Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2]) MinTimes(n int) *Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2]) MaxTimes(n int) *Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2]) Times(n int) *Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2]) After(preReq CallHolder) *Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call7V_3 wraps FinalizedCall7V for a variadic method with 7 fixed args and 3 return values.
+type Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3 any] struct {
+	FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, ...VA) (R1, R2, R3)
+}
+
+func (c *Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.varArgs...), c.origin)
+}
+
+// NewCall7V_3 creates a new Call7V_3 expectation.
+func NewCall7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, varArgs []Matcher) *Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3] {
+	t.Helper()
+	c := &Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3]{
+		FinalizedCall7V: FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall7V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, A6, A7, ...VA)) *Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall7V
+}
+
+func (c *Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, ...VA) (R1, R2, R3)) *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall7V
+}
+
+func (c *Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3]) AnyTimes() *Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3]) MinTimes(n int) *Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3]) MaxTimes(n int) *Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3]) Times(n int) *Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3]) After(preReq CallHolder) *Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call7V_4 wraps FinalizedCall7V for a variadic method with 7 fixed args and 4 return values.
+type Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4 any] struct {
+	FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, ...VA) (R1, R2, R3, R4)
+}
+
+func (c *Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.varArgs...), c.origin)
+}
+
+// NewCall7V_4 creates a new Call7V_4 expectation.
+func NewCall7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, varArgs []Matcher) *Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4]{
+		FinalizedCall7V: FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall7V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, A6, A7, ...VA)) *Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall7V
+}
+
+func (c *Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, ...VA) (R1, R2, R3, R4)) *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall7V
+}
+
+func (c *Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4]) AnyTimes() *Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4]) MinTimes(n int) *Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4]) MaxTimes(n int) *Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4]) Times(n int) *Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4]) After(preReq CallHolder) *Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call7V_5 wraps FinalizedCall7V for a variadic method with 7 fixed args and 5 return values.
+type Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5 any] struct {
+	FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, ...VA) (R1, R2, R3, R4, R5)
+}
+
+func (c *Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7}, c.varArgs...), c.origin)
+}
+
+// NewCall7V_5 creates a new Call7V_5 expectation.
+func NewCall7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, varArgs []Matcher) *Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5]{
+		FinalizedCall7V: FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall7V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, A6, A7, ...VA)) *Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall7V
+}
+
+func (c *Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, ...VA) (R1, R2, R3, R4, R5)) *FinalizedCall7V[A1, A2, A3, A4, A5, A6, A7, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall7V
+}
+
+func (c *Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5]) AnyTimes() *Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5]) MinTimes(n int) *Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5]) Times(n int) *Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call8V_0 wraps FinalizedCall8V for a variadic method with 8 fixed args and 0 return values.
+type Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA any] struct {
+	FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]
+	m1      Matcher
+	m2      Matcher
+	m3      Matcher
+	m4      Matcher
+	m5      Matcher
+	m6      Matcher
+	m7      Matcher
+	m8      Matcher
+	varArgs []Matcher
+}
+
+func (c *Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.varArgs...), c.origin)
+}
+
+// NewCall8V_0 creates a new Call8V_0 expectation.
+func NewCall8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, varArgs []Matcher) *Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	t.Helper()
+	c := &Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA]{
+		FinalizedCall8V: FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall8V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA)) *Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA]) AnyTimes() *Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA]) MinTimes(n int) *Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA]) MaxTimes(n int) *Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA]) Times(n int) *Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA]) After(preReq CallHolder) *Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call8V_1 wraps FinalizedCall8V for a variadic method with 8 fixed args and 1 return values.
+type Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1 any] struct {
+	FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA) R1
+}
+
+func (c *Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.varArgs...), c.origin)
+}
+
+// NewCall8V_1 creates a new Call8V_1 expectation.
+func NewCall8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, varArgs []Matcher) *Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1] {
+	t.Helper()
+	c := &Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1]{
+		FinalizedCall8V: FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall8V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA)) *Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1]) Return(r1 R1) *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.retV1 = &r1
+	return &c.FinalizedCall8V
+}
+
+func (c *Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA) R1) *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall8V
+}
+
+func (c *Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1]) AnyTimes() *Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1]) MinTimes(n int) *Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1]) MaxTimes(n int) *Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1]) Times(n int) *Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1]) After(preReq CallHolder) *Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call8V_2 wraps FinalizedCall8V for a variadic method with 8 fixed args and 2 return values.
+type Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2 any] struct {
+	FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA) (R1, R2)
+}
+
+func (c *Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.varArgs...), c.origin)
+}
+
+// NewCall8V_2 creates a new Call8V_2 expectation.
+func NewCall8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, varArgs []Matcher) *Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2] {
+	t.Helper()
+	c := &Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2]{
+		FinalizedCall8V: FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall8V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA)) *Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall8V
+}
+
+func (c *Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA) (R1, R2)) *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall8V
+}
+
+func (c *Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2]) AnyTimes() *Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2]) MinTimes(n int) *Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2]) MaxTimes(n int) *Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2]) Times(n int) *Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2]) After(preReq CallHolder) *Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call8V_3 wraps FinalizedCall8V for a variadic method with 8 fixed args and 3 return values.
+type Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3 any] struct {
+	FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA) (R1, R2, R3)
+}
+
+func (c *Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.varArgs...), c.origin)
+}
+
+// NewCall8V_3 creates a new Call8V_3 expectation.
+func NewCall8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, varArgs []Matcher) *Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3] {
+	t.Helper()
+	c := &Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3]{
+		FinalizedCall8V: FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall8V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA)) *Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall8V
+}
+
+func (c *Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA) (R1, R2, R3)) *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall8V
+}
+
+func (c *Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3]) AnyTimes() *Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3]) MinTimes(n int) *Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3]) MaxTimes(n int) *Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3]) Times(n int) *Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3]) After(preReq CallHolder) *Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call8V_4 wraps FinalizedCall8V for a variadic method with 8 fixed args and 4 return values.
+type Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4 any] struct {
+	FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA) (R1, R2, R3, R4)
+}
+
+func (c *Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.varArgs...), c.origin)
+}
+
+// NewCall8V_4 creates a new Call8V_4 expectation.
+func NewCall8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, varArgs []Matcher) *Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4]{
+		FinalizedCall8V: FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall8V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA)) *Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall8V
+}
+
+func (c *Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA) (R1, R2, R3, R4)) *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall8V
+}
+
+func (c *Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4]) AnyTimes() *Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4]) MinTimes(n int) *Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4]) MaxTimes(n int) *Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4]) Times(n int) *Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4]) After(preReq CallHolder) *Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call8V_5 wraps FinalizedCall8V for a variadic method with 8 fixed args and 5 return values.
+type Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5 any] struct {
+	FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA) (R1, R2, R3, R4, R5)
+}
+
+func (c *Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8}, c.varArgs...), c.origin)
+}
+
+// NewCall8V_5 creates a new Call8V_5 expectation.
+func NewCall8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, varArgs []Matcher) *Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5]{
+		FinalizedCall8V: FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall8V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA)) *Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall8V
+}
+
+func (c *Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, ...VA) (R1, R2, R3, R4, R5)) *FinalizedCall8V[A1, A2, A3, A4, A5, A6, A7, A8, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall8V
+}
+
+func (c *Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5]) AnyTimes() *Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5]) MinTimes(n int) *Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5]) Times(n int) *Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call9V_0 wraps FinalizedCall9V for a variadic method with 9 fixed args and 0 return values.
+type Call9V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA any] struct {
+	FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]
+	m1      Matcher
+	m2      Matcher
+	m3      Matcher
+	m4      Matcher
+	m5      Matcher
+	m6      Matcher
+	m7      Matcher
+	m8      Matcher
+	m9      Matcher
+	varArgs []Matcher
+}
+
+func (c *Call9V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9}, c.varArgs...), c.origin)
+}
+
+// NewCall9V_0 creates a new Call9V_0 expectation.
+func NewCall9V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, varArgs []Matcher) *Call9V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	t.Helper()
+	c := &Call9V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]{
+		FinalizedCall9V: FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall9V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call9V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, ...VA)) *Call9V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call9V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]) AnyTimes() *Call9V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call9V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]) MinTimes(n int) *Call9V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call9V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]) MaxTimes(n int) *Call9V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call9V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]) Times(n int) *Call9V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call9V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]) After(preReq CallHolder) *Call9V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call9V_1 wraps FinalizedCall9V for a variadic method with 9 fixed args and 1 return values.
+type Call9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1 any] struct {
+	FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, ...VA) R1
+}
+
+func (c *Call9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9}, c.varArgs...), c.origin)
+}
+
+// NewCall9V_1 creates a new Call9V_1 expectation.
+func NewCall9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, varArgs []Matcher) *Call9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1] {
+	t.Helper()
+	c := &Call9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1]{
+		FinalizedCall9V: FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall9V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, ...VA)) *Call9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1]) Return(r1 R1) *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.retV1 = &r1
+	return &c.FinalizedCall9V
+}
+
+func (c *Call9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, ...VA) R1) *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall9V
+}
+
+func (c *Call9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1]) AnyTimes() *Call9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1]) MinTimes(n int) *Call9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1]) MaxTimes(n int) *Call9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1]) Times(n int) *Call9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1]) After(preReq CallHolder) *Call9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call9V_2 wraps FinalizedCall9V for a variadic method with 9 fixed args and 2 return values.
+type Call9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2 any] struct {
+	FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, ...VA) (R1, R2)
+}
+
+func (c *Call9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9}, c.varArgs...), c.origin)
+}
+
+// NewCall9V_2 creates a new Call9V_2 expectation.
+func NewCall9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, varArgs []Matcher) *Call9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2] {
+	t.Helper()
+	c := &Call9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2]{
+		FinalizedCall9V: FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall9V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, ...VA)) *Call9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall9V
+}
+
+func (c *Call9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, ...VA) (R1, R2)) *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall9V
+}
+
+func (c *Call9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2]) AnyTimes() *Call9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2]) MinTimes(n int) *Call9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2]) MaxTimes(n int) *Call9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2]) Times(n int) *Call9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2]) After(preReq CallHolder) *Call9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call9V_3 wraps FinalizedCall9V for a variadic method with 9 fixed args and 3 return values.
+type Call9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3 any] struct {
+	FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, ...VA) (R1, R2, R3)
+}
+
+func (c *Call9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9}, c.varArgs...), c.origin)
+}
+
+// NewCall9V_3 creates a new Call9V_3 expectation.
+func NewCall9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, varArgs []Matcher) *Call9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3] {
+	t.Helper()
+	c := &Call9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3]{
+		FinalizedCall9V: FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall9V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, ...VA)) *Call9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall9V
+}
+
+func (c *Call9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, ...VA) (R1, R2, R3)) *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall9V
+}
+
+func (c *Call9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3]) AnyTimes() *Call9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3]) MinTimes(n int) *Call9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3]) MaxTimes(n int) *Call9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3]) Times(n int) *Call9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3]) After(preReq CallHolder) *Call9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call9V_4 wraps FinalizedCall9V for a variadic method with 9 fixed args and 4 return values.
+type Call9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4 any] struct {
+	FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, ...VA) (R1, R2, R3, R4)
+}
+
+func (c *Call9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9}, c.varArgs...), c.origin)
+}
+
+// NewCall9V_4 creates a new Call9V_4 expectation.
+func NewCall9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, varArgs []Matcher) *Call9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4]{
+		FinalizedCall9V: FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall9V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, ...VA)) *Call9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall9V
+}
+
+func (c *Call9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, ...VA) (R1, R2, R3, R4)) *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall9V
+}
+
+func (c *Call9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4]) AnyTimes() *Call9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4]) MinTimes(n int) *Call9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4]) MaxTimes(n int) *Call9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4]) Times(n int) *Call9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4]) After(preReq CallHolder) *Call9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call9V_5 wraps FinalizedCall9V for a variadic method with 9 fixed args and 5 return values.
+type Call9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5 any] struct {
+	FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, ...VA) (R1, R2, R3, R4, R5)
+}
+
+func (c *Call9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9}, c.varArgs...), c.origin)
+}
+
+// NewCall9V_5 creates a new Call9V_5 expectation.
+func NewCall9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, varArgs []Matcher) *Call9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5]{
+		FinalizedCall9V: FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall9V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, ...VA)) *Call9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall9V
+}
+
+func (c *Call9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, ...VA) (R1, R2, R3, R4, R5)) *FinalizedCall9V[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall9V
+}
+
+func (c *Call9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5]) AnyTimes() *Call9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5]) MinTimes(n int) *Call9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5]) Times(n int) *Call9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call10V_0 wraps FinalizedCall10V for a variadic method with 10 fixed args and 0 return values.
+type Call10V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA any] struct {
+	FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]
+	m1      Matcher
+	m2      Matcher
+	m3      Matcher
+	m4      Matcher
+	m5      Matcher
+	m6      Matcher
+	m7      Matcher
+	m8      Matcher
+	m9      Matcher
+	m10     Matcher
+	varArgs []Matcher
+}
+
+func (c *Call10V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10}, c.varArgs...), c.origin)
+}
+
+// NewCall10V_0 creates a new Call10V_0 expectation.
+func NewCall10V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, varArgs []Matcher) *Call10V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	t.Helper()
+	c := &Call10V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]{
+		FinalizedCall10V: FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		m10:     m10,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall10V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call10V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, ...VA)) *Call10V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call10V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]) AnyTimes() *Call10V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call10V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]) MinTimes(n int) *Call10V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call10V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]) MaxTimes(n int) *Call10V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call10V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]) Times(n int) *Call10V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call10V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]) After(preReq CallHolder) *Call10V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call10V_1 wraps FinalizedCall10V for a variadic method with 10 fixed args and 1 return values.
+type Call10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1 any] struct {
+	FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, ...VA) R1
+}
+
+func (c *Call10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10}, c.varArgs...), c.origin)
+}
+
+// NewCall10V_1 creates a new Call10V_1 expectation.
+func NewCall10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, varArgs []Matcher) *Call10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1] {
+	t.Helper()
+	c := &Call10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1]{
+		FinalizedCall10V: FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		m10:     m10,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall10V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, ...VA)) *Call10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1]) Return(r1 R1) *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.retV1 = &r1
+	return &c.FinalizedCall10V
+}
+
+func (c *Call10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, ...VA) R1) *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall10V
+}
+
+func (c *Call10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1]) AnyTimes() *Call10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1]) MinTimes(n int) *Call10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1]) MaxTimes(n int) *Call10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1]) Times(n int) *Call10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1]) After(preReq CallHolder) *Call10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call10V_2 wraps FinalizedCall10V for a variadic method with 10 fixed args and 2 return values.
+type Call10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2 any] struct {
+	FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, ...VA) (R1, R2)
+}
+
+func (c *Call10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10}, c.varArgs...), c.origin)
+}
+
+// NewCall10V_2 creates a new Call10V_2 expectation.
+func NewCall10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, varArgs []Matcher) *Call10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2] {
+	t.Helper()
+	c := &Call10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2]{
+		FinalizedCall10V: FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		m10:     m10,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall10V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, ...VA)) *Call10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall10V
+}
+
+func (c *Call10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, ...VA) (R1, R2)) *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall10V
+}
+
+func (c *Call10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2]) AnyTimes() *Call10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2]) MinTimes(n int) *Call10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2]) MaxTimes(n int) *Call10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2]) Times(n int) *Call10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2]) After(preReq CallHolder) *Call10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call10V_3 wraps FinalizedCall10V for a variadic method with 10 fixed args and 3 return values.
+type Call10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3 any] struct {
+	FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, ...VA) (R1, R2, R3)
+}
+
+func (c *Call10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10}, c.varArgs...), c.origin)
+}
+
+// NewCall10V_3 creates a new Call10V_3 expectation.
+func NewCall10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, varArgs []Matcher) *Call10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3] {
+	t.Helper()
+	c := &Call10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3]{
+		FinalizedCall10V: FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		m10:     m10,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall10V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, ...VA)) *Call10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall10V
+}
+
+func (c *Call10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, ...VA) (R1, R2, R3)) *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall10V
+}
+
+func (c *Call10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3]) AnyTimes() *Call10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3]) MinTimes(n int) *Call10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3]) MaxTimes(n int) *Call10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3]) Times(n int) *Call10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3]) After(preReq CallHolder) *Call10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call10V_4 wraps FinalizedCall10V for a variadic method with 10 fixed args and 4 return values.
+type Call10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4 any] struct {
+	FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, ...VA) (R1, R2, R3, R4)
+}
+
+func (c *Call10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10}, c.varArgs...), c.origin)
+}
+
+// NewCall10V_4 creates a new Call10V_4 expectation.
+func NewCall10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, varArgs []Matcher) *Call10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4]{
+		FinalizedCall10V: FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		m10:     m10,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall10V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, ...VA)) *Call10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall10V
+}
+
+func (c *Call10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, ...VA) (R1, R2, R3, R4)) *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall10V
+}
+
+func (c *Call10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4]) AnyTimes() *Call10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4]) MinTimes(n int) *Call10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4]) MaxTimes(n int) *Call10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4]) Times(n int) *Call10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4]) After(preReq CallHolder) *Call10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call10V_5 wraps FinalizedCall10V for a variadic method with 10 fixed args and 5 return values.
+type Call10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5 any] struct {
+	FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, ...VA) (R1, R2, R3, R4, R5)
+}
+
+func (c *Call10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10}, c.varArgs...), c.origin)
+}
+
+// NewCall10V_5 creates a new Call10V_5 expectation.
+func NewCall10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, varArgs []Matcher) *Call10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5]{
+		FinalizedCall10V: FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		m10:     m10,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall10V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, ...VA)) *Call10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall10V
+}
+
+func (c *Call10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, ...VA) (R1, R2, R3, R4, R5)) *FinalizedCall10V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall10V
+}
+
+func (c *Call10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5]) AnyTimes() *Call10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5]) MinTimes(n int) *Call10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5]) Times(n int) *Call10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call11V_0 wraps FinalizedCall11V for a variadic method with 11 fixed args and 0 return values.
+type Call11V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA any] struct {
+	FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]
+	m1      Matcher
+	m2      Matcher
+	m3      Matcher
+	m4      Matcher
+	m5      Matcher
+	m6      Matcher
+	m7      Matcher
+	m8      Matcher
+	m9      Matcher
+	m10     Matcher
+	m11     Matcher
+	varArgs []Matcher
+}
+
+func (c *Call11V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11}, c.varArgs...), c.origin)
+}
+
+// NewCall11V_0 creates a new Call11V_0 expectation.
+func NewCall11V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher, varArgs []Matcher) *Call11V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	t.Helper()
+	c := &Call11V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]{
+		FinalizedCall11V: FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		m10:     m10,
+		m11:     m11,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall11V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call11V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, ...VA)) *Call11V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call11V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]) AnyTimes() *Call11V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call11V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]) MinTimes(n int) *Call11V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call11V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]) MaxTimes(n int) *Call11V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call11V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]) Times(n int) *Call11V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call11V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]) After(preReq CallHolder) *Call11V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call11V_1 wraps FinalizedCall11V for a variadic method with 11 fixed args and 1 return values.
+type Call11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1 any] struct {
+	FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	m11        Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, ...VA) R1
+}
+
+func (c *Call11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11}, c.varArgs...), c.origin)
+}
+
+// NewCall11V_1 creates a new Call11V_1 expectation.
+func NewCall11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher, varArgs []Matcher) *Call11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1] {
+	t.Helper()
+	c := &Call11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1]{
+		FinalizedCall11V: FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		m10:     m10,
+		m11:     m11,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall11V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, ...VA)) *Call11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1]) Return(r1 R1) *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.retV1 = &r1
+	return &c.FinalizedCall11V
+}
+
+func (c *Call11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, ...VA) R1) *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall11V
+}
+
+func (c *Call11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1]) AnyTimes() *Call11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1]) MinTimes(n int) *Call11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1]) MaxTimes(n int) *Call11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1]) Times(n int) *Call11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1]) After(preReq CallHolder) *Call11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call11V_2 wraps FinalizedCall11V for a variadic method with 11 fixed args and 2 return values.
+type Call11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2 any] struct {
+	FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	m11        Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, ...VA) (R1, R2)
+}
+
+func (c *Call11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11}, c.varArgs...), c.origin)
+}
+
+// NewCall11V_2 creates a new Call11V_2 expectation.
+func NewCall11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher, varArgs []Matcher) *Call11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2] {
+	t.Helper()
+	c := &Call11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2]{
+		FinalizedCall11V: FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		m10:     m10,
+		m11:     m11,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall11V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, ...VA)) *Call11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall11V
+}
+
+func (c *Call11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, ...VA) (R1, R2)) *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall11V
+}
+
+func (c *Call11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2]) AnyTimes() *Call11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2]) MinTimes(n int) *Call11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2]) MaxTimes(n int) *Call11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2]) Times(n int) *Call11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2]) After(preReq CallHolder) *Call11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call11V_3 wraps FinalizedCall11V for a variadic method with 11 fixed args and 3 return values.
+type Call11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3 any] struct {
+	FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	m11        Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, ...VA) (R1, R2, R3)
+}
+
+func (c *Call11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11}, c.varArgs...), c.origin)
+}
+
+// NewCall11V_3 creates a new Call11V_3 expectation.
+func NewCall11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher, varArgs []Matcher) *Call11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3] {
+	t.Helper()
+	c := &Call11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3]{
+		FinalizedCall11V: FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		m10:     m10,
+		m11:     m11,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall11V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, ...VA)) *Call11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall11V
+}
+
+func (c *Call11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, ...VA) (R1, R2, R3)) *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall11V
+}
+
+func (c *Call11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3]) AnyTimes() *Call11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3]) MinTimes(n int) *Call11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3]) MaxTimes(n int) *Call11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3]) Times(n int) *Call11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3]) After(preReq CallHolder) *Call11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call11V_4 wraps FinalizedCall11V for a variadic method with 11 fixed args and 4 return values.
+type Call11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4 any] struct {
+	FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	m11        Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, ...VA) (R1, R2, R3, R4)
+}
+
+func (c *Call11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11}, c.varArgs...), c.origin)
+}
+
+// NewCall11V_4 creates a new Call11V_4 expectation.
+func NewCall11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher, varArgs []Matcher) *Call11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4]{
+		FinalizedCall11V: FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		m10:     m10,
+		m11:     m11,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall11V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, ...VA)) *Call11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall11V
+}
+
+func (c *Call11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, ...VA) (R1, R2, R3, R4)) *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall11V
+}
+
+func (c *Call11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4]) AnyTimes() *Call11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4]) MinTimes(n int) *Call11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4]) MaxTimes(n int) *Call11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4]) Times(n int) *Call11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4]) After(preReq CallHolder) *Call11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call11V_5 wraps FinalizedCall11V for a variadic method with 11 fixed args and 5 return values.
+type Call11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5 any] struct {
+	FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	m11        Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, ...VA) (R1, R2, R3, R4, R5)
+}
+
+func (c *Call11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11}, c.varArgs...), c.origin)
+}
+
+// NewCall11V_5 creates a new Call11V_5 expectation.
+func NewCall11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher, varArgs []Matcher) *Call11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5]{
+		FinalizedCall11V: FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		m10:     m10,
+		m11:     m11,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall11V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, ...VA)) *Call11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall11V
+}
+
+func (c *Call11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, ...VA) (R1, R2, R3, R4, R5)) *FinalizedCall11V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall11V
+}
+
+func (c *Call11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5]) AnyTimes() *Call11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5]) MinTimes(n int) *Call11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5]) Times(n int) *Call11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call12V_0 wraps FinalizedCall12V for a variadic method with 12 fixed args and 0 return values.
+type Call12V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA any] struct {
+	FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]
+	m1      Matcher
+	m2      Matcher
+	m3      Matcher
+	m4      Matcher
+	m5      Matcher
+	m6      Matcher
+	m7      Matcher
+	m8      Matcher
+	m9      Matcher
+	m10     Matcher
+	m11     Matcher
+	m12     Matcher
+	varArgs []Matcher
+}
+
+func (c *Call12V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11, c.m12}, c.varArgs...), c.origin)
+}
+
+// NewCall12V_0 creates a new Call12V_0 expectation.
+func NewCall12V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher, m12 Matcher, varArgs []Matcher) *Call12V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	t.Helper()
+	c := &Call12V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]{
+		FinalizedCall12V: FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		m10:     m10,
+		m11:     m11,
+		m12:     m12,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall12V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call12V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, ...VA)) *Call12V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call12V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]) AnyTimes() *Call12V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call12V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]) MinTimes(n int) *Call12V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call12V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]) MaxTimes(n int) *Call12V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call12V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]) Times(n int) *Call12V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call12V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]) After(preReq CallHolder) *Call12V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call12V_1 wraps FinalizedCall12V for a variadic method with 12 fixed args and 1 return values.
+type Call12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1 any] struct {
+	FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	m11        Matcher
+	m12        Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, ...VA) R1
+}
+
+func (c *Call12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11, c.m12}, c.varArgs...), c.origin)
+}
+
+// NewCall12V_1 creates a new Call12V_1 expectation.
+func NewCall12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher, m12 Matcher, varArgs []Matcher) *Call12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1] {
+	t.Helper()
+	c := &Call12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1]{
+		FinalizedCall12V: FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		m10:     m10,
+		m11:     m11,
+		m12:     m12,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall12V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, ...VA)) *Call12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1]) Return(r1 R1) *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.retV1 = &r1
+	return &c.FinalizedCall12V
+}
+
+func (c *Call12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, ...VA) R1) *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall12V
+}
+
+func (c *Call12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1]) AnyTimes() *Call12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1]) MinTimes(n int) *Call12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1]) MaxTimes(n int) *Call12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1]) Times(n int) *Call12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1]) After(preReq CallHolder) *Call12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call12V_2 wraps FinalizedCall12V for a variadic method with 12 fixed args and 2 return values.
+type Call12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2 any] struct {
+	FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	m11        Matcher
+	m12        Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, ...VA) (R1, R2)
+}
+
+func (c *Call12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11, c.m12}, c.varArgs...), c.origin)
+}
+
+// NewCall12V_2 creates a new Call12V_2 expectation.
+func NewCall12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher, m12 Matcher, varArgs []Matcher) *Call12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2] {
+	t.Helper()
+	c := &Call12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2]{
+		FinalizedCall12V: FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		m10:     m10,
+		m11:     m11,
+		m12:     m12,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall12V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, ...VA)) *Call12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2]) Return(r1 R1, r2 R2) *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	return &c.FinalizedCall12V
+}
+
+func (c *Call12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, ...VA) (R1, R2)) *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall12V
+}
+
+func (c *Call12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2]) AnyTimes() *Call12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2]) MinTimes(n int) *Call12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2]) MaxTimes(n int) *Call12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2]) Times(n int) *Call12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2]) After(preReq CallHolder) *Call12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call12V_3 wraps FinalizedCall12V for a variadic method with 12 fixed args and 3 return values.
+type Call12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3 any] struct {
+	FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	m11        Matcher
+	m12        Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, ...VA) (R1, R2, R3)
+}
+
+func (c *Call12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11, c.m12}, c.varArgs...), c.origin)
+}
+
+// NewCall12V_3 creates a new Call12V_3 expectation.
+func NewCall12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher, m12 Matcher, varArgs []Matcher) *Call12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3] {
+	t.Helper()
+	c := &Call12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3]{
+		FinalizedCall12V: FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		m10:     m10,
+		m11:     m11,
+		m12:     m12,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall12V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, ...VA)) *Call12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3]) Return(r1 R1, r2 R2, r3 R3) *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	return &c.FinalizedCall12V
+}
+
+func (c *Call12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, ...VA) (R1, R2, R3)) *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall12V
+}
+
+func (c *Call12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3]) AnyTimes() *Call12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3]) MinTimes(n int) *Call12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3]) MaxTimes(n int) *Call12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3]) Times(n int) *Call12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3]) After(preReq CallHolder) *Call12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call12V_4 wraps FinalizedCall12V for a variadic method with 12 fixed args and 4 return values.
+type Call12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4 any] struct {
+	FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	m11        Matcher
+	m12        Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, ...VA) (R1, R2, R3, R4)
+}
+
+func (c *Call12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11, c.m12}, c.varArgs...), c.origin)
+}
+
+// NewCall12V_4 creates a new Call12V_4 expectation.
+func NewCall12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher, m12 Matcher, varArgs []Matcher) *Call12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4] {
+	t.Helper()
+	c := &Call12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4]{
+		FinalizedCall12V: FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		m10:     m10,
+		m11:     m11,
+		m12:     m12,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall12V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, ...VA)) *Call12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4]) Return(r1 R1, r2 R2, r3 R3, r4 R4) *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	return &c.FinalizedCall12V
+}
+
+func (c *Call12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, ...VA) (R1, R2, R3, R4)) *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall12V
+}
+
+func (c *Call12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4]) AnyTimes() *Call12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4]) MinTimes(n int) *Call12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4]) MaxTimes(n int) *Call12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4]) Times(n int) *Call12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4]) After(preReq CallHolder) *Call12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Call12V_5 wraps FinalizedCall12V for a variadic method with 12 fixed args and 5 return values.
+type Call12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5 any] struct {
+	FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]
+	m1         Matcher
+	m2         Matcher
+	m3         Matcher
+	m4         Matcher
+	m5         Matcher
+	m6         Matcher
+	m7         Matcher
+	m8         Matcher
+	m9         Matcher
+	m10        Matcher
+	m11        Matcher
+	m12        Matcher
+	varArgs    []Matcher
+	retV1      *R1
+	retV2      *R2
+	retV3      *R3
+	retV4      *R4
+	retV5      *R5
+	doReturnFn func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, ...VA) (R1, R2, R3, R4, R5)
+}
+
+func (c *Call12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5]) String() string {
+	return formatCallString(c.receiver, c.method, append([]Matcher{c.m1, c.m2, c.m3, c.m4, c.m5, c.m6, c.m7, c.m8, c.m9, c.m10, c.m11, c.m12}, c.varArgs...), c.origin)
+}
+
+// NewCall12V_5 creates a new Call12V_5 expectation.
+func NewCall12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5 any](t TestHelper, receiver any, method string, m1 Matcher, m2 Matcher, m3 Matcher, m4 Matcher, m5 Matcher, m6 Matcher, m7 Matcher, m8 Matcher, m9 Matcher, m10 Matcher, m11 Matcher, m12 Matcher, varArgs []Matcher) *Call12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5] {
+	t.Helper()
+	c := &Call12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5]{
+		FinalizedCall12V: FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA]{
+			receiver: receiver,
+			method:   method,
+			origin:   callerInfo(2),
+		},
+		m1:      m1,
+		m2:      m2,
+		m3:      m3,
+		m4:      m4,
+		m5:      m5,
+		m6:      m6,
+		m7:      m7,
+		m8:      m8,
+		m9:      m9,
+		m10:     m10,
+		m11:     m11,
+		m12:     m12,
+		varArgs: varArgs,
+	}
+	c.FinalizedCall12V.Call = newCall(t, c)
+	return c
+}
+
+func (c *Call12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5]) Do(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, ...VA)) *Call12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5] {
+	c.doFns = append(c.doFns, f)
+	return c
+}
+
+func (c *Call12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5]) Return(r1 R1, r2 R2, r3 R3, r4 R4, r5 R5) *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.retV1 = &r1
+	c.retV2 = &r2
+	c.retV3 = &r3
+	c.retV4 = &r4
+	c.retV5 = &r5
+	return &c.FinalizedCall12V
+}
+
+func (c *Call12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5]) DoAndReturn(f func(A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, ...VA) (R1, R2, R3, R4, R5)) *FinalizedCall12V[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA] {
+	c.doReturnFn = f
+	return &c.FinalizedCall12V
+}
+
+func (c *Call12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5]) AnyTimes() *Call12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5] {
+	c.Call.AnyTimes()
+	return c
+}
+
+func (c *Call12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5]) MinTimes(n int) *Call12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5] {
+	c.Call.MinTimes(n)
+	return c
+}
+
+func (c *Call12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5]) MaxTimes(n int) *Call12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5] {
+	c.Call.MaxTimes(n)
+	return c
+}
+
+func (c *Call12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5]) Times(n int) *Call12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5] {
+	c.Call.Times(n)
+	return c
+}
+
+func (c *Call12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5]) After(preReq CallHolder) *Call12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5] {
+	c.Call.After(preReq.getCall())
+	return c
+}
+
+// Dispatch0V_0 dispatches a typed variadic call to matching expectations.
+func Dispatch0V_0[VA any](expects *[]*Call0V_0[VA], ctrl *Controller, receiver any, method string, va ...VA) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(va...)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v) at %s", receiver, method, va, origin)
+}
+
+// Dispatch0V_1 dispatches a typed variadic call to matching expectations.
+func Dispatch0V_1[VA, R1 any](expects *[]*Call0V_1[VA, R1], ctrl *Controller, receiver any, method string, va ...VA) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v) at %s", receiver, method, va, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch0V_2 dispatches a typed variadic call to matching expectations.
+func Dispatch0V_2[VA, R1, R2 any](expects *[]*Call0V_2[VA, R1, R2], ctrl *Controller, receiver any, method string, va ...VA) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v) at %s", receiver, method, va, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch0V_3 dispatches a typed variadic call to matching expectations.
+func Dispatch0V_3[VA, R1, R2, R3 any](expects *[]*Call0V_3[VA, R1, R2, R3], ctrl *Controller, receiver any, method string, va ...VA) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v) at %s", receiver, method, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch0V_4 dispatches a typed variadic call to matching expectations.
+func Dispatch0V_4[VA, R1, R2, R3, R4 any](expects *[]*Call0V_4[VA, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, va ...VA) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v) at %s", receiver, method, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch0V_5 dispatches a typed variadic call to matching expectations.
+func Dispatch0V_5[VA, R1, R2, R3, R4, R5 any](expects *[]*Call0V_5[VA, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, va ...VA) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v) at %s", receiver, method, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch1V_0 dispatches a typed variadic call to matching expectations.
+func Dispatch1V_0[A1, VA any](expects *[]*Call1V_0[A1, VA], ctrl *Controller, receiver any, method string, a1 A1, va ...VA) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, va...)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v) at %s", receiver, method, a1, va, origin)
+}
+
+// Dispatch1V_1 dispatches a typed variadic call to matching expectations.
+func Dispatch1V_1[A1, VA, R1 any](expects *[]*Call1V_1[A1, VA, R1], ctrl *Controller, receiver any, method string, a1 A1, va ...VA) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v) at %s", receiver, method, a1, va, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch1V_2 dispatches a typed variadic call to matching expectations.
+func Dispatch1V_2[A1, VA, R1, R2 any](expects *[]*Call1V_2[A1, VA, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, va ...VA) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v) at %s", receiver, method, a1, va, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch1V_3 dispatches a typed variadic call to matching expectations.
+func Dispatch1V_3[A1, VA, R1, R2, R3 any](expects *[]*Call1V_3[A1, VA, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, va ...VA) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v) at %s", receiver, method, a1, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch1V_4 dispatches a typed variadic call to matching expectations.
+func Dispatch1V_4[A1, VA, R1, R2, R3, R4 any](expects *[]*Call1V_4[A1, VA, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, va ...VA) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v) at %s", receiver, method, a1, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch1V_5 dispatches a typed variadic call to matching expectations.
+func Dispatch1V_5[A1, VA, R1, R2, R3, R4, R5 any](expects *[]*Call1V_5[A1, VA, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, va ...VA) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v) at %s", receiver, method, a1, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch2V_0 dispatches a typed variadic call to matching expectations.
+func Dispatch2V_0[A1, A2, VA any](expects *[]*Call2V_0[A1, A2, VA], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, va ...VA) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, va...)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v) at %s", receiver, method, a1, a2, va, origin)
+}
+
+// Dispatch2V_1 dispatches a typed variadic call to matching expectations.
+func Dispatch2V_1[A1, A2, VA, R1 any](expects *[]*Call2V_1[A1, A2, VA, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, va ...VA) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v) at %s", receiver, method, a1, a2, va, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch2V_2 dispatches a typed variadic call to matching expectations.
+func Dispatch2V_2[A1, A2, VA, R1, R2 any](expects *[]*Call2V_2[A1, A2, VA, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, va ...VA) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v) at %s", receiver, method, a1, a2, va, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch2V_3 dispatches a typed variadic call to matching expectations.
+func Dispatch2V_3[A1, A2, VA, R1, R2, R3 any](expects *[]*Call2V_3[A1, A2, VA, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, va ...VA) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v) at %s", receiver, method, a1, a2, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch2V_4 dispatches a typed variadic call to matching expectations.
+func Dispatch2V_4[A1, A2, VA, R1, R2, R3, R4 any](expects *[]*Call2V_4[A1, A2, VA, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, va ...VA) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v) at %s", receiver, method, a1, a2, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch2V_5 dispatches a typed variadic call to matching expectations.
+func Dispatch2V_5[A1, A2, VA, R1, R2, R3, R4, R5 any](expects *[]*Call2V_5[A1, A2, VA, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, va ...VA) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v) at %s", receiver, method, a1, a2, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch3V_0 dispatches a typed variadic call to matching expectations.
+func Dispatch3V_0[A1, A2, A3, VA any](expects *[]*Call3V_0[A1, A2, A3, VA], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, va ...VA) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, va...)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, va, origin)
+}
+
+// Dispatch3V_1 dispatches a typed variadic call to matching expectations.
+func Dispatch3V_1[A1, A2, A3, VA, R1 any](expects *[]*Call3V_1[A1, A2, A3, VA, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, va ...VA) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, va, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch3V_2 dispatches a typed variadic call to matching expectations.
+func Dispatch3V_2[A1, A2, A3, VA, R1, R2 any](expects *[]*Call3V_2[A1, A2, A3, VA, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, va ...VA) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, va, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch3V_3 dispatches a typed variadic call to matching expectations.
+func Dispatch3V_3[A1, A2, A3, VA, R1, R2, R3 any](expects *[]*Call3V_3[A1, A2, A3, VA, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, va ...VA) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch3V_4 dispatches a typed variadic call to matching expectations.
+func Dispatch3V_4[A1, A2, A3, VA, R1, R2, R3, R4 any](expects *[]*Call3V_4[A1, A2, A3, VA, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, va ...VA) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch3V_5 dispatches a typed variadic call to matching expectations.
+func Dispatch3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5 any](expects *[]*Call3V_5[A1, A2, A3, VA, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, va ...VA) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch4V_0 dispatches a typed variadic call to matching expectations.
+func Dispatch4V_0[A1, A2, A3, A4, VA any](expects *[]*Call4V_0[A1, A2, A3, A4, VA], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, va ...VA) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, va...)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, va, origin)
+}
+
+// Dispatch4V_1 dispatches a typed variadic call to matching expectations.
+func Dispatch4V_1[A1, A2, A3, A4, VA, R1 any](expects *[]*Call4V_1[A1, A2, A3, A4, VA, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, va ...VA) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, va, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch4V_2 dispatches a typed variadic call to matching expectations.
+func Dispatch4V_2[A1, A2, A3, A4, VA, R1, R2 any](expects *[]*Call4V_2[A1, A2, A3, A4, VA, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, va ...VA) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, va, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch4V_3 dispatches a typed variadic call to matching expectations.
+func Dispatch4V_3[A1, A2, A3, A4, VA, R1, R2, R3 any](expects *[]*Call4V_3[A1, A2, A3, A4, VA, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, va ...VA) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch4V_4 dispatches a typed variadic call to matching expectations.
+func Dispatch4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4 any](expects *[]*Call4V_4[A1, A2, A3, A4, VA, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, va ...VA) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch4V_5 dispatches a typed variadic call to matching expectations.
+func Dispatch4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5 any](expects *[]*Call4V_5[A1, A2, A3, A4, VA, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, va ...VA) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch5V_0 dispatches a typed variadic call to matching expectations.
+func Dispatch5V_0[A1, A2, A3, A4, A5, VA any](expects *[]*Call5V_0[A1, A2, A3, A4, A5, VA], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, va ...VA) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, va...)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, va, origin)
+}
+
+// Dispatch5V_1 dispatches a typed variadic call to matching expectations.
+func Dispatch5V_1[A1, A2, A3, A4, A5, VA, R1 any](expects *[]*Call5V_1[A1, A2, A3, A4, A5, VA, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, va ...VA) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, va, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch5V_2 dispatches a typed variadic call to matching expectations.
+func Dispatch5V_2[A1, A2, A3, A4, A5, VA, R1, R2 any](expects *[]*Call5V_2[A1, A2, A3, A4, A5, VA, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, va ...VA) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, va, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch5V_3 dispatches a typed variadic call to matching expectations.
+func Dispatch5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3 any](expects *[]*Call5V_3[A1, A2, A3, A4, A5, VA, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, va ...VA) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch5V_4 dispatches a typed variadic call to matching expectations.
+func Dispatch5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4 any](expects *[]*Call5V_4[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, va ...VA) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch5V_5 dispatches a typed variadic call to matching expectations.
+func Dispatch5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5 any](expects *[]*Call5V_5[A1, A2, A3, A4, A5, VA, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, va ...VA) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch6V_0 dispatches a typed variadic call to matching expectations.
+func Dispatch6V_0[A1, A2, A3, A4, A5, A6, VA any](expects *[]*Call6V_0[A1, A2, A3, A4, A5, A6, VA], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, va ...VA) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, va...)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, va, origin)
+}
+
+// Dispatch6V_1 dispatches a typed variadic call to matching expectations.
+func Dispatch6V_1[A1, A2, A3, A4, A5, A6, VA, R1 any](expects *[]*Call6V_1[A1, A2, A3, A4, A5, A6, VA, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, va ...VA) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, va, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch6V_2 dispatches a typed variadic call to matching expectations.
+func Dispatch6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2 any](expects *[]*Call6V_2[A1, A2, A3, A4, A5, A6, VA, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, va ...VA) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, va, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch6V_3 dispatches a typed variadic call to matching expectations.
+func Dispatch6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3 any](expects *[]*Call6V_3[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, va ...VA) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch6V_4 dispatches a typed variadic call to matching expectations.
+func Dispatch6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4 any](expects *[]*Call6V_4[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, va ...VA) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch6V_5 dispatches a typed variadic call to matching expectations.
+func Dispatch6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5 any](expects *[]*Call6V_5[A1, A2, A3, A4, A5, A6, VA, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, va ...VA) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch7V_0 dispatches a typed variadic call to matching expectations.
+func Dispatch7V_0[A1, A2, A3, A4, A5, A6, A7, VA any](expects *[]*Call7V_0[A1, A2, A3, A4, A5, A6, A7, VA], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, va ...VA) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, va...)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, va, origin)
+}
+
+// Dispatch7V_1 dispatches a typed variadic call to matching expectations.
+func Dispatch7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1 any](expects *[]*Call7V_1[A1, A2, A3, A4, A5, A6, A7, VA, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, va ...VA) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, va, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch7V_2 dispatches a typed variadic call to matching expectations.
+func Dispatch7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2 any](expects *[]*Call7V_2[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, va ...VA) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, va, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch7V_3 dispatches a typed variadic call to matching expectations.
+func Dispatch7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3 any](expects *[]*Call7V_3[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, va ...VA) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch7V_4 dispatches a typed variadic call to matching expectations.
+func Dispatch7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4 any](expects *[]*Call7V_4[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, va ...VA) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch7V_5 dispatches a typed variadic call to matching expectations.
+func Dispatch7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5 any](expects *[]*Call7V_5[A1, A2, A3, A4, A5, A6, A7, VA, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, va ...VA) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch8V_0 dispatches a typed variadic call to matching expectations.
+func Dispatch8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA any](expects *[]*Call8V_0[A1, A2, A3, A4, A5, A6, A7, A8, VA], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, va ...VA) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, va...)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, va, origin)
+}
+
+// Dispatch8V_1 dispatches a typed variadic call to matching expectations.
+func Dispatch8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1 any](expects *[]*Call8V_1[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, va ...VA) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, va, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch8V_2 dispatches a typed variadic call to matching expectations.
+func Dispatch8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2 any](expects *[]*Call8V_2[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, va ...VA) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, va, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch8V_3 dispatches a typed variadic call to matching expectations.
+func Dispatch8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3 any](expects *[]*Call8V_3[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, va ...VA) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch8V_4 dispatches a typed variadic call to matching expectations.
+func Dispatch8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4 any](expects *[]*Call8V_4[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, va ...VA) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch8V_5 dispatches a typed variadic call to matching expectations.
+func Dispatch8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5 any](expects *[]*Call8V_5[A1, A2, A3, A4, A5, A6, A7, A8, VA, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, va ...VA) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch9V_0 dispatches a typed variadic call to matching expectations.
+func Dispatch9V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA any](expects *[]*Call9V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, va ...VA) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, va...)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, va, origin)
+}
+
+// Dispatch9V_1 dispatches a typed variadic call to matching expectations.
+func Dispatch9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1 any](expects *[]*Call9V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, va ...VA) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, va, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch9V_2 dispatches a typed variadic call to matching expectations.
+func Dispatch9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2 any](expects *[]*Call9V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, va ...VA) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, va, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch9V_3 dispatches a typed variadic call to matching expectations.
+func Dispatch9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3 any](expects *[]*Call9V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, va ...VA) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch9V_4 dispatches a typed variadic call to matching expectations.
+func Dispatch9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4 any](expects *[]*Call9V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, va ...VA) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch9V_5 dispatches a typed variadic call to matching expectations.
+func Dispatch9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5 any](expects *[]*Call9V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, VA, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, va ...VA) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch10V_0 dispatches a typed variadic call to matching expectations.
+func Dispatch10V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA any](expects *[]*Call10V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, va ...VA) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, va...)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, va, origin)
+}
+
+// Dispatch10V_1 dispatches a typed variadic call to matching expectations.
+func Dispatch10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1 any](expects *[]*Call10V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, va ...VA) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, va, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch10V_2 dispatches a typed variadic call to matching expectations.
+func Dispatch10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2 any](expects *[]*Call10V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, va ...VA) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, va, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch10V_3 dispatches a typed variadic call to matching expectations.
+func Dispatch10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3 any](expects *[]*Call10V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, va ...VA) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch10V_4 dispatches a typed variadic call to matching expectations.
+func Dispatch10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4 any](expects *[]*Call10V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, va ...VA) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch10V_5 dispatches a typed variadic call to matching expectations.
+func Dispatch10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5 any](expects *[]*Call10V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, VA, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, va ...VA) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch11V_0 dispatches a typed variadic call to matching expectations.
+func Dispatch11V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA any](expects *[]*Call11V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11, va ...VA) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, va...)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, va, origin)
+}
+
+// Dispatch11V_1 dispatches a typed variadic call to matching expectations.
+func Dispatch11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1 any](expects *[]*Call11V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11, va ...VA) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, va, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch11V_2 dispatches a typed variadic call to matching expectations.
+func Dispatch11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2 any](expects *[]*Call11V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11, va ...VA) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, va, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch11V_3 dispatches a typed variadic call to matching expectations.
+func Dispatch11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3 any](expects *[]*Call11V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11, va ...VA) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch11V_4 dispatches a typed variadic call to matching expectations.
+func Dispatch11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4 any](expects *[]*Call11V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11, va ...VA) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch11V_5 dispatches a typed variadic call to matching expectations.
+func Dispatch11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5 any](expects *[]*Call11V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, VA, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11, va ...VA) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Dispatch12V_0 dispatches a typed variadic call to matching expectations.
+func Dispatch12V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA any](expects *[]*Call12V_0[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11, a12 A12, va ...VA) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if !e.m12.Matches(a12) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, va...)
+		}
+		return
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, va, origin)
+}
+
+// Dispatch12V_1 dispatches a typed variadic call to matching expectations.
+func Dispatch12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1 any](expects *[]*Call12V_1[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11, a12 A12, va ...VA) R1 {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if !e.m12.Matches(a12) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1
+		}
+		var zero1 R1
+		return zero1
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, va, origin)
+	var zero1 R1
+	return zero1
+}
+
+// Dispatch12V_2 dispatches a typed variadic call to matching expectations.
+func Dispatch12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2 any](expects *[]*Call12V_2[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11, a12 A12, va ...VA) (R1, R2) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if !e.m12.Matches(a12) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2
+		}
+		var zero1 R1
+		var zero2 R2
+		return zero1, zero2
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, va, origin)
+	var zero1 R1
+	var zero2 R2
+	return zero1, zero2
+}
+
+// Dispatch12V_3 dispatches a typed variadic call to matching expectations.
+func Dispatch12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3 any](expects *[]*Call12V_3[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11, a12 A12, va ...VA) (R1, R2, R3) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if !e.m12.Matches(a12) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		return zero1, zero2, zero3
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	return zero1, zero2, zero3
+}
+
+// Dispatch12V_4 dispatches a typed variadic call to matching expectations.
+func Dispatch12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4 any](expects *[]*Call12V_4[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11, a12 A12, va ...VA) (R1, R2, R3, R4) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if !e.m12.Matches(a12) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		return zero1, zero2, zero3, zero4
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	return zero1, zero2, zero3, zero4
+}
+
+// Dispatch12V_5 dispatches a typed variadic call to matching expectations.
+func Dispatch12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5 any](expects *[]*Call12V_5[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, VA, R1, R2, R3, R4, R5], ctrl *Controller, receiver any, method string, a1 A1, a2 A2, a3 A3, a4 A4, a5 A5, a6 A6, a7 A7, a8 A8, a9 A9, a10 A10, a11 A11, a12 A12, va ...VA) (R1, R2, R3, R4, R5) {
+	ctrl.T.Helper()
+	ctrl.mu.Lock()
+	start, step := 0, 1
+	if ctrl.overridable {
+		start, step = len(*expects)-1, -1
+	}
+	for idx := start; idx >= 0 && idx < len(*expects); idx += step {
+		i, e := idx, (*expects)[idx]
+		if !e.m1.Matches(a1) {
+			continue
+		}
+		if !e.m2.Matches(a2) {
+			continue
+		}
+		if !e.m3.Matches(a3) {
+			continue
+		}
+		if !e.m4.Matches(a4) {
+			continue
+		}
+		if !e.m5.Matches(a5) {
+			continue
+		}
+		if !e.m6.Matches(a6) {
+			continue
+		}
+		if !e.m7.Matches(a7) {
+			continue
+		}
+		if !e.m8.Matches(a8) {
+			continue
+		}
+		if !e.m9.Matches(a9) {
+			continue
+		}
+		if !e.m10.Matches(a10) {
+			continue
+		}
+		if !e.m11.Matches(a11) {
+			continue
+		}
+		if !e.m12.Matches(a12) {
+			continue
+		}
+		if !MatchVarArgs(e.varArgs, va) {
+			continue
+		}
+		if e.Call.exhausted() {
+			continue
+		}
+		prereqOK := true
+		for _, p := range e.Call.preReqs {
+			if !p.satisfied() {
+				prereqOK = false
+				break
+			}
+		}
+		if !prereqOK {
+			continue
+		}
+		if ctrl.overridable {
+			for j := 0; j < i; j++ {
+				(*expects)[j].Call.minCalls = 0
+			}
+		}
+		e.Call.numCalls++
+		preReqs := e.Call.dropPrereqs()
+		for _, p := range preReqs {
+			ctrl.removeCall(p)
+		}
+		if e.Call.exhausted() {
+			*expects = append((*expects)[:i], (*expects)[i+1:]...)
+			ctrl.removeCall(e.Call)
+		}
+		ctrl.mu.Unlock()
+		for _, f := range e.doFns {
+			f(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, va...)
+		}
+		if e.doReturnFn != nil {
+			return e.doReturnFn(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, va...)
+		}
+		if e.retV1 != nil {
+			return *e.retV1, *e.retV2, *e.retV3, *e.retV4, *e.retV5
+		}
+		var zero1 R1
+		var zero2 R2
+		var zero3 R3
+		var zero4 R4
+		var zero5 R5
+		return zero1, zero2, zero3, zero4, zero5
+	}
+	origin := callerInfo(2)
+	ctrl.mu.Unlock()
+	ctrl.T.Fatalf("Unexpected call to %T.%v(%v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v, %v) at %s", receiver, method, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, va, origin)
+	var zero1 R1
+	var zero2 R2
+	var zero3 R3
+	var zero4 R4
+	var zero5 R5
+	return zero1, zero2, zero3, zero4, zero5
+}
+
+// Invoke1 unpacks 1 typed return value(s) from a []any result.
 func Invoke1[R1 any](ret []any) R1 {
 	r1, _ := ret[0].(R1)
 	return r1
 }
 
-// Invoke2 unpacks 2 typed return value(s) from a []any call result.
+// Invoke2 unpacks 2 typed return value(s) from a []any result.
 func Invoke2[R1, R2 any](ret []any) (R1, R2) {
 	r1, _ := ret[0].(R1)
 	r2, _ := ret[1].(R2)
 	return r1, r2
 }
 
-// Invoke3 unpacks 3 typed return value(s) from a []any call result.
+// Invoke3 unpacks 3 typed return value(s) from a []any result.
 func Invoke3[R1, R2, R3 any](ret []any) (R1, R2, R3) {
 	r1, _ := ret[0].(R1)
 	r2, _ := ret[1].(R2)
@@ -2939,7 +25851,7 @@ func Invoke3[R1, R2, R3 any](ret []any) (R1, R2, R3) {
 	return r1, r2, r3
 }
 
-// Invoke4 unpacks 4 typed return value(s) from a []any call result.
+// Invoke4 unpacks 4 typed return value(s) from a []any result.
 func Invoke4[R1, R2, R3, R4 any](ret []any) (R1, R2, R3, R4) {
 	r1, _ := ret[0].(R1)
 	r2, _ := ret[1].(R2)
@@ -2948,7 +25860,7 @@ func Invoke4[R1, R2, R3, R4 any](ret []any) (R1, R2, R3, R4) {
 	return r1, r2, r3, r4
 }
 
-// Invoke5 unpacks 5 typed return value(s) from a []any call result.
+// Invoke5 unpacks 5 typed return value(s) from a []any result.
 func Invoke5[R1, R2, R3, R4, R5 any](ret []any) (R1, R2, R3, R4, R5) {
 	r1, _ := ret[0].(R1)
 	r2, _ := ret[1].(R2)

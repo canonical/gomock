@@ -10,8 +10,6 @@
 package internalpackage
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 	internalpackage "github.com/canonical/gomock/mockgen/internal/tests/import_collision/internalpackage"
 )
@@ -25,13 +23,14 @@ type MockMything struct {
 
 // MockMythingMockRecorder is the mock recorder for MockMything.
 type MockMythingMockRecorder struct {
-	mock *MockMything
+	mock          *MockMything
+	doThatExpects []*gomock.Call1_1[int, internalpackage.FooExported]
 }
 
 // NewMockMything creates a new mock instance.
 func NewMockMything(ctrl *gomock.Controller) *MockMything {
 	mock := &MockMything{ctrl: ctrl}
-	mock.recorder = &MockMythingMockRecorder{mock}
+	mock.recorder = &MockMythingMockRecorder{mock: mock}
 	return mock
 }
 
@@ -43,14 +42,16 @@ func (m *MockMything) EXPECT() *MockMythingMockRecorder {
 // DoThat mocks base method.
 func (m *MockMything) DoThat(arg0 int) internalpackage.FooExported {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[internalpackage.FooExported](m.ctrl.Call(m, "DoThat", arg0))
+	return gomock.Dispatch1_1(&m.recorder.doThatExpects, m.ctrl, m, "DoThat", arg0)
 }
 
 // DoThat indicates an expected call of DoThat.
 func (mr *MockMythingMockRecorder) DoThat(arg0 any) *MockMythingDoThatCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DoThat", reflect.TypeOf((*MockMything)(nil).DoThat), arg0)
-	return &MockMythingDoThatCall{Call: call}
+	call := gomock.NewCall1_1[int, internalpackage.FooExported](mr.mock.ctrl.T, mr.mock, "DoThat", gomock.EnsureMatcher(arg0))
+	mr.doThatExpects = append(mr.doThatExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockMythingDoThatCall is the typed call wrapper for DoThat.

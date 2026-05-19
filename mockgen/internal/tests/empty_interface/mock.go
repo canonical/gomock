@@ -28,7 +28,7 @@ type MockEmptyMockRecorder struct {
 // NewMockEmpty creates a new mock instance.
 func NewMockEmpty(ctrl *gomock.Controller) *MockEmpty {
 	mock := &MockEmpty{ctrl: ctrl}
-	mock.recorder = &MockEmptyMockRecorder{mock}
+	mock.recorder = &MockEmptyMockRecorder{mock: mock}
 	return mock
 }
 

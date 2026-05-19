@@ -11,7 +11,6 @@ package package_mode
 
 import (
 	context "context"
-	reflect "reflect"
 
 	gomock "github.com/canonical/gomock/gomock"
 	generics "github.com/canonical/gomock/mockgen/internal/tests/generics"
@@ -28,13 +27,26 @@ type MockExternalConstraint[I constraints.Integer, F any] struct {
 
 // MockExternalConstraintMockRecorder is the mock recorder for MockExternalConstraint.
 type MockExternalConstraintMockRecorder[I constraints.Integer, F any] struct {
-	mock *MockExternalConstraint[I, F]
+	mock            *MockExternalConstraint[I, F]
+	eightExpects    []*gomock.Call1_1[F, other.Two[I, F]]
+	elevenExpects   []*gomock.Call0_1[map[string]I]
+	fiveExpects     []*gomock.Call1_1[I, generics.Baz[F]]
+	fourExpects     []*gomock.Call1_1[I, generics.Foo[I, F]]
+	nineExpects     []*gomock.Call1_0[generics.Iface[I]]
+	oneExpects      []*gomock.Call1_1[string, string]
+	sevenExpects    []*gomock.Call1_1[I, other.One[I]]
+	sixExpects      []*gomock.Call1_1[I, *generics.Baz[F]]
+	tenExpects      []*gomock.Call1_0[*I]
+	thirteenExpects []*gomock.Call0V_1[I, *F]
+	threeExpects    []*gomock.Call1_1[I, F]
+	twelveExpects   []*gomock.Call1_1[context.Context, <-chan []I]
+	twoExpects      []*gomock.Call1_1[I, string]
 }
 
 // NewMockExternalConstraint creates a new mock instance.
 func NewMockExternalConstraint[I constraints.Integer, F any](ctrl *gomock.Controller) *MockExternalConstraint[I, F] {
 	mock := &MockExternalConstraint[I, F]{ctrl: ctrl}
-	mock.recorder = &MockExternalConstraintMockRecorder[I, F]{mock}
+	mock.recorder = &MockExternalConstraintMockRecorder[I, F]{mock: mock}
 	return mock
 }
 
@@ -46,184 +58,240 @@ func (m *MockExternalConstraint[I, F]) EXPECT() *MockExternalConstraintMockRecor
 // Eight mocks base method.
 func (m *MockExternalConstraint[I, F]) Eight(arg0 F) other.Two[I, F] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Eight", arg0)
-	ret0, _ := ret[0].(other.Two[I, F])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.eightExpects, m.ctrl, m, "Eight", arg0)
 }
 
 // Eight indicates an expected call of Eight.
-func (mr *MockExternalConstraintMockRecorder[I, F]) Eight(arg0 any) *gomock.Call {
+func (mr *MockExternalConstraintMockRecorder[I, F]) Eight(arg0 any) *MockExternalConstraintEightCall[I, F] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eight", reflect.TypeOf((*MockExternalConstraint[I, F])(nil).Eight), arg0)
+	call := gomock.NewCall1_1[F, other.Two[I, F]](mr.mock.ctrl.T, mr.mock, "Eight", gomock.EnsureMatcher(arg0))
+	mr.eightExpects = append(mr.eightExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockExternalConstraintEightCall is the typed call wrapper for Eight.
+type MockExternalConstraintEightCall[I constraints.Integer, F any] = gomock.Call1_1[F, other.Two[I, F]]
 
 // Eleven mocks base method.
 func (m *MockExternalConstraint[I, F]) Eleven() map[string]I {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Eleven")
-	ret0, _ := ret[0].(map[string]I)
-	return ret0
+	return gomock.Dispatch0_1(&m.recorder.elevenExpects, m.ctrl, m, "Eleven")
 }
 
 // Eleven indicates an expected call of Eleven.
-func (mr *MockExternalConstraintMockRecorder[I, F]) Eleven() *gomock.Call {
+func (mr *MockExternalConstraintMockRecorder[I, F]) Eleven() *MockExternalConstraintElevenCall[I, F] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eleven", reflect.TypeOf((*MockExternalConstraint[I, F])(nil).Eleven))
+	call := gomock.NewCall0_1[map[string]I](mr.mock.ctrl.T, mr.mock, "Eleven")
+	mr.elevenExpects = append(mr.elevenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockExternalConstraintElevenCall is the typed call wrapper for Eleven.
+type MockExternalConstraintElevenCall[I constraints.Integer, F any] = gomock.Call0_1[map[string]I]
 
 // Five mocks base method.
 func (m *MockExternalConstraint[I, F]) Five(arg0 I) generics.Baz[F] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Five", arg0)
-	ret0, _ := ret[0].(generics.Baz[F])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.fiveExpects, m.ctrl, m, "Five", arg0)
 }
 
 // Five indicates an expected call of Five.
-func (mr *MockExternalConstraintMockRecorder[I, F]) Five(arg0 any) *gomock.Call {
+func (mr *MockExternalConstraintMockRecorder[I, F]) Five(arg0 any) *MockExternalConstraintFiveCall[I, F] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Five", reflect.TypeOf((*MockExternalConstraint[I, F])(nil).Five), arg0)
+	call := gomock.NewCall1_1[I, generics.Baz[F]](mr.mock.ctrl.T, mr.mock, "Five", gomock.EnsureMatcher(arg0))
+	mr.fiveExpects = append(mr.fiveExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockExternalConstraintFiveCall is the typed call wrapper for Five.
+type MockExternalConstraintFiveCall[I constraints.Integer, F any] = gomock.Call1_1[I, generics.Baz[F]]
 
 // Four mocks base method.
 func (m *MockExternalConstraint[I, F]) Four(arg0 I) generics.Foo[I, F] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Four", arg0)
-	ret0, _ := ret[0].(generics.Foo[I, F])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.fourExpects, m.ctrl, m, "Four", arg0)
 }
 
 // Four indicates an expected call of Four.
-func (mr *MockExternalConstraintMockRecorder[I, F]) Four(arg0 any) *gomock.Call {
+func (mr *MockExternalConstraintMockRecorder[I, F]) Four(arg0 any) *MockExternalConstraintFourCall[I, F] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Four", reflect.TypeOf((*MockExternalConstraint[I, F])(nil).Four), arg0)
+	call := gomock.NewCall1_1[I, generics.Foo[I, F]](mr.mock.ctrl.T, mr.mock, "Four", gomock.EnsureMatcher(arg0))
+	mr.fourExpects = append(mr.fourExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockExternalConstraintFourCall is the typed call wrapper for Four.
+type MockExternalConstraintFourCall[I constraints.Integer, F any] = gomock.Call1_1[I, generics.Foo[I, F]]
 
 // Nine mocks base method.
 func (m *MockExternalConstraint[I, F]) Nine(arg0 generics.Iface[I]) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Nine", arg0)
+	gomock.Dispatch1_0(&m.recorder.nineExpects, m.ctrl, m, "Nine", arg0)
 }
 
 // Nine indicates an expected call of Nine.
-func (mr *MockExternalConstraintMockRecorder[I, F]) Nine(arg0 any) *gomock.Call {
+func (mr *MockExternalConstraintMockRecorder[I, F]) Nine(arg0 any) *MockExternalConstraintNineCall[I, F] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Nine", reflect.TypeOf((*MockExternalConstraint[I, F])(nil).Nine), arg0)
+	call := gomock.NewCall1_0[generics.Iface[I]](mr.mock.ctrl.T, mr.mock, "Nine", gomock.EnsureMatcher(arg0))
+	mr.nineExpects = append(mr.nineExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockExternalConstraintNineCall is the typed call wrapper for Nine.
+type MockExternalConstraintNineCall[I constraints.Integer, F any] = gomock.Call1_0[generics.Iface[I]]
 
 // One mocks base method.
 func (m *MockExternalConstraint[I, F]) One(arg0 string) string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "One", arg0)
-	ret0, _ := ret[0].(string)
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.oneExpects, m.ctrl, m, "One", arg0)
 }
 
 // One indicates an expected call of One.
-func (mr *MockExternalConstraintMockRecorder[I, F]) One(arg0 any) *gomock.Call {
+func (mr *MockExternalConstraintMockRecorder[I, F]) One(arg0 any) *MockExternalConstraintOneCall[I, F] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "One", reflect.TypeOf((*MockExternalConstraint[I, F])(nil).One), arg0)
+	call := gomock.NewCall1_1[string, string](mr.mock.ctrl.T, mr.mock, "One", gomock.EnsureMatcher(arg0))
+	mr.oneExpects = append(mr.oneExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockExternalConstraintOneCall is the typed call wrapper for One.
+type MockExternalConstraintOneCall[I constraints.Integer, F any] = gomock.Call1_1[string, string]
 
 // Seven mocks base method.
 func (m *MockExternalConstraint[I, F]) Seven(arg0 I) other.One[I] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Seven", arg0)
-	ret0, _ := ret[0].(other.One[I])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.sevenExpects, m.ctrl, m, "Seven", arg0)
 }
 
 // Seven indicates an expected call of Seven.
-func (mr *MockExternalConstraintMockRecorder[I, F]) Seven(arg0 any) *gomock.Call {
+func (mr *MockExternalConstraintMockRecorder[I, F]) Seven(arg0 any) *MockExternalConstraintSevenCall[I, F] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Seven", reflect.TypeOf((*MockExternalConstraint[I, F])(nil).Seven), arg0)
+	call := gomock.NewCall1_1[I, other.One[I]](mr.mock.ctrl.T, mr.mock, "Seven", gomock.EnsureMatcher(arg0))
+	mr.sevenExpects = append(mr.sevenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockExternalConstraintSevenCall is the typed call wrapper for Seven.
+type MockExternalConstraintSevenCall[I constraints.Integer, F any] = gomock.Call1_1[I, other.One[I]]
 
 // Six mocks base method.
 func (m *MockExternalConstraint[I, F]) Six(arg0 I) *generics.Baz[F] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Six", arg0)
-	ret0, _ := ret[0].(*generics.Baz[F])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.sixExpects, m.ctrl, m, "Six", arg0)
 }
 
 // Six indicates an expected call of Six.
-func (mr *MockExternalConstraintMockRecorder[I, F]) Six(arg0 any) *gomock.Call {
+func (mr *MockExternalConstraintMockRecorder[I, F]) Six(arg0 any) *MockExternalConstraintSixCall[I, F] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Six", reflect.TypeOf((*MockExternalConstraint[I, F])(nil).Six), arg0)
+	call := gomock.NewCall1_1[I, *generics.Baz[F]](mr.mock.ctrl.T, mr.mock, "Six", gomock.EnsureMatcher(arg0))
+	mr.sixExpects = append(mr.sixExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockExternalConstraintSixCall is the typed call wrapper for Six.
+type MockExternalConstraintSixCall[I constraints.Integer, F any] = gomock.Call1_1[I, *generics.Baz[F]]
 
 // Ten mocks base method.
 func (m *MockExternalConstraint[I, F]) Ten(arg0 *I) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Ten", arg0)
+	gomock.Dispatch1_0(&m.recorder.tenExpects, m.ctrl, m, "Ten", arg0)
 }
 
 // Ten indicates an expected call of Ten.
-func (mr *MockExternalConstraintMockRecorder[I, F]) Ten(arg0 any) *gomock.Call {
+func (mr *MockExternalConstraintMockRecorder[I, F]) Ten(arg0 any) *MockExternalConstraintTenCall[I, F] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Ten", reflect.TypeOf((*MockExternalConstraint[I, F])(nil).Ten), arg0)
+	call := gomock.NewCall1_0[*I](mr.mock.ctrl.T, mr.mock, "Ten", gomock.EnsureMatcher(arg0))
+	mr.tenExpects = append(mr.tenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockExternalConstraintTenCall is the typed call wrapper for Ten.
+type MockExternalConstraintTenCall[I constraints.Integer, F any] = gomock.Call1_0[*I]
 
 // Thirteen mocks base method.
 func (m *MockExternalConstraint[I, F]) Thirteen(arg0 ...I) *F {
 	m.ctrl.T.Helper()
-	varargs := []any{}
-	for _, a := range arg0 {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "Thirteen", varargs...)
-	ret0, _ := ret[0].(*F)
-	return ret0
+	return gomock.Dispatch0V_1(&m.recorder.thirteenExpects, m.ctrl, m, "Thirteen", arg0...)
 }
 
 // Thirteen indicates an expected call of Thirteen.
-func (mr *MockExternalConstraintMockRecorder[I, F]) Thirteen(arg0 ...any) *gomock.Call {
+func (mr *MockExternalConstraintMockRecorder[I, F]) Thirteen(arg0 ...any) *MockExternalConstraintThirteenCall[I, F] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Thirteen", reflect.TypeOf((*MockExternalConstraint[I, F])(nil).Thirteen), arg0...)
+	varArgs := make([]gomock.Matcher, len(arg0))
+	for i, a := range arg0 {
+		varArgs[i] = gomock.EnsureMatcher(a)
+	}
+	call := gomock.NewCall0V_1[I, *F](mr.mock.ctrl.T, mr.mock, "Thirteen", varArgs)
+	mr.thirteenExpects = append(mr.thirteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockExternalConstraintThirteenCall is the typed call wrapper for Thirteen.
+type MockExternalConstraintThirteenCall[I constraints.Integer, F any] = gomock.Call0V_1[I, *F]
 
 // Three mocks base method.
 func (m *MockExternalConstraint[I, F]) Three(arg0 I) F {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Three", arg0)
-	ret0, _ := ret[0].(F)
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.threeExpects, m.ctrl, m, "Three", arg0)
 }
 
 // Three indicates an expected call of Three.
-func (mr *MockExternalConstraintMockRecorder[I, F]) Three(arg0 any) *gomock.Call {
+func (mr *MockExternalConstraintMockRecorder[I, F]) Three(arg0 any) *MockExternalConstraintThreeCall[I, F] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Three", reflect.TypeOf((*MockExternalConstraint[I, F])(nil).Three), arg0)
+	call := gomock.NewCall1_1[I, F](mr.mock.ctrl.T, mr.mock, "Three", gomock.EnsureMatcher(arg0))
+	mr.threeExpects = append(mr.threeExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockExternalConstraintThreeCall is the typed call wrapper for Three.
+type MockExternalConstraintThreeCall[I constraints.Integer, F any] = gomock.Call1_1[I, F]
 
 // Twelve mocks base method.
 func (m *MockExternalConstraint[I, F]) Twelve(ctx context.Context) <-chan []I {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Twelve", ctx)
-	ret0, _ := ret[0].(<-chan []I)
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.twelveExpects, m.ctrl, m, "Twelve", ctx)
 }
 
 // Twelve indicates an expected call of Twelve.
-func (mr *MockExternalConstraintMockRecorder[I, F]) Twelve(ctx any) *gomock.Call {
+func (mr *MockExternalConstraintMockRecorder[I, F]) Twelve(ctx any) *MockExternalConstraintTwelveCall[I, F] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Twelve", reflect.TypeOf((*MockExternalConstraint[I, F])(nil).Twelve), ctx)
+	call := gomock.NewCall1_1[context.Context, <-chan []I](mr.mock.ctrl.T, mr.mock, "Twelve", gomock.EnsureMatcher(ctx))
+	mr.twelveExpects = append(mr.twelveExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockExternalConstraintTwelveCall is the typed call wrapper for Twelve.
+type MockExternalConstraintTwelveCall[I constraints.Integer, F any] = gomock.Call1_1[context.Context, <-chan []I]
 
 // Two mocks base method.
 func (m *MockExternalConstraint[I, F]) Two(arg0 I) string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Two", arg0)
-	ret0, _ := ret[0].(string)
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.twoExpects, m.ctrl, m, "Two", arg0)
 }
 
 // Two indicates an expected call of Two.
-func (mr *MockExternalConstraintMockRecorder[I, F]) Two(arg0 any) *gomock.Call {
+func (mr *MockExternalConstraintMockRecorder[I, F]) Two(arg0 any) *MockExternalConstraintTwoCall[I, F] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Two", reflect.TypeOf((*MockExternalConstraint[I, F])(nil).Two), arg0)
+	call := gomock.NewCall1_1[I, string](mr.mock.ctrl.T, mr.mock, "Two", gomock.EnsureMatcher(arg0))
+	mr.twoExpects = append(mr.twoExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockExternalConstraintTwoCall is the typed call wrapper for Two.
+type MockExternalConstraintTwoCall[I constraints.Integer, F any] = gomock.Call1_1[I, string]
 
 // MockEmbeddingIface is a mock of EmbeddingIface interface.
 type MockEmbeddingIface[T constraints.Integer, R constraints.Float] struct {
@@ -234,13 +302,33 @@ type MockEmbeddingIface[T constraints.Integer, R constraints.Float] struct {
 
 // MockEmbeddingIfaceMockRecorder is the mock recorder for MockEmbeddingIface.
 type MockEmbeddingIfaceMockRecorder[T constraints.Integer, R constraints.Float] struct {
-	mock *MockEmbeddingIface[T, R]
+	mock            *MockEmbeddingIface[T, R]
+	eightExpects    []*gomock.Call1_1[R, other.Two[T, R]]
+	elevenExpects   []*gomock.Call0_1[map[string]T]
+	firstExpects    []*gomock.Call0_1[R]
+	fiveExpects     []*gomock.Call1_1[T, generics.Baz[R]]
+	fourExpects     []*gomock.Call1_1[T, generics.Foo[T, R]]
+	fourthExpects   []*gomock.Call0_1[generics.Generator[T]]
+	generateExpects []*gomock.Call0_1[R]
+	nineExpects     []*gomock.Call1_0[generics.Iface[T]]
+	oneExpects      []*gomock.Call1_1[string, string]
+	readExpects     []*gomock.Call1_2[[]byte, int, error]
+	secondExpects   []*gomock.Call0_1[generics.StructType]
+	sevenExpects    []*gomock.Call1_1[T, other.One[T]]
+	sixExpects      []*gomock.Call1_1[T, *generics.Baz[R]]
+	tenExpects      []*gomock.Call1_0[*T]
+	thirdExpects    []*gomock.Call0_1[other.Five]
+	thirteenExpects []*gomock.Call0V_1[T, *R]
+	threeExpects    []*gomock.Call1_1[T, R]
+	twelveExpects   []*gomock.Call1_1[context.Context, <-chan []T]
+	twoExpects      []*gomock.Call1_1[T, string]
+	waterExpects    []*gomock.Call1_1[generics.Generator[T], []generics.Generator[T]]
 }
 
 // NewMockEmbeddingIface creates a new mock instance.
 func NewMockEmbeddingIface[T constraints.Integer, R constraints.Float](ctrl *gomock.Controller) *MockEmbeddingIface[T, R] {
 	mock := &MockEmbeddingIface[T, R]{ctrl: ctrl}
-	mock.recorder = &MockEmbeddingIfaceMockRecorder[T, R]{mock}
+	mock.recorder = &MockEmbeddingIfaceMockRecorder[T, R]{mock: mock}
 	return mock
 }
 
@@ -252,283 +340,366 @@ func (m *MockEmbeddingIface[T, R]) EXPECT() *MockEmbeddingIfaceMockRecorder[T, R
 // Eight mocks base method.
 func (m *MockEmbeddingIface[T, R]) Eight(arg0 R) other.Two[T, R] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Eight", arg0)
-	ret0, _ := ret[0].(other.Two[T, R])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.eightExpects, m.ctrl, m, "Eight", arg0)
 }
 
 // Eight indicates an expected call of Eight.
-func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Eight(arg0 any) *gomock.Call {
+func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Eight(arg0 any) *MockEmbeddingIfaceEightCall[T, R] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eight", reflect.TypeOf((*MockEmbeddingIface[T, R])(nil).Eight), arg0)
+	call := gomock.NewCall1_1[R, other.Two[T, R]](mr.mock.ctrl.T, mr.mock, "Eight", gomock.EnsureMatcher(arg0))
+	mr.eightExpects = append(mr.eightExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockEmbeddingIfaceEightCall is the typed call wrapper for Eight.
+type MockEmbeddingIfaceEightCall[T constraints.Integer, R constraints.Float] = gomock.Call1_1[R, other.Two[T, R]]
 
 // Eleven mocks base method.
 func (m *MockEmbeddingIface[T, R]) Eleven() map[string]T {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Eleven")
-	ret0, _ := ret[0].(map[string]T)
-	return ret0
+	return gomock.Dispatch0_1(&m.recorder.elevenExpects, m.ctrl, m, "Eleven")
 }
 
 // Eleven indicates an expected call of Eleven.
-func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Eleven() *gomock.Call {
+func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Eleven() *MockEmbeddingIfaceElevenCall[T, R] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Eleven", reflect.TypeOf((*MockEmbeddingIface[T, R])(nil).Eleven))
+	call := gomock.NewCall0_1[map[string]T](mr.mock.ctrl.T, mr.mock, "Eleven")
+	mr.elevenExpects = append(mr.elevenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockEmbeddingIfaceElevenCall is the typed call wrapper for Eleven.
+type MockEmbeddingIfaceElevenCall[T constraints.Integer, R constraints.Float] = gomock.Call0_1[map[string]T]
 
 // First mocks base method.
 func (m *MockEmbeddingIface[T, R]) First() R {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "First")
-	ret0, _ := ret[0].(R)
-	return ret0
+	return gomock.Dispatch0_1(&m.recorder.firstExpects, m.ctrl, m, "First")
 }
 
 // First indicates an expected call of First.
-func (mr *MockEmbeddingIfaceMockRecorder[T, R]) First() *gomock.Call {
+func (mr *MockEmbeddingIfaceMockRecorder[T, R]) First() *MockEmbeddingIfaceFirstCall[T, R] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "First", reflect.TypeOf((*MockEmbeddingIface[T, R])(nil).First))
+	call := gomock.NewCall0_1[R](mr.mock.ctrl.T, mr.mock, "First")
+	mr.firstExpects = append(mr.firstExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockEmbeddingIfaceFirstCall is the typed call wrapper for First.
+type MockEmbeddingIfaceFirstCall[T constraints.Integer, R constraints.Float] = gomock.Call0_1[R]
 
 // Five mocks base method.
 func (m *MockEmbeddingIface[T, R]) Five(arg0 T) generics.Baz[R] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Five", arg0)
-	ret0, _ := ret[0].(generics.Baz[R])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.fiveExpects, m.ctrl, m, "Five", arg0)
 }
 
 // Five indicates an expected call of Five.
-func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Five(arg0 any) *gomock.Call {
+func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Five(arg0 any) *MockEmbeddingIfaceFiveCall[T, R] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Five", reflect.TypeOf((*MockEmbeddingIface[T, R])(nil).Five), arg0)
+	call := gomock.NewCall1_1[T, generics.Baz[R]](mr.mock.ctrl.T, mr.mock, "Five", gomock.EnsureMatcher(arg0))
+	mr.fiveExpects = append(mr.fiveExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockEmbeddingIfaceFiveCall is the typed call wrapper for Five.
+type MockEmbeddingIfaceFiveCall[T constraints.Integer, R constraints.Float] = gomock.Call1_1[T, generics.Baz[R]]
 
 // Four mocks base method.
 func (m *MockEmbeddingIface[T, R]) Four(arg0 T) generics.Foo[T, R] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Four", arg0)
-	ret0, _ := ret[0].(generics.Foo[T, R])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.fourExpects, m.ctrl, m, "Four", arg0)
 }
 
 // Four indicates an expected call of Four.
-func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Four(arg0 any) *gomock.Call {
+func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Four(arg0 any) *MockEmbeddingIfaceFourCall[T, R] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Four", reflect.TypeOf((*MockEmbeddingIface[T, R])(nil).Four), arg0)
+	call := gomock.NewCall1_1[T, generics.Foo[T, R]](mr.mock.ctrl.T, mr.mock, "Four", gomock.EnsureMatcher(arg0))
+	mr.fourExpects = append(mr.fourExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockEmbeddingIfaceFourCall is the typed call wrapper for Four.
+type MockEmbeddingIfaceFourCall[T constraints.Integer, R constraints.Float] = gomock.Call1_1[T, generics.Foo[T, R]]
 
 // Fourth mocks base method.
 func (m *MockEmbeddingIface[T, R]) Fourth() generics.Generator[T] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Fourth")
-	ret0, _ := ret[0].(generics.Generator[T])
-	return ret0
+	return gomock.Dispatch0_1(&m.recorder.fourthExpects, m.ctrl, m, "Fourth")
 }
 
 // Fourth indicates an expected call of Fourth.
-func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Fourth() *gomock.Call {
+func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Fourth() *MockEmbeddingIfaceFourthCall[T, R] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Fourth", reflect.TypeOf((*MockEmbeddingIface[T, R])(nil).Fourth))
+	call := gomock.NewCall0_1[generics.Generator[T]](mr.mock.ctrl.T, mr.mock, "Fourth")
+	mr.fourthExpects = append(mr.fourthExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockEmbeddingIfaceFourthCall is the typed call wrapper for Fourth.
+type MockEmbeddingIfaceFourthCall[T constraints.Integer, R constraints.Float] = gomock.Call0_1[generics.Generator[T]]
 
 // Generate mocks base method.
 func (m *MockEmbeddingIface[T, R]) Generate() R {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Generate")
-	ret0, _ := ret[0].(R)
-	return ret0
+	return gomock.Dispatch0_1(&m.recorder.generateExpects, m.ctrl, m, "Generate")
 }
 
 // Generate indicates an expected call of Generate.
-func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Generate() *gomock.Call {
+func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Generate() *MockEmbeddingIfaceGenerateCall[T, R] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generate", reflect.TypeOf((*MockEmbeddingIface[T, R])(nil).Generate))
+	call := gomock.NewCall0_1[R](mr.mock.ctrl.T, mr.mock, "Generate")
+	mr.generateExpects = append(mr.generateExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockEmbeddingIfaceGenerateCall is the typed call wrapper for Generate.
+type MockEmbeddingIfaceGenerateCall[T constraints.Integer, R constraints.Float] = gomock.Call0_1[R]
 
 // Nine mocks base method.
 func (m *MockEmbeddingIface[T, R]) Nine(arg0 generics.Iface[T]) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Nine", arg0)
+	gomock.Dispatch1_0(&m.recorder.nineExpects, m.ctrl, m, "Nine", arg0)
 }
 
 // Nine indicates an expected call of Nine.
-func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Nine(arg0 any) *gomock.Call {
+func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Nine(arg0 any) *MockEmbeddingIfaceNineCall[T, R] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Nine", reflect.TypeOf((*MockEmbeddingIface[T, R])(nil).Nine), arg0)
+	call := gomock.NewCall1_0[generics.Iface[T]](mr.mock.ctrl.T, mr.mock, "Nine", gomock.EnsureMatcher(arg0))
+	mr.nineExpects = append(mr.nineExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockEmbeddingIfaceNineCall is the typed call wrapper for Nine.
+type MockEmbeddingIfaceNineCall[T constraints.Integer, R constraints.Float] = gomock.Call1_0[generics.Iface[T]]
 
 // One mocks base method.
 func (m *MockEmbeddingIface[T, R]) One(arg0 string) string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "One", arg0)
-	ret0, _ := ret[0].(string)
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.oneExpects, m.ctrl, m, "One", arg0)
 }
 
 // One indicates an expected call of One.
-func (mr *MockEmbeddingIfaceMockRecorder[T, R]) One(arg0 any) *gomock.Call {
+func (mr *MockEmbeddingIfaceMockRecorder[T, R]) One(arg0 any) *MockEmbeddingIfaceOneCall[T, R] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "One", reflect.TypeOf((*MockEmbeddingIface[T, R])(nil).One), arg0)
+	call := gomock.NewCall1_1[string, string](mr.mock.ctrl.T, mr.mock, "One", gomock.EnsureMatcher(arg0))
+	mr.oneExpects = append(mr.oneExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockEmbeddingIfaceOneCall is the typed call wrapper for One.
+type MockEmbeddingIfaceOneCall[T constraints.Integer, R constraints.Float] = gomock.Call1_1[string, string]
 
 // Read mocks base method.
 func (m *MockEmbeddingIface[T, R]) Read(p []byte) (int, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Read", p)
-	ret0, _ := ret[0].(int)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	return gomock.Dispatch1_2(&m.recorder.readExpects, m.ctrl, m, "Read", p)
 }
 
 // Read indicates an expected call of Read.
-func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Read(p any) *gomock.Call {
+func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Read(p any) *MockEmbeddingIfaceReadCall[T, R] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Read", reflect.TypeOf((*MockEmbeddingIface[T, R])(nil).Read), p)
+	call := gomock.NewCall1_2[[]byte, int, error](mr.mock.ctrl.T, mr.mock, "Read", gomock.EnsureMatcher(p))
+	mr.readExpects = append(mr.readExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockEmbeddingIfaceReadCall is the typed call wrapper for Read.
+type MockEmbeddingIfaceReadCall[T constraints.Integer, R constraints.Float] = gomock.Call1_2[[]byte, int, error]
 
 // Second mocks base method.
 func (m *MockEmbeddingIface[T, R]) Second() generics.StructType {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Second")
-	ret0, _ := ret[0].(generics.StructType)
-	return ret0
+	return gomock.Dispatch0_1(&m.recorder.secondExpects, m.ctrl, m, "Second")
 }
 
 // Second indicates an expected call of Second.
-func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Second() *gomock.Call {
+func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Second() *MockEmbeddingIfaceSecondCall[T, R] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Second", reflect.TypeOf((*MockEmbeddingIface[T, R])(nil).Second))
+	call := gomock.NewCall0_1[generics.StructType](mr.mock.ctrl.T, mr.mock, "Second")
+	mr.secondExpects = append(mr.secondExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockEmbeddingIfaceSecondCall is the typed call wrapper for Second.
+type MockEmbeddingIfaceSecondCall[T constraints.Integer, R constraints.Float] = gomock.Call0_1[generics.StructType]
 
 // Seven mocks base method.
 func (m *MockEmbeddingIface[T, R]) Seven(arg0 T) other.One[T] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Seven", arg0)
-	ret0, _ := ret[0].(other.One[T])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.sevenExpects, m.ctrl, m, "Seven", arg0)
 }
 
 // Seven indicates an expected call of Seven.
-func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Seven(arg0 any) *gomock.Call {
+func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Seven(arg0 any) *MockEmbeddingIfaceSevenCall[T, R] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Seven", reflect.TypeOf((*MockEmbeddingIface[T, R])(nil).Seven), arg0)
+	call := gomock.NewCall1_1[T, other.One[T]](mr.mock.ctrl.T, mr.mock, "Seven", gomock.EnsureMatcher(arg0))
+	mr.sevenExpects = append(mr.sevenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockEmbeddingIfaceSevenCall is the typed call wrapper for Seven.
+type MockEmbeddingIfaceSevenCall[T constraints.Integer, R constraints.Float] = gomock.Call1_1[T, other.One[T]]
 
 // Six mocks base method.
 func (m *MockEmbeddingIface[T, R]) Six(arg0 T) *generics.Baz[R] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Six", arg0)
-	ret0, _ := ret[0].(*generics.Baz[R])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.sixExpects, m.ctrl, m, "Six", arg0)
 }
 
 // Six indicates an expected call of Six.
-func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Six(arg0 any) *gomock.Call {
+func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Six(arg0 any) *MockEmbeddingIfaceSixCall[T, R] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Six", reflect.TypeOf((*MockEmbeddingIface[T, R])(nil).Six), arg0)
+	call := gomock.NewCall1_1[T, *generics.Baz[R]](mr.mock.ctrl.T, mr.mock, "Six", gomock.EnsureMatcher(arg0))
+	mr.sixExpects = append(mr.sixExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockEmbeddingIfaceSixCall is the typed call wrapper for Six.
+type MockEmbeddingIfaceSixCall[T constraints.Integer, R constraints.Float] = gomock.Call1_1[T, *generics.Baz[R]]
 
 // Ten mocks base method.
 func (m *MockEmbeddingIface[T, R]) Ten(arg0 *T) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Ten", arg0)
+	gomock.Dispatch1_0(&m.recorder.tenExpects, m.ctrl, m, "Ten", arg0)
 }
 
 // Ten indicates an expected call of Ten.
-func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Ten(arg0 any) *gomock.Call {
+func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Ten(arg0 any) *MockEmbeddingIfaceTenCall[T, R] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Ten", reflect.TypeOf((*MockEmbeddingIface[T, R])(nil).Ten), arg0)
+	call := gomock.NewCall1_0[*T](mr.mock.ctrl.T, mr.mock, "Ten", gomock.EnsureMatcher(arg0))
+	mr.tenExpects = append(mr.tenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockEmbeddingIfaceTenCall is the typed call wrapper for Ten.
+type MockEmbeddingIfaceTenCall[T constraints.Integer, R constraints.Float] = gomock.Call1_0[*T]
 
 // Third mocks base method.
 func (m *MockEmbeddingIface[T, R]) Third() other.Five {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Third")
-	ret0, _ := ret[0].(other.Five)
-	return ret0
+	return gomock.Dispatch0_1(&m.recorder.thirdExpects, m.ctrl, m, "Third")
 }
 
 // Third indicates an expected call of Third.
-func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Third() *gomock.Call {
+func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Third() *MockEmbeddingIfaceThirdCall[T, R] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Third", reflect.TypeOf((*MockEmbeddingIface[T, R])(nil).Third))
+	call := gomock.NewCall0_1[other.Five](mr.mock.ctrl.T, mr.mock, "Third")
+	mr.thirdExpects = append(mr.thirdExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockEmbeddingIfaceThirdCall is the typed call wrapper for Third.
+type MockEmbeddingIfaceThirdCall[T constraints.Integer, R constraints.Float] = gomock.Call0_1[other.Five]
 
 // Thirteen mocks base method.
 func (m *MockEmbeddingIface[T, R]) Thirteen(arg0 ...T) *R {
 	m.ctrl.T.Helper()
-	varargs := []any{}
-	for _, a := range arg0 {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "Thirteen", varargs...)
-	ret0, _ := ret[0].(*R)
-	return ret0
+	return gomock.Dispatch0V_1(&m.recorder.thirteenExpects, m.ctrl, m, "Thirteen", arg0...)
 }
 
 // Thirteen indicates an expected call of Thirteen.
-func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Thirteen(arg0 ...any) *gomock.Call {
+func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Thirteen(arg0 ...any) *MockEmbeddingIfaceThirteenCall[T, R] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Thirteen", reflect.TypeOf((*MockEmbeddingIface[T, R])(nil).Thirteen), arg0...)
+	varArgs := make([]gomock.Matcher, len(arg0))
+	for i, a := range arg0 {
+		varArgs[i] = gomock.EnsureMatcher(a)
+	}
+	call := gomock.NewCall0V_1[T, *R](mr.mock.ctrl.T, mr.mock, "Thirteen", varArgs)
+	mr.thirteenExpects = append(mr.thirteenExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockEmbeddingIfaceThirteenCall is the typed call wrapper for Thirteen.
+type MockEmbeddingIfaceThirteenCall[T constraints.Integer, R constraints.Float] = gomock.Call0V_1[T, *R]
 
 // Three mocks base method.
 func (m *MockEmbeddingIface[T, R]) Three(arg0 T) R {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Three", arg0)
-	ret0, _ := ret[0].(R)
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.threeExpects, m.ctrl, m, "Three", arg0)
 }
 
 // Three indicates an expected call of Three.
-func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Three(arg0 any) *gomock.Call {
+func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Three(arg0 any) *MockEmbeddingIfaceThreeCall[T, R] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Three", reflect.TypeOf((*MockEmbeddingIface[T, R])(nil).Three), arg0)
+	call := gomock.NewCall1_1[T, R](mr.mock.ctrl.T, mr.mock, "Three", gomock.EnsureMatcher(arg0))
+	mr.threeExpects = append(mr.threeExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockEmbeddingIfaceThreeCall is the typed call wrapper for Three.
+type MockEmbeddingIfaceThreeCall[T constraints.Integer, R constraints.Float] = gomock.Call1_1[T, R]
 
 // Twelve mocks base method.
 func (m *MockEmbeddingIface[T, R]) Twelve(ctx context.Context) <-chan []T {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Twelve", ctx)
-	ret0, _ := ret[0].(<-chan []T)
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.twelveExpects, m.ctrl, m, "Twelve", ctx)
 }
 
 // Twelve indicates an expected call of Twelve.
-func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Twelve(ctx any) *gomock.Call {
+func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Twelve(ctx any) *MockEmbeddingIfaceTwelveCall[T, R] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Twelve", reflect.TypeOf((*MockEmbeddingIface[T, R])(nil).Twelve), ctx)
+	call := gomock.NewCall1_1[context.Context, <-chan []T](mr.mock.ctrl.T, mr.mock, "Twelve", gomock.EnsureMatcher(ctx))
+	mr.twelveExpects = append(mr.twelveExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockEmbeddingIfaceTwelveCall is the typed call wrapper for Twelve.
+type MockEmbeddingIfaceTwelveCall[T constraints.Integer, R constraints.Float] = gomock.Call1_1[context.Context, <-chan []T]
 
 // Two mocks base method.
 func (m *MockEmbeddingIface[T, R]) Two(arg0 T) string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Two", arg0)
-	ret0, _ := ret[0].(string)
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.twoExpects, m.ctrl, m, "Two", arg0)
 }
 
 // Two indicates an expected call of Two.
-func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Two(arg0 any) *gomock.Call {
+func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Two(arg0 any) *MockEmbeddingIfaceTwoCall[T, R] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Two", reflect.TypeOf((*MockEmbeddingIface[T, R])(nil).Two), arg0)
+	call := gomock.NewCall1_1[T, string](mr.mock.ctrl.T, mr.mock, "Two", gomock.EnsureMatcher(arg0))
+	mr.twoExpects = append(mr.twoExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockEmbeddingIfaceTwoCall is the typed call wrapper for Two.
+type MockEmbeddingIfaceTwoCall[T constraints.Integer, R constraints.Float] = gomock.Call1_1[T, string]
 
 // Water mocks base method.
 func (m *MockEmbeddingIface[T, R]) Water(arg0 generics.Generator[T]) []generics.Generator[T] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Water", arg0)
-	ret0, _ := ret[0].([]generics.Generator[T])
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.waterExpects, m.ctrl, m, "Water", arg0)
 }
 
 // Water indicates an expected call of Water.
-func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Water(arg0 any) *gomock.Call {
+func (mr *MockEmbeddingIfaceMockRecorder[T, R]) Water(arg0 any) *MockEmbeddingIfaceWaterCall[T, R] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Water", reflect.TypeOf((*MockEmbeddingIface[T, R])(nil).Water), arg0)
+	call := gomock.NewCall1_1[generics.Generator[T], []generics.Generator[T]](mr.mock.ctrl.T, mr.mock, "Water", gomock.EnsureMatcher(arg0))
+	mr.waterExpects = append(mr.waterExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockEmbeddingIfaceWaterCall is the typed call wrapper for Water.
+type MockEmbeddingIfaceWaterCall[T constraints.Integer, R constraints.Float] = gomock.Call1_1[generics.Generator[T], []generics.Generator[T]]
 
 // MockGenerator is a mock of Generator interface.
 type MockGenerator[T any] struct {
@@ -539,13 +710,14 @@ type MockGenerator[T any] struct {
 
 // MockGeneratorMockRecorder is the mock recorder for MockGenerator.
 type MockGeneratorMockRecorder[T any] struct {
-	mock *MockGenerator[T]
+	mock            *MockGenerator[T]
+	generateExpects []*gomock.Call0_1[T]
 }
 
 // NewMockGenerator creates a new mock instance.
 func NewMockGenerator[T any](ctrl *gomock.Controller) *MockGenerator[T] {
 	mock := &MockGenerator[T]{ctrl: ctrl}
-	mock.recorder = &MockGeneratorMockRecorder[T]{mock}
+	mock.recorder = &MockGeneratorMockRecorder[T]{mock: mock}
 	return mock
 }
 
@@ -557,16 +729,20 @@ func (m *MockGenerator[T]) EXPECT() *MockGeneratorMockRecorder[T] {
 // Generate mocks base method.
 func (m *MockGenerator[T]) Generate() T {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Generate")
-	ret0, _ := ret[0].(T)
-	return ret0
+	return gomock.Dispatch0_1(&m.recorder.generateExpects, m.ctrl, m, "Generate")
 }
 
 // Generate indicates an expected call of Generate.
-func (mr *MockGeneratorMockRecorder[T]) Generate() *gomock.Call {
+func (mr *MockGeneratorMockRecorder[T]) Generate() *MockGeneratorGenerateCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Generate", reflect.TypeOf((*MockGenerator[T])(nil).Generate))
+	call := gomock.NewCall0_1[T](mr.mock.ctrl.T, mr.mock, "Generate")
+	mr.generateExpects = append(mr.generateExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockGeneratorGenerateCall is the typed call wrapper for Generate.
+type MockGeneratorGenerateCall[T any] = gomock.Call0_1[T]
 
 // MockGroup is a mock of Group interface.
 type MockGroup[T generics.Generator[any]] struct {
@@ -577,13 +753,14 @@ type MockGroup[T generics.Generator[any]] struct {
 
 // MockGroupMockRecorder is the mock recorder for MockGroup.
 type MockGroupMockRecorder[T generics.Generator[any]] struct {
-	mock *MockGroup[T]
+	mock        *MockGroup[T]
+	joinExpects []*gomock.Call1_1[context.Context, []T]
 }
 
 // NewMockGroup creates a new mock instance.
 func NewMockGroup[T generics.Generator[any]](ctrl *gomock.Controller) *MockGroup[T] {
 	mock := &MockGroup[T]{ctrl: ctrl}
-	mock.recorder = &MockGroupMockRecorder[T]{mock}
+	mock.recorder = &MockGroupMockRecorder[T]{mock: mock}
 	return mock
 }
 
@@ -595,13 +772,17 @@ func (m *MockGroup[T]) EXPECT() *MockGroupMockRecorder[T] {
 // Join mocks base method.
 func (m *MockGroup[T]) Join(ctx context.Context) []T {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Join", ctx)
-	ret0, _ := ret[0].([]T)
-	return ret0
+	return gomock.Dispatch1_1(&m.recorder.joinExpects, m.ctrl, m, "Join", ctx)
 }
 
 // Join indicates an expected call of Join.
-func (mr *MockGroupMockRecorder[T]) Join(ctx any) *gomock.Call {
+func (mr *MockGroupMockRecorder[T]) Join(ctx any) *MockGroupJoinCall[T] {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Join", reflect.TypeOf((*MockGroup[T])(nil).Join), ctx)
+	call := gomock.NewCall1_1[context.Context, []T](mr.mock.ctrl.T, mr.mock, "Join", gomock.EnsureMatcher(ctx))
+	mr.joinExpects = append(mr.joinExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
+
+// MockGroupJoinCall is the typed call wrapper for Join.
+type MockGroupJoinCall[T generics.Generator[any]] = gomock.Call1_1[context.Context, []T]

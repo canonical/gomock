@@ -324,8 +324,8 @@ func InterfaceFromInterfaceType(it reflect.Type) (*Interface, error) {
 	}
 	intf := &Interface{}
 
-	for i := 0; i < it.NumMethod(); i++ {
-		mt := it.Method(i)
+	for mt := range it.Methods() {
+		mt := mt
 		// TODO: need to skip unexported methods? or just raise an error?
 		m := &Method{
 			Name: mt.Name,
@@ -364,8 +364,8 @@ func funcArgsFromType(t reflect.Type) (in []*Parameter, variadic *Parameter, out
 		}
 		variadic = p
 	}
-	for i := 0; i < t.NumOut(); i++ {
-		p, err = parameterFromType(t.Out(i))
+	for out0 := range t.Outs() {
+		p, err = parameterFromType(out0)
 		if err != nil {
 			return
 		}
@@ -382,9 +382,9 @@ func parameterFromType(t reflect.Type) (*Parameter, error) {
 	return &Parameter{Type: tt}, nil
 }
 
-var errorType = reflect.TypeOf((*error)(nil)).Elem()
+var errorType = reflect.TypeFor[error]()
 
-var byteType = reflect.TypeOf(byte(0))
+var byteType = reflect.TypeFor[byte]()
 
 func typeFromType(t reflect.Type) (Type, error) {
 	// Hack workaround for https://golang.org/issue/3853.
@@ -405,7 +405,7 @@ func typeFromType(t reflect.Type) (Type, error) {
 	// Lots of types have element types. Let's do the parsing and error checking for all of them.
 	var elemType Type
 	switch t.Kind() {
-	case reflect.Array, reflect.Chan, reflect.Map, reflect.Ptr, reflect.Slice:
+	case reflect.Array, reflect.Chan, reflect.Map, reflect.Pointer, reflect.Slice:
 		var err error
 		elemType, err = typeFromType(t.Elem())
 		if err != nil {
@@ -462,7 +462,7 @@ func typeFromType(t reflect.Type) (Type, error) {
 			Key:   kt,
 			Value: elemType,
 		}, nil
-	case reflect.Ptr:
+	case reflect.Pointer:
 		return &PointerType{
 			Type: elemType,
 		}, nil

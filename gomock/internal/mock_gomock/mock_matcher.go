@@ -10,8 +10,6 @@
 package mock_gomock
 
 import (
-	reflect "reflect"
-
 	gomock "github.com/canonical/gomock/gomock"
 )
 
@@ -24,13 +22,15 @@ type MockMatcher struct {
 
 // MockMatcherMockRecorder is the mock recorder for MockMatcher.
 type MockMatcherMockRecorder struct {
-	mock *MockMatcher
+	mock           *MockMatcher
+	matchesExpects []*gomock.Call1_1[any, bool]
+	stringExpects  []*gomock.Call0_1[string]
 }
 
 // NewMockMatcher creates a new mock instance.
 func NewMockMatcher(ctrl *gomock.Controller) *MockMatcher {
 	mock := &MockMatcher{ctrl: ctrl}
-	mock.recorder = &MockMatcherMockRecorder{mock}
+	mock.recorder = &MockMatcherMockRecorder{mock: mock}
 	return mock
 }
 
@@ -42,14 +42,16 @@ func (m *MockMatcher) EXPECT() *MockMatcherMockRecorder {
 // Matches mocks base method.
 func (m *MockMatcher) Matches(x any) bool {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[bool](m.ctrl.Call(m, "Matches", x))
+	return gomock.Dispatch1_1(&m.recorder.matchesExpects, m.ctrl, m, "Matches", x)
 }
 
 // Matches indicates an expected call of Matches.
 func (mr *MockMatcherMockRecorder) Matches(x any) *MockMatcherMatchesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Matches", reflect.TypeOf((*MockMatcher)(nil).Matches), x)
-	return &MockMatcherMatchesCall{Call: call}
+	call := gomock.NewCall1_1[any, bool](mr.mock.ctrl.T, mr.mock, "Matches", gomock.EnsureMatcher(x))
+	mr.matchesExpects = append(mr.matchesExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockMatcherMatchesCall is the typed call wrapper for Matches.
@@ -58,14 +60,16 @@ type MockMatcherMatchesCall = gomock.Call1_1[any, bool]
 // String mocks base method.
 func (m *MockMatcher) String() string {
 	m.ctrl.T.Helper()
-	return gomock.Invoke1[string](m.ctrl.Call(m, "String"))
+	return gomock.Dispatch0_1(&m.recorder.stringExpects, m.ctrl, m, "String")
 }
 
 // String indicates an expected call of String.
 func (mr *MockMatcherMockRecorder) String() *MockMatcherStringCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "String", reflect.TypeOf((*MockMatcher)(nil).String))
-	return &MockMatcherStringCall{Call: call}
+	call := gomock.NewCall0_1[string](mr.mock.ctrl.T, mr.mock, "String")
+	mr.stringExpects = append(mr.stringExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
 }
 
 // MockMatcherStringCall is the typed call wrapper for String.

@@ -150,7 +150,7 @@ func (nilMatcher) Matches(x any) bool {
 	v := reflect.ValueOf(x)
 	switch v.Kind() {
 	case reflect.Chan, reflect.Func, reflect.Interface, reflect.Map,
-		reflect.Ptr, reflect.Slice:
+		reflect.Pointer, reflect.Slice:
 		return v.IsNil()
 	}
 
@@ -444,4 +444,130 @@ func AssignableToTypeOf(x any) Matcher {
 //	InAnyOrder([]int{1, 2, 3}).Matches([]int{1, 2}) // returns false
 func InAnyOrder(x any) Matcher {
 	return inAnyOrderMatcher{x}
+}
+
+// UntypedMatcher is an alias for the existing Matcher interface.
+// Matchers like Any(), Nil(), Len() etc. satisfy UntypedMatcher.
+type UntypedMatcher = Matcher
+
+// TypedMatcher is a Matcher that operates on a concrete type T,
+// avoiding any boxing into any for the hot matching path.
+type TypedMatcher[T any] interface {
+	Matches(x T) bool
+	String() string
+}
+
+type untypedAdaptor[T any] struct{ m UntypedMatcher }
+
+func (a untypedAdaptor[T]) Matches(x T) bool { return a.m.Matches(x) }
+func (a untypedAdaptor[T]) String() string   { return a.m.String() }
+
+type eqTypedMatcher[T comparable] struct{ x T }
+
+func (e eqTypedMatcher[T]) Matches(x T) bool { return e.x == x }
+func (e eqTypedMatcher[T]) String() string {
+	return fmt.Sprintf("is equal to %v (%T)", e.x, e.x)
+}
+
+type anyTypedMatcher[T any] struct{}
+
+func (anyTypedMatcher[T]) Matches(T) bool { return true }
+func (anyTypedMatcher[T]) String() string { return "is anything" }
+
+// EqTyped returns a TypedMatcher that uses == for comparison.
+// T must be comparable.
+func EqTyped[T comparable](x T) TypedMatcher[T] {
+	return eqTypedMatcher[T]{x}
+}
+
+// AnyTyped returns a TypedMatcher that always matches.
+func AnyTyped[T any]() TypedMatcher[T] {
+	return anyTypedMatcher[T]{}
+}
+
+// ToMatcher converts v into a TypedMatcher[T].
+//
+//   - If v is already a TypedMatcher[T], it is returned as-is.
+//   - If v is a UntypedMatcher (e.g. Any(), Nil(), Regex(...)),
+//     it is wrapped in an untypedAdaptor.
+//   - If v is nil, EqTyped of the zero value of T is returned.
+//   - Otherwise v is asserted to T and wrapped with EqTyped.
+//     This panics at expectation-setup time if v is the wrong type.
+func ToMatcher[T comparable](v any) TypedMatcher[T] {
+	switch m := v.(type) {
+	case TypedMatcher[T]:
+		return m
+	case UntypedMatcher:
+		return untypedAdaptor[T]{m}
+	case nil:
+		var zero T
+		return eqTypedMatcher[T]{zero}
+	default:
+		return eqTypedMatcher[T]{v.(T)}
+	}
+}
+
+// EnsureMatcher converts v to a Matcher. If v already implements
+// Matcher it is returned unchanged. nil becomes Nil(). Anything
+// else becomes Eq(v).
+// Used by generated mock recorder code.
+func EnsureMatcher(v any) Matcher {
+	if m, ok := v.(Matcher); ok {
+		return m
+	}
+	if v == nil {
+		return Nil()
+	}
+	return Eq(v)
+}
+
+// EnsureVariadicMatcher converts v into a slice of Matchers for the
+// variadic arguments in a recorder method call.
+//
+// The cases handled are:
+//   - nil: returns nil (any variadic args are accepted by the call)
+//   - Matcher: returns []Matcher{v}
+//   - []Matcher: returned as-is
+//   - []any: each element is passed through EnsureMatcher
+//   - anything else: returns []Matcher{Eq(v)}
+//
+// Used by generated mock recorder code.
+func EnsureVariadicMatcher(v []any) []Matcher {
+	if len(v) == 0 {
+		return nil
+	}
+	matchers := make([]Matcher, len(v))
+	for i, e := range v {
+		matchers[i] = EnsureMatcher(e)
+	}
+	return matchers
+}
+
+// MatchVarArgs matches the variadic slice va against the registered
+// matchers ms. Used by generated mock recorder code.
+//
+// Variadic matching semantics:
+//   - len(ms)==0: va must be empty.
+//   - non-last matcher: direct element match at position j;
+//     fail if no element exists at that position.
+//   - last matcher: try ms[last].Matches(va[j]) first; only on
+//     miss, try ms[last].Matches(va[j:]) against the remainder.
+func MatchVarArgs[VA any](ms []Matcher, va []VA) bool {
+	if len(ms) == 0 {
+		return len(va) == 0
+	}
+	for j, m := range ms {
+		if j < len(ms)-1 {
+			if j >= len(va) || !m.Matches(va[j]) {
+				return false
+			}
+			continue
+		}
+		// Last matcher.
+		if j < len(va) && m.Matches(va[j]) {
+			return true
+		}
+		return m.Matches(va[j:])
+	}
+	return true
 }
