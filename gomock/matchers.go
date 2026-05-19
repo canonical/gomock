@@ -571,22 +571,3 @@ func MatchVarArgs[VA any](ms []Matcher, va []VA) bool {
 	}
 	return true
 }
-
-// MatchVariadicArgs matches args against fixed and variadic Matchers.
-// Used by generated mock code for variadic methods.
-// The variadic matching semantics are defined by MatchVarArgs.
-func MatchVariadicArgs(
-	args []any,
-	fixedMs []Matcher,
-	varMs []Matcher,
-) bool {
-	if len(args) < len(fixedMs) {
-		return false
-	}
-	for i, m := range fixedMs {
-		if !m.Matches(args[i]) {
-			return false
-		}
-	}
-	return MatchVarArgs(varMs, args[len(fixedMs):])
-}
