@@ -69,7 +69,6 @@ var (
 	writeGenerateDirective = flag.Bool("write_generate_directive", false, "Add //go:generate directive to regenerate the mock")
 	copyrightFile          = flag.String("copyright_file", "", "Copyright file used to add copyright header")
 	buildConstraint        = flag.String("build_constraint", "", "If non-empty, added as //go:build <constraint>")
-	excludeInterfaces      = flag.String("exclude_interfaces", "", "Comma-separated names of interfaces to be excluded")
 	debugParser            = flag.Bool("debug_parser", false, "Print out parser results only.")
 	showVersion            = flag.Bool("version", false, "Print version.")
 )
@@ -77,8 +76,6 @@ var (
 func main() {
 	flag.Usage = usage
 	flag.Parse()
-
-	notifyAboutDeprecatedFlags()
 
 	if *showVersion {
 		printVersion()
